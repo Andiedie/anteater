@@ -155,6 +155,7 @@ def check():
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
+        assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))
         assert 'preview-action' not in page and 'View performance' not in page
         assert 'id="follow-up"' not in page and 'name="followup"' not in page
         assert '<script src="./gallery.js" type="module">' in page

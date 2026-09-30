@@ -20,7 +20,6 @@ const reasoning = document.querySelector('#reasoning');
 const sort = document.querySelector('#sort');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const selected = new Set();
-let modalPlaying = false;
 let visibleRuns = runs;
 let vendor = 'all';
 let toastTimer;
@@ -156,12 +155,7 @@ function refreshPlayback() {
     const modal = frame.closest('dialog'), stage = frame.parentElement;
     const interacting = !reducedMotion.matches && ((stage.dataset.hovered === 'true' && stage.matches(':hover')) || stage.matches(':focus-visible'));
     playFrame(frame, !document.hidden && frame.dataset.visible === 'true'
-      && (modal ? modal.open && modalPlaying : !inModal && !frame.closest('.card')?.hidden && interacting));
-  }
-  for (const control of document.querySelectorAll('[data-motion]')) {
-    const plural = control.closest('#compare-dialog');
-    control.textContent = t(modalPlaying ? (plural ? 'Pause animations' : 'Pause animation') : (plural ? 'Play animations' : 'Play animation'));
-    control.setAttribute('aria-pressed', String(modalPlaying));
+      && (modal ? modal.open && !reducedMotion.matches : !inModal && !frame.closest('.card')?.hidden && interacting));
   }
 }
 const observer = new IntersectionObserver(entries => {
@@ -238,7 +232,7 @@ function showDetail(slug) {
     document.querySelector('#detail-vendor').textContent = `${run.vendor} / ${levels(run)}`;
     document.querySelector('#detail-info').innerHTML = runDetails(run); detailDialog.scrollTop = 0;
   }
-  if (!detailDialog.open) { modalPlaying = false; detailDialog.showModal(); }
+  if (!detailDialog.open) detailDialog.showModal();
   document.body.classList.add('modal-open');
   const displayedArtwork = visibleRuns.filter(item => item.outcome !== 'no_artwork');
   const group = displayedArtwork.some(item => item.slug === slug) ? displayedArtwork : artworkRuns;
@@ -296,7 +290,7 @@ function showComparison(slugs) {
     content.innerHTML = `<div class="compare-artworks">${pair.map(run => `<section data-run="${e(run.slug)}"><div class="compare-model-header"><h3>${e(run.name)}</h3><span class="effort-chips">${effortChips(run)}</span></div><div class="large-preview">${preview(run)}</div><div class="compare-model-links">${sourceLinks(run)}</div></section>`).join('')}</div><div class="compare-table-wrap" tabindex="0" role="region" aria-label="${e(t('Performance metrics comparison'))}">${comparisonTable(pair)}</div><p class="compare-notes" data-i18n="${e(comparisonNote)}">${e(t(comparisonNote))}</p>`;
     content.querySelectorAll('iframe').forEach(prepareFrame); compareDialog.scrollTop = 0;
   }
-  if (!compareDialog.open) { modalPlaying = true; compareDialog.showModal(); }
+  if (!compareDialog.open) compareDialog.showModal();
   document.body.classList.add('modal-open'); refreshPlayback();
 }
 function reconcileDialogs() {
@@ -377,8 +371,6 @@ document.addEventListener('click', event => {
   else if (target.hasAttribute('data-vendor')) { vendor = target.dataset.vendor; applyFilters(); }
   else if (target.hasAttribute('data-remove')) toggleSelection(target.dataset.remove, false);
   else if (target.hasAttribute('data-close')) closeDialog();
-  else if (target.hasAttribute('data-motion')) { modalPlaying = !modalPlaying; refreshPlayback(); }
-  else if (target.hasAttribute('data-restart')) target.closest('dialog').querySelectorAll('iframe').forEach(restartFrame);
   else if (target.hasAttribute('data-copy')) copyLink(target);
 });
 document.addEventListener('change', event => { if (event.target.matches('[data-compare]')) toggleSelection(event.target.dataset.compare, event.target.checked); });
@@ -396,7 +388,7 @@ document.addEventListener('keydown', event => {
   if (event.key === 'ArrowRight') { event.preventDefault(); stepRun(1); }
 });
 document.addEventListener('visibilitychange', refreshPlayback);
-reducedMotion.addEventListener('change', () => { modalPlaying = false; refreshPlayback(); });
+reducedMotion.addEventListener('change', refreshPlayback);
 window.addEventListener('popstate', () => { readFilters(); reconcileDialogs(); });
 const knownEfforts = new Set([...reasoning.options].map(option => option.value));
 for (const level of new Set(runs.flatMap(run => run.reasoning))) if (!knownEfforts.has(level)) reasoning.add(new Option(level, level));

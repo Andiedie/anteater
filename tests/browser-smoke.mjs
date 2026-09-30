@@ -51,6 +51,13 @@ async function smoke() {
   assert(failures.length === 2 && document.querySelectorAll('.failure-card').length === 2, 'two max failures stay in catalog');
   assert(failures.every(run => { const card=document.querySelector('[data-slug="'+run.slug+'"]'); return !card.querySelector('iframe, [data-compare], .card-stats') && card.querySelector('.failure-link').href.includes('/cases/'+run.slug+'/'); }), 'failure cards link to notes without fake artwork or metrics');
   assert(document.querySelector('#summary-count').textContent === `${catalog.length - failures.length} artworks · ${failures.length} without SVG`, 'summary separates delivered artwork and failures');
+  for (const slug of ['gpt-6-astra-max','claude-sonnet-5.5-xhigh']) {
+    const box = document.querySelector(`[data-compare="${slug}"]`);
+    box.checked = true; box.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  const center = node => { const rect=node.getBoundingClientRect();return rect.y+rect.height/2; };
+  assert(Math.abs(center(document.querySelector('.tray-items'))-center(document.querySelector('.tray-actions')))<1, 'comparison actions vertically align with selected artwork row');
+  document.querySelector('#clear-selection').click();
   document.querySelector('[data-vendor="Anthropic"]').click();
   assert(visible().length === catalog.filter(run => run.vendor === 'Anthropic').length, 'Anthropic includes artworks and failed tests');
   set('#reasoning', 'max');
@@ -160,11 +167,8 @@ async function smoke() {
   assert(document.querySelector('#detail-info').textContent.includes(new Intl.NumberFormat('en-US').format(catalog[targetIndex].metrics.average_tps)), 'TPS displayed');
   assert(document.activeElement.getAttribute('aria-label') === 'Close performance', 'dialog focus');
   assert(document.querySelector('.card iframe').dataset.playing === 'false', 'gallery pauses behind dialog');
-  document.querySelector('#detail-dialog [data-motion]').click();
-  assert(!document.querySelector('#detail-preview iframe').contentDocument.documentElement.animationsPaused(), 'detail manual playback');
-  document.querySelector('#detail-dialog [data-motion]').click();
-  document.querySelector('#detail-dialog [data-restart]').click();
-  assert(document.querySelector('#detail-preview iframe').contentDocument.documentElement.getCurrentTime() < .03, 'restart resets animation');
+  assert([...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused()), 'detail opens with every SVG clock playing');
+  assert(!document.querySelector('[data-motion],[data-restart],.preview-controls'), 'no playback, pause or restart controls');
   const detailFrame = document.querySelector('#detail-preview iframe');
   set('#language', 'zh');
   assert(document.documentElement.lang === 'zh-CN' && document.querySelector('#detail-info').textContent.includes('公开价格估算'), 'Chinese details and price labels');
@@ -191,9 +195,7 @@ async function smoke() {
   assert(document.querySelector('#compare-dialog').open && document.querySelectorAll('.compare-table tbody tr').length === 16, 'comparison metrics');
   assert(document.querySelectorAll('.compare-table thead th').length === 5, 'four comparison value columns');
   assert([...document.querySelectorAll('#comparison-content iframe')].every(frame => [...frame.contentDocument.querySelectorAll('svg')].every(clock => !clock.animationsPaused())), 'comparison autoplays all SVG clocks');
-  document.querySelector('#compare-dialog [data-motion]').click();
-  assert([...document.querySelectorAll('#comparison-content iframe')].every(frame => [...frame.contentDocument.querySelectorAll('svg')].every(clock => clock.animationsPaused())), 'comparison pauses all SVG clocks');
-  document.querySelector('#compare-dialog [data-motion]').click();
+  assert(!document.querySelector('#compare-dialog [data-motion],#compare-dialog [data-restart]'), 'comparison has no playback controls');
   assert(location.search.includes('compare='), 'comparison share URL');
   const comparisonFrames = [...document.querySelectorAll('#comparison-content iframe')];
   set('#language', 'zh');
@@ -311,6 +313,7 @@ try {
     await send('Emulation.setDeviceMetricsOverride', {width,height:1000,deviceScaleFactor:1,mobile:width<600});
     await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}));for(const slug of ['gpt-6.1-sol-max','gpt-6.1-sol-xhigh','hy3-high','grok-4.7-xhigh']){const box=document.querySelector('[data-compare="'+slug+'"]');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}))}`);
     if (!await evaluate(`document.querySelector('#compare-tray').scrollWidth<=document.querySelector('#compare-tray').clientWidth&&document.documentElement.scrollWidth<=innerWidth`)) throw Error(`${choice} four-item tray overflows at ${width}`);
+    if (width>600 && !await evaluate(`(()=>{const a=document.querySelector('.tray-actions').getBoundingClientRect(),i=document.querySelector('.tray-items').getBoundingClientRect();return Math.abs(a.y+a.height/2-i.y-i.height/2)<1})()`)) throw Error(`${choice} four-item tray actions misaligned at ${width}`);
     await evaluate(`document.querySelector('#open-compare').click()`);
     if (!await evaluate(`(async()=>{const start=performance.now();while(document.querySelectorAll('#comparison-content iframe.loaded').length!==4){if(performance.now()-start>5000)throw Error('Four artworks not ready');await new Promise(r=>setTimeout(r,30))}const d=document.querySelector('#compare-dialog');return d.scrollWidth<=d.clientWidth&&[...document.querySelectorAll('.compare-artworks section')].every(s=>s.scrollWidth<=s.clientWidth)})()`)) throw Error(`${choice} four-item comparison overflows at ${width}`);
     await evaluate(`document.querySelector('#compare-dialog [data-close]').click()`);
@@ -324,10 +327,14 @@ try {
   const touch = await evaluate(`const rect=document.querySelector('.preview').getBoundingClientRect();({x:rect.x+rect.width/2,y:rect.y+20})`);
   await send('Input.dispatchTouchEvent', {type:'touchStart',touchPoints:[touch]});
   await send('Input.dispatchTouchEvent', {type:'touchEnd',touchPoints:[]});
-  if (!await evaluate(`(async()=>{const start=performance.now();while(!document.querySelector('#detail-preview iframe.loaded')){if(performance.now()-start>5000)throw Error('Touch detail failed');await new Promise(r=>setTimeout(r,30))}return document.querySelector('#detail-preview iframe').contentDocument.documentElement.animationsPaused()})()`)) throw new Error('Touch unexpectedly autoplayed artwork');
-  await evaluate(`document.querySelector('#detail-dialog [data-motion]').click()`);
-  if (!await evaluate(`!document.querySelector('#detail-preview iframe').contentDocument.documentElement.animationsPaused()`)) throw new Error('Touch detail play control failed');
-  checks.push('persisted manual language', 'touch is static', 'touch explicit play');
+  if (!await evaluate(`(async()=>{const start=performance.now();while(!document.querySelector('#detail-preview iframe.loaded')){if(performance.now()-start>5000)throw Error('Touch detail failed');await new Promise(r=>setTimeout(r,30))}return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused())})()`)) throw new Error('Touch detail did not autoplay');
+  if (!await evaluate(`!document.querySelector('#detail-dialog [data-motion],#detail-dialog [data-restart]')`)) throw new Error('Touch detail has playback controls');
+  checks.push('persisted manual language', 'touch detail autoplay without controls');
+  await send('Emulation.setEmulatedMedia', {features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+  if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,150));return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>clock.animationsPaused())})()`)) throw Error('Reduced-motion preference was ignored');
+  await send('Emulation.setEmulatedMedia', {features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
+  if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,150));return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused())})()`)) throw Error('Detail did not resume when reduced motion was disabled');
+  checks.push('autoplay respects reduced-motion preference changes');
   const queryUrl = new URL(process.argv[2] || 'http://localhost:8765');
   queryUrl.searchParams.set('q', 'g pt6');
   await reload(queryUrl.href);
