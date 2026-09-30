@@ -1,0 +1,352 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle and juggling bottles</title>
+  <desc id="desc">A playful animated circus scene featuring an anteater balancing on a spinning unicycle while three colorful bottles arc between its hands.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dff5ef"/>
+      <stop offset="0.62" stop-color="#f8edcf"/>
+      <stop offset="1" stop-color="#f1d39c"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d7b879"/>
+      <stop offset="1" stop-color="#b97848"/>
+    </linearGradient>
+    <linearGradient id="tailFur" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d5aa72"/>
+      <stop offset="0.55" stop-color="#a9754e"/>
+      <stop offset="1" stop-color="#5b443b"/>
+    </linearGradient>
+    <linearGradient id="bodyFur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#68534a"/>
+      <stop offset="1" stop-color="#392f2c"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#53b7ad"/>
+      <stop offset="0.5" stop-color="#19756f"/>
+      <stop offset="1" stop-color="#0d4d4c"/>
+    </linearGradient>
+    <radialGradient id="sunGlow">
+      <stop offset="0" stop-color="#fff9cf" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#ffd76a" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#ffd76a" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dy="7"/>
+      <feColorMatrix values="0 0 0 0 0.12  0 0 0 0 0.10  0 0 0 0 0.08  0 0 0 .28 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="bottleShadow" x="-80%" y="-80%" width="260%" height="260%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#27323a" flood-opacity="0.28"/>
+    </filter>
+    <filter id="blur8">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+
+    <g id="bottle">
+      <path d="M-7-55h14v17c0 4 3 7 7 10 4 3 6 8 6 14V8c0 8-6 13-14 13H-6c-8 0-14-5-14-13v-22c0-6 2-11 6-14 4-3 7-6 7-10Z" fill="currentColor" stroke="#26363a" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M-9-61H9v8H-9Z" fill="#243238" stroke="#26363a" stroke-width="2" rx="2"/>
+      <path d="M-18-12H18V7c0 7-5 11-12 11H-6c-7 0-12-4-12-11Z" fill="#fff1cc" stroke="#26363a" stroke-width="2"/>
+      <circle cx="0" cy="2" r="6" fill="currentColor"/>
+      <path d="M-12-34c-3 5-4 12-4 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.56"/>
+      <path d="M10-30c5 7 6 15 6 23V8c0 5-2 8-6 10" fill="none" stroke="#16262a" stroke-width="4" stroke-linecap="round" opacity="0.16"/>
+    </g>
+  </defs>
+
+  <style>
+    .wheel-rotor, .crank {
+      transform-box: view-box;
+      transform-origin: 500px 560px;
+      animation: wheelSpin 1.8s linear infinite;
+    }
+    .rider-bob {
+      transform-box: view-box;
+      transform-origin: 500px 410px;
+      animation: riderBob .9s ease-in-out infinite;
+    }
+    .tail {
+      transform-box: view-box;
+      transform-origin: 470px 372px;
+      animation: tailSway 2.4s ease-in-out infinite;
+    }
+    .arm-left {
+      transform-box: view-box;
+      transform-origin: 467px 273px;
+      animation: tossLeft 1.6s ease-in-out infinite;
+    }
+    .arm-right {
+      transform-box: view-box;
+      transform-origin: 536px 272px;
+      animation: tossRight 1.6s ease-in-out -.8s infinite;
+    }
+    .ear {
+      transform-box: view-box;
+      transform-origin: 512px 194px;
+      animation: earWiggle 2.4s ease-in-out infinite;
+    }
+    .cloud-a { animation: cloudA 18s ease-in-out infinite alternate; }
+    .cloud-b { animation: cloudB 22s ease-in-out infinite alternate; }
+    .road-stripes { animation: roadSlide 1.8s linear infinite; }
+    .shadow-pulse { animation: shadowPulse .9s ease-in-out infinite; transform-origin: 500px 660px; }
+    .spark { transform-box: fill-box; transform-origin: center; animation: twinkle 1.8s ease-in-out infinite; }
+    .spark:nth-of-type(2n) { animation-delay: -.6s; }
+    .spark:nth-of-type(3n) { animation-delay: -1.2s; }
+    .dust-one { animation: dust 1.8s ease-out infinite; }
+    .dust-two { animation: dust 1.8s ease-out -.9s infinite; }
+
+    @keyframes wheelSpin { to { transform: rotate(360deg); } }
+    @keyframes riderBob {
+      0%, 100% { transform: translateY(1px) rotate(-.35deg); }
+      50% { transform: translateY(-6px) rotate(.35deg); }
+    }
+    @keyframes tailSway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(5deg); }
+    }
+    @keyframes tossLeft {
+      0%, 100% { transform: rotate(2deg); }
+      35% { transform: rotate(-7deg); }
+      62% { transform: rotate(3deg); }
+    }
+    @keyframes tossRight {
+      0%, 100% { transform: rotate(-2deg); }
+      35% { transform: rotate(7deg); }
+      62% { transform: rotate(-3deg); }
+    }
+    @keyframes earWiggle {
+      0%, 72%, 100% { transform: rotate(0); }
+      78% { transform: rotate(-10deg); }
+      84% { transform: rotate(7deg); }
+      90% { transform: rotate(-3deg); }
+    }
+    @keyframes cloudA { from { transform: translateX(-12px); } to { transform: translateX(28px); } }
+    @keyframes cloudB { from { transform: translateX(18px); } to { transform: translateX(-24px); } }
+    @keyframes roadSlide { to { transform: translateX(-160px); } }
+    @keyframes shadowPulse {
+      0%, 100% { transform: scaleX(1); opacity: .24; }
+      50% { transform: scaleX(.88); opacity: .17; }
+    }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(.65) rotate(0); opacity: .35; }
+      50% { transform: scale(1.15) rotate(45deg); opacity: .95; }
+    }
+    @keyframes dust {
+      0% { transform: translate(0, 0) scale(.35); opacity: 0; }
+      20% { opacity: .45; }
+      100% { transform: translate(-70px, -28px) scale(1.25); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wheel-rotor, .crank, .rider-bob, .tail, .arm-left, .arm-right, .ear,
+      .cloud-a, .cloud-b, .road-stripes, .shadow-pulse, .spark, .dust-one, .dust-two {
+        animation-play-state: paused;
+      }
+    }
+  </style>
+
+  <!-- Sky and distant scenery -->
+  <rect width="1000" height="700" fill="url(#sky)"/>
+  <circle cx="830" cy="112" r="122" fill="url(#sunGlow)"/>
+  <circle cx="830" cy="112" r="48" fill="#ffd66a" opacity="0.82"/>
+
+  <g class="cloud-a" fill="#fff" opacity="0.72">
+    <ellipse cx="132" cy="128" rx="58" ry="19"/>
+    <circle cx="105" cy="116" r="25"/>
+    <circle cx="143" cy="105" r="34"/>
+    <circle cx="176" cy="119" r="23"/>
+  </g>
+  <g class="cloud-b" fill="#fff" opacity="0.58">
+    <ellipse cx="760" cy="218" rx="67" ry="20"/>
+    <circle cx="722" cy="209" r="25"/>
+    <circle cx="760" cy="192" r="38"/>
+    <circle cx="800" cy="207" r="27"/>
+  </g>
+
+  <path d="M0 489C123 431 220 443 321 492c114-83 238-80 352 3 97-66 201-67 327-9v104H0Z" fill="#9ec49f" opacity="0.58"/>
+  <path d="M0 533c147-62 260-41 359 8 111-53 246-60 364 2 89-45 178-48 277-13v82H0Z" fill="#729f83" opacity="0.55"/>
+  <path d="M0 558c154-31 292-19 425 17 178-44 367-39 575-4v129H0Z" fill="url(#ground)"/>
+
+  <g opacity="0.34" fill="#fff6da" class="road-stripes">
+    <rect x="-150" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="18" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="186" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="354" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="522" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="690" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="858" y="625" width="94" height="9" rx="4.5"/>
+    <rect x="1026" y="625" width="94" height="9" rx="4.5"/>
+  </g>
+
+  <!-- Decorative juggling sparkles -->
+  <g fill="#fff8dc">
+    <path class="spark" d="M347 170l5 11 11 5-11 5-5 11-5-11-11-5 11-5Z"/>
+    <path class="spark" d="M654 151l4 9 9 4-9 4-4 9-4-9-9-4 9-4Z"/>
+    <path class="spark" d="M303 290l4 8 8 4-8 4-4 8-4-8-8-4 8-4Z"/>
+    <path class="spark" d="M704 286l5 10 10 5-10 5-5 10-5-10-10-5 10-5Z"/>
+  </g>
+
+  <!-- Ground shadow -->
+  <ellipse class="shadow-pulse" cx="500" cy="665" rx="137" ry="18" fill="#573d31" opacity="0.23" filter="url(#blur8)"/>
+
+  <!-- Unicycle -->
+  <g aria-label="spinning unicycle">
+    <g class="wheel-rotor" stroke-linecap="round">
+      <circle cx="500" cy="560" r="98" fill="none" stroke="#2f8984" stroke-width="5" stroke-dasharray="15 10" opacity="0.88"/>
+      <g stroke="#53777a" stroke-width="3" opacity="0.9">
+        <line x1="500" y1="560" x2="598" y2="560"/>
+        <line x1="500" y1="560" x2="585" y2="511"/>
+        <line x1="500" y1="560" x2="549" y2="475"/>
+        <line x1="500" y1="560" x2="500" y2="462"/>
+        <line x1="500" y1="560" x2="451" y2="475"/>
+        <line x1="500" y1="560" x2="415" y2="511"/>
+        <line x1="500" y1="560" x2="402" y2="560"/>
+        <line x1="500" y1="560" x2="415" y2="609"/>
+        <line x1="500" y1="560" x2="451" y2="645"/>
+        <line x1="500" y1="560" x2="500" y2="658"/>
+        <line x1="500" y1="560" x2="549" y2="645"/>
+        <line x1="500" y1="560" x2="585" y2="609"/>
+      </g>
+      <circle cx="500" cy="560" r="13" fill="#f6bf55" stroke="#26383d" stroke-width="5"/>
+    </g>
+    <circle cx="500" cy="560" r="106" fill="none" stroke="#26383d" stroke-width="13"/>
+    <circle cx="500" cy="560" r="100" fill="none" stroke="#d9eee7" stroke-width="2.5" opacity="0.72"/>
+
+    <path d="M484 399 472 470 493 560M516 399l12 71-21 90" fill="none" stroke="#173f42" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M484 399 472 470 493 560M516 399l12 71-21 90" fill="none" stroke="url(#metal)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M500 402v-35" stroke="#173f42" stroke-width="15" stroke-linecap="round"/>
+    <path d="M500 402v-35" stroke="#3ea39b" stroke-width="9" stroke-linecap="round"/>
+    <path d="M462 389q38-14 76 0l-8 20h-61Z" fill="#3c2c2b" stroke="#202b30" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M470 390q30-8 60 0" fill="none" stroke="#a36a52" stroke-width="4" stroke-linecap="round" opacity="0.72"/>
+
+    <g class="crank" stroke="#26383d" stroke-linecap="round">
+      <line x1="466" y1="560" x2="534" y2="560" stroke-width="8"/>
+      <rect x="530" y="554" width="30" height="12" rx="5" fill="#efb94f" stroke-width="4"/>
+      <rect x="440" y="554" width="30" height="12" rx="5" fill="#efb94f" stroke-width="4"/>
+    </g>
+  </g>
+
+  <!-- Rider -->
+  <g class="rider-bob" filter="url(#softShadow)">
+    <!-- Tail, behind the body -->
+    <g class="tail">
+      <path d="M474 349c-50-29-109-19-165 14-48 28-77 61-122 32 24 54 86 88 151 75 66-13 113-48 145-91Z" fill="url(#tailFur)" stroke="#3a302d" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M294 372c14 28 30 51 51 69M338 352c16 28 35 53 58 73M383 344c16 24 33 45 55 62" fill="none" stroke="#56413a" stroke-width="13" stroke-linecap="round" opacity="0.75"/>
+      <path d="M232 411c36 20 76 28 116 20" fill="none" stroke="#f1d2a2" stroke-width="8" stroke-linecap="round" opacity="0.48"/>
+    </g>
+
+    <!-- Pedaling legs -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="#292729" stroke-width="27" d="M518 383Q548 466 532 560">
+        <animate attributeName="d" dur="1.8s" repeatCount="indefinite" values="M518 383Q548 466 532 560;M518 383Q525 481 500 592;M518 383Q488 463 468 560;M518 383Q500 452 500 528;M518 383Q548 466 532 560" keyTimes="0;.25;.5;.75;1"/>
+      </path>
+      <path stroke="#76584b" stroke-width="18" d="M518 383Q548 466 532 560">
+        <animate attributeName="d" dur="1.8s" repeatCount="indefinite" values="M518 383Q548 466 532 560;M518 383Q525 481 500 592;M518 383Q488 463 468 560;M518 383Q500 452 500 528;M518 383Q548 466 532 560" keyTimes="0;.25;.5;.75;1"/>
+      </path>
+      <path stroke="#292729" stroke-width="27" d="M482 383Q452 460 468 560">
+        <animate attributeName="d" dur="1.8s" repeatCount="indefinite" values="M482 383Q452 460 468 560;M482 383Q500 451 500 528;M482 383Q520 464 532 560;M482 383Q478 483 500 592;M482 383Q452 460 468 560" keyTimes="0;.25;.5;.75;1"/>
+      </path>
+      <path stroke="#665047" stroke-width="18" d="M482 383Q452 460 468 560">
+        <animate attributeName="d" dur="1.8s" repeatCount="indefinite" values="M482 383Q452 460 468 560;M482 383Q500 451 500 528;M482 383Q520 464 532 560;M482 383Q478 483 500 592;M482 383Q452 460 468 560" keyTimes="0;.25;.5;.75;1"/>
+      </path>
+    </g>
+
+    <g>
+      <animateMotion dur="1.8s" repeatCount="indefinite" path="M532 560A32 32 0 1 1 468 560A32 32 0 1 1 532 560"/>
+      <ellipse cx="0" cy="0" rx="22" ry="10" fill="#342e2d" stroke="#20282b" stroke-width="4"/>
+      <path d="M7-4l13-5M9 1l14-1M7 5l13 7" stroke="#e3c395" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <animateMotion dur="1.8s" begin="-.9s" repeatCount="indefinite" path="M532 560A32 32 0 1 1 468 560A32 32 0 1 1 532 560"/>
+      <ellipse cx="0" cy="0" rx="22" ry="10" fill="#342e2d" stroke="#20282b" stroke-width="4"/>
+      <path d="M7-4l13-5M9 1l14-1M7 5l13 7" stroke="#e3c395" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Torso -->
+    <path d="M480 224c-34 14-52 58-47 108 5 54 29 86 66 88 39 2 61-34 65-91 4-53-12-96-48-106-12-3-24-3-36 1Z" fill="url(#bodyFur)" stroke="#302a29" stroke-width="6"/>
+    <path d="M462 243c19 7 45 16 81 37 8 10 13 23 16 38-40-22-76-33-121-38 5-16 13-29 24-37Z" fill="#ead1a0"/>
+    <path d="M444 282c38 4 76 15 115 37" fill="none" stroke="#272829" stroke-width="10" opacity="0.82"/>
+    <path d="M458 363c20 26 58 34 84 6-6 32-22 49-44 49-19-1-32-16-40-55Z" fill="#99715a" opacity="0.72"/>
+
+    <!-- Arms -->
+    <g class="arm-left">
+      <path d="M468 273Q432 292 407 333" fill="none" stroke="#2a2929" stroke-width="25" stroke-linecap="round"/>
+      <path d="M468 273Q432 292 407 333" fill="none" stroke="#695047" stroke-width="16" stroke-linecap="round"/>
+      <path d="M407 326q-11 4-13 15c7 7 16 8 25 1 2-8-2-14-12-16Z" fill="#d4a978" stroke="#302b2a" stroke-width="4"/>
+      <path d="M399 339l-10 8M408 342l-6 11M416 340l2 10" stroke="#f0d7ad" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g class="arm-right">
+      <path d="M535 272q38 17 59 61" fill="none" stroke="#2a2929" stroke-width="25" stroke-linecap="round"/>
+      <path d="M535 272q38 17 59 61" fill="none" stroke="#72554a" stroke-width="16" stroke-linecap="round"/>
+      <path d="M594 326q11 4 13 15c-7 7-16 8-25 1-2-8 2-14 12-16Z" fill="#d4a978" stroke="#302b2a" stroke-width="4"/>
+      <path d="M602 339l10 8M593 342l6 11M585 340l-2 10" stroke="#f0d7ad" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- Neck and head -->
+    <path d="M488 243q-11-31 2-49c13-18 42-18 62-2l23 25-17 49-39-12Z" fill="#4a3a35" stroke="#302a29" stroke-width="5"/>
+    <g class="ear">
+      <path d="M511 200q-16-15-7-31c20 0 30 13 23 29Z" fill="#b68162" stroke="#302a29" stroke-width="5"/>
+      <path d="M511 192q-6-8-2-14c8 1 12 6 11 14Z" fill="#e1ad8d" opacity="0.75"/>
+    </g>
+    <path d="M528 199c38-4 86 8 148 32 18 7 25 14 20 23-5 10-20 10-39 7l-122-15c-11-10-15-33-7-47Z" fill="#bd8e67" stroke="#302a29" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M660 229q23 5 35 14c8 6 5 15-5 19-9 3-20 1-33-1Z" fill="#27282b"/>
+    <path d="M544 204c25 0 57 7 92 19" fill="none" stroke="#efd0a4" stroke-width="7" stroke-linecap="round" opacity="0.46"/>
+    <ellipse cx="543" cy="215" rx="6" ry="5" fill="#1f272a">
+      <animate attributeName="ry" dur="3.8s" repeatCount="indefinite" values="5;5;.7;5;5" keyTimes="0;.43;.46;.50;1"/>
+    </ellipse>
+    <circle cx="541" cy="213" r="1.7" fill="#fff"/>
+    <path d="M622 251q20 5 35 3" fill="none" stroke="#6a483c" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Circus bow tie -->
+    <path d="M527 254q-19-13-27 1 7 17 28 7M532 254q19-13 27 1-7 17-28 7" fill="#e45c55" stroke="#432d2d" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="530" cy="258" r="8" fill="#f5bd4e" stroke="#432d2d" stroke-width="3"/>
+  </g>
+
+  <!-- Three juggling bottles. Each follows a high throw, then vanishes briefly for the hand-off. -->
+  <g style="color:#2a9d8f" filter="url(#bottleShadow)">
+    <animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" path="M408 336C430 20 566 20 594 336L408 336Z"/>
+    <animate attributeName="opacity" dur="2.4s" begin="0s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;.76;.79;.98;1"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 0 -20" to="720 0 -20" dur="2.4s" begin="0s" repeatCount="indefinite"/>
+      <use href="#bottle"/>
+    </g>
+  </g>
+  <g style="color:#e76f51" filter="url(#bottleShadow)">
+    <animateMotion dur="2.4s" begin="-.8s" repeatCount="indefinite" path="M594 336C570 -5 438 -5 408 336L594 336Z"/>
+    <animate attributeName="opacity" dur="2.4s" begin="-.8s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;.76;.79;.98;1"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 0 -20" to="-720 0 -20" dur="2.4s" begin="-.8s" repeatCount="indefinite"/>
+      <use href="#bottle"/>
+    </g>
+  </g>
+  <g style="color:#457b9d" filter="url(#bottleShadow)">
+    <animateMotion dur="2.4s" begin="-1.6s" repeatCount="indefinite" path="M408 336C446 72 552 72 594 336L408 336Z"/>
+    <animate attributeName="opacity" dur="2.4s" begin="-1.6s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;.76;.79;.98;1"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 0 -20" to="540 0 -20" dur="2.4s" begin="-1.6s" repeatCount="indefinite"/>
+      <use href="#bottle"/>
+    </g>
+  </g>
+
+  <!-- Dust puffs add forward motion -->
+  <g fill="#f8e1b8" opacity="0.55">
+    <g class="dust-one" transform="translate(405 650)">
+      <circle cx="0" cy="0" r="11"/>
+      <circle cx="14" cy="-5" r="8"/>
+      <circle cx="25" cy="1" r="6"/>
+    </g>
+    <g class="dust-two" transform="translate(402 655)">
+      <circle cx="0" cy="0" r="9"/>
+      <circle cx="12" cy="-7" r="7"/>
+      <circle cx="22" cy="0" r="5"/>
+    </g>
+  </g>
+
+  <!-- Poster-like border -->
+  <rect x="18" y="18" width="964" height="664" rx="34" fill="none" stroke="#fff8e8" stroke-width="8" opacity="0.72"/>
+  <rect x="29" y="29" width="942" height="642" rx="27" fill="none" stroke="#2b5e5d" stroke-width="2" opacity="0.34"/>
+</svg>

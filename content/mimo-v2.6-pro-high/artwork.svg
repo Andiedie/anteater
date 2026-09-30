@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 600 500" width="600" height="500"
+     role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">Anteater riding a unicycle while juggling bottles</title>
+  <desc id="dsc">A cartoon giant anteater pedals a red unicycle along a scrolling landscape while juggling three bottles in a cascade pattern. Everything is animated with SMIL.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8fd3ef"/>
+      <stop offset="0.65" stop-color="#c8ecf8"/>
+      <stop offset="1" stop-color="#eaf8fc"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8dc26a"/>
+      <stop offset="1" stop-color="#5f9a48"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b28f6b"/>
+      <stop offset="1" stop-color="#8a6a4c"/>
+    </linearGradient>
+    <linearGradient id="tailfur" x1="1" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#a5825f"/>
+      <stop offset="1" stop-color="#c7a67f"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e2604f"/>
+      <stop offset="1" stop-color="#b93a34"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.55" stop-color="#ffe9a8" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadowG" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2f4a24" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#2f4a24" stop-opacity="0"/>
+    </radialGradient>
+
+    <g id="cloud" fill="#ffffff" opacity="0.92">
+      <ellipse cx="0" cy="0" rx="34" ry="17"/>
+      <ellipse cx="26" cy="5" rx="25" ry="13"/>
+      <ellipse cx="-26" cy="6" rx="23" ry="12"/>
+    </g>
+
+    <!-- one juggling bottle, drawn around its own centre -->
+    <g id="bottle">
+      <rect x="-7" y="-4" width="14" height="18" rx="3.5" fill="currentColor"/>
+      <path d="M-7 -1 Q-7 -9 -3.2 -11 L 3.2 -11 Q7 -9 7 -1 Z" fill="currentColor"/>
+      <rect x="-3.4" y="-16" width="6.8" height="6" fill="currentColor"/>
+      <rect x="-5" y="-19.5" width="10" height="4.2" rx="1.3" fill="#c04a38"/>
+      <rect x="-7" y="1.5" width="14" height="7" fill="#fbf3df"/>
+      <rect x="-7" y="1.5" width="14" height="1.2" fill="#d8c9a3"/>
+      <rect x="-5.4" y="-2" width="2.6" height="11" rx="1.3" fill="#ffffff" opacity="0.35"/>
+      <rect x="-7" y="13" width="14" height="2.4" rx="1" fill="#000000" opacity="0.12"/>
+    </g>
+  </defs>
+
+  <!-- ================= SKY ================= -->
+  <rect width="600" height="500" fill="url(#sky)"/>
+
+  <!-- sun -->
+  <g>
+    <circle cx="95" cy="78" r="80" fill="url(#sunGlow)"/>
+    <circle cx="95" cy="78" r="34" fill="#ffd873">
+      <animate attributeName="r" values="34;36.5;34" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- scrolling clouds -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-600 0" dur="26s" repeatCount="indefinite"/>
+    <use xlink:href="#cloud" x="70"  y="72"/>
+    <use xlink:href="#cloud" x="250" y="46" transform="scale(0.8) translate(60 12)"/>
+    <use xlink:href="#cloud" x="430" y="96" transform="scale(1.1) translate(-40 -8)"/>
+    <use xlink:href="#cloud" x="575" y="58"/>
+    <use xlink:href="#cloud" x="670" y="72"/>
+    <use xlink:href="#cloud" x="850" y="46" transform="scale(0.8) translate(60 12)"/>
+    <use xlink:href="#cloud" x="1030" y="96" transform="scale(1.1) translate(-40 -8)"/>
+    <use xlink:href="#cloud" x="1175" y="58"/>
+  </g>
+
+  <!-- far hills -->
+  <g fill="#a9d4a0">
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-600 0" dur="14s" repeatCount="indefinite"/>
+    <path d="M0 430 L0 372 Q60 322 130 364 Q190 398 250 372 Q320 340 390 370 Q450 398 510 364 Q560 340 600 372 L600 430 Z"/>
+    <path d="M600 430 L600 372 Q660 322 730 364 Q790 398 850 372 Q920 340 990 370 Q1050 398 1110 364 Q1160 340 1200 372 L1200 430 Z"/>
+  </g>
+
+  <!-- near hills -->
+  <g fill="#8bc47f">
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-600 0" dur="8s" repeatCount="indefinite"/>
+    <path d="M0 430 L0 398 Q80 366 160 394 Q240 418 320 392 Q400 364 480 396 Q540 418 600 398 L600 430 Z"/>
+    <path d="M600 430 L600 398 Q680 366 760 394 Q840 418 920 392 Q1000 364 1080 396 Q1140 418 1200 398 L1200 430 Z"/>
+  </g>
+
+  <!-- ground -->
+  <rect x="0" y="424" width="600" height="76" fill="url(#grass)"/>
+  <rect x="0" y="424" width="600" height="5" fill="#a6d78c"/>
+
+  <!-- scrolling ground streaks -->
+  <g stroke="#4c8238" stroke-width="4" stroke-linecap="round" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-300 0" dur="1.1s" repeatCount="indefinite"/>
+    <path d="M20 452 h34 M92 470 h26 M150 444 h44 M232 464 h30 M300 450 h22 M350 472 h40 M430 446 h30 M492 466 h36 M556 452 h28"/>
+    <path d="M320 452 h34 M392 470 h26 M450 444 h44 M532 464 h30 M600 450 h22 M650 472 h40 M730 446 h30 M792 466 h36 M856 452 h28"/>
+  </g>
+
+  <!-- speed lines -->
+  <g stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.5">
+    <animate attributeName="opacity" values="0.15;0.6;0.15" dur="0.9s" repeatCount="indefinite"/>
+    <path d="M70 330 h56 M46 362 h40 M84 392 h48"/>
+  </g>
+
+  <!-- contact shadow -->
+  <ellipse cx="300" cy="432" rx="86" ry="14" fill="url(#shadowG)">
+    <animate attributeName="rx" values="86;80;86" dur="1.2s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ================= RIDER + UNICYCLE ================= -->
+  <!-- pivot at the tyre contact patch so the rig rocks as it balances -->
+  <g transform="translate(300 425)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-1.8;1.8;-1.8" keyTimes="0;0.5;1"
+                        dur="2.4s" repeatCount="indefinite"/>
+      <g transform="translate(-300 -425)">
+
+        <!-- ===== unicycle wheel ===== -->
+        <g>
+          <circle cx="300" cy="375" r="50" fill="none" stroke="#2f3336" stroke-width="9"/>
+          <circle cx="300" cy="375" r="41" fill="none" stroke="#d7dee5" stroke-width="4"/>
+          <circle cx="300" cy="375" r="38" fill="#eaf3f8" opacity="0.35"/>
+          <g transform="translate(300 375)">
+            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s"
+                              repeatCount="indefinite" additive="sum"/>
+            <g stroke="#c3ccd4" stroke-width="2.4" stroke-linecap="round">
+              <path d="M0 -38 V38 M-38 0 H38 M-27 -27 L27 27 M-27 27 L27 -27"/>
+            </g>
+          </g>
+          <circle cx="300" cy="375" r="7" fill="#5c646b"/>
+        </g>
+
+        <!-- ===== frame / seat post ===== -->
+        <path d="M300 375 L300 272" stroke="url(#frame)" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M300 330 L318 300" stroke="url(#frame)" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.85"/>
+
+        <!-- ===== cranks + pedals (fixed to the axle, so they turn with the wheel) ===== -->
+        <g transform="translate(300 375)">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s"
+                            repeatCount="indefinite" additive="sum"/>
+          <path d="M-22 0 H22" stroke="#5c646b" stroke-width="7" stroke-linecap="round"/>
+          <rect x="-31" y="-4" width="18" height="8" rx="2" fill="#3d4348"/>
+          <rect x="13" y="-4" width="18" height="8" rx="2" fill="#3d4348"/>
+        </g>
+
+        <!-- ===== legs (pedalling: path morphs in step with the cranks) ===== -->
+        <g stroke="#8f6f52" stroke-width="13" stroke-linecap="round" fill="none">
+          <path d="M 294 262 Q 274 318 278 375">
+            <animate attributeName="d" dur="1.2s" repeatCount="indefinite" calcMode="linear"
+                     keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+                     values="M 294 262 Q 274 318 278 375;
+                             M 294 262 Q 277 311 284 359;
+                             M 294 262 Q 285 308 300 353;
+                             M 294 262 Q 293 311 316 359;
+                             M 294 262 Q 296 318 322 375;
+                             M 294 262 Q 293 326 316 391;
+                             M 294 262 Q 285 330 300 397;
+                             M 294 262 Q 277 326 284 391;
+                             M 294 262 Q 274 318 278 375"/>
+          </path>
+          <path d="M 318 262 Q 332 318 322 375">
+            <animate attributeName="d" dur="1.2s" repeatCount="indefinite" calcMode="linear"
+                     keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+                     values="M 318 262 Q 332 318 322 375;
+                             M 318 262 Q 329 326 316 391;
+                             M 318 262 Q 321 330 300 397;
+                             M 318 262 Q 313 326 284 391;
+                             M 318 262 Q 310 318 278 375;
+                             M 318 262 Q 313 311 284 359;
+                             M 318 262 Q 321 308 300 353;
+                             M 318 262 Q 329 311 316 359;
+                             M 318 262 Q 332 318 322 375"/>
+          </path>
+        </g>
+
+        <!-- ===== shoes ===== -->
+        <g fill="#4a3527">
+          <g>
+            <animateTransform attributeName="transform" type="translate" dur="1.2s" repeatCount="indefinite" calcMode="linear"
+                              keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+                              values="278 375; 284 359; 300 353; 316 359; 322 375; 316 391; 300 397; 284 391; 278 375"/>
+            <path d="M-13 -5 h20 a6 6 0 0 1 6 6 v3 a3 3 0 0 1 -3 3 h-23 a3 3 0 0 1 -3 -3 v-3 a6 6 0 0 1 3 -6 z"/>
+          </g>
+          <g>
+            <animateTransform attributeName="transform" type="translate" dur="1.2s" repeatCount="indefinite" calcMode="linear"
+                              keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1"
+                              values="322 375; 316 391; 300 397; 284 391; 278 375; 284 359; 300 353; 316 359; 322 375"/>
+            <path d="M-13 -5 h20 a6 6 0 0 1 6 6 v3 a3 3 0 0 1 -3 3 h-23 a3 3 0 0 1 -3 -3 v-3 a6 6 0 0 1 3 -6 z"/>
+          </g>
+        </g>
+
+        <!-- ===== saddle ===== -->
+        <path d="M278 266 Q300 254 324 264 Q324 275 302 275 Q281 275 278 266 Z" fill="#5b4634"/>
+        <path d="M282 264 Q300 256 318 263" stroke="#7d6450" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- ================= ANTEATER ================= -->
+        <g>
+          <animateTransform attributeName="transform" type="translate" values="0 0; 0 -2.5; 0 0" keyTimes="0;0.5;1"
+                            dur="1.2s" repeatCount="indefinite"/>
+
+          <!-- tail (behind), sways about its root -->
+          <g transform="translate(280 252)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="-4;4;-4" keyTimes="0;0.5;1"
+                                dur="2.4s" repeatCount="indefinite"/>
+              <g transform="translate(-280 -252)">
+                <path d="M280 252 C246 264 204 256 186 222 C172 194 186 166 205 169 C226 172 238 200 253 218 C263 230 272 241 284 243 Z"
+                      fill="url(#tailfur)" stroke="#7d5f43" stroke-width="3" stroke-linejoin="round"/>
+                <g stroke="#7d5f43" stroke-width="2.2" stroke-linecap="round" opacity="0.55" fill="none">
+                  <path d="M266 243 C240 244 214 232 203 208"/>
+                  <path d="M258 232 C238 226 218 210 210 188"/>
+                  <path d="M205 175 C215 194 234 216 254 231"/>
+                </g>
+              </g>
+            </g>
+          </g>
+
+          <!-- left arm: tossed about the shoulder, drawn behind the head -->
+          <g transform="translate(286 200)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0;13;-4;0" keyTimes="0;0.3;0.7;1"
+                                dur="1.2s" repeatCount="indefinite"/>
+              <g transform="translate(-286 -200)" stroke="#8f6f52" stroke-width="11" stroke-linecap="round" fill="none">
+                <path d="M286 200 Q250 168 258 128"/>
+                <circle cx="258" cy="126" r="9.5" fill="#a5835f" stroke="none"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- right arm: same beat, half a cycle out of phase -->
+          <g transform="translate(316 196)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0;-13;4;0" keyTimes="0;0.3;0.7;1"
+                                dur="1.2s" begin="-0.6s" repeatCount="indefinite"/>
+              <g transform="translate(-316 -196)" stroke="#8f6f52" stroke-width="11" stroke-linecap="round" fill="none">
+                <path d="M316 196 Q382 170 372 118"/>
+                <circle cx="372" cy="116" r="9.5" fill="#a5835f" stroke="none"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- body -->
+          <path d="M302 182 C330 182 340 206 338 232 C336 258 322 270 300 270 C276 270 264 254 264 230 C264 204 276 182 302 182 Z"
+                fill="url(#fur)" stroke="#7d5f43" stroke-width="3" stroke-linejoin="round"/>
+          <!-- belly -->
+          <path d="M304 196 C324 198 330 218 328 238 C326 258 314 266 300 266 C288 266 282 254 282 234 C282 212 290 196 304 196 Z"
+                fill="#d3b892" opacity="0.85"/>
+          <!-- signature giant-anteater shoulder stripe -->
+          <path d="M270 186 C288 190 300 206 302 228 C300 244 292 254 282 254 C272 252 268 240 268 224 C268 208 266 194 262 188 Z"
+                fill="#f0e7d8" opacity="0.95"/>
+
+          <!-- scarf collar -->
+          <path d="M292 184 Q306 178 322 186 Q316 196 300 196 Q291 194 292 184 Z" fill="#e8b13c"/>
+
+          <!-- ear -->
+          <path d="M300 158 C290 142 293 128 305 130 C316 132 316 150 309 162 Z"
+                fill="#8a6a4c" stroke="#7d5f43" stroke-width="3" stroke-linejoin="round"/>
+
+          <!-- head -->
+          <path d="M300 152 C318 145 340 152 342 168 C344 184 330 194 312 192 C294 190 286 176 290 164 C292 157 295 154 300 152 Z"
+                fill="url(#fur)" stroke="#7d5f43" stroke-width="3" stroke-linejoin="round"/>
+
+          <!-- long snout -->
+          <path d="M330 156 C366 154 400 172 422 192 C427 198 421 205 414 201 C388 193 350 192 328 186 Z"
+                fill="#a3805d" stroke="#7d5f43" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M338 172 C362 174 388 184 408 196" stroke="#f0e7d8" stroke-width="4" fill="none"
+                stroke-linecap="round" opacity="0.75"/>
+          <ellipse cx="418" cy="195" rx="6.5" ry="5.5" fill="#40301f" transform="rotate(32 418 195)"/>
+
+          <!-- eye -->
+          <circle cx="330" cy="165" r="4.6" fill="#2c2118"/>
+          <circle cx="331.6" cy="163.4" r="1.5" fill="#ffffff"/>
+
+          <!-- head fur tufts -->
+          <path d="M296 148 l-5 -10 M304 145 l-2 -11 M312 144 l3 -10" stroke="#7d5f43" stroke-width="2.5"
+                stroke-linecap="round" fill="none"/>
+
+          <!-- scarf tails, flapping behind the neck -->
+          <g fill="#e8b13c" stroke="#c78f22" stroke-width="1.5">
+            <g transform="translate(296 192)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="-6;7;-6" keyTimes="0;0.5;1"
+                                  dur="1.1s" repeatCount="indefinite"/>
+                <g transform="translate(-296 -192)">
+                  <path d="M294 190 Q280 200 272 216 Q282 218 290 210 Q298 200 298 192 Z"/>
+                </g>
+              </g>
+            </g>
+            <g transform="translate(304 194)">
+              <g>
+                <animateTransform attributeName="transform" type="rotate" values="5;-7;5" keyTimes="0;0.5;1"
+                                  dur="1.35s" repeatCount="indefinite"/>
+                <g transform="translate(-304 -194)">
+                  <path d="M300 192 Q292 208 288 226 Q298 226 304 214 Q308 202 306 193 Z"/>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ================= JUGGLED BOTTLES ================= -->
+  <!-- 3-ball cascade: each bottle flies from the left hand up to an apex, down to the right
+       hand, up to an apex and back to the left hand; the three are a third of a cycle apart,
+       and each one flips once per full loop so it always lands upright -->
+  <g>
+    <g>
+      <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                     keyPoints="0;0.47;0.53;1" keyTimes="0;0.4;0.6;1"
+                     path="M 260 120 Q 380 18 374 112 Q 266 22 260 120"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3.6s"
+                          begin="0s" repeatCount="indefinite"/>
+        <use xlink:href="#bottle" color="#3aa66a"/>
+      </g>
+    </g>
+    <g>
+      <animateMotion dur="3.6s" begin="-1.2s" repeatCount="indefinite" calcMode="linear"
+                     keyPoints="0;0.47;0.53;1" keyTimes="0;0.4;0.6;1"
+                     path="M 260 120 Q 380 18 374 112 Q 266 22 260 120"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3.6s"
+                          begin="-1.2s" repeatCount="indefinite"/>
+        <use xlink:href="#bottle" color="#d98a2b"/>
+      </g>
+    </g>
+    <g>
+      <animateMotion dur="3.6s" begin="-2.4s" repeatCount="indefinite" calcMode="linear"
+                     keyPoints="0;0.47;0.53;1" keyTimes="0;0.4;0.6;1"
+                     path="M 260 120 Q 380 18 374 112 Q 266 22 260 120"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3.6s"
+                          begin="-2.4s" repeatCount="indefinite"/>
+        <use xlink:href="#bottle" color="#4aa3d8"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- dust puffs kicked up by the tyre -->
+  <g fill="#ffffff" opacity="0.55">
+    <circle cx="252" cy="424" r="5">
+      <animate attributeName="cx" values="252;214" dur="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="424;410" dur="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2;7" dur="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="1.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="348" cy="424" r="5">
+      <animate attributeName="cx" values="348;386" dur="1.2s" begin="-0.5s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="424;412" dur="1.2s" begin="-0.5s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="2;6" dur="1.2s" begin="-0.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0" dur="1.2s" begin="-0.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

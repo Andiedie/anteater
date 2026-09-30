@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "slug": "glm-5.3-flash-max",
+  "name": "GLM-5.3 Flash",
+  "vendor": "Z.ai",
+  "date": "2026-08-29T13:17:30.456Z",
+  "model_ids": [
+    "glm-5.3-flash"
+  ],
+  "providers": [
+    "opencode-go"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "available_tools": [],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 646.12,
+    "request_seconds": 646.062,
+    "average_tps": 35.36,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 25100,
+      "output": 22847,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 17437,
+      "totalTokens": 47947
+    },
+    "recorded_cost_usd": 0.00759425,
+    "cost_usd": 0.00759425
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#d2bf3b90f7919e0e773581c35c3a49b6",
+    "gist_id": "d2bf3b90f7919e0e773581c35c3a49b6",
+    "gist_revision": "911e1363bcff7b852c6ec3ece0c151aa6825c9ff",
+    "session_id": "01a04daa-de3d-70e3-80e5-16ec6f200dee",
+    "imported_at": "2026-09-30T07:07:46.086104+00:00",
+    "artwork_sha256": "c1df5e168d4921146db062bf9177d8bba08b27edcb94a6ddf0095c6c6f3e6107"
+  }
+}

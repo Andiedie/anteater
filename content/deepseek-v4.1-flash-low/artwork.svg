@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 800 640" width="800" height="640">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"   stop-color="#e8f5ff"/>
+      <stop offset="0.7" stop-color="#fbf3e6"/>
+      <stop offset="1"   stop-color="#f6e7cf"/>
+    </linearGradient>
+
+    <radialGradient id="groundShadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"   stop-color="rgba(0,0,0,0.30)"/>
+      <stop offset="0.7" stop-color="rgba(0,0,0,0.12)"/>
+      <stop offset="1"   stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b07c54"/>
+      <stop offset="1" stop-color="#7a4c30"/>
+    </linearGradient>
+
+    <linearGradient id="snout" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0"   stop-color="#8a5b3a"/>
+      <stop offset="1"   stop-color="#553423"/>
+    </linearGradient>
+
+    <linearGradient id="tailFur" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0" stop-color="#8a5b3a"/>
+      <stop offset="1" stop-color="#5f3c26"/>
+    </linearGradient>
+
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2e9f1"/>
+      <stop offset="0.5" stop-color="#9fb0c1"/>
+      <stop offset="1" stop-color="#6d7c8b"/>
+    </linearGradient>
+
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="rgba(255,236,180,0.55)"/>
+      <stop offset="1" stop-color="rgba(255,236,180,0)"/>
+    </radialGradient>
+
+    <!-- Juggling flight path (a cascade loop between the two hands) -->
+    <path id="jpath"
+          d="M 300 318 C 300 88 500 88 500 318 C 500 160 300 160 300 318"/>
+  </defs>
+
+  <!-- ================= BACKGROUND ================= -->
+  <rect width="800" height="640" fill="url(#sky)"/>
+  <circle cx="400" cy="250" r="230" fill="url(#glow)"/>
+  <ellipse cx="400" cy="548" rx="150" ry="20" fill="url(#groundShadow)"/>
+  <path d="M 0 540 H 800" stroke="#d8c3a2" stroke-width="4" stroke-dasharray="18 16" opacity="0.7"/>
+
+  <!-- ================= TAIL (behind) ================= -->
+  <g>
+    <path d="M 378 200
+             C 340 146, 262 138, 226 188
+             C 196 232, 214 292, 258 312
+             C 240 282, 250 248, 278 232
+             C 314 210, 348 220, 376 238 Z"
+          fill="url(#tailFur)"/>
+    <path d="M 352 176 C 320 156, 282 158, 256 184"
+          fill="none" stroke="#4f3220" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 336 226 C 312 218, 288 224, 272 240"
+          fill="none" stroke="#4f3220" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  </g>
+
+  <!-- ================= UNICYCLE ================= -->
+  <!-- Fork / frame -->
+  <g stroke="url(#metal)" stroke-linecap="round" fill="none">
+    <path d="M 400 456 L 390 322" stroke-width="10"/>
+    <path d="M 400 456 L 410 322" stroke-width="10"/>
+    <path d="M 400 456 L 400 322" stroke-width="6" opacity="0.6"/>
+  </g>
+  <rect x="394" y="292" width="12" height="34" rx="4" fill="url(#metal)"/>
+
+  <!-- Seat -->
+  <g>
+    <ellipse cx="398" cy="296" rx="46" ry="14" fill="#3a2a22"/>
+    <ellipse cx="398" cy="292" rx="46" ry="13" fill="#5a4033"/>
+    <ellipse cx="398" cy="289" rx="36" ry="7"  fill="#6f5341" opacity="0.8"/>
+  </g>
+
+  <!-- Wheel -->
+  <g>
+    <circle cx="400" cy="456" r="66" fill="none" stroke="#2b2b2b" stroke-width="12"/>
+    <circle cx="400" cy="456" r="60" fill="none" stroke="#141414" stroke-width="3" opacity="0.5"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 400 456" to="360 400 456"
+                        dur="1.1s" repeatCount="indefinite"/>
+      <circle cx="400" cy="456" r="57" fill="none" stroke="#b9c6d4" stroke-width="6"/>
+      <g stroke="#cfd8e3" stroke-width="3" stroke-linecap="round">
+        <line x1="400" y1="456" x2="454"  y2="456"/>
+        <line x1="400" y1="456" x2="438"  y2="494"/>
+        <line x1="400" y1="456" x2="400"  y2="510"/>
+        <line x1="400" y1="456" x2="362"  y2="494"/>
+        <line x1="400" y1="456" x2="346"  y2="456"/>
+        <line x1="400" y1="456" x2="362"  y2="418"/>
+        <line x1="400" y1="456" x2="400"  y2="402"/>
+        <line x1="400" y1="456" x2="438"  y2="418"/>
+      </g>
+      <circle cx="400" cy="456" r="10" fill="#e2e9f1" stroke="#6d7c8b" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Crank + pedals (rotates with the wheel) -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate"
+                      from="0 400 456" to="360 400 456"
+                      dur="1.1s" repeatCount="indefinite"/>
+    <line x1="400" y1="421" x2="400" y2="491" stroke="url(#metal)" stroke-width="9" stroke-linecap="round"/>
+    <rect x="384" y="410" width="32" height="10" rx="4" fill="#2f2a26"/>
+    <rect x="384" y="484" width="32" height="10" rx="4" fill="#2f2a26"/>
+  </g>
+
+  <!-- ================= LEGS ================= -->
+  <!-- Left leg -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate"
+                      values="12;-12;12" dur="1.1s" repeatCount="indefinite"/>
+    <path d="M 378 282 L 388 348 L 398 414"
+          fill="none" stroke="url(#fur)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="400" cy="416" rx="20" ry="11" fill="#5f3c26"/>
+  </g>
+
+  <!-- Right leg -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate"
+                      values="-12;12;-12" dur="1.1s" repeatCount="indefinite"/>
+    <path d="M 424 282 L 416 366 L 402 486"
+          fill="none" stroke="url(#fur)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="400" cy="488" rx="20" ry="11" fill="#5f3c26"/>
+  </g>
+
+  <!-- ================= TORSO ================= -->
+  <ellipse cx="400" cy="232" rx="50" ry="62" fill="url(#fur)"/>
+  <ellipse cx="400" cy="238" rx="32" ry="46" fill="#96613c" opacity="0.7"/>
+  <path d="M 366 196 C 356 226, 356 262, 366 286"
+        fill="none" stroke="#5f3c26" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+
+  <!-- ================= ARMS ================= -->
+  <!-- Left arm -->
+  <path d="M 372 204 Q 318 250 300 318"
+        fill="none" stroke="url(#fur)" stroke-width="26" stroke-linecap="round"/>
+  <!-- Right arm -->
+  <path d="M 430 204 Q 486 250 500 318"
+        fill="none" stroke="url(#fur)" stroke-width="26" stroke-linecap="round"/>
+
+  <!-- Paws as claws -->
+  <g fill="#4f3220">
+    <circle cx="300" cy="320" r="16"/>
+    <path d="M 288 308 l -8 -8 M 300 304 l 0 -11 M 312 308 l 8 -8"
+          stroke="#f0e2cf" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <circle cx="500" cy="320" r="16"/>
+    <path d="M 488 308 l -8 -8 M 500 304 l 0 -11 M 512 308 l 8 -8"
+          stroke="#f0e2cf" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- ================= HEAD ================= -->
+  <g>
+    <!-- Ear -->
+    <ellipse cx="398" cy="140" rx="13" ry="17" fill="#7a4c30"/>
+    <ellipse cx="398" cy="142" rx="6" ry="9" fill="#c98d67"/>
+    <!-- Skull -->
+    <circle cx="420" cy="168" r="36" fill="url(#fur)"/>
+    <!-- Snout -->
+    <path d="M 440 148
+             C 496 150, 548 170, 570 190
+             C 548 200, 500 204, 452 198
+             C 436 182, 432 162, 440 148 Z"
+          fill="url(#snout)"/>
+    <path d="M 452 156 C 500 160, 540 176, 560 190"
+          fill="none" stroke="#3f2518" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+    <!-- Nostril -->
+    <ellipse cx="564" cy="191" rx="5" ry="4" fill="#241309"/>
+    <!-- Cheek highlight -->
+    <ellipse cx="432" cy="182" rx="16" ry="12" fill="#c98d67" opacity="0.5"/>
+    <!-- Eye -->
+    <circle cx="434" cy="160" r="8" fill="#20140c"/>
+    <circle cx="437" cy="157" r="3" fill="#ffffff"/>
+    <!-- Brow -->
+    <path d="M 424 148 Q 434 143 446 148"
+          fill="none" stroke="#4f3220" stroke-width="4" stroke-linecap="round"/>
+    <!-- Little tongue -->
+    <path d="M 566 196 q 10 6 2 12"
+          fill="none" stroke="#d96b7e" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ================= JUGGLING BOTTLES ================= -->
+  <!-- Bottle 1 - green -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0s" rotate="auto">
+      <mpath xlink:href="#jpath"/>
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
+      <path d="M -9 -8 L -9 15 Q -9 20 -4 20 L 4 20 Q 9 20 9 15 L 9 -4 L 4 -12 L 4 -25 L -4 -25 L -4 -12 Z"
+            fill="#3fae6a" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <path d="M -5 -6 L -5 14" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="-5" y="-31" width="10" height="7" rx="2" fill="#d9a441"/>
+    </g>
+  </g>
+
+  <!-- Bottle 2 - red -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="-0.8s" rotate="auto">
+      <mpath xlink:href="#jpath"/>
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
+      <path d="M -9 -8 L -9 15 Q -9 20 -4 20 L 4 20 Q 9 20 9 15 L 9 -4 L 4 -12 L 4 -25 L -4 -25 L -4 -12 Z"
+            fill="#e05252" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <path d="M -5 -6 L -5 14" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="-5" y="-31" width="10" height="7" rx="2" fill="#d9a441"/>
+    </g>
+  </g>
+
+  <!-- Bottle 3 - blue -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="-1.6s" rotate="auto">
+      <mpath xlink:href="#jpath"/>
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
+      <path d="M -9 -8 L -9 15 Q -9 20 -4 20 L 4 20 Q 9 20 9 15 L 9 -4 L 4 -12 L 4 -25 L -4 -25 L -4 -12 Z"
+            fill="#4a90d9" stroke="rgba(0,0,0,0.3)" stroke-width="1.5"/>
+      <path d="M -5 -6 L -5 14" stroke="rgba(255,255,255,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="-5" y="-31" width="10" height="7" rx="2" fill="#d9a441"/>
+    </g>
+  </g>
+</svg>

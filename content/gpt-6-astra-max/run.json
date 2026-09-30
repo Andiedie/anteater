@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-6-astra-max",
+  "name": "GPT-6 Astra",
+  "vendor": "OpenAI",
+  "date": "2026-09-05T16:13:35.559Z",
+  "model_ids": [
+    "gpt-6-astra"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "available_tools": [],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 764.62,
+    "request_seconds": 764.542,
+    "average_tps": 32.54,
+    "tool_calls": 3,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 4,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 50783,
+      "output": 24882,
+      "cacheRead": 20864,
+      "cacheWrite": 0,
+      "reasoning": 12501,
+      "totalTokens": 96529
+    },
+    "recorded_cost_usd": 1.772794,
+    "cost_usd": 1.772794
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#4aa34714fd6467a9cc49a7dc973d5a75",
+    "gist_id": "4aa34714fd6467a9cc49a7dc973d5a75",
+    "gist_revision": "5f23f48e3c5723939cba117565223c72edd7fd10",
+    "session_id": "01a07257-d6be-744f-b138-1575e9bb1d89",
+    "imported_at": "2026-09-30T07:07:46.987987+00:00",
+    "artwork_sha256": "8e194100a8be6ddcc5e25f159ddc5c34ec9056c2fc925f7b8378e6e3b55d6cb2"
+  }
+}

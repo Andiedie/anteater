@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "claude-fable-5.1-xhigh",
+  "name": "Claude Fable 5.1",
+  "vendor": "Anthropic",
+  "date": "2026-09-30T09:44:25.844Z",
+  "model_ids": [
+    "claude-fable-5-1"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 981.443,
+    "request_seconds": 981.419,
+    "average_tps": 77.84,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 30638,
+      "output": 76394,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 10821,
+      "totalTokens": 107032
+    },
+    "recorded_cost_usd": 4.12608,
+    "cost_usd": 4.12608
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#eee8d8a11233dbbb5f6cee9dee62a60a",
+    "gist_id": "eee8d8a11233dbbb5f6cee9dee62a60a",
+    "gist_revision": "4899a2dcd0a9defa554776283560249552c44e26",
+    "session_id": "01a0f1b3-597f-7099-808b-964781998f43",
+    "imported_at": "2026-09-30T14:15:43.237854+00:00",
+    "artwork_sha256": "0a36505cc11db3cf7db4b8c27aaaab3febd1a02aae3d18f35db0e6223d944d48"
+  }
+}

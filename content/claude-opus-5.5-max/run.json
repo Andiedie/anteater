@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "slug": "claude-opus-5.5-max",
+  "name": "Claude Opus 5.5",
+  "vendor": "Anthropic",
+  "date": "2026-09-30",
+  "model_ids": ["claude-opus-5-5"],
+  "reasoning": ["max"],
+  "outcome": "no_artwork",
+  "source": {
+    "share_url": "https://pi.dev/session/#25e20bf0a32444c126119d632925be8a",
+    "gist_id": "25e20bf0a32444c126119d632925be8a",
+    "gist_revision": "4c517c2ea0cbb424a92b8cf46672278f5e3ae5e4"
+  },
+  "failure": {
+    "status": "Output truncated",
+    "summary": {
+      "en": "At max effort, this run exhausted its output budget during thinking and was truncated before generating an SVG. It returned only thinking content, with no tool calls.",
+      "zh": "这次 max 测试在思考阶段耗尽输出预算，被截断后未生成 SVG；只返回思考内容，没有调用工具。"
+    },
+    "facts": [
+      {"label": {"en": "Reported output", "zh": "报告输出"}, "value": "128,000 tokens"},
+      {"label": {"en": "Termination", "zh": "终止记录"}, "value": "length / incomplete.max_output_tokens"},
+      {"label": {"en": "Pi warning", "zh": "Pi 提示"}, "value": "Response was truncated before completion"}
+    ],
+    "explanation": {
+      "en": "Thinking and answer text share the same output limit.",
+      "zh": "思考与正文共用同一输出上限。"
+    },
+    "limitation": {
+      "en": "The figures and termination status come from the shared session. They are not native reasoning-token details or actual bills, and do not establish an internal infinite loop.",
+      "zh": "数字与终止状态来自公开会话记录，不代表原生思考 token 明细或实际账单，也不能据此断言模型内部存在无限循环。"
+    },
+    "references": [
+      {"label": "Anthropic · Thinking troubleshooting", "url": "https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting"},
+      {"label": "Simon Willison · A similar SVG test (2026-09-22)", "url": "https://simonwillison.net/2026/Sep/22/opus-and-sol-and-luna/#claude-opus-5-5-max-over-thinks-to-the-point-of-breaking"}
+    ],
+    "related_slug": "claude-opus-5.5-xhigh"
+  }
+}

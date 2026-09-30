@@ -1,0 +1,325 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <style>
+    @keyframes wheelSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pedalCycle {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes leftArmJuggle {
+      0%, 100% { transform: rotate(20deg); }
+      50% { transform: rotate(-20deg); }
+    }
+    
+    @keyframes rightArmJuggle {
+      0%, 100% { transform: rotate(-20deg); }
+      50% { transform: rotate(20deg); }
+    }
+    
+    @keyframes bottleLeft {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      25% { transform: translate(-60px, -80px) rotate(180deg); opacity: 1; }
+      50% { transform: translate(-30px, -120px) rotate(360deg); opacity: 1; }
+      75% { transform: translate(30px, -80px) rotate(540deg); opacity: 1; }
+      100% { transform: translate(60px, 0) rotate(720deg); opacity: 0; }
+    }
+    
+    @keyframes bottleRight {
+      0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+      25% { transform: translate(60px, -80px) rotate(-180deg); opacity: 1; }
+      50% { transform: translate(30px, -120px) rotate(-360deg); opacity: 1; }
+      75% { transform: translate(-30px, -80px) rotate(-540deg); opacity: 1; }
+      100% { transform: translate(-60px, 0) rotate(-720deg); opacity: 0; }
+    }
+    
+    @keyframes bottleTop {
+      0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
+      10% { transform: translate(0, -20px) rotate(0deg) scale(1); opacity: 1; }
+      50% { transform: translate(0, -140px) rotate(360deg) scale(1); opacity: 1; }
+      90% { transform: translate(0, -20px) rotate(720deg) scale(1); opacity: 1; }
+      100% { transform: translate(0, 0) rotate(720deg) scale(0); opacity: 0; }
+    }
+    
+    @keyframes bottleCycle2 {
+      0% { transform: translate(0, 0) rotate(0deg) scale(0); opacity: 0; }
+      10% { transform: translate(0, -20px) rotate(0deg) scale(1); opacity: 1; }
+      50% { transform: translate(0, -130px) rotate(-360deg) scale(1); opacity: 1; }
+      90% { transform: translate(0, -20px) rotate(-720deg) scale(1); opacity: 1; }
+      100% { transform: translate(0, 0) rotate(-720deg) scale(0); opacity: 0; }
+    }
+    
+    @keyframes bodyBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    @keyframes legPedal {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes tailWag {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+    
+    @keyframes snoutBob {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+    
+    .wheel {
+      animation: wheelSpin 1s linear infinite;
+      transform-origin: 250px 370px;
+    }
+    
+    .pedals {
+      animation: pedalCycle 1s linear infinite;
+      transform-origin: 250px 370px;
+    }
+    
+    .left-arm {
+      animation: leftArmJuggle 0.5s ease-in-out infinite;
+      transform-origin: 230px 230px;
+    }
+    
+    .right-arm {
+      animation: rightArmJuggle 0.5s ease-in-out infinite;
+      transform-origin: 270px 230px;
+    }
+    
+    .bottle1 {
+      animation: bottleLeft 1.5s ease-in-out infinite;
+    }
+    
+    .bottle2 {
+      animation: bottleRight 1.5s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+    
+    .bottle3 {
+      animation: bottleTop 1.5s ease-in-out infinite;
+      animation-delay: 0.25s;
+    }
+    
+    .bottle4 {
+      animation: bottleCycle2 1.5s ease-in-out infinite;
+      animation-delay: 0.75s;
+    }
+    
+    .body-group {
+      animation: bodyBounce 0.5s ease-in-out infinite;
+      transform-origin: 250px 250px;
+    }
+    
+    .left-leg {
+      animation: legPedal 1s linear infinite;
+      transform-origin: 245px 290px;
+    }
+    
+    .right-leg {
+      animation: legPedal 1s linear infinite;
+      transform-origin: 255px 290px;
+    }
+    
+    .tail {
+      animation: tailWag 1s ease-in-out infinite;
+      transform-origin: 210px 260px;
+    }
+    
+    .snout {
+      animation: snoutBob 2s ease-in-out infinite;
+      transform-origin: 280px 210px;
+    }
+  </style>
+  
+  <!-- Background -->
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="100%" style="stop-color:#E0F6FF"/>
+    </linearGradient>
+    <linearGradient id="groundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#90EE90"/>
+      <stop offset="100%" style="stop-color:#228B22"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect x="0" y="0" width="500" height="400" fill="url(#skyGradient)"/>
+  
+  <!-- Sun -->
+  <circle cx="420" cy="80" r="50" fill="#FFD700"/>
+  <g fill="#FFD700">
+    <rect x="415" y="15" width="10" height="20" rx="5"/>
+    <rect x="415" y="125" width="10" height="20" rx="5"/>
+    <rect x="345" y="75" width="20" height="10" rx="5"/>
+    <rect x="475" y="75" width="20" height="10" rx="5"/>
+    <rect x="360" y="30" width="15" height="10" rx="5" transform="rotate(45 367 35)"/>
+    <rect x="470" y="30" width="15" height="10" rx="5" transform="rotate(-45 477 35)"/>
+    <rect x="360" y="120" width="15" height="10" rx="5" transform="rotate(-45 367 125)"/>
+    <rect x="470" y="120" width="15" height="10" rx="5" transform="rotate(45 477 125)"/>
+  </g>
+  
+  <!-- Clouds -->
+  <g fill="white" opacity="0.8">
+    <ellipse cx="100" cy="100" rx="40" ry="25"/>
+    <ellipse cx="130" cy="95" rx="35" ry="22"/>
+    <ellipse cx="70" cy="105" rx="30" ry="20"/>
+  </g>
+  <g fill="white" opacity="0.7">
+    <ellipse cx="350" cy="60" rx="30" ry="18"/>
+    <ellipse cx="375" cy="55" rx="25" ry="15"/>
+  </g>
+  
+  <!-- Ground -->
+  <ellipse cx="250" cy="480" rx="250" ry="100" fill="url(#groundGradient)"/>
+  
+  <!-- Juggling Bottles -->
+  <g class="bottle1">
+    <rect x="190" y="180" width="15" height="40" rx="3" fill="#2E8B57"/>
+    <rect x="192" y="175" width="11" height="8" rx="2" fill="#3CB371"/>
+    <ellipse cx="197" cy="188" rx="5" ry="8" fill="#90EE90" opacity="0.5"/>
+  </g>
+  
+  <g class="bottle2">
+    <rect x="295" y="180" width="15" height="40" rx="3" fill="#8B4513"/>
+    <rect x="297" y="175" width="11" height="8" rx="2" fill="#A0522D"/>
+    <ellipse cx="302" cy="188" rx="5" ry="8" fill="#DEB887" opacity="0.5"/>
+  </g>
+  
+  <g class="bottle3">
+    <rect x="242" y="120" width="15" height="40" rx="3" fill="#4169E1"/>
+    <rect x="244" y="115" width="11" height="8" rx="2" fill="#6495ED"/>
+    <ellipse cx="249" cy="128" rx="5" ry="8" fill="#87CEEB" opacity="0.5"/>
+  </g>
+  
+  <g class="bottle4">
+    <rect x="248" y="130" width="15" height="40" rx="3" fill="#DC143C"/>
+    <rect x="250" y="125" width="11" height="8" rx="2" fill="#FF6347"/>
+    <ellipse cx="255" cy="138" rx="5" ry="8" fill="#FFA07A" opacity="0.5"/>
+  </g>
+  
+  <!-- Unicycle -->
+  <g>
+    <!-- Wheel -->
+    <g class="wheel">
+      <circle cx="250" cy="370" r="50" fill="none" stroke="#333" stroke-width="8"/>
+      <circle cx="250" cy="370" r="45" fill="none" stroke="#555" stroke-width="2"/>
+      <!-- Spokes -->
+      <line x1="250" y1="325" x2="250" y2="415" stroke="#333" stroke-width="2"/>
+      <line x1="205" y1="370" x2="295" y2="370" stroke="#333" stroke-width="2"/>
+      <line x1="220" y1="338" x2="280" y2="402" stroke="#333" stroke-width="2"/>
+      <line x1="280" y1="338" x2="220" y2="402" stroke="#333" stroke-width="2"/>
+      <!-- Tire tread -->
+      <circle cx="250" cy="370" r="50" fill="none" stroke="#222" stroke-width="4" stroke-dasharray="8,8"/>
+    </g>
+    
+    <!-- Hub -->
+    <circle cx="250" cy="370" r="8" fill="#666"/>
+    <circle cx="250" cy="370" r="4" fill="#888"/>
+    
+    <!-- Pedals -->
+    <g class="pedals">
+      <rect x="242" y="358" width="16" height="6" rx="2" fill="#555"/>
+      <rect x="242" y="376" width="16" height="6" rx="2" fill="#555"/>
+    </g>
+    
+    <!-- Frame -->
+    <path d="M250 320 L250 250" stroke="#8B4513" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M250 250 L230 260" stroke="#8B4513" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M250 250 L270 260" stroke="#8B4513" stroke-width="6" fill="none" stroke-linecap="round"/>
+    
+    <!-- Seat -->
+    <ellipse cx="250" cy="248" rx="25" ry="8" fill="#654321"/>
+    <ellipse cx="250" cy="245" rx="22" ry="6" fill="#8B4513"/>
+  </g>
+  
+  <!-- Anteater Body Group -->
+  <g class="body-group">
+    <!-- Tail -->
+    <g class="tail">
+      <path d="M210 260 Q160 250 140 280 Q120 310 150 320 Q180 325 200 290" 
+            fill="#8B7355" stroke="#6B5335" stroke-width="2"/>
+      <!-- Stripes on tail -->
+      <path d="M180 255 Q170 270 175 290" fill="none" stroke="#6B5335" stroke-width="3"/>
+      <path d="M165 265 Q155 280 160 300" fill="none" stroke="#6B5335" stroke-width="3"/>
+    </g>
+    
+    <!-- Body -->
+    <ellipse cx="250" cy="270" rx="45" ry="35" fill="#8B7355"/>
+    <!-- Body stripes -->
+    <path d="M210 255 Q215 265 215 280" fill="none" stroke="#6B5335" stroke-width="4"/>
+    <path d="M225 248 Q230 262 228 282" fill="none" stroke="#6B5335" stroke-width="4"/>
+    <path d="M240 245 Q242 260 240 285" fill="none" stroke="#6B5335" stroke-width="4"/>
+    <path d="M255 245 Q255 260 253 285" fill="none" stroke="#6B5335" stroke-width="4"/>
+    <path d="M270 248 Q268 262 270 282" fill="none" stroke="#6B5335" stroke-width="4"/>
+    <path d="M285 255 Q282 265 283 280" fill="none" stroke="#6B5335" stroke-width="4"/>
+    
+    <!-- Legs -->
+    <g class="left-leg">
+      <ellipse cx="230" cy="320" rx="8" ry="20" fill="#7B6345"/>
+      <ellipse cx="230" cy="340" rx="6" ry="5" fill="#5B4335"/>
+    </g>
+    <g class="right-leg">
+      <ellipse cx="270" cy="320" rx="8" ry="20" fill="#7B6345"/>
+      <ellipse cx="270" cy="340" rx="6" ry="5" fill="#5B4335"/>
+    </g>
+    
+    <!-- Neck -->
+    <ellipse cx="290" cy="235" rx="15" ry="25" fill="#8B7355"/>
+    
+    <!-- Head -->
+    <ellipse cx="310" cy="210" rx="22" ry="18" fill="#9B8365"/>
+    
+    <!-- Ears -->
+    <ellipse cx="300" cy="190" rx="6" ry="10" fill="#8B7355"/>
+    <ellipse cx="320" cy="190" rx="6" ry="10" fill="#8B7355"/>
+    <ellipse cx="300" cy="192" rx="3" ry="5" fill="#DEB887"/>
+    <ellipse cx="320" cy="192" rx="3" ry="5" fill="#DEB887"/>
+    
+    <!-- Snout -->
+    <g class="snout">
+      <ellipse cx="345" cy="210" rx="25" ry="10" fill="#A08060"/>
+      <!-- Snout stripes -->
+      <path d="M335 203 Q340 210 335 217" fill="none" stroke="#7B6345" stroke-width="2"/>
+      <path d="M350 202 Q352 210 350 218" fill="none" stroke="#7B6345" stroke-width="2"/>
+      <!-- Nose -->
+      <circle cx="368" cy="210" r="4" fill="#4A3728"/>
+      <!-- Eye -->
+      <circle cx="325" cy="205" r="4" fill="#2C1810"/>
+      <circle cx="326" cy="204" r="1.5" fill="white"/>
+      <!-- Mouth line -->
+      <path d="M340 215 Q355 218 368 213" fill="none" stroke="#6B5345" stroke-width="1.5"/>
+    </g>
+    
+    <!-- Arms -->
+    <g class="left-arm">
+      <ellipse cx="230" cy="235" rx="8" ry="22" fill="#7B6345"/>
+      <ellipse cx="228" cy="255" rx="6" ry="8" fill="#6B5345"/>
+      <!-- Hand -->
+      <circle cx="228" cy="262" r="5" fill="#8B7365"/>
+    </g>
+    
+    <g class="right-arm">
+      <ellipse cx="270" cy="235" rx="8" ry="22" fill="#7B6345"/>
+      <ellipse cx="272" cy="255" rx="6" ry="8" fill="#6B5345"/>
+      <!-- Hand -->
+      <circle cx="272" cy="262" r="5" fill="#8B7365"/>
+    </g>
+    
+    <!-- Face details -->
+    <circle cx="315" cy="200" r="2" fill="#2C1810"/>
+    <circle cx="316" cy="199" r="0.8" fill="white"/>
+    
+    <!-- Smile -->
+    <path d="M320 220 Q330 228 340 225" fill="none" stroke="#5B4335" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Ground shadow -->
+  <ellipse cx="250" cy="420" rx="60" ry="10" fill="rgba(0,0,0,0.2)"/>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "slug": "hy4-preview-high",
+  "name": "Hunyuan 4 Preview",
+  "vendor": "Tencent",
+  "date": "2026-08-29T13:44:13.284Z",
+  "model_ids": [
+    "hy4-preview"
+  ],
+  "providers": [
+    "opencode-go"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [],
+  "follow_up_count": 1,
+  "metrics": {
+    "duration_seconds": 578.725,
+    "request_seconds": 394.865,
+    "average_tps": 48.72,
+    "tool_calls": 6,
+    "tool_breakdown": {
+      "edit": 2,
+      "read": 3,
+      "write": 1
+    },
+    "assistant_turns": 8,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 26452,
+      "output": 19239,
+      "cacheRead": 134976,
+      "cacheWrite": 0,
+      "reasoning": 12990,
+      "totalTokens": 180667
+    },
+    "recorded_cost_usd": 0.075846699,
+    "cost_usd": 0.075846699
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#f0d2e516165dc773b8d1ef7262f23d25",
+    "gist_id": "f0d2e516165dc773b8d1ef7262f23d25",
+    "gist_revision": "203672839dd5d4d65bdf8cd890d1ff6aa3970d80",
+    "session_id": "01a04dc3-5536-717d-a805-150c5292b309",
+    "imported_at": "2026-09-30T07:08:52.029514+00:00",
+    "artwork_sha256": "d085d0c37199e9b293d908a78d138b33829a0cef5139807445b4ac21d48a343a"
+  }
+}

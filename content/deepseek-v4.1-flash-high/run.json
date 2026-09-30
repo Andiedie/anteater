@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "slug": "deepseek-v4.1-flash-high",
+  "name": "DeepSeek V4.1 Flash",
+  "vendor": "DeepSeek",
+  "date": "2026-09-10T04:58:41.191Z",
+  "model_ids": [
+    "deepseek-flash"
+  ],
+  "providers": [
+    "opencode-go"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 148.795,
+    "request_seconds": 146.691,
+    "average_tps": 136.59,
+    "tool_calls": 6,
+    "tool_breakdown": {
+      "edit": 2,
+      "read": 2,
+      "write": 2
+    },
+    "assistant_turns": 8,
+    "errors": 1,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 3338,
+      "output": 20037,
+      "cacheRead": 124800,
+      "cacheWrite": 0,
+      "reasoning": 14883,
+      "totalTokens": 148175
+    },
+    "recorded_cost_usd": 0.0128973,
+    "cost_usd": 0.0128973
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#935d038c85576bebf87f4984c102c931",
+    "gist_id": "935d038c85576bebf87f4984c102c931",
+    "gist_revision": "c6f2e13bf95b6225269854f60aeb45827fd51b0b",
+    "session_id": "01a089ad-99bd-70ad-85dd-c8ea065a9e28",
+    "imported_at": "2026-09-30T07:08:51.295386+00:00",
+    "artwork_sha256": "07bae8791cec7f62929c46e075cbe5938e95f4ad62f3501d0d8d6ccfeaa643e8"
+  }
+}

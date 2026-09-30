@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400" width="400" height="400" font-family="sans-serif">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a7d8ff"/>
+      <stop offset="1" stop-color="#eaf6ff"/>
+    </linearGradient>
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c79a6b"/>
+      <stop offset="1" stop-color="#a9784c"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background -->
+  <rect width="400" height="400" fill="url(#sky)"/>
+  <ellipse cx="200" cy="378" rx="90" ry="12" fill="url(#shadow)"/>
+  <line x1="20" y1="372" x2="380" y2="372" stroke="#9bbf7a" stroke-width="3"/>
+
+  <!-- the whole rig (gentle bob) -->
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 0 -3; 0 0" dur="1.1s" repeatCount="indefinite"/>
+
+    <!-- ===== UNICYCLE ===== -->
+    <!-- wheel -->
+    <g>
+      <circle cx="200" cy="320" r="50" fill="none" stroke="#333" stroke-width="8"/>
+      <circle cx="200" cy="320" r="50" fill="none" stroke="#777" stroke-width="2"/>
+      <!-- spinning spokes -->
+      <g stroke="#bbb" stroke-width="3">
+        <line x1="200" y1="320" x2="200" y2="272"/>
+        <line x1="200" y1="320" x2="200" y2="368"/>
+        <line x1="200" y1="320" x2="152" y2="320"/>
+        <line x1="200" y1="320" x2="248" y2="320"/>
+        <line x1="200" y1="320" x2="166" y2="286"/>
+        <line x1="200" y1="320" x2="234" y2="354"/>
+        <line x1="200" y1="320" x2="234" y2="286"/>
+        <line x1="200" y1="320" x2="166" y2="354"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 200 320" to="360 200 320" dur="1.6s" repeatCount="indefinite"/>
+      </g>
+      <circle cx="200" cy="320" r="7" fill="#555"/>
+
+      <!-- rotating crank + pedals -->
+      <g>
+        <line x1="170" y1="320" x2="230" y2="320" stroke="#444" stroke-width="5"/>
+        <rect x="162" y="314" width="16" height="8" rx="2" fill="#222"/>
+        <rect x="222" y="318" width="16" height="8" rx="2" fill="#222"/>
+        <animateTransform attributeName="transform" type="rotate"
+          from="0 200 320" to="360 200 320" dur="1.6s" repeatCount="indefinite"/>
+      </g>
+    </g>
+
+    <!-- seat post + seat -->
+    <rect x="196" y="252" width="8" height="70" rx="3" fill="#666"/>
+    <ellipse cx="200" cy="250" rx="22" ry="8" fill="#7a4a2b"/>
+
+    <!-- ===== ANTEATER ===== -->
+    <!-- legs to pedals -->
+    <path d="M188,250 Q180,295 172,318" stroke="#8a5d3b" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M212,250 Q220,295 228,318" stroke="#8a5d3b" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+    <!-- body -->
+    <ellipse cx="200" cy="212" rx="34" ry="44" fill="url(#body)"/>
+    <!-- belly -->
+    <ellipse cx="200" cy="222" rx="20" ry="28" fill="#e7cda6"/>
+
+    <!-- head -->
+    <circle cx="200" cy="150" r="27" fill="url(#body)"/>
+    <!-- ear -->
+    <circle cx="218" cy="132" r="7" fill="#8a5d3b"/>
+    <!-- long snout -->
+    <path d="M186,148 Q150,150 132,168 Q150,162 188,162 Z" fill="#c79a6b"/>
+    <path d="M132,168 q-6,1 -8,3 q8,2 12,-1 Z" fill="#5a3a22"/>
+    <!-- eye -->
+    <circle cx="208" cy="144" r="4" fill="#2b1c10"/>
+    <circle cx="209" cy="143" r="1.3" fill="#fff"/>
+
+    <!-- arms reaching up to juggle -->
+    <path d="M176,196 Q160,184 162,176" stroke="#8a5d3b" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M224,196 Q240,184 238,176" stroke="#8a5d3b" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- little hands -->
+    <circle cx="162" cy="176" r="6" fill="#8a5d3b"/>
+    <circle cx="238" cy="176" r="6" fill="#8a5d3b"/>
+
+    <!-- ===== JUGGLING BOTTLES ===== -->
+    <!-- cascade path: left hand -> right apex -> right hand -> left apex -> loop -->
+    <g fill="none" stroke="none">
+      <path id="toss" d="M162,176 Q262,52 238,176 Q142,52 162,176"/>
+    </g>
+
+    <!-- bottle template is centered at 0,0 -->
+    <g>
+      <g>
+        <rect x="-7" y="-4" width="14" height="22" rx="6" fill="#4caf50"/>
+        <rect x="-3" y="-15" width="6" height="12" fill="#4caf50"/>
+        <rect x="-4" y="-19" width="8" height="5" rx="2" fill="#2e7d32"/>
+        <ellipse cx="-2" cy="6" rx="3" ry="7" fill="#a5d6a7" opacity="0.7"/>
+        <animateMotion dur="2.4s" repeatCount="indefinite" begin="0s" rotate="0">
+          <mpath href="#toss" xlink:href="#toss"/>
+        </animateMotion>
+        <animateTransform attributeName="transform" type="rotate" additive="sum"
+          values="-8;8;-8" dur="0.6s" repeatCount="indefinite"/>
+      </g>
+    </g>
+
+    <g>
+      <g>
+        <rect x="-7" y="-4" width="14" height="22" rx="6" fill="#2196f3"/>
+        <rect x="-3" y="-15" width="6" height="12" fill="#2196f3"/>
+        <rect x="-4" y="-19" width="8" height="5" rx="2" fill="#1565c0"/>
+        <ellipse cx="-2" cy="6" rx="3" ry="7" fill="#90caf9" opacity="0.7"/>
+        <animateMotion dur="2.4s" repeatCount="indefinite" begin="-0.8s" rotate="0">
+          <mpath href="#toss" xlink:href="#toss"/>
+        </animateMotion>
+        <animateTransform attributeName="transform" type="rotate" additive="sum"
+          values="8;-8;8" dur="0.6s" repeatCount="indefinite"/>
+      </g>
+    </g>
+
+    <g>
+      <g>
+        <rect x="-7" y="-4" width="14" height="22" rx="6" fill="#ff9800"/>
+        <rect x="-3" y="-15" width="6" height="12" fill="#ff9800"/>
+        <rect x="-4" y="-19" width="8" height="5" rx="2" fill="#e65100"/>
+        <ellipse cx="-2" cy="6" rx="3" ry="7" fill="#ffcc80" opacity="0.7"/>
+        <animateMotion dur="2.4s" repeatCount="indefinite" begin="-1.6s" rotate="0">
+          <mpath href="#toss" xlink:href="#toss"/>
+        </animateMotion>
+        <animateTransform attributeName="transform" type="rotate" additive="sum"
+          values="-8;8;-8" dur="0.6s" repeatCount="indefinite"/>
+      </g>
+    </g>
+  </g>
+</svg>

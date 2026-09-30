@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "slug": "hy3-high",
+  "name": "Hunyuan 3",
+  "vendor": "Tencent",
+  "date": "2026-08-29T13:16:57.699Z",
+  "model_ids": [
+    "hy3"
+  ],
+  "providers": [
+    "opencode-go"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 50.318,
+    "request_seconds": 50.277,
+    "average_tps": 127.29,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "edit": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 7581,
+      "output": 6400,
+      "cacheRead": 7744,
+      "cacheWrite": 0,
+      "reasoning": 3249,
+      "totalTokens": 21725
+    },
+    "recorded_cost_usd": 0.0006305475,
+    "cost_usd": 0.0006305475
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#9cd6cbbbfc89bc22e55ee793d13d964d",
+    "gist_id": "9cd6cbbbfc89bc22e55ee793d13d964d",
+    "gist_revision": "8c15b6b4672cb507cd06959eea4fee011d2d0cea",
+    "session_id": "01a04daa-5f3c-7590-8e1d-b1c79125513b",
+    "imported_at": "2026-09-30T07:07:50.415652+00:00",
+    "artwork_sha256": "078a390988abdd3d0e9cf321375cfc9fc2416b86bbdd12961a27502fb0ee58e3"
+  }
+}

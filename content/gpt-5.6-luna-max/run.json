@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-5.6-luna-max",
+  "name": "GPT-5.6 Luna",
+  "vendor": "OpenAI",
+  "date": "2026-08-29T13:28:26.308Z",
+  "model_ids": [
+    "gpt-5.6-luna"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "available_tools": [],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 184.011,
+    "request_seconds": 183.992,
+    "average_tps": 54.27,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 12027,
+      "output": 9985,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 4490,
+      "totalTokens": 22012
+    },
+    "recorded_cost_usd": 0.0143874,
+    "cost_usd": 0.0143874
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#f4bef914103aa84b3cc7ee1d713dc3ad",
+    "gist_id": "f4bef914103aa84b3cc7ee1d713dc3ad",
+    "gist_revision": "1bb94d8bf135a18b209677998bf22f187a374f0f",
+    "session_id": "01a04db4-d31c-7e08-8cfd-841df6e6e57e",
+    "imported_at": "2026-09-30T07:07:46.210371+00:00",
+    "artwork_sha256": "209bb85b7ce4dccbef358fe6bd183491825c154660d0322019928a06ef1b5312"
+  }
+}
