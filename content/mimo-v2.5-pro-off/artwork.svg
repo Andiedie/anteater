@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <!-- Gradients for visual appeal -->
+    <radialGradient id="sky" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#87CEEB"/>
+      <stop offset="100%" stop-color="#4A90D9"/>
+    </radialGradient>
+    <linearGradient id="ground" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8BC34A"/>
+      <stop offset="100%" stop-color="#689F38"/>
+    </linearGradient>
+    <linearGradient id="wheel" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#616161"/>
+      <stop offset="50%" stop-color="#9E9E9E"/>
+      <stop offset="100%" stop-color="#616161"/>
+    </linearGradient>
+    <linearGradient id="bottle1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4CAF50"/>
+      <stop offset="50%" stop-color="#81C784"/>
+      <stop offset="100%" stop-color="#4CAF50"/>
+    </linearGradient>
+    <linearGradient id="bottle2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2196F3"/>
+      <stop offset="50%" stop-color="#64B5F6"/>
+      <stop offset="100%" stop-color="#2196F3"/>
+    </linearGradient>
+    <linearGradient id="bottle3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F44336"/>
+      <stop offset="50%" stop-color="#EF5350"/>
+      <stop offset="100%" stop-color="#F44336"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  
+  <!-- Clouds -->
+  <g opacity="0.8">
+    <ellipse cx="150" cy="80" rx="60" ry="30" fill="white">
+      <animateTransform attributeName="transform" type="translate" values="0,0;800,0;-800,0" dur="30s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="500" cy="120" rx="80" ry="35" fill="white">
+      <animateTransform attributeName="transform" type="translate" values="0,0;800,0;-800,0" dur="25s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="350" cy="60" rx="50" ry="25" fill="white">
+      <animateTransform attributeName="transform" type="translate" values="0,0;800,0;-800,0" dur="35s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+  
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="150" fill="url(#ground)"/>
+  
+  <!-- Grass tufts -->
+  <g fill="#689F38">
+    <path d="M50,450 Q55,430 60,450"/>
+    <path d="M150,450 Q155,425 160,450"/>
+    <path d="M250,450 Q258,420 266,450"/>
+    <path d="M350,450 Q355,430 360,450"/>
+    <path d="M450,450 Q455,425 460,450"/>
+    <path d="M550,450 Q558,428 566,450"/>
+    <path d="M650,450 Q655,430 660,450"/>
+    <path d="M750,450 Q755,425 760,450"/>
+  </g>
+
+  <!-- Main anteater group - moves along -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0,0;0,-8;0,0" dur="0.5s" repeatCount="indefinite"/>
+    
+    <!-- Unicycle -->
+    <g>
+      <!-- Wheel -->
+      <circle cx="400" cy="480" r="40" fill="none" stroke="url(#wheel)" stroke-width="6">
+        <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Wheel spokes -->
+      <g>
+        <line x1="400" y1="440" x2="400" y2="520" stroke="#9E9E9E" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </line>
+        <line x1="360" y1="480" x2="440" y2="480" stroke="#9E9E9E" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </line>
+        <line x1="372" y1="452" x2="428" y2="508" stroke="#9E9E9E" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </line>
+        <line x1="428" y1="452" x2="372" y2="508" stroke="#9E9E9E" stroke-width="2">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </line>
+      </g>
+      <!-- Wheel hub -->
+      <circle cx="400" cy="480" r="8" fill="#757575"/>
+      
+      <!-- Pedals -->
+      <g>
+        <line x1="400" y1="480" x2="400" y2="440" stroke="#757575" stroke-width="4"/>
+        <rect x="390" y="435" width="20" height="8" rx="2" fill="#616161">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="390" y="515" width="20" height="8" rx="2" fill="#616161">
+          <animateTransform attributeName="transform" type="rotate" values="0,400,480;360,400,480" dur="1s" repeatCount="indefinite"/>
+        </rect>
+      </g>
+      
+      <!-- Seat post -->
+      <line x1="400" y1="440" x2="400" y2="360" stroke="#757575" stroke-width="6"/>
+      
+      <!-- Seat -->
+      <ellipse cx="400" cy="355" rx="25" ry="8" fill="#5D4037"/>
+      
+      <!-- Fork -->
+      <line x1="400" y1="440" x2="400" y2="480" stroke="#757575" stroke-width="8"/>
+    </g>
+
+    <!-- Anteater body -->
+    <g>
+      <!-- Body -->
+      <ellipse cx="400" cy="320" rx="55" ry="40" fill="#8D6E63"/>
+      
+      <!-- Belly -->
+      <ellipse cx="400" cy="330" rx="35" ry="25" fill="#BCAAA4"/>
+      
+      <!-- Back legs (pedaling) -->
+      <g>
+        <!-- Right leg -->
+        <path d="M420,350 Q440,380 410,420" stroke="#6D4C41" stroke-width="12" fill="none" stroke-linecap="round">
+          <animate attributeName="d" values="M420,350 Q440,380 410,420;M420,350 Q450,400 400,440;M420,350 Q440,380 410,420" dur="0.5s" repeatCount="indefinite"/>
+        </path>
+        <!-- Right foot -->
+        <ellipse cx="410" cy="425" rx="12" ry="6" fill="#5D4037">
+          <animate attributeName="cy" values="425;445;425" dur="0.5s" repeatCount="indefinite"/>
+        </ellipse>
+        
+        <!-- Left leg -->
+        <path d="M380,350 Q360,380 390,420" stroke="#6D4C41" stroke-width="12" fill="none" stroke-linecap="round">
+          <animate attributeName="d" values="M380,350 Q360,380 390,420;M380,350 Q350,400 400,440;M380,350 Q360,380 390,420" dur="0.5s" repeatCount="indefinite"/>
+        </path>
+        <!-- Left foot -->
+        <ellipse cx="390" cy="425" rx="12" ry="6" fill="#5D4037">
+          <animate attributeName="cy" values="425;445;425" dur="0.5s" repeatCount="indefinite"/>
+        </ellipse>
+      </g>
+      
+      <!-- Front arms (juggling) -->
+      <g>
+        <!-- Right arm -->
+        <path d="M440,300 Q480,280 500,260" stroke="#8D6E63" stroke-width="10" fill="none" stroke-linecap="round">
+          <animate attributeName="d" values="M440,300 Q480,280 500,260;M440,300 Q490,320 500,340;M440,300 Q480,280 500,260" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <!-- Right paw -->
+        <circle cx="500" cy="258" r="10" fill="#6D4C41">
+          <animate attributeName="cy" values="258;338;258" dur="1s" repeatCount="indefinite"/>
+        </circle>
+        
+        <!-- Left arm -->
+        <path d="M360,300 Q320,280 300,260" stroke="#8D6E63" stroke-width="10" fill="none" stroke-linecap="round">
+          <animate attributeName="d" values="M360,300 Q320,280 300,260;M360,300 Q310,320 300,340;M360,300 Q320,280 300,260" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <!-- Left paw -->
+        <circle cx="300" cy="258" r="10" fill="#6D4C41">
+          <animate attributeName="cy" values="258;338;258" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </g>
+      
+      <!-- Head -->
+      <g>
+        <!-- Head base -->
+        <ellipse cx="460" cy="280" rx="30" ry="25" fill="#8D6E63"/>
+        
+        <!-- Snout -->
+        <path d="M485,280 Q540,275 550,280 Q540,285 485,280" fill="#6D4C41"/>
+        <ellipse cx="550" cy="280" rx="8" ry="6" fill="#5D4037"/>
+        
+        <!-- Eye -->
+        <circle cx="475" cy="272" r="6" fill="white"/>
+        <circle cx="477" cy="272" r="3" fill="#212121"/>
+        <circle cx="478" cy="271" r="1" fill="white"/>
+        
+        <!-- Ear -->
+        <ellipse cx="450" cy="258" rx="10" ry="15" fill="#A1887F"/>
+        <ellipse cx="450" cy="260" rx="6" ry="10" fill="#8D6E63"/>
+        
+        <!-- Fur tufts -->
+        <path d="M440,265 Q445,250 450,265" fill="#6D4C41"/>
+        <path d="M448,260 Q453,245 458,260" fill="#6D4C41"/>
+        
+        <!-- Happy expression -->
+        <path d="M470,285 Q478,290 486,285" stroke="#5D4037" stroke-width="2" fill="none"/>
+      </g>
+      
+      <!-- Tail -->
+      <path d="M345,310 Q290,280 270,320 Q250,360 280,380" stroke="#8D6E63" stroke-width="15" fill="none" stroke-linecap="round">
+        <animate attributeName="d" values="M345,310 Q290,280 270,320 Q250,360 280,380;M345,310 Q290,300 270,340 Q250,380 280,400;M345,310 Q290,280 270,320 Q250,360 280,380" dur="1.5s" repeatCount="indefinite"/>
+      </path>
+      <!-- Tail tip -->
+      <ellipse cx="280" cy="380" rx="20" ry="15" fill="#A1887F">
+        <animate attributeName="cy" values="380;400;380" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+
+    <!-- Juggling bottles -->
+    <g>
+      <!-- Bottle 1 (green) - right to left arc -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0;-100,-150;-200,0;-100,150;0,0" dur="2s" repeatCount="indefinite"/>
+        <rect x="490" y="245" width="14" height="35" rx="3" fill="url(#bottle1)"/>
+        <rect x="488" y="242" width="18" height="8" rx="2" fill="#388E3C"/>
+        <circle cx="497" cy="242" r="4" fill="#388E3C"/>
+        <!-- Label -->
+        <rect x="492" y="255" width="10" height="12" rx="1" fill="white" opacity="0.8"/>
+      </g>
+      
+      <!-- Bottle 2 (blue) - delayed -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0;100,-150;200,0;100,150;0,0" dur="2s" repeatCount="indefinite" begin="0.67s"/>
+        <rect x="290" y="245" width="14" height="35" rx="3" fill="url(#bottle2)"/>
+        <rect x="288" y="242" width="18" height="8" rx="2" fill="#1565C0"/>
+        <circle cx="297" cy="242" r="4" fill="#1565C0"/>
+        <!-- Label -->
+        <rect x="292" y="255" width="10" height="12" rx="1" fill="white" opacity="0.8"/>
+      </g>
+      
+      <!-- Bottle 3 (red) - delayed more -->
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0,0;-50,-200;-150,-100;-100,0;-50,100;0,0" dur="2s" repeatCount="indefinite" begin="1.33s"/>
+        <rect x="390" y="200" width="14" height="35" rx="3" fill="url(#bottle3)"/>
+        <rect x="388" y="197" width="18" height="8" rx="2" fill="#C62828"/>
+        <circle cx="397" cy="197" r="4" fill="#C62828"/>
+        <!-- Label -->
+        <rect x="392" y="210" width="10" height="12" rx="1" fill="white" opacity="0.8"/>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Shadow under unicycle -->
+  <ellipse cx="400" cy="520" rx="50" ry="8" fill="rgba(0,0,0,0.3)">
+    <animate attributeName="rx" values="50;55;50" dur="0.5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Decorative elements -->
+  <!-- Flowers -->
+  <g>
+    <circle cx="100" cy="460" r="5" fill="#FF9800"/>
+    <circle cx="100" cy="460" r="3" fill="#FFC107"/>
+    <line x1="100" y1="460" x2="100" y2="480" stroke="#4CAF50" stroke-width="2"/>
+    
+    <circle cx="700" cy="455" r="5" fill="#E91E63"/>
+    <circle cx="700" cy="455" r="3" fill="#F48FB1"/>
+    <line x1="700" y1="455" x2="700" y2="480" stroke="#4CAF50" stroke-width="2"/>
+  </g>
+</svg>

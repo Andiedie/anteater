@@ -46,6 +46,23 @@ def check():
     assert m["tokens"]["totalTokens"] == 170 and m["tokens"]["reasoning"] == 40
     assert m["tokens"]["cacheWrite"] is None
     assert m["recorded_cost_usd"] == 0 and m["cost_usd"] is None
+    assert "output_budget_per_request" not in result
+    budgeted = deepcopy(session)
+    budgeted["entries"][0]["parentId"] = "policy"
+    budgeted["entries"].insert(0, {"id": "policy", "parentId": None, "type": "custom",
+                                  "customType": "anteater-benchmark-policy",
+                                  "data": {"model": "gpt-test", "level": "max", "outputLimitPerRequest": 131072}})
+    assert gallery.summarize(budgeted)["output_budget_per_request"] == 131072
+    for field, value in (("model", "other-model"), ("level", "low"), ("outputLimitPerRequest", 0)):
+        invalid_budget = deepcopy(budgeted)
+        invalid_budget["entries"][0]["data"][field] = value
+        assert "output_budget_per_request" not in gallery.summarize(invalid_budget)
+    conflicting = deepcopy(budgeted)
+    conflicting["entries"][0]["parentId"] = "previous-policy"
+    conflicting["entries"].insert(0, {"id": "previous-policy", "parentId": None, "type": "custom",
+                                     "customType": "anteater-benchmark-policy",
+                                     "data": {"model": "gpt-test", "level": "max", "outputLimitPerRequest": 64000}})
+    assert "output_budget_per_request" not in gallery.summarize(conflicting)
 
     corrected = deepcopy(session)
     corrected["entries"].insert(4, {"id": "correction", "parentId": "tool", "type": "message", "timestamp": 4900,
@@ -85,6 +102,23 @@ def check():
             pass
     assert gallery.model_label("gpt-6.1-sol-max") == ("GPT-6.1 Sol", "OpenAI")
     assert gallery.model_label("hy4-preview-high") == ("Hunyuan 4 Preview", "Tencent")
+    assert gallery.model_label("qwen3.8-max-0902-high") == ("Qwen3.8 Max 0902", "Alibaba")
+    assert gallery.model_label("qwen3.8-27b-off") == ("Qwen3.8 27B", "Alibaba")
+    assert gallery.model_label("kimi-k3-max") == ("Kimi K3", "Moonshot AI")
+    assert gallery.model_label("minimax-m3-on") == ("MiniMax M3", "MiniMax")
+    switch = deepcopy(session)
+    switch['entries'][0]['thinkingLevel'] = 'medium'
+    for entry in switch['entries']:
+        if entry.get('message', {}).get('role') == 'assistant':
+            entry['message'].update(provider='openrouter', model='minimax/minimax-m3')
+    assert gallery.summarize(switch)['reasoning'] == ['medium']
+    switch['entries'][0]['parentId'] = 'policy'
+    switch['entries'].insert(0, {'id': 'policy', 'parentId': None, 'type': 'custom',
+                                  'customType': 'anteater-benchmark-policy',
+                                  'data': {'model': 'minimax/minimax-m3', 'level': 'on'}})
+    assert gallery.summarize(switch)['reasoning'] == ['on']
+    switch['entries'][0]['data']['model'] = 'another-model'
+    assert gallery.summarize(switch)['reasoning'] == ['medium']
 
     if gallery.CONTENT.exists():
         catalog = gallery.load_catalog()
@@ -120,9 +154,35 @@ def check():
         gallery.build()
         page = (gallery.ROOT / "dist/index.html").read_text()
         makers = {run["vendor"] for run in catalog}
-        assert page.count('class="vendor-logo"') == sum((icons / (name.lower().replace(".", "") + ".svg")).is_file() for name in makers)
+        assert page.count('class="vendor-logo"') == sum((icons / (re.sub(r"[^a-z0-9]", "", name.lower()) + ".svg")).is_file() for name in makers)
         assert page.count('class="vendor-logo" aria-hidden="true" focusable="false"') == page.count('class="vendor-logo"')
         assert 'data-vendor="OpenAI" aria-pressed="false"><svg' in page
+        models = gallery.group_models(catalog)
+        assert len(models) == len({(run['vendor'], run['name']) for run in catalog})
+        assert len(re.findall(r'<article class="card[^\"]*" data-model=', page)) == len(models)
+        assert all(len({(run['vendor'], run['name']) for run in group}) == 1 for group in models)
+        aliases = [dict(catalog[0], name='Same model', model_ids=['native/id']),
+                   dict(catalog[0], name='Same model', model_ids=['gateway/id']),
+                   dict(catalog[0], name='Other variant')]
+        assert [len(group) for group in gallery.group_models(aliases)] == [2, 1]
+        failure = failures[0]
+        artwork = next(run for run in catalog if run['slug'] == failure['failure']['related_slug'])
+        assert f'data-slug="{artwork["slug"]}"' in gallery.card_html([failure, artwork])
+        failure_only = gallery.card_html([failure])
+        assert 'class="card failure-card"' in failure_only and '<iframe' not in failure_only
+        assert 'No SVG delivered' in failure_only and 'disabled' in failure_only
+        escaped = gallery.card_html([dict(artwork, name='<script>unsafe</script>')])
+        assert '<script>unsafe</script>' not in escaped and '&lt;script&gt;unsafe&lt;/script&gt;' in escaped
+        for group in models:
+            html = gallery.card_html(group)
+            assert all(f'data-card-run="{run["slug"]}"' in html for run in group)
+            assert html.count('aria-pressed="true"') == 1 and 'aria-current=' not in html
+            assert 'type="button" class="level-link"' in html
+            if any(run.get('outcome') != 'no_artwork' for run in group):
+                assert 'class="card failure-card"' not in html
+            for run in group:
+                if run.get('outcome') == 'no_artwork':
+                    assert 'No SVG delivered' in html
         assert 'https://unpkg.com' not in page
         assert not re.search(r'CPA|cliproxyapi|opencode-go', page)
         public = json.loads(re.search(r'<script type="application/json" id="catalog-data">(.*?)</script>', page, re.S)[1])

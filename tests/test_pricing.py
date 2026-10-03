@@ -39,6 +39,10 @@ def check():
     assert pricing.estimate(run['metrics']['tokens'], pricing.normalize('OpenRouter', invalid_fee))[1] == 'conditional_price'
     assert pricing.estimate(run['metrics']['tokens'], {**profile, 'input_threshold': 0})[1] == 'per_request_usage'
     assert pricing.find_price(run, {'models.dev': {'cliproxyapi': catalogs['models.dev']['openai']}}) is None
+    for vendor, model_id in [('Alibaba', 'qwen/qwen3.8-27b'), ('Moonshot AI', 'moonshotai/kimi-k3'), ('MiniMax', 'minimax/minimax-m3')]:
+        new_run = {**run, 'vendor': vendor, 'model_ids': [model_id], 'providers': ['openrouter']}
+        exact = pricing.find_price(new_run, {'OpenRouter': {model_id: catalogs['OpenRouter']['openai/gpt-test']}})
+        assert exact['model_id'] == model_id and exact['source'] == 'OpenRouter'
     no_cache_rate = deepcopy(profile); no_cache_rate['rates_per_million']['cacheRead'] = None
     assert pricing.estimate(run['metrics']['tokens'], no_cache_rate)[1] == 'missing_cache_price'
     anthropic = {**run, 'vendor': 'Anthropic', 'model_ids': ['claude-test']}

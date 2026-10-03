@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-5.6-terra-high",
+  "name": "GPT-5.6 Terra",
+  "vendor": "OpenAI",
+  "date": "2026-10-01T03:33:15.189Z",
+  "model_ids": [
+    "gpt-5.6-terra"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 65.021,
+    "request_seconds": 65.003,
+    "average_tps": 46.11,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 6010,
+      "output": 2997,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 51,
+      "totalTokens": 9007
+    },
+    "recorded_cost_usd": 0.047984,
+    "cost_usd": 0.047984
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#408cbf0749fb098bd26c2e9fa089e024",
+    "gist_id": "408cbf0749fb098bd26c2e9fa089e024",
+    "gist_revision": "dce17695658822699b4c72f55c5d43ec984c34fc",
+    "session_id": "01a0f586-0046-7096-9b35-25efd9961175",
+    "imported_at": "2026-10-02T16:16:45.327988+00:00",
+    "artwork_sha256": "29f13cc3a9ea0f1db23fa8158f37bf6391dc241023ddc02ed9b49e2cf73b68a2"
+  }
+}

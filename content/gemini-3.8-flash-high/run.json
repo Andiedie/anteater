@@ -3,7 +3,7 @@
   "slug": "gemini-3.8-flash-high",
   "name": "Gemini 3.8 Flash",
   "vendor": "Google",
-  "date": "2026-09-03T10:59:29.169Z",
+  "date": "2026-10-01T13:13:33.734Z",
   "model_ids": [
     "gemini-3.8-flash-high"
   ],
@@ -13,37 +13,41 @@
   "reasoning": [
     "high"
   ],
-  "available_tools": [],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
   "follow_up_count": 1,
   "metrics": {
-    "duration_seconds": 370.418,
-    "request_seconds": 343.395,
-    "average_tps": 156.02,
-    "tool_calls": 19,
+    "duration_seconds": 401.741,
+    "request_seconds": 398.404,
+    "average_tps": 214.37,
+    "tool_calls": 20,
     "tool_breakdown": {
-      "read": 17,
+      "read": 18,
       "write": 2
     },
-    "assistant_turns": 21,
+    "assistant_turns": 22,
     "errors": 0,
-    "tool_errors": 0,
+    "tool_errors": 1,
     "tokens": {
-      "input": 309998,
-      "output": 53575,
-      "cacheRead": 1560689,
+      "input": 312107,
+      "output": 85404,
+      "cacheRead": 1461690,
       "cacheWrite": 0,
-      "reasoning": 37977,
-      "totalTokens": 1962239
+      "reasoning": 38936,
+      "totalTokens": 1859201
     },
     "recorded_cost_usd": 0,
     "cost_usd": null
   },
   "source": {
-    "share_url": "https://pi.dev/session/#dd5f7dc54d268d04c75c316a0d8775a6",
-    "gist_id": "dd5f7dc54d268d04c75c316a0d8775a6",
-    "gist_revision": "51902552ade7af453ee0b1f61ef8d25af78f68b6",
-    "session_id": "01a066ec-56a1-7e6d-88ea-e68ed2f2e76b",
-    "imported_at": "2026-09-30T07:07:46.307361+00:00",
-    "artwork_sha256": "326fa4c81151fc07d00df7339cdef2e402d9999e26e8f91eb4e38ca96de535af"
+    "share_url": "https://pi.dev/session/#cc43914ac054fac753fcce044e2895f4",
+    "gist_id": "cc43914ac054fac753fcce044e2895f4",
+    "gist_revision": "02bcddb40494275d67eb8ce613e4c017733c819e",
+    "session_id": "01a0f799-4a2a-7674-a649-29e41d4e7d30",
+    "imported_at": "2026-10-02T16:16:45.297624+00:00",
+    "artwork_sha256": "404ee8ecb5536b23b3834757947272d483ff8c921e7ba73a7147c69b6ba7de46"
   }
 }

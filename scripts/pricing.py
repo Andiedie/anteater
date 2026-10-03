@@ -16,7 +16,9 @@ SOURCES = {
 MAKERS = {"OpenAI": ("openai", "openai"), "Anthropic": ("anthropic", "anthropic"),
           "Google": ("google", "google"), "DeepSeek": ("deepseek", "deepseek"),
           "xAI": ("xai", "x-ai"), "Z.ai": ("zai", "z-ai"), "Tencent": ("tencent", "tencent"),
-          "Xiaomi": ("xiaomi", "xiaomi"), "Meta": ("meta", "meta")}
+          "Xiaomi": ("xiaomi", "xiaomi"), "Meta": ("meta", "meta"),
+          "Alibaba": ("alibaba", "qwen"), "Moonshot AI": ("moonshotai", "moonshotai"),
+          "MiniMax": ("minimax", "minimax")}
 # This adapter appends configured thinking effort to the Gemini model ID.
 ALIASES = {"gemini-3.8-flash-high": "gemini-3.8-flash"}
 

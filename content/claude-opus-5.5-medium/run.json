@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "claude-opus-5.5-medium",
+  "name": "Claude Opus 5.5",
+  "vendor": "Anthropic",
+  "date": "2026-10-01T14:40:39.958Z",
+  "model_ids": [
+    "claude-opus-5-5"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 93.09,
+    "request_seconds": 93.074,
+    "average_tps": 85.29,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 20052,
+      "output": 7938,
+      "cacheRead": 1608,
+      "cacheWrite": 0,
+      "reasoning": 393,
+      "totalTokens": 29598
+    },
+    "recorded_cost_usd": 0.2392896,
+    "cost_usd": 0.2392896
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#ad859ce887f0e69e3386742b9cccb813",
+    "gist_id": "ad859ce887f0e69e3386742b9cccb813",
+    "gist_revision": "7d87a035d62fdd5401f43c9380e90de8f5cd4ab2",
+    "session_id": "01a0f7e9-0937-70f1-9435-44011d8d9a3e",
+    "imported_at": "2026-10-02T16:16:45.287656+00:00",
+    "artwork_sha256": "817611a15782196f15da1705b43b2c221eb97ba2b8881b3ecc046fa9e97fc1a1"
+  }
+}

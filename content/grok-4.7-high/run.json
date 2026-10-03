@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "grok-4.7-high",
+  "name": "Grok 4.7",
+  "vendor": "xAI",
+  "date": "2026-10-01T13:17:25.759Z",
+  "model_ids": [
+    "grok-4.7"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 55.873,
+    "request_seconds": 55.863,
+    "average_tps": 77.26,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 6776,
+      "output": 4316,
+      "cacheRead": 2432,
+      "cacheWrite": 0,
+      "reasoning": 84,
+      "totalTokens": 13524
+    },
+    "recorded_cost_usd": 0.040664,
+    "cost_usd": 0.040664
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#526ff5c9c1b8e5d711f268c53d60aa84",
+    "gist_id": "526ff5c9c1b8e5d711f268c53d60aa84",
+    "gist_revision": "4509608627091af6cc0ff246ad0dfbde37dbdb9d",
+    "session_id": "01a0f79c-d4cf-72c0-8c8a-36c8fa37f202",
+    "imported_at": "2026-10-02T16:16:45.357289+00:00",
+    "artwork_sha256": "33e87142443202f8bb9dbaac78e4a440aabca03368b6f10d202e18714341c6d8"
+  }
+}

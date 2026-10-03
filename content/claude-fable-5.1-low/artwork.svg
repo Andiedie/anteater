@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600"
+     role="img" aria-label="An anteater riding a unicycle while juggling bottles">
+  <title>Anteater on a Unicycle, Juggling Bottles</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#dff0f7"/>
+      <stop offset="65%"  stop-color="#f3f6ef"/>
+      <stop offset="100%" stop-color="#faf6e9"/>
+    </linearGradient>
+
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#c08a52"/>
+      <stop offset="100%" stop-color="#a06e3d"/>
+    </linearGradient>
+
+    <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#b9cfa4"/>
+      <stop offset="100%" stop-color="#8fae79"/>
+    </linearGradient>
+
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%"   stop-color="#2f3a24" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#2f3a24" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- One bottle, centred on its own origin so motion paths read cleanly.
+         Body/neck have no fill so <use fill="..."> tints them. -->
+    <g id="bottle">
+      <g transform="translate(0,21)">
+        <rect x="-9" y="-21" width="18" height="21" rx="6"/>
+        <path d="M -6 -21 L -3.6 -31 L 3.6 -31 L 6 -21 Z"/>
+        <rect x="-3.6" y="-37" width="7.2" height="7" rx="1.2"/>
+        <rect x="-5" y="-41.5" width="10" height="5.5" rx="2" fill="#f0c44f"/>
+        <rect x="-6.2" y="-17" width="3" height="13" rx="1.5" fill="#ffffff" opacity="0.45"/>
+      </g>
+    </g>
+  </defs>
+
+  <!-- background -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="655" cy="105" r="46" fill="#ffe9a8" opacity="0.75"/>
+  <ellipse cx="400" cy="300" rx="330" ry="200" fill="#ffffff" opacity="0.28"/>
+  <path d="M0 520 H800 V600 H0 Z" fill="url(#groundGrad)"/>
+  <path d="M0 520 H800" stroke="#7d9c66" stroke-width="3" fill="none"/>
+
+  <!-- contact shadow -->
+  <ellipse cx="400" cy="520" rx="86" ry="13" fill="url(#shadow)"/>
+
+  <!-- ============ REAR LAYER: tail, far leg, far pedal ============ -->
+  <g id="tailGroup">
+    <g stroke="#8a5a34" fill="none" stroke-linecap="round">
+      <path d="M 462 300 C 520 330 585 310 596 250 C 604 202 566 176 540 198 C 518 216 524 250 552 254"
+            stroke-width="40"/>
+      <path d="M 462 300 C 520 330 585 310 596 250 C 604 202 566 176 540 198 C 518 216 524 250 552 254"
+            stroke="#a5713f" stroke-width="30"/>
+    </g>
+    <animateTransform attributeName="transform" type="rotate"
+                      values="-3.5 466 302; 3.5 466 302; -3.5 466 302"
+                      dur="2.1s" repeatCount="indefinite"/>
+  </g>
+
+  <g id="farLeg" fill="none" stroke="#8a5a34" stroke-width="13" stroke-linecap="round">
+    <path d="M 394 332 Q 366.8 408.4 370 460">
+      <animate attributeName="d" dur="0.9s" repeatCount="indefinite"
+        values="M 394 332 Q 366.8 408.4 370 460;
+                M 394 332 Q 371.6 396.7 378.8 438.8;
+                M 394 332 Q 383.3 391.9 400 430;
+                M 394 332 Q 395 396.7 421.2 438.8;
+                M 394 332 Q 399.8 408.4 430 460;
+                M 394 332 Q 395 420.1 421.2 481.2;
+                M 394 332 Q 383.3 424.9 400 490;
+                M 394 332 Q 371.6 420.1 378.8 481.2;
+                M 394 332 Q 366.8 408.4 370 460"/>
+    </path>
+  </g>
+
+  <!-- ============ WHEEL ============ -->
+  <g id="wheel">
+    <circle cx="400" cy="460" r="56" fill="none" stroke="#3a3630" stroke-width="9"/>
+    <circle cx="400" cy="460" r="48" fill="none" stroke="#cfd6d9" stroke-width="4"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 400 460" to="360 400 460"
+                        dur="0.9s" repeatCount="indefinite"/>
+      <g stroke="#aeb8bc" stroke-width="2.4" stroke-linecap="round">
+        <line x1="400" y1="414" x2="400" y2="506"/>
+        <line x1="400" y1="414" x2="400" y2="506" transform="rotate(60 400 460)"/>
+        <line x1="400" y1="414" x2="400" y2="506" transform="rotate(120 400 460)"/>
+        <line x1="400" y1="414" x2="400" y2="506" transform="rotate(180 400 460)"/>
+        <line x1="400" y1="414" x2="400" y2="506" transform="rotate(240 400 460)"/>
+        <line x1="400" y1="414" x2="400" y2="506" transform="rotate(300 400 460)"/>
+      </g>
+      <circle cx="400" cy="424" r="5" fill="#e2703a"/>
+    </g>
+    <circle cx="400" cy="460" r="9" fill="#5c574f"/>
+  </g>
+
+  <!-- crank + pedals -->
+  <g id="crank">
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+                        from="0 400 460" to="360 400 460"
+                        dur="0.9s" repeatCount="indefinite"/>
+      <rect x="424" y="456" width="20" height="8" rx="2" fill="#4a453e"/>
+      <rect x="356" y="456" width="20" height="8" rx="2" fill="#4a453e"/>
+    </g>
+  </g>
+
+  <!-- ============ RIDER + FRAME (gentle bob) ============ -->
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+                      values="0 0; 0 -3; 0 0" dur="0.45s" repeatCount="indefinite"/>
+
+    <!-- frame -->
+    <g stroke="#4a453e" stroke-linecap="round" fill="none">
+      <path d="M 382 456 L 396 396" stroke-width="9"/>
+      <path d="M 418 456 L 404 396" stroke-width="9"/>
+      <path d="M 400 402 L 400 344" stroke-width="11"/>
+    </g>
+    <rect x="368" y="328" width="66" height="15" rx="7.5" fill="#5b4a3a"/>
+    <rect x="368" y="328" width="66" height="6" rx="3" fill="#6f5b46"/>
+
+    <!-- near leg -->
+    <g fill="none" stroke="#a06e3d" stroke-width="14" stroke-linecap="round">
+      <path d="M 400 330 Q 402.5 407.5 430 460">
+        <animate attributeName="d" dur="0.9s" repeatCount="indefinite"
+          values="M 400 330 Q 402.5 407.5 430 460;
+                  M 400 330 Q 397.7 419.2 421.2 481.2;
+                  M 400 330 Q 386 424 400 490;
+                  M 400 330 Q 374.3 419.2 378.8 481.2;
+                  M 400 330 Q 369.5 407.5 370 460;
+                  M 400 330 Q 374.3 395.8 378.8 438.8;
+                  M 400 330 Q 386 391 400 430;
+                  M 400 330 Q 397.7 395.8 421.2 438.8;
+                  M 400 330 Q 402.5 407.5 430 460"/>
+      </path>
+    </g>
+
+    <!-- body -->
+    <ellipse cx="402" cy="300" rx="74" ry="46" fill="url(#fur)"/>
+    <path d="M 330 318 C 360 344 448 348 476 316 C 470 338 440 348 402 348 C 364 348 338 338 330 318 Z"
+          fill="#8a5a34" opacity="0.35"/>
+
+    <!-- head -->
+    <circle cx="340" cy="272" r="28" fill="url(#fur)"/>
+    <ellipse cx="356" cy="244" rx="7.5" ry="11" fill="#8a5a34"
+             transform="rotate(-22 356 244)"/>
+
+    <!-- snout -->
+    <path d="M 345 248 C 315 252 275 275 252 293 C 246 297 247 303 254 304
+             C 280 303 322 296 352 284 Z" fill="#b07a45"/>
+    <ellipse cx="251" cy="299" rx="7" ry="5.5" fill="#3a2a1e" transform="rotate(-8 251 299)"/>
+
+    <!-- eye -->
+    <circle cx="337" cy="263" r="5.2" fill="#2b2119"/>
+    <circle cx="338.8" cy="261.2" r="1.8" fill="#ffffff" opacity="0.9"/>
+
+    <!-- arms -->
+    <g fill="none" stroke="#a06e3d" stroke-width="11" stroke-linecap="round">
+      <path d="M 372 268 Q 330 235 306 210"/>
+      <path d="M 410 258 Q 416 218 400 194"/>
+    </g>
+    <circle cx="302" cy="206" r="8.5" fill="#8a5a34"/>
+    <circle cx="399" cy="190" r="8.5" fill="#8a5a34"/>
+  </g>
+
+  <!-- ============ JUGGLED BOTTLES ============ -->
+  <!-- Capsule-shaped flight path: up on the right, over the top, down on the left,
+       back under — the bottom passes right through the two hands. -->
+  <g>
+    <use href="#bottle" fill="#34a853"/>
+    <animateMotion dur="1.35s" repeatCount="indefinite" rotate="auto" begin="-0s"
+      path="M 303 206 C 297 92 399 90 396 196 C 393 228 307 234 303 206"/>
+  </g>
+  <g>
+    <use href="#bottle" fill="#e0902f"/>
+    <animateMotion dur="1.35s" repeatCount="indefinite" rotate="auto" begin="-0.45s"
+      path="M 303 206 C 297 92 399 90 396 196 C 393 228 307 234 303 206"/>
+  </g>
+  <g>
+    <use href="#bottle" fill="#3f8fd0"/>
+    <animateMotion dur="1.35s" repeatCount="indefinite" rotate="auto" begin="-0.9s"
+      path="M 303 206 C 297 92 399 90 396 196 C 393 228 307 234 303 206"/>
+  </g>
+</svg>

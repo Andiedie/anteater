@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-labelledby="title desc">
+  <title id="title">Animated anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A friendly anteater balances on a unicycle and juggles three colorful bottles.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b9efff"/><stop offset="1" stop-color="#f9f3d2"/></linearGradient>
+    <linearGradient id="fur" x2="0" y2="1"><stop stop-color="#a8653b"/><stop offset="1" stop-color="#70402d"/></linearGradient>
+    <linearGradient id="cream" x2="1" y2="1"><stop stop-color="#f4d19b"/><stop offset="1" stop-color="#c68a59"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="7"/></filter>
+    <style>
+      .float { animation: float 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .wheel { animation: roll 1.2s linear infinite; transform-box: fill-box; transform-origin: center; }
+      .body { animation: bob 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+      .armL { animation: juggleL 1.5s ease-in-out infinite; transform-box: fill-box; transform-origin: 100% 15%; }
+      .armR { animation: juggleR 1.5s ease-in-out infinite .35s; transform-box: fill-box; transform-origin: 0 15%; }
+      .b1 { animation: bottle1 1.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .b2 { animation: bottle2 1.5s ease-in-out infinite .35s; transform-box: fill-box; transform-origin: center; }
+      .b3 { animation: bottle3 1.5s ease-in-out infinite .7s; transform-box: fill-box; transform-origin: center; }
+      @keyframes float { 50% { transform: translateY(-10px); } }
+      @keyframes bob { 50% { transform: translateY(-7px) rotate(-2deg); } }
+      @keyframes roll { to { transform: rotate(360deg); } }
+      @keyframes juggleL { 50% { transform: rotate(-28deg); } }
+      @keyframes juggleR { 50% { transform: rotate(28deg); } }
+      @keyframes bottle1 { 0%,100% { transform: translate(0,0) rotate(-25deg); } 50% { transform: translate(205px,-175px) rotate(25deg); } }
+      @keyframes bottle2 { 0%,100% { transform: translate(0,0) rotate(20deg); } 50% { transform: translate(-105px,-185px) rotate(-20deg); } }
+      @keyframes bottle3 { 0%,100% { transform: translate(0,0) rotate(-15deg); } 50% { transform: translate(35px,-245px) rotate(15deg); } }
+    </style>
+  </defs>
+
+  <rect width="900" height="650" rx="28" fill="url(#sky)"/>
+  <circle cx="760" cy="105" r="58" fill="#ffe68a" opacity=".8"/>
+  <path d="M0 470 Q150 390 300 470T600 460T900 445V650H0Z" fill="#9bd183"/>
+  <path d="M0 525 Q190 455 370 525T720 505T900 520V650H0Z" fill="#66ad69"/>
+  <ellipse cx="455" cy="570" rx="205" ry="24" fill="#315d54" opacity=".28" filter="url(#shadow)"/>
+
+  <!-- floating juggling bottles -->
+  <g class="float">
+    <g class="b1" transform="translate(570 205)"><path d="M-15 0h30v18c0 8 16 12 16 29v34a15 15 0 0 1-15 15h-32a15 15 0 0 1-15-15V47c0-17 16-21 16-29Z" fill="#e45d58" stroke="#733c3b" stroke-width="5"/><path d="M-10 2h20v16h-20z" fill="#ffe6a4"/><path d="M-22 61h44" stroke="#ffd166" stroke-width="8" opacity=".8"/><path d="M-8-8h16v10H-8z" fill="#733c3b"/></g>
+    <g class="b2" transform="translate(395 180)"><path d="M-15 0h30v18c0 8 16 12 16 29v34a15 15 0 0 1-15 15h-32a15 15 0 0 1-15-15V47c0-17 16-21 16-29Z" fill="#46a7b8" stroke="#285d70" stroke-width="5"/><path d="M-10 2h20v16h-20z" fill="#fbe39d"/><path d="M-22 61h44" stroke="#f9c74f" stroke-width="8" opacity=".9"/><path d="M-8-8h16v10H-8z" fill="#285d70"/></g>
+    <g class="b3" transform="translate(520 125)"><path d="M-15 0h30v18c0 8 16 12 16 29v34a15 15 0 0 1-15 15h-32a15 15 0 0 1-15-15V47c0-17 16-21 16-29Z" fill="#f0a33b" stroke="#89542e" stroke-width="5"/><path d="M-10 2h20v16h-20z" fill="#fff0b4"/><path d="M-22 61h44" stroke="#e85d5d" stroke-width="8" opacity=".85"/><path d="M-8-8h16v10H-8z" fill="#89542e"/></g>
+  </g>
+
+  <!-- unicycle -->
+  <g class="wheel">
+    <circle cx="450" cy="540" r="74" fill="#263d4a" stroke="#182b35" stroke-width="8"/>
+    <circle cx="450" cy="540" r="59" fill="none" stroke="#90c6c4" stroke-width="5" stroke-dasharray="13 9"/>
+    <circle cx="450" cy="540" r="12" fill="#efc35c" stroke="#6c4c38" stroke-width="5"/>
+    <path d="M450 454v74M450 552l-45 39M450 552l45 39" stroke="#6c4c38" stroke-width="7"/>
+  </g>
+
+  <!-- anteater -->
+  <g class="body">
+    <path d="M410 430q-28-85 25-140 56-58 133-9 47 31 25 95-14 39-59 55l-8 55h-54l-11-51q-32 12-51-5Z" fill="url(#fur)" stroke="#4e3027" stroke-width="7"/>
+    <path d="M490 305q45-54 93-21 29 20 5 69-26 53-82 49-20-2-16-28Z" fill="url(#cream)" stroke="#4e3027" stroke-width="7"/>
+    <path d="M520 325q39 12 61 4" stroke="#7b4c33" stroke-width="13" opacity=".75"/>
+    <path d="M543 322q35-17 69 1l91-22q14-3 5 8l-96 40q-42 10-69-5Z" fill="#513126" stroke="#3b2723" stroke-width="6"/>
+    <circle cx="527" cy="307" r="7" fill="#1c2020"/>
+    <path d="M489 292q-5-30 17-43 24 13 17 40" fill="#70402d" stroke="#4e3027" stroke-width="6"/>
+    <path d="M455 432l-4 78M527 430l10 80" stroke="#4e3027" stroke-width="22" stroke-linecap="round"/>
+    <path d="M438 510h35M523 510h35" stroke="#34272a" stroke-width="10" stroke-linecap="round"/>
+    <path class="armL" d="M432 345q-65-9-76-72" fill="none" stroke="#70402d" stroke-width="20" stroke-linecap="round"/>
+    <path class="armR" d="M587 345q63-3 79-67" fill="none" stroke="#70402d" stroke-width="20" stroke-linecap="round"/>
+    <path d="M354 270l-7-12M365 268l-2-14M665 280l8-13M654 278l3-14" stroke="#34272a" stroke-width="6" stroke-linecap="round"/>
+    <path d="M398 392q42 31 91 9" fill="none" stroke="#f1c976" stroke-width="7" opacity=".7"/>
+  </g>
+  <text x="450" y="625" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold" fill="#315d54">THE GREAT BOTTLE BALANCE</text>
+</svg>

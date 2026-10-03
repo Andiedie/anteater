@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A smiling anteater balances on a spinning unicycle as three colorful bottles arc through the air.</desc>
+  <style>
+    .outline{stroke:#493629;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+    .rider{animation:bob .8s ease-in-out infinite alternate;transform-origin:300px 300px}
+    .wheel{animation:spin 1.2s linear infinite;transform-origin:300px 405px}
+    .bottle{transform-box:fill-box;transform-origin:center;animation:twirl 1.5s linear infinite}
+    @keyframes bob{to{transform:translateY(-5px) rotate(1deg)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes twirl{to{rotate:360deg}}
+  </style>
+  <rect width="600" height="500" fill="#fff9e9"/>
+  <ellipse cx="300" cy="461" rx="173" ry="13" fill="#e4dac4"/>
+  <!-- Juggling bottles follow staggered elliptical paths. -->
+  <g>
+    <g><animateMotion dur="2.4s" repeatCount="indefinite" path="M 216,185 C 145,95 242,55 300,104 C 360,55 455,95 384,185 C 350,225 250,225 216,185 Z"/>
+      <g class="bottle" transform="translate(-12,-29)"><path class="outline" fill="#65b9ad" d="M-9 27 Q-13 24-12 17 L-10-4 Q-4-9-4-17 L-4-22 H4 V-17 Q4-9 10-4 L12 17 Q13 24 9 27Z"/><path class="outline" fill="#f5da81" d="M-5-27H5V-21H-5Z"/><path fill="#fff9e9" d="M-10 5H10V15H-10Z"/></g>
+    </g>
+    <g><animateMotion dur="2.4s" begin="-0.8s" repeatCount="indefinite" path="M 216,185 C 145,95 242,55 300,104 C 360,55 455,95 384,185 C 350,225 250,225 216,185 Z"/>
+      <g class="bottle" transform="translate(-12,-29)"><path class="outline" fill="#e89b83" d="M-9 27 Q-13 24-12 17 L-10-4 Q-4-9-4-17 L-4-22 H4 V-17 Q4-9 10-4 L12 17 Q13 24 9 27Z"/><path class="outline" fill="#f5da81" d="M-5-27H5V-21H-5Z"/><path fill="#fff9e9" d="M-10 5H10V15H-10Z"/></g>
+    </g>
+    <g><animateMotion dur="2.4s" begin="-1.6s" repeatCount="indefinite" path="M 216,185 C 145,95 242,55 300,104 C 360,55 455,95 384,185 C 350,225 250,225 216,185 Z"/>
+      <g class="bottle" transform="translate(-12,-29)"><path class="outline" fill="#b39bd2" d="M-9 27 Q-13 24-12 17 L-10-4 Q-4-9-4-17 L-4-22 H4 V-17 Q4-9 10-4 L12 17 Q13 24 9 27Z"/><path class="outline" fill="#f5da81" d="M-5-27H5V-21H-5Z"/><path fill="#fff9e9" d="M-10 5H10V15H-10Z"/></g>
+    </g>
+  </g>
+  <!-- Unicycle -->
+  <g class="wheel">
+    <circle class="outline" cx="300" cy="405" r="53" fill="none" stroke-width="9"/>
+    <path stroke="#9aaca9" stroke-width="3" d="M300 352v106m-53-53h106m-90-37 74 74m0-74-74 74"/>
+  </g>
+  <circle class="outline" cx="300" cy="405" r="8" fill="#f5da81"/>
+  <path class="outline" fill="none" d="M300 405v-105m-33-2h66"/>
+  <path class="outline" fill="#493629" d="M265 297q25-12 69-2l5 8q-40 4-74 0Z"/>
+  <!-- Anteater -->
+  <g class="rider">
+    <!-- Shaggy tail -->
+    <path class="outline" fill="#664e3f" d="M266 251 Q206 234 147 294 Q174 286 166 308 Q190 301 184 322 Q204 308 204 337 Q237 316 274 289Z"/>
+    <path fill="none" stroke="#d9c9a7" stroke-width="9" stroke-linecap="round" d="M252 263 Q206 271 183 304"/>
+    <!-- Legs and pedals -->
+    <path class="outline" fill="none" stroke="#735a45" stroke-width="17" d="M281 287 276 341 301 376m37-89 18 45-30 65"/>
+    <path class="outline" fill="none" stroke="#493629" stroke-width="12" d="M296 378h20m-5 20h28"/>
+    <!-- Body and cream chest -->
+    <path class="outline" fill="#80634b" d="M275 204 Q304 185 335 214 Q357 239 343 291 Q311 309 270 288 Q252 252 275 204Z"/>
+    <path fill="#e6d2a9" d="M301 208 Q337 216 331 275 Q322 291 298 282 Q312 245 301 208Z"/>
+    <!-- Tossing arms -->
+    <path class="outline" fill="none" stroke="#80634b" stroke-width="18" d="M277 225 Q241 228 219 194m111 31q42 11 57-31"/>
+    <path class="outline" fill="#80634b" d="M213 197q-13-6-10-16m10 16q-1-17 7-20m0 17q7-14 13-14m146 18q17-6 16-20m-16 20q5-17-2-23m2 23q-3-13-11-16"/>
+    <!-- Long face and ears -->
+    <path class="outline" fill="#80634b" d="M286 204 Q268 183 278 156 Q293 122 327 136 Q351 147 346 172 Q337 192 307 206Z"/>
+    <path class="outline" fill="#9b785c" d="M285 161 Q267 135 276 124 Q290 119 301 143Z"/>
+    <path class="outline" fill="#d9c9a7" d="M332 155 Q360 151 380 173 L431 203 Q441 211 428 218 Q399 230 362 202 Q338 193 318 187Z"/>
+    <ellipse class="outline" cx="430" cy="210" rx="11" ry="7" fill="#493629"/>
+    <circle cx="335" cy="161" r="5" fill="#302820"/>
+    <circle cx="337" cy="159" r="1.5" fill="white"/>
+    <path fill="none" stroke="#493629" stroke-width="3" stroke-linecap="round" d="M351 183q9 5 18 2"/>
+  </g>
+  <path fill="none" stroke="#c8c0a9" stroke-width="3" stroke-linecap="round" d="M139 421h38m-25 14h20m252-14h32m-17 14h22"/>
+</svg>

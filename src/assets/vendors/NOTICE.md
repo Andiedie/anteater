@@ -1,10 +1,11 @@
 # Brand marks
 
-OpenAI, Anthropic, Google, DeepSeek, xAI, Z.ai, Tencent, and Meta SVGs are copied unchanged from `@lobehub/icons-static-svg` **1.95.1**:
+OpenAI, Anthropic, Google, DeepSeek, xAI, Z.ai, Tencent, Meta, Alibaba, Moonshot AI, and MiniMax SVGs are copied unchanged from `@lobehub/icons-static-svg` **1.95.1**:
 
 - Source: https://github.com/lobehub/lobe-icons
 - Files: https://unpkg.com/@lobehub/icons-static-svg@1.95.1/icons/{name}.svg
 - License: MIT; the original copyright and license are included in `LICENSE`.
+- `moonshot.svg` is stored as `moonshotai.svg` to match the maker label; its SVG bytes are unchanged.
 
 Xiaomi SVG is from Simple Icons, distributed under CC0-1.0:
 

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "slug": "muse-spark-1.3-low",
+  "name": "Muse Spark 1.3",
+  "vendor": "Meta",
+  "date": "2026-10-02T02:23:14.720Z",
+  "model_ids": [
+    "meta/muse-spark-1.3"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "low"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 40.443,
+    "request_seconds": 40.405,
+    "average_tps": 77.64,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 7811,
+      "output": 3137,
+      "cacheRead": 467,
+      "cacheWrite": 0,
+      "reasoning": 187,
+      "totalTokens": 11415
+    },
+    "recorded_cost_usd": 0.02316605,
+    "cost_usd": 0.02316605
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#9fb7c33dd4b066b8ce44d105089d330f",
+    "gist_id": "9fb7c33dd4b066b8ce44d105089d330f",
+    "gist_revision": "ff6017756db5a1100d56c00cb52228b138b8ea67",
+    "session_id": "01a0fa6c-44bb-767b-972b-29e1dac75179",
+    "imported_at": "2026-10-02T16:16:45.383332+00:00",
+    "artwork_sha256": "2f383d35c11b6c8403f4eb35439f6ed76247a7b50f557ff33599ab96eec456b0"
+  }
+}

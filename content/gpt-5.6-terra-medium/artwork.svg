@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" role="img" aria-labelledby="title desc">
+  <title id="title">An anteater rides a unicycle and juggles three bottles</title>
+  <desc id="desc">A cheerful animated anteater pedals a unicycle while bottles arc above its long nose.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#9be7f5"/><stop offset="1" stop-color="#f8dc91"/></linearGradient>
+    <radialGradient id="fur"><stop stop-color="#a96a37"/><stop offset="1" stop-color="#704020"/></radialGradient>
+    <linearGradient id="metal" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".35" stop-color="#a7bac4"/><stop offset=".7" stop-color="#5b727e"/><stop offset="1" stop-color="#d8eff3"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+    <path id="bottle" d="M-14,-47 h28 v18 l9,13 v51 q0,10 -10,10 h-26 q-10,0 -10,-10 v-51 l9,-13z"/>
+  </defs>
+
+  <rect width="900" height="650" fill="url(#sky)"/>
+  <path d="M0 467 Q130 430 260 467 T520 457 T900 455 V650 H0Z" fill="#74b95d"/>
+  <g opacity=".3" fill="#4d8d4b"><circle cx="96" cy="468" r="39"/><circle cx="151" cy="461" r="55"/><circle cx="718" cy="456" r="54"/><circle cx="798" cy="463" r="42"/></g>
+  <ellipse cx="452" cy="588" rx="216" ry="26" fill="#36523e" opacity=".25" filter="url(#shadow)">
+    <animate attributeName="rx" values="205;225;205" dur="1s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- unicycle -->
+  <g transform="translate(450 482)">
+    <circle r="107" fill="none" stroke="#243746" stroke-width="15"/>
+    <circle r="94" fill="none" stroke="#d9eef0" stroke-width="3"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.25s" repeatCount="indefinite"/>
+      <g stroke="#41606c" stroke-width="5"><path d="M0 0V-94"/><path d="M0 0V94"/><path d="M0 0H94"/><path d="M0 0H-94"/><path d="M0 0L66 66"/><path d="M0 0L-66 -66"/><path d="M0 0L66 -66"/><path d="M0 0L-66 66"/></g>
+      <circle r="13" fill="url(#metal)"/>
+      <g fill="#f7d554" stroke="#314b57" stroke-width="4"><rect x="-34" y="-8" width="29" height="16" rx="7"/><rect x="5" y="-8" width="29" height="16" rx="7"/></g>
+    </g>
+    <path d="M0 -14 V-179" stroke="url(#metal)" stroke-width="12"/>
+    <path d="M-40 -184 H40" stroke="#283d48" stroke-width="15" stroke-linecap="round"/>
+    <path d="M-30 -189 H30" stroke="#f3be40" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <!-- anteater, gently bouncing -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="1s" repeatCount="indefinite"/>
+    <!-- dramatic tail behind -->
+    <path d="M385 365 Q227 225 129 330 Q71 394 178 425 Q269 451 382 426Z" fill="url(#fur)" stroke="#4b2b1a" stroke-width="7"/>
+    <path d="M151 345 Q221 298 346 389" fill="none" stroke="#efce8b" stroke-width="19" stroke-linecap="round" opacity=".9"/>
+    <path d="M168 381 Q244 347 349 408" fill="none" stroke="#2d211d" stroke-width="16" stroke-linecap="round"/>
+    <!-- body -->
+    <ellipse cx="420" cy="362" rx="119" ry="105" fill="url(#fur)" stroke="#4b2b1a" stroke-width="7"/>
+    <path d="M345 295 Q398 242 472 278 Q438 304 421 455" fill="#e5bd72" opacity=".9"/>
+    <path d="M351 293 Q402 267 448 277" fill="none" stroke="#2c211d" stroke-width="17" stroke-linecap="round"/>
+    <!-- legs -->
+    <path d="M385 434 Q365 472 389 500 Q408 510 425 492 L442 449" fill="#75401f" stroke="#4b2b1a" stroke-width="7"/>
+    <path d="M461 440 Q493 465 477 500 Q459 512 441 494 L430 452" fill="#75401f" stroke="#4b2b1a" stroke-width="7"/>
+    <!-- head and snout -->
+    <path d="M404 292 Q430 196 521 211 Q564 217 589 245 L775 302 Q805 311 782 327 L578 338 Q531 362 474 349 Q422 337 404 292Z" fill="url(#fur)" stroke="#4b2b1a" stroke-width="7"/>
+    <path d="M577 285 L779 305 Q810 310 784 329 L579 337Z" fill="#dfb06a"/>
+    <ellipse cx="786" cy="318" rx="18" ry="13" fill="#29211d"/>
+    <path d="M464 228 Q476 176 512 205 L530 235" fill="#75401f" stroke="#4b2b1a" stroke-width="7"/>
+    <circle cx="546" cy="257" r="10" fill="#1e2022"/><circle cx="549" cy="254" r="3" fill="white"/>
+    <path d="M555 285 Q574 297 589 286" fill="none" stroke="#4b2b1a" stroke-width="5" stroke-linecap="round"/>
+    <!-- arms reach upward -->
+    <path d="M365 335 Q310 304 283 229 Q277 210 291 202 Q310 196 321 218 Q349 276 392 285" fill="#835027" stroke="#4b2b1a" stroke-width="7" stroke-linecap="round"/>
+    <path d="M460 337 Q491 304 516 238 Q523 219 541 225 Q556 232 547 251 Q525 326 486 369" fill="#835027" stroke="#4b2b1a" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#e6bd72" stroke="#4b2b1a" stroke-width="4"><circle cx="289" cy="205" r="13"/><circle cx="540" cy="226" r="13"/></g>
+  </g>
+
+  <!-- juggling bottle paths and bottles -->
+  <path d="M289 205 Q370 28 540 226 Q645 360 719 148 Q754 55 786 155" fill="none" stroke="#fff" stroke-opacity=".38" stroke-width="3" stroke-dasharray="7 10"/>
+  <g fill="#e94e59" stroke="#562a35" stroke-width="5">
+    <use href="#bottle">
+      <animateMotion dur="3s" repeatCount="indefinite" path="M289,205 Q370,28 540,226"/>
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="3s" repeatCount="indefinite" additive="sum"/>
+    </use>
+  </g>
+  <g fill="#4f8ee8" stroke="#243d70" stroke-width="5">
+    <use href="#bottle">
+      <animateMotion dur="3s" begin="-1s" repeatCount="indefinite" path="M540,226 Q645,360 719,148 Q754,55 786,155"/>
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="3s" repeatCount="indefinite" additive="sum"/>
+    </use>
+  </g>
+  <g fill="#f4bd3e" stroke="#71501d" stroke-width="5">
+    <use href="#bottle">
+      <animateMotion dur="3s" begin="-2s" repeatCount="indefinite" path="M786,155 Q610,12 430,126 Q337,184 289,205"/>
+      <animateTransform attributeName="transform" type="rotate" values="0;360" dur="3s" repeatCount="indefinite" additive="sum"/>
+    </use>
+  </g>
+  <g font-family="system-ui, sans-serif" font-weight="800" text-anchor="middle" fill="#315d50"><text x="450" y="625" font-size="22" letter-spacing="4">BALANCE IS EVERYTHING</text></g>
+</svg>

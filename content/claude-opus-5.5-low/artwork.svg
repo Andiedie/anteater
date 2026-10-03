@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <g id="bottle">
+      <rect x="-6" y="-8" width="12" height="20" rx="3" fill="#2e8b57" stroke="#14532d"/>
+      <rect x="-3" y="-16" width="6" height="9" fill="#2e8b57" stroke="#14532d"/>
+      <rect x="-3.5" y="-19" width="7" height="3" fill="#c0392b"/>
+      <rect x="-5" y="-2" width="10" height="6" fill="#f5e6c8"/>
+    </g>
+  </defs>
+  <rect width="400" height="400" fill="#bfe6ff"/>
+  <rect y="330" width="400" height="70" fill="#8fbc5a"/>
+
+  <!-- Whole rider moves side to side -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="-40 0;40 0;-40 0" dur="6s" repeatCount="indefinite"/>
+
+    <!-- Wheel -->
+    <g transform="translate(200 300)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360;720;360;0" dur="6s" repeatCount="indefinite"/>
+        <circle r="30" fill="none" stroke="#222" stroke-width="6"/>
+        <line x1="-30" y1="0" x2="30" y2="0" stroke="#888" stroke-width="2"/>
+        <line x1="0" y1="-30" x2="0" y2="30" stroke="#888" stroke-width="2"/>
+        <line x1="-21" y1="-21" x2="21" y2="21" stroke="#888" stroke-width="2"/>
+        <line x1="-21" y1="21" x2="21" y2="-21" stroke="#888" stroke-width="2"/>
+        <circle r="4" fill="#555"/>
+      </g>
+    </g>
+    <!-- Frame & seat -->
+    <line x1="200" y1="300" x2="200" y2="225" stroke="#c0392b" stroke-width="6"/>
+    <rect x="182" y="218" width="36" height="9" rx="4" fill="#333"/>
+
+    <!-- Anteater body with slight wobble -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-4 200 225;4 200 225;-4 200 225" dur="1.5s" repeatCount="indefinite"/>
+      <!-- Legs pedaling -->
+      <line x1="195" y1="220" x2="196" y2="300" stroke="#6b5444" stroke-width="7" stroke-linecap="round">
+        <animate attributeName="y2" values="270;300;330;300;270" dur="1.5s" repeatCount="indefinite"/>
+      </line>
+      <line x1="205" y1="220" x2="204" y2="300" stroke="#5a4536" stroke-width="7" stroke-linecap="round">
+        <animate attributeName="y2" values="330;300;270;300;330" dur="1.5s" repeatCount="indefinite"/>
+      </line>
+      <!-- Tail -->
+      <path d="M180 200 Q130 190 140 240 Q160 220 185 215 Z" fill="#7a6250">
+        <animateTransform attributeName="transform" type="rotate" values="0 180 205;-8 180 205;0 180 205" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <!-- Body -->
+      <ellipse cx="200" cy="185" rx="28" ry="42" fill="#8b7262"/>
+      <path d="M178 160 L222 205 L222 180 L190 152 Z" fill="#222" opacity="0.85"/>
+      <path d="M178 160 L222 205" stroke="#f4f0e6" stroke-width="4"/>
+      <!-- Head and long snout -->
+      <ellipse cx="208" cy="138" rx="17" ry="14" fill="#8b7262"/>
+      <path d="M218 132 Q260 138 280 150 Q258 150 218 146 Z" fill="#8b7262"/>
+      <circle cx="280" cy="150" r="2.5" fill="#222"/>
+      <circle cx="214" cy="134" r="2.5" fill="#111"/>
+      <ellipse cx="199" cy="126" rx="5" ry="7" fill="#6b5444"/>
+      <!-- Tongue flick -->
+      <path d="M281 151 q8 2 14 -2" stroke="#e86a8a" stroke-width="2" fill="none">
+        <animate attributeName="opacity" values="0;0;1;0" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <!-- Arms juggling -->
+      <line x1="188" y1="170" x2="165" y2="150" stroke="#6b5444" stroke-width="7" stroke-linecap="round">
+        <animate attributeName="y2" values="150;160;150" dur="0.75s" repeatCount="indefinite"/>
+      </line>
+      <line x1="212" y1="170" x2="235" y2="150" stroke="#6b5444" stroke-width="7" stroke-linecap="round">
+        <animate attributeName="y2" values="160;150;160" dur="0.75s" repeatCount="indefinite"/>
+      </line>
+    </g>
+
+    <!-- Juggled bottles: cascade pattern, 3 bottles, offset in time -->
+    <g>
+      <use href="#bottle">
+        <animateMotion dur="1.5s" repeatCount="indefinite" begin="0s" path="M165 150 Q200 20 235 150 Q200 175 165 150" rotate="auto"/>
+      </use>
+      <use href="#bottle">
+        <animateMotion dur="1.5s" repeatCount="indefinite" begin="-0.5s" path="M165 150 Q200 20 235 150 Q200 175 165 150" rotate="auto"/>
+      </use>
+      <use href="#bottle">
+        <animateMotion dur="1.5s" repeatCount="indefinite" begin="-1s" path="M165 150 Q200 20 235 150 Q200 175 165 150" rotate="auto"/>
+      </use>
+    </g>
+  </g>
+</svg>

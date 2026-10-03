@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "slug": "mimo-v2.5-pro-off",
+  "name": "MiMo V2.5 Pro",
+  "vendor": "Xiaomi",
+  "date": "2026-10-01T16:16:46.593Z",
+  "model_ids": [
+    "xiaomi/mimo-v2.5-pro"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "off"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 37.605,
+    "request_seconds": 37.584,
+    "average_tps": 138.97,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 6527,
+      "output": 5223,
+      "cacheRead": 1472,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 13222
+    },
+    "recorded_cost_usd": 0.0073885542,
+    "cost_usd": 0.0073885542
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#b484e9d0aa799e6924b613a3d84e1635",
+    "gist_id": "b484e9d0aa799e6924b613a3d84e1635",
+    "gist_revision": "66bb98819f8b4b8c04d439ee56c7203e50b95213",
+    "session_id": "01a0f841-07ac-7191-a097-715966bc13c2",
+    "imported_at": "2026-10-03T03:11:56.902719+00:00",
+    "artwork_sha256": "c1a3fcf026b41d5eb8d707d9ab64ba27ca17f881ea2a1e9cfdf97173222b8983"
+  }
+}

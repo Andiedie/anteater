@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480" role="img" aria-label="An anteater riding a unicycle while juggling three bottles">
+  <title>Anteater on a unicycle, juggling bottles</title>
+  <desc>Looping cartoon animation of a gray anteater pedaling a unicycle and juggling three amber bottles.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ec8ff"/>
+      <stop offset="55%" stop-color="#c8ecff"/>
+      <stop offset="100%" stop-color="#e8f7d8"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a8178"/>
+      <stop offset="100%" stop-color="#5c534c"/>
+    </linearGradient>
+    <linearGradient id="snout" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#6e655e"/>
+      <stop offset="100%" stop-color="#3e3834"/>
+    </linearGradient>
+    <radialGradient id="wheel" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#6a6a6a"/>
+      <stop offset="70%" stop-color="#2b2b2b"/>
+      <stop offset="100%" stop-color="#111"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f4d27a"/>
+      <stop offset="40%" stop-color="#e8a23a"/>
+      <stop offset="100%" stop-color="#c47a18"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <style>
+    .bob { animation: bob 0.7s ease-in-out infinite; transform-origin: 320px 300px; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+      50% { transform: translateY(-7px) rotate(1.2deg); }
+    }
+    .wheel-spin { transform-origin: 320px 360px; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .pedal { transform-origin: 320px 338px; animation: spin 0.8s linear infinite; }
+    .leg-l { transform-origin: 300px 292px; animation: pedalL 0.8s linear infinite; }
+    .leg-r { transform-origin: 338px 292px; animation: pedalR 0.8s linear infinite; }
+    @keyframes pedalL {
+      0% { transform: rotate(20deg); }
+      50% { transform: rotate(-28deg); }
+      100% { transform: rotate(20deg); }
+    }
+    @keyframes pedalR {
+      0% { transform: rotate(-28deg); }
+      50% { transform: rotate(20deg); }
+      100% { transform: rotate(-28deg); }
+    }
+    .tail { transform-origin: 250px 270px; animation: wag 0.9s ease-in-out infinite; }
+    @keyframes wag {
+      0%, 100% { transform: rotate(8deg); }
+      50% { transform: rotate(-14deg); }
+    }
+    .snout-wiggle { transform-origin: 390px 230px; animation: wiggle 1.4s ease-in-out infinite; }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      40% { transform: rotate(3deg); }
+      70% { transform: rotate(-2deg); }
+    }
+    .arm-l { transform-origin: 300px 230px; animation: armL 1.2s ease-in-out infinite; }
+    .arm-r { transform-origin: 355px 225px; animation: armR 1.2s ease-in-out infinite; }
+    @keyframes armL {
+      0%, 100% { transform: rotate(-18deg); }
+      50% { transform: rotate(22deg); }
+    }
+    @keyframes armR {
+      0%, 100% { transform: rotate(16deg); }
+      50% { transform: rotate(-24deg); }
+    }
+    .jug-a { animation: tossA 1.2s ease-in-out infinite; }
+    .jug-b { animation: tossB 1.2s ease-in-out infinite; }
+    .jug-c { animation: tossC 1.2s ease-in-out infinite; }
+    @keyframes tossA {
+      0%   { transform: translate(250px, 150px) rotate(-25deg); }
+      25%  { transform: translate(300px, 70px) rotate(10deg); }
+      50%  { transform: translate(360px, 145px) rotate(30deg); }
+      75%  { transform: translate(310px, 175px) rotate(5deg); }
+      100% { transform: translate(250px, 150px) rotate(-25deg); }
+    }
+    @keyframes tossB {
+      0%   { transform: translate(370px, 148px) rotate(22deg); }
+      25%  { transform: translate(320px, 175px) rotate(-8deg); }
+      50%  { transform: translate(255px, 150px) rotate(-28deg); }
+      75%  { transform: translate(305px, 72px) rotate(6deg); }
+      100% { transform: translate(370px, 148px) rotate(22deg); }
+    }
+    @keyframes tossC {
+      0%   { transform: translate(310px, 168px) rotate(4deg); }
+      25%  { transform: translate(250px, 155px) rotate(-20deg); }
+      50%  { transform: translate(305px, 78px) rotate(0deg); }
+      75%  { transform: translate(365px, 148px) rotate(24deg); }
+      100% { transform: translate(310px, 168px) rotate(4deg); }
+    }
+    .ground-scroll { animation: scroll 1.6s linear infinite; }
+    @keyframes scroll { to { transform: translateX(-80px); } }
+    .blink { transform-origin: center; animation: blink 3.2s infinite; }
+    @keyframes blink {
+      0%, 92%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+  </style>
+
+  <!-- sky and ground -->
+  <rect width="640" height="480" fill="url(#sky)"/>
+  <ellipse cx="120" cy="90" rx="50" ry="22" fill="#fff" opacity="0.85"/>
+  <ellipse cx="155" cy="96" rx="36" ry="18" fill="#fff" opacity="0.85"/>
+  <ellipse cx="500" cy="70" rx="60" ry="24" fill="#fff" opacity="0.8"/>
+  <ellipse cx="545" cy="78" rx="40" ry="18" fill="#fff" opacity="0.8"/>
+
+  <rect y="400" width="640" height="80" fill="#7dba4a"/>
+  <rect y="400" width="640" height="14" fill="#6aa83c"/>
+  <g class="ground-scroll">
+    <g fill="#5e9a34">
+      <ellipse cx="20" cy="430" rx="8" ry="3"/>
+      <ellipse cx="70" cy="448" rx="10" ry="3"/>
+      <ellipse cx="130" cy="422" rx="7" ry="3"/>
+      <ellipse cx="190" cy="455" rx="9" ry="3"/>
+      <ellipse cx="250" cy="428" rx="8" ry="3"/>
+      <ellipse cx="320" cy="450" rx="11" ry="3"/>
+      <ellipse cx="390" cy="424" rx="7" ry="3"/>
+      <ellipse cx="460" cy="446" rx="9" ry="3"/>
+      <ellipse cx="530" cy="430" rx="8" ry="3"/>
+      <ellipse cx="600" cy="452" rx="10" ry="3"/>
+      <ellipse cx="680" cy="426" rx="8" ry="3"/>
+      <ellipse cx="740" cy="448" rx="9" ry="3"/>
+    </g>
+  </g>
+
+  <!-- contact shadow -->
+  <ellipse cx="320" cy="412" rx="54" ry="8" fill="#000" opacity="0.18">
+    <animate attributeName="rx" values="54;46;54" dur="0.7s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- bottles (behind/around the rider, tossed in arcs) -->
+  <g class="jug-a" filter="url(#shadow)">
+    <g>
+      <rect x="-8" y="-28" width="16" height="36" rx="4" fill="url(#glass)" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-5" y="-36" width="10" height="10" rx="2" fill="#f2e2b0" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-6" y="-10" width="12" height="6" fill="#fff" opacity="0.35"/>
+    </g>
+  </g>
+  <g class="jug-b" filter="url(#shadow)">
+    <g>
+      <rect x="-8" y="-28" width="16" height="36" rx="4" fill="url(#glass)" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-5" y="-36" width="10" height="10" rx="2" fill="#d8efe8" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-6" y="-10" width="12" height="6" fill="#fff" opacity="0.35"/>
+    </g>
+  </g>
+  <g class="jug-c" filter="url(#shadow)">
+    <g>
+      <rect x="-8" y="-28" width="16" height="36" rx="4" fill="url(#glass)" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-5" y="-36" width="10" height="10" rx="2" fill="#f7c5c0" stroke="#8a5410" stroke-width="1"/>
+      <rect x="-6" y="-10" width="12" height="6" fill="#fff" opacity="0.35"/>
+    </g>
+  </g>
+
+  <g class="bob">
+    <!-- tail -->
+    <g class="tail">
+      <path d="M250 268 C200 250, 150 290, 130 340 C150 330, 190 320, 230 310 C210 340, 180 370, 200 390 C230 360, 250 320, 262 290 Z" fill="url(#fur)" stroke="#3a342f" stroke-width="2"/>
+      <path d="M200 390 C185 400, 175 395, 178 382" fill="none" stroke="#3a342f" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- unicycle frame -->
+    <g stroke="#222" stroke-width="5" fill="none" stroke-linecap="round">
+      <path d="M320 292 L320 338"/>
+      <path d="M300 292 L340 292"/>
+      <path d="M320 338 L292 360"/>
+      <path d="M320 338 L348 360"/>
+    </g>
+    <circle cx="320" cy="292" r="7" fill="#444"/>
+
+    <!-- wheel -->
+    <g>
+      <circle cx="320" cy="360" r="48" fill="url(#wheel)" stroke="#111" stroke-width="6"/>
+      <g class="wheel-spin" stroke="#cfcfcf" stroke-width="2">
+        <line x1="320" y1="318" x2="320" y2="402"/>
+        <line x1="278" y1="360" x2="362" y2="360"/>
+        <line x1="290" y1="330" x2="350" y2="390"/>
+        <line x1="290" y1="390" x2="350" y2="330"/>
+      </g>
+      <circle cx="320" cy="360" r="8" fill="#ddd" stroke="#333" stroke-width="2"/>
+    </g>
+
+    <!-- pedals -->
+    <g class="pedal">
+      <line x1="300" y1="338" x2="340" y2="338" stroke="#555" stroke-width="3"/>
+      <rect x="288" y="333" width="16" height="8" rx="2" fill="#222"/>
+      <rect x="336" y="333" width="16" height="8" rx="2" fill="#222"/>
+    </g>
+
+    <!-- legs -->
+    <g class="leg-l" stroke="#3a342f" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M300 292 Q286 320 292 338"/>
+    </g>
+    <g class="leg-r" stroke="#4a433d" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M338 292 Q354 318 348 338"/>
+    </g>
+
+    <!-- body -->
+    <ellipse cx="318" cy="250" rx="48" ry="40" fill="url(#fur)" stroke="#3a342f" stroke-width="2"/>
+    <ellipse cx="322" cy="258" rx="28" ry="26" fill="#d7c3a4"/>
+
+    <!-- arms -->
+    <g class="arm-l" stroke="#5c534c" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M292 230 Q250 210 240 175"/>
+      <circle cx="238" cy="170" r="7" fill="#d7c3a4" stroke="#3a342f" stroke-width="2"/>
+    </g>
+    <g class="arm-r" stroke="#5c534c" stroke-width="8" fill="none" stroke-linecap="round">
+      <path d="M348 228 Q390 205 400 168"/>
+      <circle cx="402" cy="164" r="7" fill="#d7c3a4" stroke="#3a342f" stroke-width="2"/>
+    </g>
+
+    <!-- head -->
+    <g class="snout-wiggle">
+      <ellipse cx="360" cy="214" rx="34" ry="28" fill="url(#fur)" stroke="#3a342f" stroke-width="2"/>
+      <!-- ear -->
+      <ellipse cx="342" cy="188" rx="10" ry="14" fill="#5c534c" stroke="#3a342f" stroke-width="2"/>
+      <ellipse cx="342" cy="190" rx="5" ry="8" fill="#e7b7c3"/>
+      <!-- long snout -->
+      <path d="M378 208 C450 200, 500 214, 520 228 C500 242, 450 246, 380 232 Z" fill="url(#snout)" stroke="#3a342f" stroke-width="2"/>
+      <ellipse cx="516" cy="228" rx="8" ry="6" fill="#2a2420"/>
+      <!-- eye -->
+      <g class="blink">
+        <ellipse cx="368" cy="208" rx="7" ry="8" fill="#fff" stroke="#222" stroke-width="1"/>
+        <circle cx="370" cy="209" r="3.5" fill="#1a1a1a"/>
+        <circle cx="371.5" cy="207.5" r="1.2" fill="#fff"/>
+      </g>
+      <!-- tiny smile -->
+      <path d="M400 226 Q410 232 418 226" fill="none" stroke="#2a2420" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- saddle -->
+    <ellipse cx="320" cy="286" rx="22" ry="8" fill="#7a2e2e" stroke="#4a1616" stroke-width="1.5"/>
+  </g>
+</svg>

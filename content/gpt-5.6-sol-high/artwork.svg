@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle and juggling bottles</title>
+  <desc id="desc">A looping animated circus scene with an anteater balancing on a unicycle while three colorful bottles arc through the air.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff5d8"/>
+      <stop offset="1" stop-color="#ffdca8"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#536273"/>
+      <stop offset=".45" stop-color="#182330"/>
+      <stop offset="1" stop-color="#607183"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9b7352"/>
+      <stop offset="1" stop-color="#5f412f"/>
+    </linearGradient>
+    <linearGradient id="cream" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0cd"/>
+      <stop offset="1" stop-color="#d9bd8f"/>
+    </linearGradient>
+    <linearGradient id="redGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff877b"/>
+      <stop offset=".55" stop-color="#e74849"/>
+      <stop offset="1" stop-color="#9f2635"/>
+    </linearGradient>
+    <linearGradient id="blueGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ce1f0"/>
+      <stop offset=".55" stop-color="#2f9fca"/>
+      <stop offset="1" stop-color="#17618d"/>
+    </linearGradient>
+    <linearGradient id="greenGlass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bfe874"/>
+      <stop offset=".55" stop-color="#68ad4d"/>
+      <stop offset="1" stop-color="#34733c"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#5c2f22" flood-opacity=".28"/>
+    </filter>
+
+    <path id="flight1" d="M263 351 C265 115 523 105 544 352"/>
+    <path id="flight2" d="M545 352 C535 145 306 115 263 351"/>
+    <path id="flight3" d="M263 351 C300 183 500 175 544 352"/>
+
+    <g id="bottle-red" filter="url(#softShadow)">
+      <path d="M-9-34v12c0 5-8 9-11 16l-3 10v30c0 7 5 12 12 12h22c7 0 12-5 12-12V4L20-6c-3-7-11-11-11-16v-12z" fill="url(#redGlass)" stroke="#762631" stroke-width="3"/>
+      <path d="M-10-38h20v9h-20z" rx="2" fill="#f5d97a" stroke="#8b6837" stroke-width="2"/>
+      <path d="M-16 5h32v21h-32z" rx="3" fill="#fff3d2" opacity=".92"/>
+      <circle cx="0" cy="15" r="7" fill="#e74849"/>
+      <path d="M-13-1c3-8 10-10 10-18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".42"/>
+    </g>
+    <g id="bottle-blue" filter="url(#softShadow)">
+      <path d="M-9-34v12c0 5-8 9-11 16l-3 10v30c0 7 5 12 12 12h22c7 0 12-5 12-12V4L20-6c-3-7-11-11-11-16v-12z" fill="url(#blueGlass)" stroke="#175777" stroke-width="3"/>
+      <path d="M-10-38h20v9h-20z" rx="2" fill="#f5d97a" stroke="#8b6837" stroke-width="2"/>
+      <path d="M-16 5h32v21h-32z" rx="3" fill="#fff3d2" opacity=".92"/>
+      <path d="M-7 15h14M0 8v14" stroke="#2f9fca" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-13-1c3-8 10-10 10-18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".42"/>
+    </g>
+    <g id="bottle-green" filter="url(#softShadow)">
+      <path d="M-9-34v12c0 5-8 9-11 16l-3 10v30c0 7 5 12 12 12h22c7 0 12-5 12-12V4L20-6c-3-7-11-11-11-16v-12z" fill="url(#greenGlass)" stroke="#315f39" stroke-width="3"/>
+      <path d="M-10-38h20v9h-20z" rx="2" fill="#f5d97a" stroke="#8b6837" stroke-width="2"/>
+      <path d="M-16 5h32v21h-32z" rx="3" fill="#fff3d2" opacity=".92"/>
+      <path d="M0 7c-10 7-8 15 0 17 8-2 10-10 0-17z" fill="#68ad4d"/>
+      <path d="M-13-1c3-8 10-10 10-18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".42"/>
+    </g>
+  </defs>
+
+  <style>
+    .wheel-spin { transform-origin: 400px 638px; animation: spin 1.4s linear infinite; }
+    .rider-bob { animation: bob 1.4s ease-in-out infinite; }
+    .tail-sway { transform-origin: 344px 466px; animation: sway 1.4s ease-in-out infinite; }
+    .ear-wiggle { transform-origin: 390px 300px; animation: wiggle 2.1s ease-in-out infinite; }
+    .eye-blink { transform-origin: center; animation: blink 4.6s infinite; }
+    .pedal { transform-origin: 400px 638px; animation: spin 1.4s linear infinite; }
+    .spark { animation: twinkle 1.8s ease-in-out infinite alternate; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-.4deg); } 50% { transform: translateY(-7px) rotate(.4deg); } }
+    @keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(5deg); } }
+    @keyframes wiggle { 0%,85%,100% { transform: rotate(0); } 90% { transform: rotate(-9deg); } 95% { transform: rotate(6deg); } }
+    @keyframes blink { 0%,46%,50%,100% { transform: scaleY(1); } 48% { transform: scaleY(.08); } }
+    @keyframes twinkle { from { opacity:.25; transform:scale(.65); } to { opacity:1; transform:scale(1.15); } }
+    @media (prefers-reduced-motion: reduce) { * { animation-play-state: paused !important; } }
+  </style>
+
+  <!-- warm circus backdrop -->
+  <rect width="800" height="800" fill="url(#sky)"/>
+  <path d="M0 0h800v32H0z" fill="#e94d4e"/>
+  <path d="M0 32h800v14H0z" fill="#f7c85c"/>
+  <g fill="#fff8df" opacity=".65">
+    <circle cx="90" cy="114" r="4"/><circle cx="160" cy="75" r="7"/><circle cx="670" cy="104" r="5"/><circle cx="728" cy="178" r="8"/><circle cx="82" cy="270" r="7"/>
+  </g>
+  <g fill="#d84449" opacity=".16">
+    <path d="M0 46L125 0h85L73 46z"/><path d="M255 46L330 0h85l-88 46z"/><path d="M478 46L535 0h85l-70 46z"/><path d="M678 46L715 0h85v13l-49 33z"/>
+  </g>
+  <path d="M0 691c156-29 267-15 400 2s253 22 400-5v112H0z" fill="#d95b4d"/>
+  <path d="M0 709c157-30 293-12 407 1 130 15 258 15 393-7v97H0z" fill="#b94342"/>
+  <ellipse cx="402" cy="740" rx="174" ry="23" fill="#572d30" opacity=".28" filter="url(#shadow)"/>
+
+  <!-- decorative stars -->
+  <g fill="#e94d4e">
+    <path class="spark" d="M118 165l5 12 12 5-12 5-5 12-5-12-12-5 12-5z" style="transform-origin:118px 182px"/>
+    <path class="spark" d="M684 264l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" style="transform-origin:684px 278px;animation-delay:.7s"/>
+  </g>
+
+  <!-- unicycle -->
+  <g>
+    <circle cx="400" cy="638" r="103" fill="#fff8e5" stroke="url(#ring)" stroke-width="13"/>
+    <g class="wheel-spin" stroke="#8b96a1" stroke-width="3" opacity=".9">
+      <path d="M400 540v196M302 638h196M331 569l138 138M331 707l138-138"/>
+      <circle cx="400" cy="638" r="14" fill="#e94d4e" stroke="#283340" stroke-width="5"/>
+      <circle cx="400" cy="540" r="5" fill="#e94d4e"/><circle cx="498" cy="638" r="5" fill="#e94d4e"/><circle cx="400" cy="736" r="5" fill="#e94d4e"/><circle cx="302" cy="638" r="5" fill="#e94d4e"/>
+    </g>
+    <path d="M400 638l-3-146" stroke="#263440" stroke-width="13" stroke-linecap="round"/>
+    <path d="M364 492h69" stroke="#263440" stroke-width="15" stroke-linecap="round"/>
+    <path d="M372 486h54" stroke="#e94d4e" stroke-width="10" stroke-linecap="round"/>
+    <g class="pedal">
+      <path d="M400 638h45" stroke="#263440" stroke-width="8" stroke-linecap="round"/>
+      <path d="M400 638h-45" stroke="#263440" stroke-width="8" stroke-linecap="round"/>
+      <path d="M442 638h20M338 638h20" stroke="#f6c85a" stroke-width="9" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- anteater, gently balancing -->
+  <g class="rider-bob">
+    <!-- huge feathery tail -->
+    <g class="tail-sway" filter="url(#softShadow)">
+      <path d="M352 448C260 402 151 428 119 492c-22 44 35 73 90 48 55-25 98-20 148-11 30 5 52-56-5-81z" fill="url(#fur)" stroke="#4e352a" stroke-width="5"/>
+      <path d="M330 459c-78-28-149-4-183 42 44-25 111-26 174-7" fill="none" stroke="#c69a69" stroke-width="17" stroke-linecap="round" opacity=".72"/>
+      <path d="M296 443c-43-5-94 13-121 38M295 519c-43-5-83 3-116 21" fill="none" stroke="#4e352a" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+    </g>
+
+    <!-- legs gripping the seat -->
+    <path d="M356 474c-3 35 7 69 30 86" fill="none" stroke="#614431" stroke-width="27" stroke-linecap="round"/>
+    <path d="M429 472c8 36 1 69-24 88" fill="none" stroke="#6c4b35" stroke-width="27" stroke-linecap="round"/>
+    <path d="M382 556c10 7 21 7 29 0" fill="none" stroke="#292d31" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- body -->
+    <path d="M332 378c-17 36-16 91 8 118 25 28 95 29 121-2 22-26 16-86-1-121-15-31-106-29-128 5z" fill="url(#fur)" stroke="#4e352a" stroke-width="5" filter="url(#softShadow)"/>
+    <!-- signature shoulder stripe -->
+    <path d="M347 367c18 15 38 28 64 36 20 6 39 22 49 43 3 14 3 29-1 42-18-32-38-48-65-57-31-10-53-26-68-45 4-9 11-15 21-19z" fill="#302f31"/>
+    <path d="M348 366c17 13 32 21 54 29l-14 34c-26-10-47-24-61-42 5-10 11-17 21-21z" fill="#efe0bb"/>
+
+    <!-- left arm -->
+    <path d="M346 392c-35-6-69-26-81-49" fill="none" stroke="#6d4c35" stroke-width="24" stroke-linecap="round"/>
+    <path d="M266 343c-8-17-4-28 4-35" fill="none" stroke="#3e3029" stroke-width="13" stroke-linecap="round"/>
+    <path d="M263 317l-8-14M269 314l2-17M275 317l10-13" stroke="#3e3029" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- right arm -->
+    <path d="M451 391c37-4 72-26 89-50" fill="none" stroke="#6d4c35" stroke-width="24" stroke-linecap="round"/>
+    <path d="M539 341c10-16 7-27 0-36" fill="none" stroke="#3e3029" stroke-width="13" stroke-linecap="round"/>
+    <path d="M541 314l9-14M535 312l-1-17M529 315l-9-14" stroke="#3e3029" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- neck and head -->
+    <path d="M365 383c-14-27-15-53-3-75 17-30 58-35 82-14 18 15 20 40 8 63-10 19-35 38-49 50z" fill="url(#cream)" stroke="#4e352a" stroke-width="5"/>
+    <g class="ear-wiggle">
+      <path d="M386 305c-16-28 5-42 25-17 7 9 1 24-25 17z" fill="#7d563d" stroke="#4e352a" stroke-width="5"/>
+      <path d="M392 299c-4-11 5-14 12-5" fill="none" stroke="#d29a83" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <!-- long anteater muzzle -->
+    <path d="M425 309c36 2 69 15 105 37 17 10 20 26 7 36-12 9-29 2-43-4-38-16-67-22-93-27z" fill="url(#cream)" stroke="#4e352a" stroke-width="5"/>
+    <path d="M528 346c20 6 27 15 15 29-7 8-19 5-28 0 8-8 11-18 13-29z" fill="#292d31"/>
+    <path d="M518 361c8 2 13 5 17 9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <!-- eye and smile -->
+    <ellipse class="eye-blink" cx="427" cy="319" rx="6" ry="8" fill="#27282a"/>
+    <circle cx="429" cy="316" r="2" fill="#fff"/>
+    <path d="M470 356c8 7 18 9 27 8" fill="none" stroke="#76513c" stroke-width="3" stroke-linecap="round"/>
+    <!-- jaunty hat -->
+    <path d="M364 291c10-37 59-45 78-7l-78 7z" fill="#e94d4e" stroke="#842f36" stroke-width="4"/>
+    <path d="M352 291c28-9 65-9 99 0" fill="none" stroke="#263440" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="402" cy="253" r="10" fill="#f6c85a" stroke="#9b6c27" stroke-width="3"/>
+  </g>
+
+  <!-- juggling bottles follow crossing flight paths -->
+  <g>
+    <g>
+      <use xlink:href="#bottle-red"/>
+      <animateMotion dur="3s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines=".35 0 .65 1">
+        <mpath xlink:href="#flight1"/>
+      </animateMotion>
+    </g>
+    <g>
+      <use xlink:href="#bottle-blue"/>
+      <animateMotion dur="3s" begin="-1s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines=".35 0 .65 1">
+        <mpath xlink:href="#flight2"/>
+      </animateMotion>
+    </g>
+    <g>
+      <use xlink:href="#bottle-green"/>
+      <animateMotion dur="3s" begin="-2s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines=".35 0 .65 1">
+        <mpath xlink:href="#flight3"/>
+      </animateMotion>
+    </g>
+  </g>
+
+  <!-- motion accents -->
+  <g fill="none" stroke="#bb5e47" stroke-width="5" stroke-linecap="round" opacity=".55">
+    <path d="M244 385q-20 9-31 26"/>
+    <path d="M560 384q22 8 33 25"/>
+    <path d="M279 625h-35M284 651h-55"/>
+  </g>
+  <text x="400" y="775" text-anchor="middle" fill="#fff3cf" font-family="Verdana, sans-serif" font-size="18" font-weight="700" letter-spacing="4">THE AMAZING ANT-EATER</text>
+</svg>

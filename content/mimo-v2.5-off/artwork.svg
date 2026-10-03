@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 600" width="600" height="600">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+  <desc>A looping animation of an anteater balancing on a unicycle and juggling three bottles in the air.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#fff8e7"/>
+      <stop offset="60%" stop-color="#ffe9c4"/>
+      <stop offset="100%" stop-color="#ffd39b"/>
+    </radialGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c99a5b"/>
+      <stop offset="100%" stop-color="#a97a3f"/>
+    </linearGradient>
+  </defs>
+
+  <!-- scenery -->
+  <circle cx="300" cy="285" r="240" fill="url(#bg)"/>
+  <path d="M60 470 A240 240 0 0 1 540 470 L540 560 L60 560 Z" fill="url(#floor)"/>
+  <g fill="#8a6234" opacity="0.35">
+    <ellipse cx="140" cy="487" rx="34" ry="7"/>
+    <ellipse cx="300" cy="497" rx="42" ry="8"/>
+    <ellipse cx="460" cy="487" rx="34" ry="7"/>
+  </g>
+
+  <g id="scene">
+
+    <!-- wheel -->
+    <g id="wheel">
+      <circle cx="300" cy="420" r="60" fill="none" stroke="#5b4332" stroke-width="7"/>
+      <g stroke="#8a6a52" stroke-width="3">
+        <line x1="300" y1="360" x2="300" y2="480"/>
+        <line x1="240" y1="420" x2="360" y2="420"/>
+        <line x1="258" y1="378" x2="342" y2="462"/>
+        <line x1="258" y1="462" x2="342" y2="378"/>
+      </g>
+      <circle cx="300" cy="420" r="9" fill="#c94b4b" stroke="#7c2b2b" stroke-width="2"/>
+    </g>
+
+    <!-- unicycle frame + pedals (pedal group rotates with the wheel) -->
+    <g stroke="#2f2a36" stroke-linecap="round">
+      <path d="M300 420 L300 362" fill="none" stroke-width="10"/>
+      <path d="M300 372 L296 362 L304 362 Z" fill="none" stroke-width="6"/>
+      <g id="pedals">
+        <path d="M264 420 L336 420" fill="none" stroke-width="7"/>
+        <rect x="252" y="414" width="24" height="12" rx="4" fill="#3a3442"/>
+        <rect x="324" y="414" width="24" height="12" rx="4" fill="#3a3442"/>
+      </g>
+    </g>
+
+    <!-- legs -->
+    <g stroke="#a9754a" stroke-width="26" stroke-linecap="round">
+      <path id="legNear" d="M312 358 Q322 390 272 408"/>
+      <path id="legFar"  d="M292 358 Q276 386 328 404" stroke="#8d5f3b" stroke-width="22"/>
+    </g>
+
+    <!-- tail -->
+    <g id="anteater">
+      <path d="M296 274 C232 278 178 244 148 192 C142 180 156 172 166 184 C192 228 242 252 292 248 Z"
+            fill="#d9a672" stroke="#7c4f31" stroke-width="4" stroke-linejoin="round"/>
+      <g stroke="#a9754a" stroke-width="12" stroke-linecap="round" fill="none">
+        <path d="M226 226 Q212 240 196 232"/>
+        <path d="M254 240 Q244 254 230 246"/>
+      </g>
+
+      <!-- body -->
+      <path d="M292 240 C330 232 372 260 366 312 C362 350 334 366 300 366 C270 366 254 344 256 310 C258 274 268 246 292 240 Z"
+            fill="#e0b07e" stroke="#7c4f31" stroke-width="4"/>
+
+      <!-- far arm -->
+      <path d="M292 274 Q252 266 240 246" fill="none" stroke="#8d5f3b" stroke-width="20" stroke-linecap="round"/>
+      <circle cx="240" cy="246" r="11" fill="#c8976a"/>
+
+      <!-- head -->
+      <ellipse cx="252" cy="228" rx="36" ry="34" fill="#e8bb88" stroke="#7c4f31" stroke-width="4"/>
+      <!-- snout -->
+      <path d="M234 216 C180 220 124 200 94 176 C88 171 95 163 103 168 C142 186 194 198 234 192 Z"
+            fill="#e8bb88" stroke="#7c4f31" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="101" cy="172" r="3.2" fill="#3a2a20"/>
+      <!-- eye -->
+      <circle cx="244" cy="221" r="8" fill="#fff"/>
+      <circle cx="246" cy="222" r="4" fill="#3a2a20"/>
+      <!-- ear -->
+      <ellipse cx="272" cy="204" rx="12" ry="14" fill="#c8976a" stroke="#7c4f31" stroke-width="3"/>
+
+      <!-- near arm -->
+      <path id="armNear" d="M300 272 Q342 282 344 258" fill="none" stroke="#a9754a" stroke-width="22" stroke-linecap="round"/>
+      <circle cx="344" cy="258" r="13" fill="#d9a672" stroke="#7c4f31" stroke-width="2"/>
+    </g>
+
+    <!-- bottles -->
+    <g id="bottleA">
+      <path d="M-9 18 h18 v6 a12 12 0 0 1 -9 11 v5 h6 v3 a9 9 0 0 1 -18 0 v-3 h6 v-5 a12 12 0 0 1 -9 -11 Z"
+            transform="translate(0,-6) scale(1.35) translate(0,4)"
+            fill="#3fae7a" stroke="#215c42" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="-5" y="-22" width="10" height="9" rx="3" fill="#d9534f" stroke="#933" stroke-width="1.5"/>
+      <path d="M-6 6 q6 4 12 0" stroke="#2b805c" stroke-width="2" fill="none"/>
+    </g>
+    <g id="bottleB">
+      <path d="M-9 18 h18 v6 a12 12 0 0 1 -9 11 v5 h6 v3 a9 9 0 0 1 -18 0 v-3 h6 v-5 a12 12 0 0 1 -9 -11 Z"
+            transform="translate(0,-6) scale(1.35) translate(0,4)"
+            fill="#4aa3d8" stroke="#2b5f80" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="-5" y="-22" width="10" height="9" rx="3" fill="#d9534f" stroke="#933" stroke-width="1.5"/>
+      <path d="M-6 6 q6 4 12 0" stroke="#2f7ba3" stroke-width="2" fill="none"/>
+    </g>
+    <g id="bottleC">
+      <path d="M-9 18 h18 v6 a12 12 0 0 1 -9 11 v5 h6 v3 a9 9 0 0 1 -18 0 v-3 h6 v-5 a12 12 0 0 1 -9 -11 Z"
+            transform="translate(0,-6) scale(1.35) translate(0,4)"
+            fill="#e0913f" stroke="#96561c" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="-5" y="-22" width="10" height="9" rx="3" fill="#d9534f" stroke="#933" stroke-width="1.5"/>
+      <path d="M-6 6 q6 4 12 0" stroke="#b06f24" stroke-width="2" fill="none"/>
+    </g>
+
+    <!-- motion puffs -->
+    <g id="puffs" fill="#ffffff" opacity="0.6">
+      <circle cx="0" cy="0" r="12"><animate attributeName="r" values="6;20;6" dur="1.2s" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.2s" begin="0s" repeatCount="indefinite"/></circle>
+      <circle cx="0" cy="0" r="12"><animate attributeName="r" values="6;20;6" dur="1.2s" begin="0.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.2s" begin="0.4s" repeatCount="indefinite"/></circle>
+      <circle cx="0" cy="0" r="12"><animate attributeName="r" values="6;20;6" dur="1.2s" begin="0.8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0;0.7" dur="1.2s" begin="0.8s" repeatCount="indefinite"/></circle>
+    </g>
+
+  </g>
+
+  <!-- wheels spin -->
+  <animateTransform xlink:href="#wheel" attributeName="transform" type="rotate" from="0 300 420" to="360 300 420" dur="1.4s" repeatCount="indefinite"/>
+  <animateTransform xlink:href="#pedals" attributeName="transform" type="rotate" from="0 300 420" to="360 300 420" dur="1.4s" repeatCount="indefinite"/>
+
+  <!-- body sway / bob -->
+  <animateTransform xlink:href="#anteater" attributeName="transform" type="rotate" values="-3 300 400; 3 300 400; -3 300 400" dur="1.4s" repeatCount="indefinite"/>
+
+  <!-- pedaling legs -->
+  <animateTransform xlink:href="#legNear" attributeName="transform" type="rotate" values="-4 300 360; 4 300 360; -4 300 360" dur="1.4s" repeatCount="indefinite"/>
+  <animateTransform xlink:href="#legFar"  attributeName="transform" type="rotate" values="4 300 360; -4 300 360; 4 300 360" dur="1.4s" repeatCount="indefinite"/>
+
+  <!-- catching arm waves -->
+  <animateTransform xlink:href="#armNear" attributeName="transform" type="rotate" values="-4 300 280; 6 300 280; -4 300 280" dur="1.4s" repeatCount="indefinite"/>
+
+  <!-- juggled bottles: green in the middle, blue and orange on the sides -->
+  <animateTransform xlink:href="#bottleA" attributeName="transform" type="translate"
+    values="236 216;240 146;246 216" dur="1.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.33 0 0.67 1;0.33 0 0.67 1"/>
+  <animateTransform xlink:href="#bottleA" attributeName="transform" type="rotate"
+    values="0;180;360" dur="1.4s" repeatCount="indefinite" calcMode="linear"/>
+
+  <animateTransform xlink:href="#bottleB" attributeName="transform" type="translate"
+    values="334 192;342 122;350 192" dur="1.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.33 0 0.67 1;0.33 0 0.67 1"/>
+  <animateTransform xlink:href="#bottleB" attributeName="transform" type="rotate"
+    values="0;-180;-360" dur="1.4s" repeatCount="indefinite" calcMode="linear"/>
+
+  <animateTransform xlink:href="#bottleC" attributeName="transform" type="translate"
+    values="328 252;374 172;336 236" dur="1.4s" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.42;1" keySplines="0.33 0 0.67 1;0.33 0 0.67 1"/>
+  <animateTransform xlink:href="#bottleC" attributeName="transform" type="rotate"
+    values="0;180;360" dur="1.4s" repeatCount="indefinite" calcMode="linear"/>
+
+  <!-- motion puffs positions -->
+  <animateMotion xlink:href="#puffs" keyPoints="0;1" keyTimes="0;1" path="M0 520 L600 520" dur="3s" repeatCount="indefinite"/>
+</svg>

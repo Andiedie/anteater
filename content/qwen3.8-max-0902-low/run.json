@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "qwen3.8-max-0902-low",
+  "name": "Qwen3.8 Max 0902",
+  "vendor": "Alibaba",
+  "date": "2026-10-01T16:21:50.337Z",
+  "model_ids": [
+    "qwen/qwen3.8-max-0902"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "low"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 63.499,
+    "request_seconds": 63.486,
+    "average_tps": 53.67,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 4090,
+      "output": 3407,
+      "cacheRead": 2048,
+      "cacheWrite": 0,
+      "reasoning": 159,
+      "totalTokens": 9545
+    },
+    "recorded_cost_usd": 0.029134,
+    "cost_usd": 0.029134
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#0e54f71c0a5c9855bac57adc923da69a",
+    "gist_id": "0e54f71c0a5c9855bac57adc923da69a",
+    "gist_revision": "b21b884c2ae3a2b9aabced157b8308210e7f3766",
+    "session_id": "01a0f845-aa33-7029-bde8-8ed78bcc3111",
+    "imported_at": "2026-10-02T16:16:48.469349+00:00",
+    "artwork_sha256": "db9fb60ea9708d34232438510dc7fbc211907a4dc345f40189cded854667ea3f"
+  }
+}

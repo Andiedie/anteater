@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater juggling on a unicycle</title>
+  <desc id="desc">A cheerful anteater pedals a unicycle while three colorful bottles arc overhead.</desc>
+  <defs>
+    <linearGradient id="fur" x2="0" y2="1"><stop stop-color="#d89a58"/><stop offset="1" stop-color="#a96034"/></linearGradient>
+    <linearGradient id="bottle" x2="0" y2="1"><stop stop-color="#8fe4cf"/><stop offset="1" stop-color="#35a997"/></linearGradient>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.7"><feGaussianBlur stdDeviation="5"/></filter>
+    <style>
+      .line{stroke:#49362e;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+      .limb{fill:none;stroke:#49362e;stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
+      .bottle{transform-box:fill-box;transform-origin:center;animation:flip 1.15s ease-in-out infinite alternate}
+      .bottle.two{animation-delay:-.38s}.bottle.three{animation-delay:-.76s}
+      @keyframes flip{from{transform:translateY(15px) rotate(-28deg)}to{transform:translateY(-15px) rotate(28deg)}}
+      .pedal{transform-box:fill-box;transform-origin:center;animation:pedal 1.4s linear infinite}
+      @keyframes pedal{to{transform:rotate(360deg)}}
+      .bob{transform-box:fill-box;transform-origin:center;animation:bob 1.4s ease-in-out infinite}
+      @keyframes bob{50%{transform:translateY(-5px)}}
+      @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important}}
+    </style>
+  </defs>
+  <rect width="800" height="600" rx="28" fill="#fff4df"/>
+  <circle cx="400" cy="260" r="205" fill="#ffe7b8"/>
+  <path d="M95 500h610" stroke="#dfc9a8" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="400" cy="506" rx="145" ry="13" fill="#76513d" opacity=".16" filter="url(#shadow)"/>
+
+  <!-- Three tossed bottles -->
+  <g class="bottle" transform="translate(268 178) rotate(-25)">
+    <rect x="-13" y="-30" width="26" height="14" rx="4" fill="#e6a54d" stroke="#49362e" stroke-width="3"/>
+    <path d="M-9-16v10c-12 7-16 15-16 29v22q0 9 9 9h32q9 0 9-9V23c0-14-4-22-16-29v-10z" fill="#f3a64a" stroke="#49362e" stroke-width="4"/>
+    <path d="M-21 20h42v12h-42z" fill="#ffe08d" opacity=".85"/><circle cx="-12" cy="-1" r="3" fill="#fff" opacity=".7"/>
+  </g>
+  <g class="bottle two" transform="translate(400 125) rotate(15)">
+    <rect x="-13" y="-30" width="26" height="14" rx="4" fill="#e6a54d" stroke="#49362e" stroke-width="3"/>
+    <path d="M-9-16v10c-12 7-16 15-16 29v22q0 9 9 9h32q9 0 9-9V23c0-14-4-22-16-29v-10z" fill="url(#bottle)" stroke="#49362e" stroke-width="4"/>
+    <path d="M-21 20h42v12h-42z" fill="#d7fff1" opacity=".8"/><circle cx="-12" cy="-1" r="3" fill="#fff" opacity=".7"/>
+  </g>
+  <g class="bottle three" transform="translate(532 178) rotate(28)">
+    <rect x="-13" y="-30" width="26" height="14" rx="4" fill="#e6a54d" stroke="#49362e" stroke-width="3"/>
+    <path d="M-9-16v10c-12 7-16 15-16 29v22q0 9 9 9h32q9 0 9-9V23c0-14-4-22-16-29v-10z" fill="#df7890" stroke="#49362e" stroke-width="4"/>
+    <path d="M-21 20h42v12h-42z" fill="#ffd3db" opacity=".85"/><circle cx="-12" cy="-1" r="3" fill="#fff" opacity=".7"/>
+  </g>
+
+  <g class="bob">
+    <!-- tail -->
+    <path d="M326 342c-65 2-86 42-52 66 22 16 48-2 34-19-8-10-21-4-17 5" fill="none" stroke="#49362e" stroke-width="19" stroke-linecap="round"/>
+    <path d="M326 342c-65 2-86 42-52 66 22 16 48-2 34-19-8-10-21-4-17 5" fill="none" stroke="#b87443" stroke-width="11" stroke-linecap="round"/>
+    <!-- body -->
+    <path d="M351 269c-28 17-43 54-32 93 9 31 38 46 78 39 37-6 57-32 50-67-7-36-34-73-66-77-11-1-21 3-30 12z" fill="url(#fur)" class="line"/>
+    <path d="M342 330c18 15 48 22 77 17" fill="none" stroke="#f0c28b" stroke-width="12" stroke-linecap="round"/>
+    <!-- head and long snout -->
+    <path d="M365 265c-3-32 19-55 50-54 27 1 42 21 38 44-3 19-17 31-39 35l-27-3z" fill="#c9824d" class="line"/>
+    <path d="M416 253c31-16 74-18 109-7 10 3 11 12 1 17-34 17-70 20-107 9z" fill="#d99a68" class="line"/>
+    <ellipse cx="527" cy="250" rx="8" ry="6" fill="#49362e"/>
+    <circle cx="435" cy="226" r="4.5" fill="#302720"/><circle cx="436" cy="225" r="1.5" fill="#fff"/>
+    <path d="M398 217l-8-16m22 13-2-18" stroke="#49362e" stroke-width="5" stroke-linecap="round"/>
+    <path d="M398 276c8 4 15 4 22 1" fill="none" stroke="#75442f" stroke-width="3" stroke-linecap="round"/>
+    <!-- balancing arm -->
+    <path d="M362 294c-33-23-55-42-73-62" class="limb"/>
+    <path d="M289 232q-14-14-19-3m19 3q-5-17 6-20m-6 20q2-13 15-15" fill="none" stroke="#49362e" stroke-width="6" stroke-linecap="round"/>
+    <!-- reaching arm -->
+    <path d="M431 297c30-12 47-29 62-53" class="limb"/>
+    <path d="M493 244q5-17 15-15m-15 15q13-12 23-5m-23 5q15-4 20 8" fill="none" stroke="#49362e" stroke-width="6" stroke-linecap="round"/>
+    <!-- legs -->
+    <path d="M363 385c-5 25 12 39 28 51m35-43c13 20 9 34 0 46" class="limb"/>
+    <path d="M388 436l18 3m17 0 17 3" stroke="#49362e" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <!-- unicycle wheel, fork, seat and rotating pedals -->
+  <circle cx="410" cy="458" r="53" fill="#fffaf1" stroke="#49362e" stroke-width="9"/>
+  <circle cx="410" cy="458" r="5" fill="#49362e"/>
+  <path d="M410 405v106m-53-53h106m-90-37 75 75m0-75-75 75" stroke="#d8c5a8" stroke-width="3"/>
+  <path d="M410 458l-4-39m4 39 29 26" stroke="#49362e" stroke-width="6" stroke-linecap="round"/>
+  <g class="pedal"><path d="M410 458h-34m34 0h34" stroke="#49362e" stroke-width="6" stroke-linecap="round"/><circle cx="376" cy="458" r="5" fill="#e9a64e"/><circle cx="444" cy="458" r="5" fill="#e9a64e"/></g>
+  <path d="M397 415h26" stroke="#49362e" stroke-width="8" stroke-linecap="round"/>
+  <text x="400" y="562" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700" fill="#8b6548" letter-spacing="2">THE GREAT BOTTLE BALANCER</text>
+</svg>

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" role="img" aria-labelledby="title desc">
+  <title id="title">An anteater rides a unicycle while juggling bottles</title>
+  <desc id="desc">A cheerful illustrated anteater balances on a rolling unicycle and tosses three colorful bottles in a looping cascade.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#bdf0fb"/><stop offset="1" stop-color="#f8e9ba"/></linearGradient>
+    <linearGradient id="fur" x2="0.8" y2="1"><stop stop-color="#b8753f"/><stop offset="1" stop-color="#713719"/></linearGradient>
+    <linearGradient id="belly" x2="0" y2="1"><stop stop-color="#f6cd85"/><stop offset="1" stop-color="#d9944d"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#56351d" flood-opacity=".24"/></filter>
+    <path id="bottleShape" d="M-16,-42 L-7,-42 L-7,-24 C-7,-19 15,-15 15,-2 L15,31 C15,40 -15,40 -15,31 L-15,-2 C-15,-15 7,-19 7,-24 L7,-42 Z"/>
+    <g id="bottleBlue"><use href="#bottleShape" fill="#4a9fca" stroke="#173e65" stroke-width="4"/><path d="M-14,3 Q0,-3 14,3 V17 Q0,12 -14,17Z" fill="#e7f7ee"/><path d="M-6,-45H6V-40H-6Z" fill="#f3d483"/></g>
+    <g id="bottleRed"><use href="#bottleShape" fill="#e35f4c" stroke="#71301f" stroke-width="4"/><path d="M-14,3 Q0,-3 14,3 V17 Q0,12 -14,17Z" fill="#ffe4a7"/><path d="M-6,-45H6V-40H-6Z" fill="#f3d483"/></g>
+    <g id="bottleYellow"><use href="#bottleShape" fill="#f6bf43" stroke="#835516" stroke-width="4"/><path d="M-14,3 Q0,-3 14,3 V17 Q0,12 -14,17Z" fill="#fff1bb"/><path d="M-6,-45H6V-40H-6Z" fill="#f3d483"/></g>
+  </defs>
+
+  <rect width="1000" height="700" fill="url(#sky)"/>
+  <circle cx="118" cy="115" r="48" fill="#fff5b4" opacity=".9"/>
+  <g fill="#fff" opacity=".82"><path d="M168 154c12-30 60-31 71-3 34-9 49 29 22 39h-104c-26-14-8-35 11-36Z"/><path d="M748 103c10-24 52-25 61-2 30-8 42 26 19 34h-90c-23-12-7-29 10-32Z"/></g>
+  <path d="M0 570 Q140 520 280 560T570 548T1000 552V700H0Z" fill="#a7cf78"/>
+  <path d="M0 603 Q170 565 340 603T670 588T1000 604" fill="none" stroke="#709f58" stroke-width="12" opacity=".65"/>
+  <ellipse cx="518" cy="628" rx="224" ry="24" fill="#6d7145" opacity=".23"/>
+
+  <!-- wheel -->
+  <g transform="translate(510 549)" filter="url(#shadow)">
+    <circle r="94" fill="#2c3c49" stroke="#17262e" stroke-width="8"/>
+    <circle r="77" fill="none" stroke="#ebeff0" stroke-width="7" stroke-dasharray="8 9"/>
+    <g>
+      <path d="M0-77V77M-77 0H77M-55-55L55 55M55-55L-55 55" stroke="#8aa1ad" stroke-width="5"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.45s" repeatCount="indefinite"/>
+    </g>
+    <circle r="17" fill="#f4c34c" stroke="#23323b" stroke-width="6"/>
+  </g>
+  <!-- unicycle frame -->
+  <g stroke="#334b54" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M510 550 L476 350 L548 350 L510 550" fill="none"/>
+    <path d="M510 550H565"/><path d="M510 550H455"/>
+    <path d="M438 343H585" stroke="#27373d"/>
+  </g>
+  <path d="M445 333Q512 313 579 333L567 359Q512 370 457 359Z" fill="#3c5960" stroke="#243940" stroke-width="6"/>
+
+  <!-- animated tail behind body -->
+  <g transform="translate(442 345)" filter="url(#shadow)">
+    <path d="M-19 43 Q-173 6 -232 108 Q-264 162 -215 177 Q-165 194 -142 139 Q-112 68 -9 103" fill="none" stroke="#7b3c20" stroke-width="63" stroke-linecap="round"/>
+    <path d="M-23 41 Q-174 7 -231 109 Q-251 145 -226 153" fill="none" stroke="#c27c43" stroke-width="37" stroke-linecap="round"/>
+    <animateTransform attributeName="transform" type="rotate" values="0 0 20;4 0 20;0 0 20;-3 0 20;0 0 20" dur="2s" repeatCount="indefinite"/>
+  </g>
+
+  <!-- anteater -->
+  <g filter="url(#shadow)">
+    <!-- torso -->
+    <path d="M411 223 Q471 175 548 212 Q615 243 600 357 Q589 423 514 433 Q421 426 399 354 Q383 280 411 223Z" fill="url(#fur)" stroke="#5c2f1a" stroke-width="7"/>
+    <!-- iconic black shoulder stripe -->
+    <path d="M446 213 Q483 202 517 216 Q489 257 483 331 Q478 380 451 413 Q414 400 403 364 Q430 332 437 292 Q445 252 446 213Z" fill="#382a25"/>
+    <path d="M512 220 Q560 228 578 273 Q550 274 524 258Z" fill="#efc476" opacity=".9"/>
+    <!-- head and snout -->
+    <path d="M395 228 Q382 175 424 137 Q477 90 555 128 Q610 155 647 195 L797 238 Q827 248 804 264 L645 276 Q596 297 535 284 Q480 272 442 247Z" fill="url(#fur)" stroke="#5c2f1a" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M644 236 L798 238 Q829 248 804 264 L647 276Z" fill="#e5b06b"/>
+    <path d="M787 246q17 2 19 10q-8 7-19 5Z" fill="#2d2523"/>
+    <!-- ear -->
+    <path d="M438 154 Q424 108 462 105 Q501 123 482 165Z" fill="#c98752" stroke="#5c2f1a" stroke-width="6"/>
+    <path d="M449 137q5-16 18-15q11 12 5 27Z" fill="#f0b277"/>
+    <!-- face -->
+    <ellipse cx="561" cy="177" rx="9" ry="12" fill="#231b1b"/>
+    <circle cx="564" cy="174" r="3" fill="white"/>
+    <path d="M585 205q18 9 35 0" fill="none" stroke="#743b28" stroke-width="4" stroke-linecap="round"/>
+    <!-- belly -->
+    <path d="M519 288 Q568 289 585 323 Q591 385 541 410 Q510 425 480 405 Q504 365 498 330Z" fill="url(#belly)"/>
+
+    <!-- rear leg -->
+    <g transform="translate(0 1)">
+      <path d="M532 389 Q556 404 552 452 L540 513 Q535 537 565 541 L589 543" fill="none" stroke="#803f22" stroke-width="35" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M553 542h44" stroke="#4d291c" stroke-width="17" stroke-linecap="round"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;5 -4;0 0;-4 3;0 0" dur=".72s" repeatCount="indefinite"/>
+    </g>
+    <!-- front leg -->
+    <g transform="translate(0 0)">
+      <path d="M456 383 Q431 417 448 455 L469 510 Q477 532 450 542 L430 546" fill="none" stroke="#a75e31" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M427 546h42" stroke="#4d291c" stroke-width="17" stroke-linecap="round"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-4 4;0 0;5 -3;0 0" dur=".72s" repeatCount="indefinite"/>
+    </g>
+    <!-- arms -->
+    <path d="M434 293 Q388 338 365 386 Q354 409 334 423" fill="none" stroke="#a75e31" stroke-width="30" stroke-linecap="round"/>
+    <path d="M572 297 Q609 342 635 387 Q645 405 665 420" fill="none" stroke="#a75e31" stroke-width="30" stroke-linecap="round"/>
+    <!-- hands -->
+    <g fill="#d9975a" stroke="#66341f" stroke-width="4"><circle cx="331" cy="425" r="18"/><circle cx="667" cy="422" r="18"/></g>
+    <path d="M318 428l-17 7m19 1l-14 12m17-6l-9 15M678 424l17 7m-19 1l14 12m-17-6l9 15" stroke="#66341f" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- juggling bottles, each loops through a different segment of the cascade -->
+  <g filter="url(#shadow)">
+    <g>
+      <g transform="translate(335 389)"><use href="#bottleRed"/></g>
+      <animateMotion path="M0 0 C45 -220 265 -230 330 -5 C278 48 118 58 0 0" dur="2.4s" repeatCount="indefinite" rotate="auto"/>
+    </g>
+    <g>
+      <g transform="translate(665 389)"><use href="#bottleBlue"/></g>
+      <animateMotion path="M0 0 C-48 -220 -270 -230 -330 -5 C-277 48 -115 58 0 0" dur="2.4s" begin="-.8s" repeatCount="indefinite" rotate="auto"/>
+    </g>
+    <g>
+      <g transform="translate(335 389)"><use href="#bottleYellow"/></g>
+      <animateMotion path="M0 0 C47 -220 265 -230 330 -5 C278 48 116 58 0 0" dur="2.4s" begin="-1.6s" repeatCount="indefinite" rotate="auto"/>
+    </g>
+  </g>
+
+  <g fill="#fff" font-family="system-ui, sans-serif" text-anchor="middle">
+    <text x="500" y="660" font-size="22" font-weight="700" opacity=".8">THE GREAT ANTEATER</text>
+  </g>
+</svg>

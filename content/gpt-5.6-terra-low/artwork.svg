@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">An animated anteater riding a unicycle and juggling bottles</title>
+  <desc id="desc">A cheerful anteater pedals a unicycle while three bottles travel in a looping juggling pattern.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#80d8f7"/><stop offset="1" stop-color="#e9fbff"/></linearGradient>
+    <linearGradient id="fur" x2="0" y2="1"><stop stop-color="#9b6a4f"/><stop offset="1" stop-color="#704331"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="6"/></filter>
+    <path id="bottle" d="M-12 29V9c0-5 4-8 4-13V-17h16v13c0 5 4 8 4 13v20c0 8-24 8-24 0Z"/>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#sky)"/>
+  <circle cx="130" cy="105" r="48" fill="#fff4a3" opacity=".9"/>
+  <g fill="#fff" opacity=".82"><path d="M250 104c15-30 61-26 69 2 31-8 49 13 45 30h-137c-5-16 7-29 23-32Z"/><path d="M656 128c12-25 49-23 57 0 25-5 43 12 39 27H638c-3-14 6-24 18-27Z"/></g>
+  <path d="M0 505Q130 442 257 493T499 483T711 475T900 492V620H0Z" fill="#8bcf73"/>
+  <path d="M0 536Q150 505 283 540T581 528T900 541" fill="none" stroke="#4c9a59" stroke-width="8"/>
+  <ellipse cx="450" cy="559" rx="173" ry="19" fill="#304a47" opacity=".2" filter="url(#shadow)"/>
+
+  <!-- bottles: each follows the same arc at a different phase -->
+  <g stroke="#173d4b" stroke-width="4" stroke-linejoin="round">
+    <g fill="#ff7867"><use href="#bottle"/><rect x="-8" y="-19" width="16" height="7" rx="2" fill="#fff1cc"/><animateMotion dur="2.7s" repeatCount="indefinite" rotate="auto" path="M390 315 C355 125 455 80 485 245 C505 345 565 341 600 302"/></g>
+    <g fill="#ffd55e"><use href="#bottle"/><rect x="-8" y="-19" width="16" height="7" rx="2" fill="#fff1cc"/><animateMotion dur="2.7s" begin="-.9s" repeatCount="indefinite" rotate="auto" path="M390 315 C355 125 455 80 485 245 C505 345 565 341 600 302"/></g>
+    <g fill="#5bc6b2"><use href="#bottle"/><rect x="-8" y="-19" width="16" height="7" rx="2" fill="#fff1cc"/><animateMotion dur="2.7s" begin="-1.8s" repeatCount="indefinite" rotate="auto" path="M390 315 C355 125 455 80 485 245 C505 345 565 341 600 302"/></g>
+  </g>
+
+  <!-- unicycle -->
+  <g stroke="#263b42" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="455" cy="475" r="75" fill="#f7f4e9" stroke-width="11"/>
+    <circle cx="455" cy="475" r="8" fill="#ff7867" stroke-width="6"/>
+    <g stroke-width="4" opacity=".7"><path d="M455 400v150M380 475h150M402 422l106 106M508 422 402 528"/></g>
+    <path d="M455 468V344" stroke-width="10"/>
+    <path d="M421 342h68" stroke-width="10"/>
+    <g><animateTransform attributeName="transform" type="rotate" from="0 455 475" to="360 455 475" dur="1.5s" repeatCount="indefinite"/><path d="M455 475l49 21m-49-21-49-21" stroke-width="7"/><path d="M494 500h25m-97-50h-25" stroke-width="9"/></g>
+  </g>
+
+  <!-- anteater -->
+  <g transform="translate(0 2)">
+    <animateTransform attributeName="transform" type="translate" values="0 2;0 -5;0 2" dur="1.5s" repeatCount="indefinite"/>
+    <!-- tail -->
+    <path d="M374 358C263 389 184 381 155 325c-19-37 37-61 83-31 51 34 99 19 164-6Z" fill="url(#fur)" stroke="#3e302c" stroke-width="6"/>
+    <path d="M172 326c47 20 91 22 139 2" fill="none" stroke="#f1d7ae" stroke-width="18" stroke-linecap="round"/>
+    <!-- body and head -->
+    <ellipse cx="423" cy="328" rx="92" ry="76" fill="url(#fur)" stroke="#3e302c" stroke-width="6"/>
+    <path d="M454 285c41-50 87-55 120-28 35 29 32 78-3 100-29 18-73 9-111-29Z" fill="#b98160" stroke="#3e302c" stroke-width="6"/>
+    <path d="M546 320c83 7 125 33 163 70-52 2-101-6-155-32Z" fill="#d9b282" stroke="#3e302c" stroke-width="6"/>
+    <circle cx="548" cy="299" r="7" fill="#202d31"/><circle cx="550" cy="297" r="2" fill="white"/>
+    <path d="M697 389l18 2-15 10" fill="#202d31"/>
+    <path d="M431 265q-14-44 17-53 27 15 14 50" fill="#704331" stroke="#3e302c" stroke-width="6"/>
+    <!-- arms -->
+    <path d="M388 333q-43 19-25 60l31 20" fill="none" stroke="#9b6a4f" stroke-width="23" stroke-linecap="round"/>
+    <path d="M472 343q37 22 55 63l27-16" fill="none" stroke="#9b6a4f" stroke-width="23" stroke-linecap="round"/>
+    <g fill="#f1d7ae" stroke="#3e302c" stroke-width="4"><circle cx="397" cy="415" r="13"/><circle cx="555" cy="391" r="13"/></g>
+    <!-- legs -->
+    <path d="M400 387q-3 42 25 63l19-22" fill="none" stroke="#704331" stroke-width="25" stroke-linecap="round"/>
+    <path d="M462 390q20 30-3 59l-16-19" fill="none" stroke="#704331" stroke-width="25" stroke-linecap="round"/>
+    <path d="M429 440h31m-25 8h27" stroke="#f1d7ae" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <text x="450" y="590" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#315d4c">THE GREAT ANTEATER ACT</text>
+</svg>

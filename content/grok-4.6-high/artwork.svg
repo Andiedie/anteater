@@ -1,0 +1,488 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 700 550" width="700" height="550" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A cartoon giant anteater balances on a unicycle in a circus ring and juggles three glass bottles.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7EC8E3"/>
+      <stop offset="45%" stop-color="#FBE7C6"/>
+      <stop offset="100%" stop-color="#F4C9A3"/>
+    </linearGradient>
+
+    <radialGradient id="spot" cx="50%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#FFF6D8" stop-opacity="0.85"/>
+      <stop offset="55%" stop-color="#FFD9A0" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#E8A06A" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="ringFloor" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#E8B86D"/>
+      <stop offset="70%" stop-color="#C4894A"/>
+      <stop offset="100%" stop-color="#9A6232"/>
+    </radialGradient>
+
+    <linearGradient id="bodyFur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E6C394"/>
+      <stop offset="45%" stop-color="#C9965A"/>
+      <stop offset="100%" stop-color="#8F6230"/>
+    </linearGradient>
+
+    <linearGradient id="darkMark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A433C"/>
+      <stop offset="100%" stop-color="#1C1814"/>
+    </linearGradient>
+
+    <linearGradient id="snoutGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D4A574"/>
+      <stop offset="100%" stop-color="#A56B3C"/>
+    </linearGradient>
+
+    <linearGradient id="tailGrad" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D8B07A"/>
+      <stop offset="50%" stop-color="#A87840"/>
+      <stop offset="100%" stop-color="#6B4423"/>
+    </linearGradient>
+
+    <linearGradient id="seatGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A0502A"/>
+      <stop offset="100%" stop-color="#5A2410"/>
+    </linearGradient>
+
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#9AA3AD"/>
+      <stop offset="40%" stop-color="#F2F5F7"/>
+      <stop offset="100%" stop-color="#6D767E"/>
+    </linearGradient>
+
+    <linearGradient id="glassGreen" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#163D28"/>
+      <stop offset="28%" stop-color="#2FA36A"/>
+      <stop offset="48%" stop-color="#B8F0D0"/>
+      <stop offset="70%" stop-color="#217A4C"/>
+      <stop offset="100%" stop-color="#0E2A1B"/>
+    </linearGradient>
+
+    <linearGradient id="glassAmber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5A2E08"/>
+      <stop offset="28%" stop-color="#D98A22"/>
+      <stop offset="48%" stop-color="#FFE2A3"/>
+      <stop offset="70%" stop-color="#B86A12"/>
+      <stop offset="100%" stop-color="#3E1E05"/>
+    </linearGradient>
+
+    <linearGradient id="glassBlue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0C2A4A"/>
+      <stop offset="28%" stop-color="#2F7CC4"/>
+      <stop offset="48%" stop-color="#B9E0FF"/>
+      <stop offset="70%" stop-color="#1E5A96"/>
+      <stop offset="100%" stop-color="#071A30"/>
+    </linearGradient>
+
+    <linearGradient id="labelCream" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF6DE"/>
+      <stop offset="100%" stop-color="#E6C98A"/>
+    </linearGradient>
+
+    <radialGradient id="tireGrad" cx="35%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#3A3A3A"/>
+      <stop offset="70%" stop-color="#111"/>
+      <stop offset="100%" stop-color="#000"/>
+    </radialGradient>
+
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#5A3A18" flood-opacity="0.28"/>
+    </filter>
+
+    <filter id="furEdge" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0.4" result="b"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <path id="jugglePath" d="M 0,6
+      C 6,18 -6,18 0,6
+      C 38,-128 118,-128 156,6
+      C 162,18 150,18 156,6
+      C 118,-128 38,-128 0,6"/>
+
+    <!-- bottle drawings, origin at neck so they hang from the motion path -->
+    <g id="bottleGreen">
+      <ellipse cx="0" cy="46" rx="11" ry="4" fill="#0B2418" opacity="0.35"/>
+      <path d="M -8,10 C -12,14 -13,22 -13,30 C -13,42 -9,48 0,48 C 9,48 13,42 13,30 C 13,22 12,14 8,10 Z" fill="url(#glassGreen)" stroke="#0E2A1B" stroke-width="0.8"/>
+      <rect x="-8.5" y="20" width="17" height="12" rx="1.5" fill="url(#labelCream)" stroke="#C9A35A" stroke-width="0.5"/>
+      <rect x="-5" y="24" width="10" height="4" rx="0.8" fill="#2E8B57"/>
+      <path d="M -8,10 L -5,-8 C -5,-12 -3,-16 0,-16 C 3,-16 5,-12 5,-8 L 8,10 Z" fill="url(#glassGreen)" stroke="#0E2A1B" stroke-width="0.8"/>
+      <rect x="-4.2" y="-19" width="8.4" height="5" rx="1.4" fill="#D7B56A" stroke="#8A6A30" stroke-width="0.6"/>
+      <path d="M -9,16 C -6,14 -2,18 0,16" fill="none" stroke="#E8FFE8" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+    </g>
+
+    <g id="bottleAmber">
+      <ellipse cx="0" cy="46" rx="11" ry="4" fill="#3E1E05" opacity="0.35"/>
+      <path d="M -8,10 C -12,14 -13,22 -13,30 C -13,42 -9,48 0,48 C 9,48 13,42 13,30 C 13,22 12,14 8,10 Z" fill="url(#glassAmber)" stroke="#3E1E05" stroke-width="0.8"/>
+      <rect x="-8.5" y="20" width="17" height="12" rx="1.5" fill="url(#labelCream)" stroke="#C9A35A" stroke-width="0.5"/>
+      <rect x="-5" y="24" width="10" height="4" rx="0.8" fill="#C4681A"/>
+      <path d="M -8,10 L -5,-8 C -5,-12 -3,-16 0,-16 C 3,-16 5,-12 5,-8 L 8,10 Z" fill="url(#glassAmber)" stroke="#3E1E05" stroke-width="0.8"/>
+      <rect x="-4.2" y="-19" width="8.4" height="5" rx="1.4" fill="#E8C56A" stroke="#8A6A30" stroke-width="0.6"/>
+      <path d="M -9,16 C -6,14 -2,18 0,16" fill="none" stroke="#FFF6D0" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+    </g>
+
+    <g id="bottleBlue">
+      <ellipse cx="0" cy="46" rx="11" ry="4" fill="#071A30" opacity="0.35"/>
+      <path d="M -8,10 C -12,14 -13,22 -13,30 C -13,42 -9,48 0,48 C 9,48 13,42 13,30 C 13,22 12,14 8,10 Z" fill="url(#glassBlue)" stroke="#071A30" stroke-width="0.8"/>
+      <rect x="-8.5" y="20" width="17" height="12" rx="1.5" fill="url(#labelCream)" stroke="#C9A35A" stroke-width="0.5"/>
+      <rect x="-5" y="24" width="10" height="4" rx="0.8" fill="#2A6FBB"/>
+      <path d="M -8,10 L -5,-8 C -5,-12 -3,-16 0,-16 C 3,-16 5,-12 5,-8 L 8,10 Z" fill="url(#glassBlue)" stroke="#071A30" stroke-width="0.8"/>
+      <rect x="-4.2" y="-19" width="8.4" height="5" rx="1.4" fill="#C9D6E8" stroke="#5A6A80" stroke-width="0.6"/>
+      <path d="M -9,16 C -6,14 -2,18 0,16" fill="none" stroke="#E4F4FF" stroke-width="1.4" stroke-linecap="round" opacity="0.75"/>
+    </g>
+  </defs>
+
+  <style>
+    .wobble {
+      transform-origin: 350px 482px;
+      animation: wobble 1.05s ease-in-out infinite;
+    }
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-3.2deg) translate(0, 0); }
+      25% { transform: rotate(0.6deg) translate(2px, -5px); }
+      50% { transform: rotate(3.2deg) translate(0, 0); }
+      75% { transform: rotate(-0.6deg) translate(-2px, -5px); }
+    }
+
+    .tail {
+      transform-origin: 300px 278px;
+      animation: wag 1.4s ease-in-out infinite;
+    }
+    @keyframes wag {
+      0%, 100% { transform: rotate(-7deg); }
+      50% { transform: rotate(10deg); }
+    }
+
+    .ear {
+      transform-origin: 372px 168px;
+      animation: twitch 2.6s ease-in-out infinite;
+    }
+    @keyframes twitch {
+      0%, 72%, 84%, 100% { transform: rotate(0deg); }
+      78% { transform: rotate(-18deg); }
+    }
+
+    .eye {
+      transform-origin: 392px 188px;
+      animation: blink 3.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 46%, 54%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.08); }
+    }
+
+    .arm-left {
+      transform-origin: 318px 214px;
+      animation: tossL 0.8s ease-in-out infinite;
+    }
+    .arm-right {
+      transform-origin: 368px 210px;
+      animation: tossR 0.8s ease-in-out infinite;
+    }
+    @keyframes tossL {
+      0%, 100% { transform: rotate(12deg); }
+      50% { transform: rotate(-16deg); }
+    }
+    @keyframes tossR {
+      0%, 100% { transform: rotate(-14deg); }
+      50% { transform: rotate(16deg); }
+    }
+
+    .snout {
+      transform-origin: 380px 196px;
+      animation: bob 1.05s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    .shadow {
+      transform-origin: 350px 498px;
+      animation: squash 1.05s ease-in-out infinite;
+    }
+    @keyframes squash {
+      0%, 100% { transform: scale(1.08, 1); opacity: 0.45; }
+      25%, 75% { transform: scale(0.86, 1); opacity: 0.32; }
+      50% { transform: scale(1.08, 1); opacity: 0.45; }
+    }
+
+    .flag { animation: flutter 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: top center; }
+    .flag:nth-child(odd) { animation-delay: -0.4s; }
+    .flag:nth-child(3n) { animation-delay: -0.9s; }
+    @keyframes flutter {
+      0%, 100% { transform: skewX(0deg) translateY(0); }
+      50% { transform: skewX(10deg) translateY(2px); }
+    }
+
+    .confetti { animation: fall 4.5s linear infinite; }
+    @keyframes fall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+      8% { opacity: 1; }
+      100% { transform: translateY(520px) rotate(360deg); opacity: 0.2; }
+    }
+
+    .dust {
+      animation: puff 0.7s ease-out infinite;
+      transform-origin: center;
+    }
+    @keyframes puff {
+      0% { transform: translate(0, 0) scale(0.4); opacity: 0.5; }
+      100% { transform: translate(-28px, -8px) scale(1.4); opacity: 0; }
+    }
+  </style>
+
+  <!-- background -->
+  <rect width="700" height="550" fill="url(#sky)"/>
+  <rect width="700" height="550" fill="url(#spot)"/>
+
+  <!-- distant bunting -->
+  <path d="M 20,36 Q 175,78 350,36 Q 525,0 680,40" fill="none" stroke="#6B3A2A" stroke-width="3"/>
+  <g class="bunting">
+    <polygon class="flag" points="50,40 70,40 60,72" fill="#E74C3C"/>
+    <polygon class="flag" points="90,48 110,46 102,80" fill="#F1C40F"/>
+    <polygon class="flag" points="130,54 150,52 142,86" fill="#3498DB"/>
+    <polygon class="flag" points="170,56 190,54 182,88" fill="#2ECC71"/>
+    <polygon class="flag" points="210,54 230,50 222,84" fill="#E74C3C"/>
+    <polygon class="flag" points="250,48 270,44 262,78" fill="#9B59B6"/>
+    <polygon class="flag" points="290,42 310,38 302,72" fill="#F1C40F"/>
+    <polygon class="flag" points="330,38 350,36 342,70" fill="#3498DB"/>
+    <polygon class="flag" points="370,36 390,38 382,72" fill="#E74C3C"/>
+    <polygon class="flag" points="410,38 430,42 422,76" fill="#2ECC71"/>
+    <polygon class="flag" points="450,42 470,46 462,80" fill="#F1C40F"/>
+    <polygon class="flag" points="490,46 510,50 502,84" fill="#9B59B6"/>
+    <polygon class="flag" points="530,50 550,52 542,86" fill="#3498DB"/>
+    <polygon class="flag" points="570,52 590,50 582,84" fill="#E74C3C"/>
+    <polygon class="flag" points="610,48 630,44 622,78" fill="#2ECC71"/>
+    <polygon class="flag" points="650,42 670,40 662,74" fill="#F1C40F"/>
+  </g>
+
+  <!-- circus ring -->
+  <ellipse cx="350" cy="500" rx="280" ry="38" fill="url(#ringFloor)"/>
+  <ellipse cx="350" cy="500" rx="250" ry="28" fill="none" stroke="#F0D7A4" stroke-width="6" opacity="0.55"/>
+  <ellipse cx="350" cy="500" rx="210" ry="20" fill="none" stroke="#A05A28" stroke-width="3" opacity="0.35"/>
+
+  <!-- confetti -->
+  <g opacity="0.85">
+    <rect class="confetti" x="80" y="20" width="8" height="5" rx="1" fill="#E74C3C" style="animation-delay:0s"/>
+    <rect class="confetti" x="160" y="8" width="6" height="6" rx="1" fill="#F1C40F" style="animation-delay:-1.2s"/>
+    <rect class="confetti" x="520" y="16" width="8" height="5" rx="1" fill="#3498DB" style="animation-delay:-2.1s"/>
+    <rect class="confetti" x="610" y="4" width="6" height="6" rx="1" fill="#2ECC71" style="animation-delay:-0.6s"/>
+    <rect class="confetti" x="240" y="0" width="7" height="5" rx="1" fill="#9B59B6" style="animation-delay:-3s"/>
+    <rect class="confetti" x="430" y="10" width="6" height="6" rx="1" fill="#E74C3C" style="animation-delay:-1.8s"/>
+  </g>
+
+  <!-- ground contact shadow -->
+  <ellipse class="shadow" cx="350" cy="498" rx="78" ry="12" fill="#5A3A18"/>
+
+  <!-- dust puffs from the tire -->
+  <g transform="translate(292, 488)">
+    <circle class="dust" cx="0" cy="0" r="7" fill="#D2B48C" style="animation-delay:0s"/>
+    <circle class="dust" cx="8" cy="4" r="5" fill="#C4A484" style="animation-delay:-0.25s"/>
+    <circle class="dust" cx="-4" cy="3" r="4" fill="#E6D0B0" style="animation-delay:-0.45s"/>
+  </g>
+
+  <!-- rider + unicycle (balances on the tire contact point) -->
+  <g class="wobble">
+
+    <!-- TAIL (behind everything) -->
+    <g class="tail">
+      <path d="M 300,278
+               C 250,268 200,280 150,318
+               C 122,340 96,372 78,418
+               C 96,400 128,372 150,366
+               C 132,392 108,424 98,458
+               C 140,430 188,392 228,352
+               C 210,378 188,410 182,438
+               C 220,408 258,360 286,322
+               C 294,306 302,292 300,278 Z"
+            fill="url(#tailGrad)" stroke="#5A3A1A" stroke-width="1.4"/>
+      <!-- tail tuft highlights -->
+      <path d="M 210,330 C 180,350 150,380 140,410" fill="none" stroke="#F0D2A0" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+      <path d="M 250,300 C 220,310 190,340 170,370" fill="none" stroke="#6B4423" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </g>
+
+    <!-- UNICYCLE -->
+    <g id="unicycle">
+      <!-- seat post / fork (behind wheel center) -->
+      <path d="M 350,286 L 350,392" stroke="url(#metal)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 338,392 C 338,404 342,414 350,420 C 358,414 362,404 362,392" fill="none" stroke="url(#metal)" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="350" cy="286" r="6" fill="#888"/>
+
+      <!-- saddle -->
+      <ellipse cx="350" cy="278" rx="28" ry="11" fill="url(#seatGrad)" stroke="#3A1608" stroke-width="1.2"/>
+      <ellipse cx="350" cy="276" rx="20" ry="6" fill="#C46A3A" opacity="0.45"/>
+      <path d="M 332,278 Q 350,282 368,278" fill="none" stroke="#E8B090" stroke-width="0.8" opacity="0.6"/>
+
+      <!-- rotating wheel + cranks -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 350 420" to="360 350 420" dur="0.7s" repeatCount="indefinite"/>
+
+        <!-- tire -->
+        <circle cx="350" cy="420" r="62" fill="url(#tireGrad)"/>
+        <circle cx="350" cy="420" r="50" fill="none" stroke="#2A2A2A" stroke-width="3"/>
+        <circle cx="350" cy="420" r="46" fill="#D8DDE2"/>
+        <circle cx="350" cy="420" r="44" fill="none" stroke="#9AA3AD" stroke-width="2"/>
+
+        <!-- spokes -->
+        <g stroke="#6D767E" stroke-width="2.2" stroke-linecap="round">
+          <line x1="350" y1="420" x2="350" y2="376"/>
+          <line x1="350" y1="420" x2="381" y2="389"/>
+          <line x1="350" y1="420" x2="394" y2="420"/>
+          <line x1="350" y1="420" x2="381" y2="451"/>
+          <line x1="350" y1="420" x2="350" y2="464"/>
+          <line x1="350" y1="420" x2="319" y2="451"/>
+          <line x1="350" y1="420" x2="306" y2="420"/>
+          <line x1="350" y1="420" x2="319" y2="389"/>
+        </g>
+        <circle cx="350" cy="420" r="9" fill="url(#metal)" stroke="#555" stroke-width="1"/>
+        <circle cx="350" cy="420" r="3.5" fill="#444"/>
+
+        <!-- crank arms + pedals + feet -->
+        <line x1="350" y1="392" x2="350" y2="448" stroke="#333" stroke-width="5" stroke-linecap="round"/>
+
+        <!-- pedal A + foot -->
+        <g transform="translate(350, 392)">
+          <rect x="0" y="-4" width="20" height="8" rx="2" fill="#222"/>
+          <rect x="12" y="-7" width="16" height="14" rx="3" fill="#1A1A1A"/>
+          <!-- anteater hind foot / claws -->
+          <ellipse cx="22" cy="1" rx="13" ry="8" fill="#C9965A" stroke="#6B4423" stroke-width="1"/>
+          <path d="M 30,-4 L 38,-8 M 32,1 L 41,1 M 30,6 L 38,9" stroke="#E8D0A8" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+
+        <!-- pedal B + foot -->
+        <g transform="translate(350, 448)">
+          <rect x="-20" y="-4" width="20" height="8" rx="2" fill="#222"/>
+          <rect x="-28" y="-7" width="16" height="14" rx="3" fill="#1A1A1A"/>
+          <ellipse cx="-22" cy="1" rx="13" ry="8" fill="#A87840" stroke="#6B4423" stroke-width="1"/>
+          <path d="M -30,-4 L -38,-8 M -32,1 L -41,1 M -30,6 L -38,9" stroke="#E8D0A8" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- upper legs (hips to roughly the crank area) -->
+    <path d="M 328,292 C 318,330 322,360 338,392" fill="none" stroke="#C9965A" stroke-width="16" stroke-linecap="round"/>
+    <path d="M 358,292 C 372,328 368,362 362,392" fill="none" stroke="#A87840" stroke-width="16" stroke-linecap="round"/>
+    <path d="M 328,292 C 318,330 322,360 338,392" fill="none" stroke="#8F6230" stroke-width="2" opacity="0.25"/>
+
+    <!-- BODY -->
+    <g filter="url(#softShadow)">
+      <!-- torso -->
+      <ellipse cx="342" cy="242" rx="52" ry="62" fill="url(#bodyFur)" stroke="#7A4E24" stroke-width="1.4"/>
+      <!-- belly -->
+      <ellipse cx="352" cy="256" rx="28" ry="40" fill="#E6C394" opacity="0.7"/>
+
+      <!-- giant anteater "vest" marking -->
+      <path d="M 318,210
+               C 300,230 292,260 300,292
+               C 310,310 338,318 360,304
+               C 348,292 340,270 344,246
+               C 348,228 356,216 368,208
+               C 350,198 332,198 318,210 Z"
+            fill="url(#darkMark)"/>
+      <path d="M 332,208 C 318,228 312,258 322,292"
+            fill="none" stroke="#F5E6D0" stroke-width="7" stroke-linecap="round"/>
+      <path d="M 338,214 C 326,232 322,258 330,286"
+            fill="none" stroke="#2C2416" stroke-width="2.2" opacity="0.5"/>
+    </g>
+
+    <!-- LEFT ARM (far, juggling) -->
+    <g class="arm-left">
+      <path d="M 318,214 C 292,200 272,170 268,148" fill="none" stroke="#A87840" stroke-width="13" stroke-linecap="round"/>
+      <ellipse cx="266" cy="140" rx="14" ry="11" fill="#C9965A" stroke="#6B4423" stroke-width="1"/>
+      <!-- claws -->
+      <path d="M 258,132 L 248,122 M 266,128 L 262,116 M 276,132 L 284,122" stroke="#F0D8B0" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- HEAD + SNOUT -->
+    <g class="snout">
+      <!-- neck blend -->
+      <ellipse cx="368" cy="196" rx="28" ry="26" fill="url(#bodyFur)"/>
+
+      <!-- long snout -->
+      <path d="M 372,178
+               C 400,168 448,174 498,196
+               C 512,202 512,216 498,222
+               C 448,236 400,230 374,214
+               C 366,208 364,192 372,178 Z"
+            fill="url(#snoutGrad)" stroke="#7A4E24" stroke-width="1.3"/>
+
+      <!-- snout highlight -->
+      <path d="M 390,186 C 430,178 470,188 496,202" fill="none" stroke="#F3D7B0" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+
+      <!-- nostrils -->
+      <ellipse cx="502" cy="206" rx="4.2" ry="3.2" fill="#5A3A22"/>
+      <ellipse cx="498" cy="212" rx="3.2" ry="2.4" fill="#5A3A22"/>
+      <ellipse cx="501" cy="205" rx="1.4" ry="1" fill="#C9965A" opacity="0.5"/>
+
+      <!-- smile crease -->
+      <path d="M 430,214 Q 448,220 466,216" fill="none" stroke="#8A5A32" stroke-width="1.4" stroke-linecap="round" opacity="0.45"/>
+
+      <!-- ear -->
+      <g class="ear">
+        <ellipse cx="368" cy="162" rx="12" ry="16" fill="#C9965A" stroke="#7A4E24" stroke-width="1.2"/>
+        <ellipse cx="370" cy="164" rx="6" ry="9" fill="#E8A090"/>
+      </g>
+
+      <!-- eye -->
+      <g class="eye">
+        <ellipse cx="392" cy="188" rx="7.5" ry="8.5" fill="#FFFDF5"/>
+        <circle cx="394" cy="189" r="4.4" fill="#1A120C"/>
+        <circle cx="396" cy="187" r="1.6" fill="#FFF"/>
+        <path d="M 384,180 Q 392,176 400,180" fill="none" stroke="#6B4423" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+
+      <!-- cheek tuft -->
+      <path d="M 378,214 C 372,222 366,226 360,226" fill="none" stroke="#8F6230" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    </g>
+
+    <!-- RIGHT ARM (near, juggling) -->
+    <g class="arm-right">
+      <path d="M 368,210 C 392,196 418,168 430,142" fill="none" stroke="#C9965A" stroke-width="14" stroke-linecap="round"/>
+      <ellipse cx="434" cy="134" rx="15" ry="12" fill="#D4A574" stroke="#6B4423" stroke-width="1"/>
+      <path d="M 426,124 L 420,112 M 436,122 L 438,108 M 446,126 L 456,116" stroke="#F0D8B0" stroke-width="3.2" stroke-linecap="round"/>
+    </g>
+
+    <!-- JUGGLING BOTTLES -->
+    <g transform="translate(272, 132)">
+      <!-- green -->
+      <g>
+        <animateMotion dur="1.6s" repeatCount="indefinite" rotate="0">
+          <mpath xlink:href="#jugglePath"/>
+        </animateMotion>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0 0 10" to="360 0 10" dur="1.6s" repeatCount="indefinite"/>
+          <use xlink:href="#bottleGreen"/>
+        </g>
+      </g>
+
+      <!-- amber, 1/3 phase -->
+      <g>
+        <animateMotion dur="1.6s" begin="-0.533s" repeatCount="indefinite" rotate="0">
+          <mpath xlink:href="#jugglePath"/>
+        </animateMotion>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="120 0 10" to="480 0 10" dur="1.6s" begin="-0.533s" repeatCount="indefinite"/>
+          <use xlink:href="#bottleAmber"/>
+        </g>
+      </g>
+
+      <!-- blue, 2/3 phase -->
+      <g>
+        <animateMotion dur="1.6s" begin="-1.067s" repeatCount="indefinite" rotate="0">
+          <mpath xlink:href="#jugglePath"/>
+        </animateMotion>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="240 0 10" to="600 0 10" dur="1.6s" begin="-1.067s" repeatCount="indefinite"/>
+          <use xlink:href="#bottleBlue"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

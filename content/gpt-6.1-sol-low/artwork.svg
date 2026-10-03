@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="700" viewBox="0 0 800 700" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater circus</title>
+  <desc id="desc">An animated anteater balances on a spinning unicycle while juggling three colorful bottles.</desc>
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#fff9e9"/><stop offset="1" stop-color="#f0ddbc"/></radialGradient>
+    <linearGradient id="fur" x2="1" y2="1"><stop stop-color="#bc9367"/><stop offset="1" stop-color="#825f43"/></linearGradient>
+    <linearGradient id="tail"><stop stop-color="#a78057"/><stop offset="1" stop-color="#574538"/></linearGradient>
+    <g id="bottle" stroke="#253f45" stroke-width="3" stroke-linejoin="round">
+      <path d="M-7-30V-14L-15-4V27Q-15 33-9 33H9Q15 33 15 27V-4L7-14V-30Z" fill="currentColor"/>
+      <path d="M-8-32H8V-25H-8Z" fill="#f9cf75"/>
+      <path d="M-14 7H14V22H-14Z" fill="#fff8e4"/>
+      <path d="M-8-1V3M-8 25V28" stroke="white" stroke-linecap="round" opacity=".6"/>
+      <path d="m0 10 2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1Z" fill="#d9ae55" stroke="none"/>
+    </g>
+  </defs>
+  <style>
+    .line{stroke:#493a31;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+    .bob{animation:bob 1.2s ease-in-out infinite}
+    .spin{animation:spin 1.2s linear infinite;transform-box:fill-box;transform-origin:center}
+    .juggle{animation:juggle 2.4s linear infinite}
+    .turn{animation:spin 2.4s linear infinite;transform-box:fill-box;transform-origin:center}
+    .two{animation-delay:-.8s}.three{animation-delay:-1.6s}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes juggle{0%{transform:translate(305px,330px)}12.5%{transform:translate(350px,200px)}25%{transform:translate(400px,145px)}37.5%{transform:translate(450px,200px)}50%{transform:translate(495px,330px)}62.5%{transform:translate(450px,350px)}75%{transform:translate(400px,365px)}87.5%{transform:translate(350px,350px)}100%{transform:translate(305px,330px)}}
+    @media(prefers-reduced-motion:reduce){.bob,.spin,.juggle,.turn{animation:none}.juggle{transform:translate(305px,230px)}.juggle.two{transform:translate(400px,145px)}.juggle.three{transform:translate(495px,230px)}}
+  </style>
+  <rect width="800" height="700" rx="28" fill="url(#bg)"/>
+  <path d="M45 0Q400 130 755 0" fill="none" stroke="#856047" stroke-width="3"/>
+  <g stroke="#856047" stroke-width="2"><path d="m110 25 38 10-28 35Z" fill="#de776a"/><path d="m220 47 38 6-25 37Z" fill="#56a59d"/><path d="m335 62 38 1-20 38Z" fill="#e6b649"/><path d="m450 60 38-4-15 39Z" fill="#de776a"/><path d="m565 46 38-7-11 40Z" fill="#56a59d"/><path d="m675 24 38-11-7 41Z" fill="#e6b649"/></g>
+  <ellipse cx="407" cy="625" rx="145" ry="15" fill="#765b40" opacity=".15"/>
+  <path d="M105 625H695" stroke="#bfa47e" stroke-width="3" stroke-linecap="round"/>
+  <!-- The wheel and crank turn together around a fixed axle. -->
+  <g transform="translate(400 550)">
+    <circle r="69" fill="#fff5dc" stroke="#493a31" stroke-width="13"/>
+    <circle r="60" fill="none" stroke="#d4b489" stroke-width="3"/>
+    <g class="spin" stroke="#7a8584" stroke-width="3">
+      <circle r="55" fill="none" stroke="none"/>
+      <path d="M-57 0H57M0-57V57M-40-40 40 40M-40 40 40-40"/>
+      <path d="M-23-19 23 19" stroke="#493a31" stroke-width="7"/>
+      <path d="M-35-19H-11M11 19H35" stroke="#493a31" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <circle r="9" fill="#edb958" stroke="#493a31" stroke-width="3"/>
+  </g>
+  <path d="M400 550V447" stroke="#637b7c" stroke-width="12"/>
+  <path d="M372 447H427" stroke="#493a31" stroke-width="16" stroke-linecap="round"/>
+  <g class="bob">
+    <!-- Big bushy tail, distinctive diagonal coat stripe, and long snout. -->
+    <path d="M372 418C312 405 268 415 215 453C160 492 133 497 112 482C128 533 196 554 257 519C313 488 346 477 384 467Z" fill="url(#tail)" class="line"/>
+    <path d="m124 489 33 12-10-15 36 10-8-17 38 9" fill="none" stroke="#cfac7a" stroke-width="4" opacity=".6"/>
+    <path d="M393 424Q361 469 379 508L382 525" fill="none" stroke="#493a31" stroke-width="22" stroke-linecap="round"/>
+    <path d="M416 432Q451 465 429 499L418 517" fill="none" stroke="#99714d" stroke-width="22" stroke-linecap="round"/>
+    <path d="M375 525H395M407 518H431" stroke="#493a31" stroke-width="12" stroke-linecap="round"/>
+    <path d="M365 311C343 344 344 402 365 432Q400 460 431 429C452 406 451 348 428 322Z" fill="url(#fur)" class="line"/>
+    <path d="M360 337Q380 380 426 425L436 402Q398 367 390 319Z" fill="#393633"/>
+    <path d="M365 337Q339 365 306 340" fill="none" stroke="#98734f" stroke-width="18" stroke-linecap="round"/>
+    <path d="M428 342Q460 369 495 341" fill="none" stroke="#98734f" stroke-width="18" stroke-linecap="round"/>
+    <g fill="none" stroke="#493a31" stroke-width="3" stroke-linecap="round"><path d="m298 337-6-9m13 12-2-12m185 14 2-12m6 8 7-8"/></g>
+    <path d="M369 320C346 305 347 273 367 261C387 248 417 258 435 277L496 319Q509 329 498 336C483 341 448 320 417 313Q391 335 369 320Z" fill="url(#fur)" class="line"/>
+    <path d="M366 272Q343 248 359 239Q378 239 382 263" fill="#a17a54" class="line"/>
+    <path d="M365 258 362 248" stroke="#e8bf99" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="404" cy="279" r="5" fill="#302e2b"/><circle cx="405" cy="277" r="1.5" fill="white"/>
+    <path d="M486 321 499 329" stroke="#302e2b" stroke-width="8" stroke-linecap="round"/>
+    <path d="M425 301Q435 309 446 309" fill="none" stroke="#493a31" stroke-width="3" stroke-linecap="round"/>
+    <path d="m382 255 9-48 33 52Z" fill="#de776a" class="line"/>
+    <path d="m387 232 23 6" stroke="#ffe4ad" stroke-width="7"/><circle cx="391" cy="206" r="8" fill="#e9b74e"/>
+    <path d="m387 326 18 7-17 13Z" fill="#56a59d" stroke="#493a31" stroke-width="3"/><path d="m418 326-13 7 16 13Z" fill="#56a59d" stroke="#493a31" stroke-width="3"/><circle cx="405" cy="334" r="5" fill="#e9b74e"/>
+  </g>
+  <g class="juggle"><g class="turn"><use href="#bottle" color="#58afa0"/></g></g>
+  <g class="juggle two"><g class="turn two"><use href="#bottle" color="#e17b6c"/></g></g>
+  <g class="juggle three"><g class="turn three"><use href="#bottle" color="#79a9cd"/></g></g>
+  <g fill="#d9aa4e"><path d="m242 189 4 12 12 4-12 4-4 12-4-12-12-4 12-4Z"/><path d="m557 231 3 9 9 3-9 3-3 9-3-9-9-3 9-3Z"/><circle cx="530" cy="145" r="4"/><circle cx="278" cy="265" r="3"/></g>
+  <text x="400" y="674" text-anchor="middle" font-family="Georgia,serif" font-size="23" letter-spacing="5" fill="#765b40">THE AMAZING ANTEATER</text>
+</svg>

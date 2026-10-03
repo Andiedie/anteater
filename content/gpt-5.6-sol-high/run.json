@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-5.6-sol-high",
+  "name": "GPT-5.6 Sol",
+  "vendor": "OpenAI",
+  "date": "2026-10-01T03:12:05.188Z",
+  "model_ids": [
+    "gpt-5.6-sol"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 112.425,
+    "request_seconds": 112.384,
+    "average_tps": 51.43,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 8650,
+      "output": 5780,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 257,
+      "totalTokens": 14430
+    },
+    "recorded_cost_usd": 0.1502,
+    "cost_usd": 0.1502
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#c00c00944385c26442b0c2bf50371c8a",
+    "gist_id": "c00c00944385c26442b0c2bf50371c8a",
+    "gist_revision": "634caab728d8d298fff31c65f43f3e446f098924",
+    "session_id": "01a0f572-67c4-74a4-8518-6c16313f0c5a",
+    "imported_at": "2026-10-02T16:16:45.322585+00:00",
+    "artwork_sha256": "e818023e45f6ecd1a792201fce150a9f3b3b571fb119b00e8bf3d8901d2aa23e"
+  }
+}

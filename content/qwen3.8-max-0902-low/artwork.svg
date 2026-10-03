@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <!-- Sky background -->
+  <rect width="600" height="500" fill="#cfe8ff"/>
+  <!-- Sun -->
+  <circle cx="520" cy="70" r="35" fill="#ffd54f"/>
+  <!-- Ground -->
+  <rect y="430" width="600" height="70" fill="#8bc34a"/>
+  <line x1="0" y1="430" x2="600" y2="430" stroke="#558b2f" stroke-width="4"/>
+
+  <!-- Rolling scenery to suggest motion -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="-600 0" dur="4s" repeatCount="indefinite"/>
+    <g fill="#558b2f">
+      <circle cx="80" cy="445" r="6"/><circle cx="280" cy="450" r="6"/>
+      <circle cx="480" cy="445" r="6"/>
+      <circle cx="680" cy="445" r="6"/><circle cx="880" cy="450" r="6"/>
+      <circle cx="1080" cy="445" r="6"/>
+    </g>
+    <g stroke="#558b2f" stroke-width="3">
+      <line x1="150" y1="430" x2="140" y2="415"/><line x1="350" y1="430" x2="340" y2="415"/>
+      <line x1="550" y1="430" x2="540" y2="415"/><line x1="750" y1="430" x2="740" y2="415"/>
+    </g>
+  </g>
+
+  <!-- ===== Anteater on unicycle ===== -->
+  <g>
+    <!-- Gentle bob of the whole rider -->
+    <animateTransform attributeName="transform" type="translate"
+      values="0 0; 0 -6; 0 0; 0 -6; 0 0" dur="1.2s" repeatCount="indefinite"/>
+
+    <!-- Unicycle -->
+    <g transform="translate(300,400)">
+      <!-- Wheel -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="1s" repeatCount="indefinite"/>
+        <circle cx="0" cy="0" r="34" fill="none" stroke="#37474f" stroke-width="7"/>
+        <circle cx="0" cy="0" r="5" fill="#37474f"/>
+        <line x1="-34" y1="0" x2="34" y2="0" stroke="#37474f" stroke-width="3"/>
+        <line x1="0" y1="-34" x2="0" y2="34" stroke="#37474f" stroke-width="3"/>
+        <line x1="-24" y1="-24" x2="24" y2="24" stroke="#37474f" stroke-width="3"/>
+        <line x1="-24" y1="24" x2="24" y2="-24" stroke="#37474f" stroke-width="3"/>
+      </g>
+      <!-- Seat post -->
+      <line x1="0" y1="-5" x2="0" y2="-55" stroke="#37474f" stroke-width="6"/>
+      <!-- Seat -->
+      <rect x="-18" y="-62" width="36" height="10" rx="5" fill="#4e342e"/>
+      <!-- Pedal cranks -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="1s" repeatCount="indefinite"/>
+        <line x1="0" y1="0" x2="22" y2="0" stroke="#37474f" stroke-width="4"/>
+        <rect x="18" y="-4" width="14" height="8" rx="2" fill="#ff7043"/>
+        <line x1="0" y1="0" x2="-22" y2="0" stroke="#37474f" stroke-width="4"/>
+        <rect x="-32" y="-4" width="14" height="8" rx="2" fill="#ff7043"/>
+      </g>
+    </g>
+
+    <!-- Anteater body (seated on unicycle) -->
+    <g transform="translate(300,300)">
+      <!-- Tail -->
+      <path d="M -10,30 Q -80,10 -100,70 Q -85,55 -60,60 Q -30,65 -8,45 Z" fill="#8d6e63">
+        <animate attributeName="d" dur="1.2s" repeatCount="indefinite"
+          values="M -10,30 Q -80,10 -100,70 Q -85,55 -60,60 Q -30,65 -8,45 Z;
+                  M -10,30 Q -80,25 -100,55 Q -85,50 -60,58 Q -30,65 -8,45 Z;
+                  M -10,30 Q -80,10 -100,70 Q -85,55 -60,60 Q -30,65 -8,45 Z"/>
+      </path>
+      <!-- Leg pedaling -->
+      <path d="M 0,35 L 15,55 L 8,70" fill="none" stroke="#795548" stroke-width="12" stroke-linecap="round">
+        <animate attributeName="d" dur="1s" repeatCount="indefinite"
+          values="M 0,35 L 15,55 L 8,70;
+                  M 0,35 L -15,55 L -8,70;
+                  M 0,35 L 15,55 L 8,70"/>
+      </path>
+      <!-- Torso -->
+      <ellipse cx="0" cy="20" rx="28" ry="35" fill="#8d6e63"/>
+      <!-- Belly -->
+      <ellipse cx="6" cy="28" rx="16" ry="22" fill="#d7ccc8"/>
+      <!-- Head + long snout -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="-3 0 -20; 3 0 -20; -3 0 -20" dur="2s" repeatCount="indefinite"/>
+        <circle cx="0" cy="-20" r="20" fill="#8d6e63"/>
+        <!-- Snout -->
+        <path d="M 10,-25 Q 55,-35 85,-15 Q 55,-18 12,-12 Z" fill="#795548"/>
+        <!-- Eye -->
+        <circle cx="6" cy="-26" r="3.5" fill="#fff"/>
+        <circle cx="7" cy="-26" r="1.8" fill="#000"/>
+        <!-- Ear -->
+        <circle cx="-14" cy="-32" r="6" fill="#6d4c41"/>
+        <!-- Stripe marking -->
+        <path d="M -8,-32 Q 5,-25 -2,-6" fill="none" stroke="#5d4037" stroke-width="4" opacity="0.6"/>
+      </g>
+      <!-- Arms reaching up to juggle -->
+      <path d="M -12,0 Q -35,-30 -28,-60" fill="none" stroke="#795548" stroke-width="10" stroke-linecap="round">
+        <animate attributeName="d" dur="0.8s" repeatCount="indefinite"
+          values="M -12,0 Q -35,-30 -28,-60;
+                  M -12,0 Q -35,-35 -32,-62;
+                  M -12,0 Q -35,-30 -28,-60"/>
+      </path>
+      <path d="M 12,0 Q 35,-30 28,-60" fill="none" stroke="#795548" stroke-width="10" stroke-linecap="round">
+        <animate attributeName="d" dur="0.8s" repeatCount="indefinite" begin="0.4s"
+          values="M 12,0 Q 35,-30 28,-60;
+                  M 12,0 Q 35,-35 32,-62;
+                  M 12,0 Q 35,-30 28,-60"/>
+      </path>
+    </g>
+
+    <!-- ===== Juggling bottles: 3 bottles on an arc path ===== -->
+    <g transform="translate(300,200)">
+      <!-- Bottle 1 -->
+      <g>
+        <animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto"
+          path="M -70,40 Q 0,-60 70,40 Q 0,60 -70,40"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2.4s" repeatCount="indefinite"/>
+          <rect x="-7" y="-18" width="14" height="32" rx="6" fill="#4caf50"/>
+          <rect x="-3" y="-26" width="6" height="10" rx="2" fill="#388e3c"/>
+          <rect x="-7" y="-6" width="14" height="10" fill="#fff" opacity="0.5"/>
+        </g>
+      </g>
+      <!-- Bottle 2 -->
+      <g>
+        <animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto" begin="0.8s"
+          path="M -70,40 Q 0,-60 70,40 Q 0,60 -70,40"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2.4s" repeatCount="indefinite"/>
+          <rect x="-7" y="-18" width="14" height="32" rx="6" fill="#e91e63"/>
+          <rect x="-3" y="-26" width="6" height="10" rx="2" fill="#c2185b"/>
+          <rect x="-7" y="-6" width="14" height="10" fill="#fff" opacity="0.5"/>
+        </g>
+      </g>
+      <!-- Bottle 3 -->
+      <g>
+        <animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto" begin="1.6s"
+          path="M -70,40 Q 0,-60 70,40 Q 0,60 -70,40"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2.4s" repeatCount="indefinite"/>
+          <rect x="-7" y="-18" width="14" height="32" rx="6" fill="#2196f3"/>
+          <rect x="-3" y="-26" width="6" height="10" rx="2" fill="#1976d2"/>
+          <rect x="-7" y="-6" width="14" height="10" fill="#fff" opacity="0.5"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <style>
+      /* Ground */
+      .ground-line { stroke: #7cb342; stroke-width: 8; stroke-linecap: round; }
+
+      /* Whole rider gently bobs */
+      .bob { animation: bob 1s ease-in-out infinite; transform-origin: 300px 400px; }
+      @keyframes bob {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(6px); }
+      }
+
+      /* Wheel spins */
+      .wheel { animation: spin 1s linear infinite; transform-origin: 300px 470px; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      /* Legs pedal */
+      .pedal-l { animation: pedalL 1s ease-in-out infinite; transform-origin: 300px 470px; }
+      .pedal-r { animation: pedalR 1s ease-in-out infinite; transform-origin: 300px 470px; }
+      @keyframes pedalL {
+        0%   { transform: rotate(0deg); }
+        50%  { transform: rotate(180deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes pedalR {
+        0%   { transform: rotate(180deg); }
+        50%  { transform: rotate(360deg); }
+        100% { transform: rotate(540deg); }
+      }
+
+      /* Arms wave to "juggle" */
+      .arm-l { animation: armL 0.8s ease-in-out infinite; transform-origin: 262px 268px; }
+      .arm-r { animation: armR 0.8s ease-in-out infinite; transform-origin: 338px 268px; }
+      @keyframes armL {
+        0%, 100% { transform: rotate(-18deg); }
+        50%      { transform: rotate(12deg); }
+      }
+      @keyframes armR {
+        0%, 100% { transform: rotate(18deg); }
+        50%      { transform: rotate(-12deg); }
+      }
+
+      /* Juggling bottles fly in an arc */
+      .bottle { animation: fly 2.4s linear infinite; }
+      .bottle.b1 { animation-delay: 0s; }
+      .bottle.b2 { animation-delay: -0.8s; }
+      .bottle.b3 { animation-delay: -1.6s; }
+      @keyframes fly {
+        /* path simulated with translate + rotate along an arc */
+        0%   { transform: translate(230px, 200px) rotate(0deg);   opacity: 1; }
+        25%  { transform: translate(265px, 110px) rotate(90deg); }
+        50%  { transform: translate(300px, 75px)  rotate(180deg); }
+        75%  { transform: translate(335px, 110px) rotate(270deg); }
+        100% { transform: translate(370px, 200px) rotate(360deg); opacity: 1; }
+      }
+      .bottle-spin { animation: none; }
+
+      /* Tail sways */
+      .tail { animation: sway 2s ease-in-out infinite; transform-origin: 240px 360px; }
+      @keyframes sway {
+        0%, 100% { transform: rotate(-8deg); }
+        50%      { transform: rotate(10deg); }
+      }
+
+      /* Eyes blink */
+      .eye { animation: blink 4s step-end infinite; transform-origin: center; }
+      @keyframes blink {
+        0%, 94%, 100% { transform: scaleY(1); }
+        96%, 98%      { transform: scaleY(0.1); }
+      }
+    </style>
+
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bde3ff"/>
+      <stop offset="100%" stop-color="#eaf7ff"/>
+    </linearGradient>
+    <linearGradient id="bottleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#0288d1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="600" fill="url(#sky)"/>
+
+  <!-- Clouds -->
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="100" cy="90" rx="45" ry="20"/>
+    <ellipse cx="130" cy="80" rx="35" ry="18"/>
+    <ellipse cx="490" cy="130" rx="50" ry="22"/>
+    <ellipse cx="525" cy="118" rx="35" ry="16"/>
+  </g>
+
+  <!-- Ground -->
+  <line class="ground-line" x1="40" y1="530" x2="560" y2="530"/>
+
+  <!-- ===== Scene (bobs) ===== -->
+  <g class="bob">
+
+    <!-- Tail -->
+    <path class="tail" d="M 240 360 Q 170 380 150 440 Q 145 460 165 455 Q 200 440 250 400 Z"
+          fill="#6d4c41" stroke="#4e342e" stroke-width="3"/>
+
+    <!-- Unicycle -->
+    <g>
+      <!-- frame -->
+      <path d="M 300 400 L 300 470" stroke="#e53935" stroke-width="8" stroke-linecap="round"/>
+      <path d="M 268 398 Q 300 388 332 398 L 325 410 Q 300 402 275 410 Z" fill="#37474f"/>
+      <!-- wheel -->
+      <g class="wheel">
+        <circle cx="300" cy="470" r="58" fill="none" stroke="#263238" stroke-width="10"/>
+        <circle cx="300" cy="470" r="10" fill="#546e7a"/>
+        <g stroke="#90a4ae" stroke-width="4">
+          <line x1="300" y1="470" x2="300" y2="416"/>
+          <line x1="300" y1="470" x2="300" y2="524"/>
+          <line x1="300" y1="470" x2="246" y2="470"/>
+          <line x1="300" y1="470" x2="354" y2="470"/>
+          <line x1="300" y1="470" x2="262" y2="432"/>
+          <line x1="300" y1="470" x2="338" y2="508"/>
+          <line x1="300" y1="470" x2="338" y2="432"/>
+          <line x1="300" y1="470" x2="262" y2="508"/>
+        </g>
+      </g>
+      <!-- pedals (legs attached) -->
+      <g class="pedal-l">
+        <line x1="300" y1="470" x2="300" y2="440" stroke="#455a64" stroke-width="6"/>
+        <rect x="290" y="434" width="22" height="7" rx="3" fill="#ffb300"/>
+      </g>
+      <g class="pedal-r">
+        <line x1="300" y1="470" x2="300" y2="440" stroke="#455a64" stroke-width="6"/>
+        <rect x="290" y="434" width="22" height="7" rx="3" fill="#ffb300"/>
+      </g>
+    </g>
+
+    <!-- ===== Anteater ===== -->
+    <g>
+      <!-- Legs on pedals -->
+      <path d="M 282 370 Q 268 400 300 445" stroke="#8d6e63" stroke-width="18" fill="none" stroke-linecap="round" class="pedal-l" style="transform-origin:300px 470px"/>
+      <path d="M 318 370 Q 332 400 300 445" stroke="#795548" stroke-width="18" fill="none" stroke-linecap="round" class="pedal-r" style="transform-origin:300px 470px"/>
+
+      <!-- Body -->
+      <ellipse cx="300" cy="330" rx="55" ry="70" fill="#8d6e63" stroke="#5d4037" stroke-width="3"/>
+      <!-- Body stripe (anteater marking) -->
+      <path d="M 260 300 Q 300 330 345 300 L 348 340 Q 300 370 255 340 Z" fill="#4e342e" opacity="0.55"/>
+      <!-- Belly -->
+      <ellipse cx="300" cy="345" rx="32" ry="42" fill="#d7ccc8"/>
+
+      <!-- Head + long snout -->
+      <g>
+        <!-- snout -->
+        <path d="M 300 245 Q 355 235 405 205 Q 415 198 410 212 Q 380 258 330 268 Z"
+              fill="#795548" stroke="#5d4037" stroke-width="3"/>
+        <circle cx="408" cy="207" r="4" fill="#3e2723"/>
+        <!-- head -->
+        <ellipse cx="305" cy="235" rx="42" ry="36" fill="#8d6e63" stroke="#5d4037" stroke-width="3"/>
+        <!-- ears -->
+        <circle cx="278" cy="205" r="9" fill="#6d4c41" stroke="#5d4037" stroke-width="2"/>
+        <circle cx="322" cy="200" r="9" fill="#6d4c41" stroke="#5d4037" stroke-width="2"/>
+        <!-- eye -->
+        <g class="eye" style="transform-origin:312px 228px">
+          <circle cx="312" cy="228" r="6" fill="#212121"/>
+          <circle cx="314" cy="226" r="2" fill="#ffffff"/>
+        </g>
+        <!-- smile -->
+        <path d="M 318 248 Q 328 254 338 248" stroke="#4e342e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- Arms -->
+      <path class="arm-l" d="M 262 268 Q 225 250 218 215" stroke="#795548" stroke-width="16" fill="none" stroke-linecap="round"/>
+      <path class="arm-r" d="M 338 268 Q 375 250 382 215" stroke="#795548" stroke-width="16" fill="none" stroke-linecap="round"/>
+      <!-- Claws -->
+      <g class="arm-l" style="transform-origin:262px 268px">
+        <circle cx="218" cy="213" r="10" fill="#4e342e"/>
+      </g>
+      <g class="arm-r" style="transform-origin:338px 268px">
+        <circle cx="382" cy="213" r="10" fill="#4e342e"/>
+      </g>
+    </g>
+
+    <!-- ===== Juggling bottles ===== -->
+    <g class="bottle b1">
+      <g transform="translate(-12,-30)">
+        <rect x="0" y="10" width="24" height="42" rx="6" fill="url(#bottleGrad)" stroke="#01579b" stroke-width="2"/>
+        <rect x="8" y="0" width="8" height="12" fill="url(#bottleGrad)" stroke="#01579b" stroke-width="2"/>
+        <rect x="2" y="24" width="20" height="10" fill="#ffffff" opacity="0.85"/>
+      </g>
+    </g>
+    <g class="bottle b2">
+      <g transform="translate(-12,-30)">
+        <rect x="0" y="10" width="24" height="42" rx="6" fill="#66bb6a" stroke="#2e7d32" stroke-width="2"/>
+        <rect x="8" y="0" width="8" height="12" fill="#66bb6a" stroke="#2e7d32" stroke-width="2"/>
+        <rect x="2" y="24" width="20" height="10" fill="#ffffff" opacity="0.85"/>
+      </g>
+    </g>
+    <g class="bottle b3">
+      <g transform="translate(-12,-30)">
+        <rect x="0" y="10" width="24" height="42" rx="6" fill="#ffa726" stroke="#e65100" stroke-width="2"/>
+        <rect x="8" y="0" width="8" height="12" fill="#ffa726" stroke="#e65100" stroke-width="2"/>
+        <rect x="2" y="24" width="20" height="10" fill="#ffffff" opacity="0.85"/>
+      </g>
+    </g>
+  </g>
+</svg>

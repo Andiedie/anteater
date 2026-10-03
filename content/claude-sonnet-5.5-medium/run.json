@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "claude-sonnet-5.5-medium",
+  "name": "Claude Sonnet 5.5",
+  "vendor": "Anthropic",
+  "date": "2026-10-01T14:41:20.652Z",
+  "model_ids": [
+    "claude-sonnet-5-5"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 32.725,
+    "request_seconds": 32.709,
+    "average_tps": 129.93,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 17852,
+      "output": 4250,
+      "cacheRead": 1608,
+      "cacheWrite": 0,
+      "reasoning": 159,
+      "totalTokens": 23710
+    },
+    "recorded_cost_usd": 0.0785256,
+    "cost_usd": 0.0785256
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#3c37cae6979d1d024ce1cd8c0fb5cd95",
+    "gist_id": "3c37cae6979d1d024ce1cd8c0fb5cd95",
+    "gist_revision": "9fa7097e1038cf509c0fa786be7d3605c508ba1d",
+    "session_id": "01a0f7e9-a84c-7573-8aa9-48c3fdebaf2d",
+    "imported_at": "2026-10-02T16:16:45.297696+00:00",
+    "artwork_sha256": "1d1319d4a6bd378f783f41550343f026d5bbec03fc63237499f6775980a3083d"
+  }
+}

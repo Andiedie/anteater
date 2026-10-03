@@ -2,16 +2,23 @@ import Fuse from './assets/fuse/fuse.min.mjs';
 
 const runs = JSON.parse(document.querySelector('#catalog-data').textContent);
 const artworkRuns = runs.filter(run => run.outcome !== 'no_artwork');
-const normalizeSearch = text => text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').trim();
-const modelSearch = new Fuse(runs.map(run => ({
-  slug: run.slug,
-  terms: [...new Set([run.name, run.vendor, run.slug, ...run.model_ids].flatMap(value => {
+const modelKey = run => JSON.stringify([run.vendor, run.name]);
+const models = new Map();
+for (const run of runs) {
+  const key = modelKey(run);
+  if (!models.has(key)) models.set(key, []);
+  models.get(key).push(run);
+}
+const normalizeSearch = text => text.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\b(\p{L})\s+(?=[\p{L}\p{N}])/gu, '$1').replace(/\b(\p{L}+)\s+(?=\p{N})/gu, '$1').trim();
+const modelSearch = new Fuse([...models].map(([key, group]) => ({
+  key,
+  terms: [...new Set(group.flatMap(run => [run.name, run.vendor, run.slug, ...run.model_ids]).flatMap(value => {
     const text = normalizeSearch(value);
     return [text, text.replace(/\s+/g, '')];
   }))],
 })), {keys: ['terms'], threshold: .35, ignoreLocation: true, ignoreDiacritics: true, useTokenSearch: true, tokenMatch: 'all'});
 const bySlug = new Map(runs.map(run => [run.slug, run]));
-const cards = new Map([...document.querySelectorAll('.card')].map(card => [card.dataset.slug, card]));
+const cards = new Map([...document.querySelectorAll('.card')].map(card => [card.dataset.model, card]));
 const gallery = document.querySelector('#gallery');
 const detailDialog = document.querySelector('#detail-dialog');
 const compareDialog = document.querySelector('#compare-dialog');
@@ -20,7 +27,8 @@ const reasoning = document.querySelector('#reasoning');
 const sort = document.querySelector('#sort');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const selected = new Set();
-let visibleRuns = runs;
+const levelSelection = new Set();
+const cardLevels = new Map();
 let vendor = 'all';
 let toastTimer;
 let resultsTimer;
@@ -39,6 +47,12 @@ const money = value => value == null ? t('Unknown') : `$${value.toFixed(value < 
 const date = value => new Intl.DateTimeFormat(locale(), {dateStyle: 'medium', timeZone: 'UTC'}).format(new Date(value));
 const levels = run => run.reasoning.join(' → ');
 const effortChips = run => run.reasoning.map(level => `<span class="effort" data-level="${e(level)}">${e(level)}</span>`).join('');
+const levelOrder = ['off', 'on', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
+const siblings = run => [...models.get(modelKey(run))].sort((a, b) => {
+  const rank = item => levelOrder.indexOf(item.reasoning[0]) < 0 ? levelOrder.length : levelOrder.indexOf(item.reasoning[0]);
+  return rank(a) - rank(b) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug);
+});
+const levelStatus = run => run.outcome === 'no_artwork' ? `<span class="level-status">${e(t('No SVG delivered'))}</span>` : '';
 const validComparison = slugs => slugs.length >= 2 && slugs.length <= 4 && new Set(slugs).size === slugs.length && slugs.every(slug => bySlug.has(slug) && bySlug.get(slug).outcome !== 'no_artwork');
 const cost = run => run.price?.amount_usd ?? run.metrics?.cost_usd;
 const costText = run => (run.price?.basis === 'public' ? '≈' : '') + money(cost(run));
@@ -47,13 +61,9 @@ const comparisonNote = 'Individual runs, not normalized benchmarks. Run time inc
 
 function notify(message) {
   const toast = document.querySelector('#toast');
-  toast.dataset.i18n = message;
-  toast.textContent = t(message);
-  toast.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { toast.hidden = true; }, 3000);
+  toast.dataset.i18n = message; toast.textContent = t(message); toast.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.hidden = true; }, 3000);
 }
-
 function changeUrl(values, push = false) {
   const url = new URL(location.href);
   for (const [key, value] of Object.entries(values)) {
@@ -62,20 +72,67 @@ function changeUrl(values, push = false) {
   }
   if (url.href !== location.href) history[push ? 'pushState' : 'replaceState'](push ? {galleryOverlay: true} : history.state, '', url);
 }
-function syncFilterUrl() {
-  changeUrl({q: search.value.trim(), vendor, reasoning: reasoning.value, sort: sort.value});
-}
+function syncFilterUrl() { changeUrl({q: search.value.trim(), vendor, reasoning: reasoning.value, sort: sort.value}); }
 
-function applyFilters(sync = true) {
+function updateCard(run) {
+  const card = cards.get(modelKey(run)), failed = run.outcome === 'no_artwork';
+  if (card.dataset.slug !== run.slug) {
+    const stage = card.querySelector('.preview');
+    removeFrames(stage); stage.innerHTML = failed ? failurePreview(run) : preview(run);
+    stage.classList.toggle('failure-preview', failed);
+    if (!failed) { stage.querySelector('iframe').setAttribute('aria-hidden', 'true'); prepareFrame(stage.querySelector('iframe')); }
+    card.dataset.slug = run.slug;
+  }
+  card.classList.toggle('failure-card', failed);
+  if (failed) card.querySelector('.preview').innerHTML = failurePreview(run);
+  for (const link of card.querySelectorAll('.preview, h2 a, .failure-link')) {
+    link.dataset.open = run.slug;
+    if (link.matches('a')) link.href = link.classList.contains('failure-link') ? `./cases/${run.slug}/` : `?run=${run.slug}`;
+  }
+  card.querySelector('.preview').setAttribute('aria-label', t('View {model}, {level} reasoning', {model: run.name, level: levels(run)}) + (failed ? ' · ' + t('No SVG delivered') : ''));
+  for (const button of card.querySelectorAll('[data-card-run]')) {
+    const item = bySlug.get(button.dataset.cardRun);
+    button.setAttribute('aria-pressed', String(item.slug === run.slug));
+    button.setAttribute('aria-label', t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}) + (item.outcome === 'no_artwork' ? ' · ' + t('No SVG delivered') : ''));
+  }
+  card.querySelector('.card-stats').hidden = failed; card.querySelector('.failure-link').hidden = !failed;
+  const checkbox = card.querySelector('[data-compare]');
+  checkbox.dataset.compare = run.slug; checkbox.disabled = failed; checkbox.closest('label').hidden = failed;
+  checkbox.setAttribute('aria-label', t('Compare {model}, {level} reasoning', {model: run.name, level: levels(run)}));
+  if (!failed) {
+    card.querySelector('iframe').title = t('{model} animated SVG', {model: run.name});
+    card.querySelector('[data-time]').textContent = time(run.metrics.duration_seconds);
+    card.querySelector('[data-output]').textContent = number(run.metrics.tokens.output);
+    card.querySelector('[data-price]').textContent = costText(run);
+    const label = card.querySelector('[data-price-label]');
+    label.dataset.i18n = {recorded: 'Pi · USD', public: 'Public · USD'}[run.price?.basis] || 'Cost · USD'; label.textContent = t(label.dataset.i18n);
+  }
+}
+function switchCard(slug) {
+  const run = bySlug.get(slug), key = modelKey(run);
+  cardLevels.set(key, slug);
+  if (reasoning.value !== 'all' && !run.reasoning.includes(reasoning.value)) {
+    reasoning.value = 'all'; applyFilters();
+  } else { updateCard(run); syncSelection(); refreshPlayback(); }
+}
+function applyFilters(sync = true, reorder = true) {
   const query = normalizeSearch(search.value);
-  const ranks = new Map(query ? modelSearch.search(query).map((result, index) => [result.item.slug, index]) : []);
+  const ranks = new Map(query ? modelSearch.search(query).map((result, index) => [result.item.key, index]) : []);
+  // ponytail: compare the first version number; parse full versions if finer ranking is needed.
+  const version = search.value.normalize('NFKC').match(/\d+/)?.[0];
+  const sameVersion = run => Boolean(version && run.name.match(/\d+/)?.[0] === version);
   if (!query && sort.value === 'relevance') sort.value = 'newest';
-  sort.querySelector('[value="relevance"]').disabled = !query;
-  previousQuery = query;
-  const orderedRuns = [...runs];
+  sort.querySelector('[value="relevance"]').disabled = !query; previousQuery = query;
+  const orderedRuns = [...models].flatMap(([key, group]) => {
+    if ((query && !ranks.has(key)) || (vendor !== 'all' && group[0].vendor !== vendor)) return [];
+    const matching = group.filter(run => reasoning.value === 'all' || run.reasoning.includes(reasoning.value));
+    const run = reasoning.value === 'all' ? bySlug.get(cardLevels.get(key)) || matching.find(item => item.outcome !== 'no_artwork') || matching[0] : matching[0];
+    return run ? [run] : [];
+  });
   const metric = {time: 'duration_seconds', cost: 'cost', tokens: 'tokens', tps: 'average_tps'}[sort.value];
-  orderedRuns.sort((a, b) => {
-    if (sort.value === 'relevance') return ((ranks.get(a.slug) ?? Infinity) - (ranks.get(b.slug) ?? Infinity)) || b.date.localeCompare(a.date);
+  if (reorder) orderedRuns.sort((a, b) => {
+    if (sort.value === 'relevance') return Number(sameVersion(b)) - Number(sameVersion(a))
+      || ((ranks.get(modelKey(a)) ?? Infinity) - (ranks.get(modelKey(b)) ?? Infinity)) || b.date.localeCompare(a.date);
     if (sort.value === 'name') return a.name.localeCompare(b.name) || a.slug.localeCompare(b.slug);
     if (!metric) return b.date.localeCompare(a.date);
     const value = run => metric === 'cost' ? cost(run) : metric === 'tokens' ? run.metrics?.tokens.totalTokens : run.metrics?.[metric];
@@ -83,19 +140,18 @@ function applyFilters(sync = true) {
     if (av == null || bv == null) return av == null ? (bv == null ? 0 : 1) : -1;
     return (sort.value === 'tps' ? bv - av : av - bv) || b.date.localeCompare(a.date);
   });
-  visibleRuns = orderedRuns.filter(run => (!query || ranks.has(run.slug)) && (vendor === 'all' || run.vendor === vendor)
-    && (reasoning.value === 'all' || run.reasoning.includes(reasoning.value)));
-  const visible = new Set(visibleRuns.map(run => run.slug));
-  for (const [slug, card] of cards) {
-    const hidden = !visible.has(slug), frame = card.querySelector('iframe');
+  const visible = new Set(orderedRuns.map(modelKey));
+  for (const run of orderedRuns) updateCard(run);
+  for (const [key, card] of cards) {
+    const hidden = !visible.has(key), frame = card.querySelector('iframe');
     if (card.hidden !== hidden) {
       card.hidden = hidden;
       if (frame) { observer.unobserve(frame); observer.observe(frame); }
     }
     if (hidden && frame) playFrame(frame, false);
   }
-  orderedRuns.forEach((run, index) => {
-    const card = cards.get(run.slug), before = gallery.children[index];
+  if (reorder) orderedRuns.forEach((run, index) => {
+    const card = cards.get(modelKey(run)), before = gallery.children[index];
     if (before === card) return;
     const frame = card.querySelector('iframe');
     if (frame) observer.unobserve(frame);
@@ -104,17 +160,17 @@ function applyFilters(sync = true) {
     else { frame?.classList.remove('loaded'); gallery.insertBefore(card, before || null); }
     if (frame) observer.observe(frame);
   });
-  document.querySelector('#visible-count').textContent = number(visibleRuns.length);
-  document.querySelector('#empty-state').hidden = visibleRuns.length !== 0;
+  document.querySelector('#visible-count').textContent = number(orderedRuns.length);
+  document.querySelector('#empty-state').hidden = orderedRuns.length !== 0;
   document.querySelector('#filter-feedback').hidden = !(query || vendor !== 'all' || reasoning.value !== 'all');
-  document.querySelector('#filter-description').textContent = t('{shown} of {total} performances', {shown: number(visibleRuns.length), total: number(runs.length)});
+  document.querySelector('#filter-description').textContent = t('{shown} of {total} models', {shown: number(orderedRuns.length), total: number(models.size)});
   for (const tab of document.querySelectorAll('[data-vendor]')) {
     const active = tab.dataset.vendor === vendor;
     tab.classList.toggle('active', active); tab.setAttribute('aria-pressed', String(active));
   }
   clearTimeout(resultsTimer);
-  resultsTimer = setTimeout(() => { document.querySelector('#results-status').textContent = t('{count} performances found', {count: number(visibleRuns.length)}); }, 200);
-  if (sync) syncFilterUrl();
+  resultsTimer = setTimeout(() => { document.querySelector('#results-status').textContent = t('{count} models found', {count: number(orderedRuns.length)}); }, 200);
+  syncSelection(); refreshPlayback(); if (sync) syncFilterUrl();
 }
 function readFilters() {
   const params = new URLSearchParams(location.search);
@@ -127,9 +183,7 @@ function readFilters() {
   }
   applyFilters(false);
 }
-function resetFilters() {
-  search.value = ''; vendor = 'all'; reasoning.value = 'all'; sort.value = 'newest'; applyFilters();
-}
+function resetFilters() { cardLevels.clear(); search.value = ''; vendor = 'all'; reasoning.value = 'all'; sort.value = 'newest'; applyFilters(); }
 
 function playFrame(frame, play) {
   try {
@@ -175,8 +229,7 @@ function prepareFrame(frame) {
       // Only the viewport and playback change; committed model output stays untouched.
       svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%');
       svg.style.display = 'block'; svg.style.backgroundColor = getComputedStyle(frame.parentElement).backgroundColor;
-      playFrame(frame, false); restartFrame(frame);
-      frame.classList.add('loaded'); refreshPlayback();
+      playFrame(frame, false); restartFrame(frame); frame.classList.add('loaded'); refreshPlayback();
     } catch {
       const message = frame.parentElement.querySelector('.preview-loading');
       message.removeAttribute('aria-hidden'); message.setAttribute('role', 'status');
@@ -189,13 +242,8 @@ function prepareFrame(frame) {
 function preview(run) {
   return `<iframe class="artwork-frame" data-src="./artwork/${e(run.slug)}.svg" title="${e(t('{model} animated SVG', {model: run.name}))}" sandbox="allow-same-origin" tabindex="-1"></iframe><span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">${e(t('Loading artwork'))}</span>`;
 }
-function removeFrames(container) {
-  for (const frame of container.querySelectorAll('iframe')) observer.unobserve(frame);
-  container.replaceChildren();
-}
-function metricRow(label, value, className = '') {
-  return `<div class="${className}"><dt>${e(t(label))}</dt><dd>${e(value)}</dd></div>`;
-}
+function removeFrames(container) { for (const frame of container.querySelectorAll('iframe')) observer.unobserve(frame); container.replaceChildren(); }
+function metricRow(label, value, className = '') { return `<div class="${className}"><dt>${e(t(label))}</dt><dd>${e(value)}</dd></div>`; }
 function sourceLinks(run) {
   return `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer" data-i18n="Pi conversation ↗">${e(t('Pi conversation ↗'))}</a><a href="./artwork/${e(run.slug)}.svg" download="${e(run.slug)}.svg" data-i18n="Download SVG ↓">${e(t('Download SVG ↓'))}</a>`;
 }
@@ -206,7 +254,13 @@ function priceDetails(run) {
   const explanation = price?.basis === 'public' ? 'The share records $0; the displayed estimate uses public text-token rates.' : reasons[price?.reason] || reasons.not_found;
   return `<p>${e(t(explanation))}</p>${price?.source ? `<dl class="metric-list"><div><dt>${e(t('Price source'))}</dt><dd><a href="${e(price.source_url)}" target="_blank" rel="noopener noreferrer">${e(price.source)} ↗</a></dd></div>${metricRow('Catalog model', price.model_id)}${metricRow('Checked', date(price.checked_at))}${['input', 'output', 'cacheRead', 'cacheWrite'].map((key, index) => metricRow(['Input', 'Output', 'Cache read', 'Cache write'][index], price.rates_per_million[key] == null ? '—' : '$' + number(price.rates_per_million[key]))).join('')}</dl><p>${e(t('USD / 1M tokens'))}</p><p>${e(t('Public catalog rates at the checked date, not the actual bill. Excludes search, tool surcharges, discounts, and subscriptions.'))}</p>` : ''}`;
 }
+function failurePreview(run) { return `<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title">${e(t('No SVG delivered'))}</span><span class="failure-status">${e(t(run.failure.status))}</span>`; }
+function failureDetails(run) {
+  const f = run.failure, text = value => value[locale().startsWith('zh') ? 'zh' : 'en'];
+  return `<div class="run-badges">${effortChips(run)}</div><div class="case-copy"><p class="case-summary">${e(text(f.summary))}</p><dl class="case-facts">${f.facts.map(fact => `<div><dt>${e(text(fact.label))}</dt><dd>${e(fact.value)}</dd></div>`).join('')}</dl><p>${e(text(f.explanation))}</p><p class="case-limitation">${e(text(f.limitation))}</p></div><div class="source-links"><a href="./cases/${e(run.slug)}/">${e(t('Read failure notes'))} ↗</a>${run.source ? `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer">${e(t('Pi conversation ↗'))}</a><a href="https://gist.github.com/${e(run.source.gist_id)}/${e(run.source.gist_revision)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a>` : ''}</div>`;
+}
 function runDetails(run) {
+  if (run.outcome === 'no_artwork') return failureDetails(run);
   const m = run.metrics, tokens = m.tokens;
   const badges = effortChips(run)
     + (run.follow_up_count ? `<span class="badge note">${e(t('{count} follow-up corrections', {count: run.follow_up_count}))}</span>` : '')
@@ -214,45 +268,75 @@ function runDetails(run) {
   return `<div class="run-badges">${badges}</div>
     <dl class="metric-highlights">${metricRow('Total run time', time(m.duration_seconds))}${metricRow('Average output TPS', number(m.average_tps))}${metricRow('Tool calls', number(m.tool_calls))}${metricRow(costLabel(run), costText(run))}</dl>
     <section class="metric-section"><h3>${e(t('Tokens'))}</h3><dl class="metric-list">${metricRow('Input', number(tokens.input))}${metricRow('Output', number(tokens.output))}${metricRow('Reasoning', number(tokens.reasoning))}${metricRow('Cache read', number(tokens.cacheRead))}${metricRow('Cache write', number(tokens.cacheWrite))}${metricRow('Recorded total', number(tokens.totalTokens), 'token-total')}</dl></section>
-    <section class="metric-section"><h3>${e(t('The run'))}</h3><dl class="metric-list">${metricRow('Tested', date(run.date) + ' · UTC')}${metricRow('Model ID', run.model_ids.join(', '))}${metricRow('Request time', time(m.request_seconds))}${metricRow('Assistant turns', number(m.assistant_turns))}${metricRow('Tool breakdown', Object.entries(m.tool_breakdown).map(([tool, count]) => `${tool} × ${count}`).join(' · ') || t('No tool calls'))}${metricRow('Available tools', run.available_tools.join(' · ') || t('Not recorded'))}${metricRow('Errors recorded', number(m.errors + m.tool_errors))}</dl></section>
+    <section class="metric-section"><h3>${e(t('The run'))}</h3><dl class="metric-list">${metricRow('Tested', date(run.date) + ' · UTC')}${metricRow('Model ID', run.model_ids.join(', '))}${metricRow('Request time', time(m.request_seconds))}${metricRow('Output budget / request (incl. reasoning)', number(run.output_budget_per_request))}${metricRow('Assistant turns', number(m.assistant_turns))}${metricRow('Tool breakdown', Object.entries(m.tool_breakdown).map(([tool, count]) => `${tool} × ${count}`).join(' · ') || t('No tool calls'))}${metricRow('Available tools', run.available_tools.join(' · ') || t('Not recorded'))}${metricRow('Errors recorded', number(m.errors + m.tool_errors))}</dl></section>
     <details class="metric-notes price-notes"><summary>${e(t('Price reference'))}</summary>${priceDetails(run)}</details>
     <details class="metric-notes"><summary>${e(t('How these numbers are measured'))}</summary>${['Total run time includes tool execution, retries, and any wait for a follow-up prompt. Request time is the sum of recorded assistant request intervals.', 'Average output TPS = reported output tokens ÷ request time. It includes first-token latency and reasoning time; it is not a streaming decode benchmark. Output may include reasoning tokens.', 'Token totals follow the exported usage. Reasoning is a breakdown, not an extra amount added to the total. Input and cache usage can recur across turns.', 'Costs are estimates, not billing receipts. Unverified zero costs are not treated as free.'].map(text => `<p>${e(t(text))}</p>`).join('')}</details>
     <div class="source-links">${sourceLinks(run)}<a href="https://gist.github.com/${e(run.source.gist_id)}/${e(run.source.gist_revision)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a></div>`;
 }
+
+function syncLevelSelection() {
+  const button = document.querySelector('#compare-level-selection');
+  button.disabled = levelSelection.size < 2;
+  document.querySelector('#level-selection-count').textContent = t('{count} / 4 selected', {count: levelSelection.size});
+  button.textContent = levelSelection.size >= 2 ? t('Compare {count} ↗', {count: levelSelection.size}) : t(levelSelection.size ? 'Choose one more' : 'Choose two levels');
+}
+function renderLevels(run) {
+  const group = siblings(run), enough = group.filter(item => item.outcome !== 'no_artwork').length >= 2;
+  const summary = document.querySelector('#level-overview summary');
+  summary.dataset.i18n = enough ? 'Compare levels' : 'Reasoning level overview'; summary.textContent = t(summary.dataset.i18n);
+  document.querySelector('.level-actions').hidden = !enough;
+  document.querySelector('#detail-levels').innerHTML = group.map(item => `<button type="button" class="level-link" data-level-run="${e(item.slug)}" aria-pressed="${item.slug === run.slug}" aria-label="${e(t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}) + (item.outcome === 'no_artwork' ? ' · ' + t('No SVG delivered') : ''))}">${effortChips(item)}${levelStatus(item)}</button>`).join('');
+  document.querySelector('#level-summary').innerHTML = `<caption class="sr-only">${e(t('Choose 2–4 artworks'))}</caption><thead><tr>${['Select', 'Reasoning', 'Time', 'Output tokens', 'Estimated cost · USD', 'Output budget / request (incl. reasoning)'].map(label => `<th scope="col">${e(t(label))}</th>`).join('')}</tr></thead><tbody>${group.map(item => `<tr><td><input type="checkbox" data-level-compare="${e(item.slug)}" aria-label="${e(t('Compare {model}, {level} reasoning', {model: item.name, level: levels(item)}))}" ${levelSelection.has(item.slug) ? 'checked' : ''} ${item.outcome === 'no_artwork' || !enough ? 'disabled' : ''}></td><th scope="row"><button type="button" class="level-link" data-level-run="${e(item.slug)}">${effortChips(item)}${levelStatus(item)}</button></th><td>${e(item.metrics ? time(item.metrics.duration_seconds) : '—')}</td><td>${e(number(item.metrics?.tokens.output))}</td><td>${e(item.metrics ? costText(item) : '—')}</td><td>${e(number(item.output_budget_per_request))}</td></tr>`).join('')}</tbody>`;
+  syncLevelSelection();
+}
 function showDetail(slug) {
   const run = bySlug.get(slug);
   if (!run) return;
-  if (run.outcome === 'no_artwork') { location.replace(`./cases/${encodeURIComponent(run.slug)}/`); return; }
   if (compareDialog.open) compareDialog.close();
   if (currentDetail !== slug) {
+    const sameModel = currentDetail && modelKey(bySlug.get(currentDetail)) === modelKey(run);
+    if (!sameModel) { levelSelection.clear(); document.querySelector('#level-overview').open = false; }
     currentDetail = slug;
-    const stage = document.querySelector('#detail-preview');
-    removeFrames(stage); stage.innerHTML = preview(run); prepareFrame(stage.querySelector('iframe'));
+    const stage = document.querySelector('#detail-preview'), failed = run.outcome === 'no_artwork';
+    removeFrames(stage); stage.classList.toggle('failure-preview', failed); stage.innerHTML = failed ? failurePreview(run) : preview(run);
+    if (!failed) prepareFrame(stage.querySelector('iframe'));
     document.querySelector('#detail-title').textContent = run.name;
     document.querySelector('#detail-vendor').textContent = `${run.vendor} / ${levels(run)}`;
-    document.querySelector('#detail-info').innerHTML = runDetails(run); detailDialog.scrollTop = 0;
+    document.querySelector('#detail-info').innerHTML = runDetails(run); renderLevels(run);
+    if (!sameModel) detailDialog.scrollTop = 0;
   }
   if (!detailDialog.open) detailDialog.showModal();
   document.body.classList.add('modal-open');
-  const displayedArtwork = visibleRuns.filter(item => item.outcome !== 'no_artwork');
-  const group = displayedArtwork.some(item => item.slug === slug) ? displayedArtwork : artworkRuns;
-  const index = group.findIndex(item => item.slug === slug);
+  const group = siblings(run), index = group.findIndex(item => item.slug === slug);
   document.querySelector('#previous-run').disabled = index <= 0;
   document.querySelector('#next-run').disabled = index >= group.length - 1;
   refreshPlayback();
 }
 function openDetail(slug) { changeUrl({run: slug, compare: null}, true); reconcileDialogs(); }
+function switchLevel(slug) {
+  const focus = document.activeElement?.closest('#detail-levels');
+  changeUrl({run: slug}, false); showDetail(slug);
+  if (focus) document.querySelector(`#detail-levels [data-level-run="${CSS.escape(slug)}"]`).focus();
+}
 function stepRun(direction) {
-  const displayedArtwork = visibleRuns.filter(item => item.outcome !== 'no_artwork');
-  const group = displayedArtwork.some(item => item.slug === currentDetail) ? displayedArtwork : artworkRuns;
-  const next = group[group.findIndex(run => run.slug === currentDetail) + direction];
-  if (next) { changeUrl({run: next.slug}, false); showDetail(next.slug); }
+  const group = siblings(bySlug.get(currentDetail)), next = group[group.findIndex(run => run.slug === currentDetail) + direction];
+  if (next) switchLevel(next.slug);
+}
+function openComparison(slugs) { changeUrl({run: null, compare: slugs.join(',')}, true); reconcileDialogs(); }
+function compareModel(key) {
+  const group = models.get(key), artworks = group.filter(run => run.outcome !== 'no_artwork');
+  if (artworks.length < 2) return;
+  if (artworks.length === 2) { openComparison(siblings(artworks[0]).filter(run => run.outcome !== 'no_artwork').map(run => run.slug)); return; }
+  openDetail(cards.get(key).dataset.slug);
+  const overview = document.querySelector('#level-overview'); overview.open = true;
+  document.querySelector('#level-summary input:not(:disabled)').focus({preventScroll: true});
+  detailDialog.scrollTop += overview.getBoundingClientRect().top - document.querySelector('.detail-top').getBoundingClientRect().bottom - 12;
 }
 function syncSelection() {
-  for (const [slug, card] of cards) {
-    card.classList.toggle('selected', selected.has(slug));
-    const checkbox = card.querySelector('[data-compare]');
-    if (checkbox) checkbox.checked = selected.has(slug);
+  for (const [key, card] of cards) {
+    card.classList.toggle('selected', models.get(key).some(run => selected.has(run.slug)));
+    const checkbox = card.querySelector('[data-compare]'); checkbox.checked = selected.has(checkbox.dataset.compare);
+    for (const button of card.querySelectorAll('[data-card-run]')) button.classList.toggle('in-comparison', selected.has(button.dataset.cardRun));
   }
   document.querySelector('#compare-tray').hidden = selected.size === 0;
   document.body.classList.toggle('has-selection', selected.size > 0);
@@ -261,8 +345,7 @@ function syncSelection() {
     return `<span class="tray-item"><span class="tray-model-name">${e(run.name)}</span><span class="effort-chips">${effortChips(run)}</span><button type="button" data-remove="${e(slug)}" aria-label="${e(t('Remove {model} from comparison', {model: run.name + ' · ' + levels(run)}))}">×</button></span>`;
   }).join('');
   document.querySelector('#selection-count').textContent = t('{count} / 4 selected', {count: selected.size});
-  const button = document.querySelector('#open-compare');
-  button.disabled = selected.size < 2;
+  const button = document.querySelector('#open-compare'); button.disabled = selected.size < 2;
   button.textContent = selected.size >= 2 ? t('Compare {count} ↗', {count: selected.size}) : t('Choose one more');
 }
 function toggleSelection(slug, checked) {
@@ -272,7 +355,7 @@ function toggleSelection(slug, checked) {
   syncSelection();
 }
 function comparisonTable(pair) {
-  const rows = [['Model maker', run => run.vendor], ['Reasoning', levels], ['Total run time', run => time(run.metrics.duration_seconds)], ['Request time', run => time(run.metrics.request_seconds)], ['Avg. output TPS', run => number(run.metrics.average_tps)], ['Estimated cost · USD', costText], ['Tool calls', run => number(run.metrics.tool_calls)], ['Assistant turns', run => number(run.metrics.assistant_turns)], ['Follow-up prompts', run => number(run.follow_up_count)], ['Errors recorded', run => number(run.metrics.errors + run.metrics.tool_errors)], ['Input tokens', run => number(run.metrics.tokens.input)], ['Output tokens', run => number(run.metrics.tokens.output)], ['Reasoning tokens', run => number(run.metrics.tokens.reasoning)], ['Cache read tokens', run => number(run.metrics.tokens.cacheRead)], ['Cache write tokens', run => number(run.metrics.tokens.cacheWrite)], ['Recorded total tokens', run => number(run.metrics.tokens.totalTokens)]];
+  const rows = [['Model maker', run => run.vendor], ['Reasoning', levels], ['Output budget / request (incl. reasoning)', run => number(run.output_budget_per_request)], ['Total run time', run => time(run.metrics.duration_seconds)], ['Request time', run => time(run.metrics.request_seconds)], ['Avg. output TPS', run => number(run.metrics.average_tps)], ['Estimated cost · USD', costText], ['Tool calls', run => number(run.metrics.tool_calls)], ['Assistant turns', run => number(run.metrics.assistant_turns)], ['Follow-up prompts', run => number(run.follow_up_count)], ['Errors recorded', run => number(run.metrics.errors + run.metrics.tool_errors)], ['Input tokens', run => number(run.metrics.tokens.input)], ['Output tokens', run => number(run.metrics.tokens.output)], ['Reasoning tokens', run => number(run.metrics.tokens.reasoning)], ['Cache read tokens', run => number(run.metrics.tokens.cacheRead)], ['Cache write tokens', run => number(run.metrics.tokens.cacheWrite)], ['Recorded total tokens', run => number(run.metrics.tokens.totalTokens)]];
   return `<table class="compare-table"><caption class="sr-only">${e(t('Performance metrics comparison'))}</caption><thead><tr><th scope="col">${e(t('Run details'))}</th>${pair.map(run => `<th scope="col">${e(run.name)} · ${e(levels(run))}</th>`).join('')}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${e(t(label))}</th>${pair.map(run => `<td>${e(value(run))}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }
 function showComparison(slugs) {
@@ -285,8 +368,7 @@ function showComparison(slugs) {
   const key = slugs.join(',');
   if (currentComparison !== key) {
     currentComparison = key;
-    const content = document.querySelector('#comparison-content');
-    removeFrames(content);
+    const content = document.querySelector('#comparison-content'); removeFrames(content);
     content.innerHTML = `<div class="compare-artworks">${pair.map(run => `<section data-run="${e(run.slug)}"><div class="compare-model-header"><h3>${e(run.name)}</h3><span class="effort-chips">${effortChips(run)}</span></div><div class="large-preview">${preview(run)}</div><div class="compare-model-links">${sourceLinks(run)}</div></section>`).join('')}</div><div class="compare-table-wrap" tabindex="0" role="region" aria-label="${e(t('Performance metrics comparison'))}">${comparisonTable(pair)}</div><p class="compare-notes" data-i18n="${e(comparisonNote)}">${e(t(comparisonNote))}</p>`;
     content.querySelectorAll('iframe').forEach(prepareFrame); compareDialog.scrollTop = 0;
   }
@@ -305,9 +387,7 @@ function reconcileDialogs() {
     if (slug || params.has('compare')) { changeUrl({run: null, compare: null}); notify('That performance link is unavailable. Browse the collection below.'); }
   }
 }
-function closeDialog() {
-  if (history.state?.galleryOverlay) history.back(); else { changeUrl({run: null, compare: null}); reconcileDialogs(); }
-}
+function closeDialog() { if (history.state?.galleryOverlay) history.back(); else { changeUrl({run: null, compare: null}); reconcileDialogs(); } }
 async function copyLink(button) {
   try {
     await navigator.clipboard.writeText(location.href);
@@ -316,46 +396,32 @@ async function copyLink(button) {
     setTimeout(() => { label.dataset.i18n = original; label.textContent = t(original); }, 1800);
   } catch { notify('Copy unavailable. Copy this page’s address from your browser.'); }
 }
-
 function renderLanguage() {
   const failed = runs.length - artworkRuns.length;
-  document.querySelector('#summary-count').textContent = failed ? t('{works} artworks · {failed} without SVG', {works: number(artworkRuns.length), failed: number(failed)}) : t('{count} performances', {count: number(runs.length)});
+  document.querySelector('#summary-count').textContent = t('{models} models · {runs} runs', {models: number(models.size), runs: number(runs.length)}) + (failed ? ' · ' + t('{count} without SVG', {count: number(failed)}) : '');
   document.querySelector('#summary-makers').textContent = t('{count} model makers', {count: number(new Set(runs.map(run => run.vendor)).size)});
   document.querySelector('#updated-date').textContent = new Intl.DateTimeFormat(locale(), {month: 'long', year: 'numeric', timeZone: 'UTC'}).format(new Date(runs[0].date));
-  for (const run of runs) {
-    const card = cards.get(run.slug), level = levels(run);
-    card.querySelector('.preview').setAttribute('aria-label', run.outcome === 'no_artwork' ? t('Read failure notes for {model}, max reasoning', {model: run.name}) : t('View {model}, {level} reasoning', {model: run.name, level}));
-    if (run.outcome === 'no_artwork') continue;
-    card.querySelector('[data-compare]').setAttribute('aria-label', t('Compare {model}, {level} reasoning', {model: run.name, level}));
-    card.querySelector('iframe').title = t('{model} animated SVG', {model: run.name});
-    card.querySelector('[data-time]').textContent = time(run.metrics.duration_seconds);
-    card.querySelector('[data-price]').textContent = costText(run);
-  }
   if (currentDetail) {
     const run = bySlug.get(currentDetail);
     document.querySelector('#detail-vendor').textContent = `${run.vendor} / ${levels(run)}`;
     document.querySelector('#detail-info').innerHTML = runDetails(run);
-    document.querySelector('#detail-preview iframe').title = t('{model} animated SVG', {model: run.name});
+    const frame = document.querySelector('#detail-preview iframe');
+    if (frame) frame.title = t('{model} animated SVG', {model: run.name}); else document.querySelector('#detail-preview').innerHTML = failurePreview(run);
+    renderLevels(run);
   }
   if (currentComparison) {
     const pair = currentComparison.split(',').map(slug => bySlug.get(slug));
     document.querySelector('#comparison-content .compare-table-wrap').innerHTML = comparisonTable(pair);
-    for (const section of document.querySelectorAll('.compare-artworks section')) {
-      const run = bySlug.get(section.dataset.run);
-      section.querySelector('iframe').title = t('{model} animated SVG', {model: run.name});
-    }
+    for (const section of document.querySelectorAll('.compare-artworks section')) section.querySelector('iframe').title = t('{model} animated SVG', {model: bySlug.get(section.dataset.run).name});
   }
-  syncSelection(); applyFilters(false); refreshPlayback();
+  applyFilters(false, false);
 }
 for (const type of ['pointerenter', 'pointerleave']) document.addEventListener(type, event => {
   if (!event.target.matches?.('.preview')) return;
   event.target.dataset.hovered = String(type === 'pointerenter' && event.pointerType !== 'touch'); refreshPlayback();
 }, true);
 for (const type of ['focusin', 'focusout']) document.addEventListener(type, refreshPlayback);
-search.addEventListener('input', () => {
-  if (!previousQuery && normalizeSearch(search.value) && sort.value === 'newest') sort.value = 'relevance';
-  applyFilters();
-});
+search.addEventListener('input', () => { if (!previousQuery && normalizeSearch(search.value) && sort.value === 'newest') sort.value = 'relevance'; applyFilters(); });
 for (const select of [reasoning, sort]) select.addEventListener('change', () => applyFilters());
 document.querySelector('#filters').addEventListener('submit', event => event.preventDefault());
 document.querySelector('#clear-filters').addEventListener('click', resetFilters);
@@ -363,17 +429,30 @@ document.querySelector('[data-reset]').addEventListener('click', resetFilters);
 document.querySelector('#previous-run').addEventListener('click', () => stepRun(-1));
 document.querySelector('#next-run').addEventListener('click', () => stepRun(1));
 document.querySelector('#clear-selection').addEventListener('click', () => { selected.clear(); syncSelection(); });
-document.querySelector('#open-compare').addEventListener('click', () => { if (validComparison([...selected])) { changeUrl({run: null, compare: [...selected].join(',')}, true); reconcileDialogs(); } });
+document.querySelector('#open-compare').addEventListener('click', () => { if (validComparison([...selected])) openComparison([...selected]); });
+document.querySelector('#compare-level-selection').addEventListener('click', () => { if (validComparison([...levelSelection])) openComparison([...levelSelection]); });
 document.addEventListener('click', event => {
   const target = event.target.closest('button, a');
   if (!target) return;
-  if (target.hasAttribute('data-open')) { event.preventDefault(); openDetail(target.dataset.open); }
+  if (target.hasAttribute('data-card-run')) switchCard(target.dataset.cardRun);
+  else if (target.hasAttribute('data-open')) { event.preventDefault(); openDetail(target.dataset.open); }
+  else if (target.hasAttribute('data-level-run')) switchLevel(target.dataset.levelRun);
+  else if (target.hasAttribute('data-compare-model')) compareModel(target.dataset.compareModel);
   else if (target.hasAttribute('data-vendor')) { vendor = target.dataset.vendor; applyFilters(); }
   else if (target.hasAttribute('data-remove')) toggleSelection(target.dataset.remove, false);
   else if (target.hasAttribute('data-close')) closeDialog();
   else if (target.hasAttribute('data-copy')) copyLink(target);
 });
-document.addEventListener('change', event => { if (event.target.matches('[data-compare]')) toggleSelection(event.target.dataset.compare, event.target.checked); });
+document.addEventListener('change', event => {
+  if (event.target.matches('[data-compare]')) toggleSelection(event.target.dataset.compare, event.target.checked);
+  if (event.target.matches('[data-level-compare]')) {
+    const checkbox = event.target, run = bySlug.get(checkbox.dataset.levelCompare);
+    if (!run || run.outcome === 'no_artwork') { checkbox.checked = false; return; }
+    if (checkbox.checked && levelSelection.size === 4) { checkbox.checked = false; notify('Compare up to four performances. Remove one to change your selection.'); }
+    else if (checkbox.checked) levelSelection.add(checkbox.dataset.levelCompare); else levelSelection.delete(checkbox.dataset.levelCompare);
+    syncLevelSelection();
+  }
+});
 for (const dialog of [detailDialog, compareDialog]) {
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
   dialog.addEventListener('click', event => {
@@ -383,7 +462,7 @@ for (const dialog of [detailDialog, compareDialog]) {
   });
 }
 document.addEventListener('keydown', event => {
-  if (!detailDialog.open || /INPUT|SELECT|TEXTAREA/.test(event.target.tagName)) return;
+  if (!detailDialog.open || /INPUT|SELECT|TEXTAREA/.test(event.target.tagName) || event.target.closest('.level-summary-wrap')) return;
   if (event.key === 'ArrowLeft') { event.preventDefault(); stepRun(-1); }
   if (event.key === 'ArrowRight') { event.preventDefault(); stepRun(1); }
 });

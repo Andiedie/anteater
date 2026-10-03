@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#bce7ff"/>
+  <circle cx="320" cy="70" r="30" fill="#fff3b0"/>
+  <ellipse cx="80" cy="90" rx="35" ry="18" fill="#ffffff" opacity="0.8"/>
+  <ellipse cx="120" cy="100" rx="28" ry="15" fill="#ffffff" opacity="0.8"/>
+
+  <!-- Ground -->
+  <rect x="0" y="370" width="400" height="30" fill="#9ccc65"/>
+
+  <!-- Bouncing scene -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -6;0 0" dur="1.5s" repeatCount="indefinite"/>
+
+    <!-- ============ UNICYCLE ============ -->
+    <g>
+      <!-- Wheel -->
+      <g>
+        <circle cx="200" cy="320" r="45" fill="none" stroke="#333" stroke-width="8"/>
+        <circle cx="200" cy="320" r="6" fill="#333"/>
+        <g stroke="#888" stroke-width="3">
+          <line x1="200" y1="320" x2="200" y2="278"/>
+          <line x1="200" y1="320" x2="200" y2="362"/>
+          <line x1="200" y1="320" x2="158" y2="320"/>
+          <line x1="200" y1="320" x2="242" y2="320"/>
+          <line x1="200" y1="320" x2="170" y2="290"/>
+          <line x1="200" y1="320" x2="230" y2="350"/>
+          <line x1="200" y1="320" x2="170" y2="350"/>
+          <line x1="200" y1="320" x2="230" y2="290"/>
+        </g>
+        <!-- Spinning pedals -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0 200 320" to="360 200 320" dur="1.5s" repeatCount="indefinite"/>
+          <line x1="200" y1="320" x2="225" y2="335" stroke="#555" stroke-width="4"/>
+          <rect x="222" y="333" width="14" height="5" fill="#222"/>
+          <line x1="200" y1="320" x2="175" y2="305" stroke="#555" stroke-width="4"/>
+          <rect x="164" y="302" width="14" height="5" fill="#222"/>
+        </g>
+      </g>
+      <!-- Seat post -->
+      <rect x="196" y="270" width="8" height="50" fill="#666"/>
+      <!-- Seat -->
+      <ellipse cx="200" cy="268" rx="22" ry="8" fill="#c0392b"/>
+    </g>
+
+    <!-- ============ ANTEATER ============ -->
+    <g>
+      <!-- Tail -->
+      <path d="M180 260 Q120 270 100 320 Q115 315 130 300 Q150 285 185 280 Z" fill="#a9763f"/>
+
+      <!-- Body -->
+      <ellipse cx="200" cy="245" rx="38" ry="32" fill="#c8965a"/>
+      <!-- Belly -->
+      <ellipse cx="205" cy="255" rx="22" ry="20" fill="#e9c79a"/>
+
+      <!-- Back legs gripping seat -->
+      <path d="M188 268 Q190 285 200 280" stroke="#a9763f" stroke-width="10" fill="none" stroke-linecap="round"/>
+
+      <!-- Front leg reaching to juggle -->
+      <path d="M222 240 Q250 220 268 200" stroke="#c8965a" stroke-width="11" fill="none" stroke-linecap="round"/>
+
+      <!-- Head -->
+      <circle cx="225" cy="200" r="26" fill="#c8965a"/>
+      <!-- Snout -->
+      <path d="M245 198 Q280 200 290 212 Q280 222 248 218 Z" fill="#e9c79a"/>
+      <circle cx="288" cy="210" r="4" fill="#5b3a1a"/>
+      <!-- Eye -->
+      <circle cx="232" cy="192" r="5" fill="#3a2412"/>
+      <circle cx="234" cy="190" r="1.6" fill="#fff"/>
+      <!-- Ear -->
+      <ellipse cx="216" cy="178" rx="7" ry="9" fill="#a9763f"/>
+
+      <!-- Second arm juggling -->
+      <path d="M215 235 Q235 215 248 195" stroke="#c8965a" stroke-width="11" fill="none" stroke-linecap="round"/>
+
+      <!-- Tongue flicking -->
+      <path d="M290 212 Q300 230 296 245" stroke="#e07a9a" stroke-width="3" fill="none">
+        <animate attributeName="d" values="M290 212 Q300 230 296 245;M290 212 Q305 235 300 255;M290 212 Q300 230 296 245" dur="0.8s" repeatCount="indefinite"/>
+      </path>
+    </g>
+
+    <!-- ============ JUGGLING BOTTLES ============ -->
+    <!-- Bottle 1 -->
+    <g>
+      <animateMotion path="M260 170 Q230 90 200 170 Q230 230 260 170" dur="2s" repeatCount="indefinite"/>
+      <g>
+        <rect x="-7" y="-18" width="14" height="30" rx="4" fill="#4fc3f7"/>
+        <rect x="-4" y="-26" width="8" height="10" fill="#0288d1"/>
+        <rect x="-5" y="-30" width="10" height="6" rx="2" fill="#01579b"/>
+      </g>
+    </g>
+    <!-- Bottle 2 -->
+    <g>
+      <animateMotion path="M200 170 Q170 90 140 170 Q170 230 200 170" dur="2s" begin="0.66s" repeatCount="indefinite"/>
+      <g>
+        <rect x="-7" y="-18" width="14" height="30" rx="4" fill="#ff8a65"/>
+        <rect x="-4" y="-26" width="8" height="10" fill="#f4511e"/>
+        <rect x="-5" y="-30" width="10" height="6" rx="2" fill="#bf360c"/>
+      </g>
+    </g>
+    <!-- Bottle 3 -->
+    <g>
+      <animateMotion path="M140 170 Q110 90 200 110 Q260 90 260 170" dur="2s" begin="1.33s" repeatCount="indefinite"/>
+      <g>
+        <rect x="-7" y="-18" width="14" height="30" rx="4" fill="#aed581"/>
+        <rect x="-4" y="-26" width="8" height="10" fill="#689f38"/>
+        <rect x="-5" y="-30" width="10" height="6" rx="2" fill="#33691e"/>
+      </g>
+    </g>
+  </g>
+</svg>

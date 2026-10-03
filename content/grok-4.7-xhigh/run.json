@@ -3,7 +3,7 @@
   "slug": "grok-4.7-xhigh",
   "name": "Grok 4.7",
   "vendor": "xAI",
-  "date": "2026-09-23T13:19:01.729Z",
+  "date": "2026-10-02T14:47:11.466Z",
   "model_ids": [
     "grok-4.7"
   ],
@@ -20,35 +20,33 @@
   ],
   "follow_up_count": 0,
   "metrics": {
-    "duration_seconds": 2590.89,
-    "request_seconds": 2588.673,
-    "average_tps": 33.17,
-    "tool_calls": 9,
+    "duration_seconds": 1179.793,
+    "request_seconds": 1179.746,
+    "average_tps": 66.22,
+    "tool_calls": 1,
     "tool_breakdown": {
-      "edit": 1,
-      "read": 7,
       "write": 1
     },
-    "assistant_turns": 9,
-    "errors": 1,
-    "tool_errors": 1,
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
     "tokens": {
-      "input": 190854,
-      "output": 85857,
-      "cacheRead": 384896,
+      "input": 79122,
+      "output": 78125,
+      "cacheRead": 3712,
       "cacheWrite": 0,
-      "reasoning": 73378,
-      "totalTokens": 661607
+      "reasoning": 68371,
+      "totalTokens": 160959
     },
-    "recorded_cost_usd": 1.089298,
-    "cost_usd": 1.089298
+    "recorded_cost_usd": 0.62885,
+    "cost_usd": 0.62885
   },
   "source": {
-    "share_url": "https://pi.dev/session/#52d35ac327b94d347a5fea994fa16dce",
-    "gist_id": "52d35ac327b94d347a5fea994fa16dce",
-    "gist_revision": "6347c789b35f8e9e1c92446d45a9a2d58b1d545e",
-    "session_id": "01a0ce6b-33db-7148-953a-cf2c288e8db4",
-    "imported_at": "2026-09-30T07:07:50.003855+00:00",
-    "artwork_sha256": "ebe51db945c90e4822c18baffb07b29eca0ad9ca0e25a2ab139abed4661589a3"
+    "share_url": "https://pi.dev/session/#7c622192ee19d9ed95d62019d1206458",
+    "gist_id": "7c622192ee19d9ed95d62019d1206458",
+    "gist_revision": "653b3afad8fd24cbcd9b84bcb5f76a050cd43baf",
+    "session_id": "01a0fd15-5ea5-73a4-899b-f237dc1af4ce",
+    "imported_at": "2026-10-02T16:16:45.363627+00:00",
+    "artwork_sha256": "d378300f1e3df483bd6530fa12a99fdf0bfa954093e1d4ce0d4fead2eec36da1"
   }
 }

@@ -1,58 +1,58 @@
 {
   "schema_version": 1,
-  "refreshed_at": "2026-09-30T09:46:24.950105+00:00",
+  "refreshed_at": "2026-10-02T16:18:06.925415+00:00",
   "sources": [
     {
       "name": "models.dev",
       "url": "https://models.dev/api.json",
-      "fetched_at": "2026-09-30T09:46:24.950105+00:00",
-      "sha256": "e1dda712a6f1f9e90e0a5ad6306b65f05841cfa796fbb03e3dde1a84a6ffab44"
+      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
+      "sha256": "dcd85747ad6ec11690087dace61797f92fe2c7c1c6f647fc5b96faa5660aa2b0"
     },
     {
       "name": "OpenRouter",
       "url": "https://openrouter.ai/api/v1/models",
-      "fetched_at": "2026-09-30T09:46:24.950105+00:00",
-      "sha256": "a5937144b7e2472ff5e5eb6076f566cfbf233db5105ae63dc75aba8ca9455c83"
+      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
+      "sha256": "fb6abc341c53fb11d86a8e41ff9753ef22eb56222e30d19367a8020a6d89466a"
     },
     {
       "name": "LiteLLM",
       "url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
-      "fetched_at": "2026-09-30T09:46:24.950105+00:00",
-      "sha256": "d04d76d67fcc623404e4b3e77af4db9e451e97f1782879b5ac1af70c66bfc936"
+      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
+      "sha256": "d0b0717de0d1f9cade95ee4ef528f9d7004160401e611f485bf21cf48bdd5b59"
     }
   ],
   "runs": {
-    "gpt-6.1-sol-max": {
+    "gemini-3.8-flash-low": {
       "source": "models.dev",
       "source_url": "https://models.dev/api.json",
-      "model_id": "openai/gpt-6.1-sol",
-      "requested_model": "gpt-6.1-sol",
+      "model_id": "google/gemini-3.8-flash",
+      "requested_model": "gemini-3.8-flash-high",
       "rates_per_million": {
-        "input": 2.0,
-        "output": 10.0,
-        "cacheRead": 0.1,
-        "cacheWrite": 2.5,
+        "input": 0.75,
+        "output": 3.75,
+        "cacheRead": 0.075,
+        "cacheWrite": null,
         "reasoning": null
       },
-      "input_threshold": 272000,
+      "input_threshold": null,
       "complex_pricing": false,
-      "checked_at": "2026-09-30T09:46:24.950105+00:00"
+      "checked_at": "2026-10-02T16:18:06.925415+00:00"
     },
-    "gpt-6.1-sol-xhigh": {
+    "gemini-3.8-flash-medium": {
       "source": "models.dev",
       "source_url": "https://models.dev/api.json",
-      "model_id": "openai/gpt-6.1-sol",
-      "requested_model": "gpt-6.1-sol",
+      "model_id": "google/gemini-3.8-flash",
+      "requested_model": "gemini-3.8-flash-high",
       "rates_per_million": {
-        "input": 2.0,
-        "output": 10.0,
-        "cacheRead": 0.1,
-        "cacheWrite": 2.5,
+        "input": 0.75,
+        "output": 3.75,
+        "cacheRead": 0.075,
+        "cacheWrite": null,
         "reasoning": null
       },
-      "input_threshold": 272000,
+      "input_threshold": null,
       "complex_pricing": false,
-      "checked_at": "2026-09-30T09:46:24.950105+00:00"
+      "checked_at": "2026-10-02T16:18:06.925415+00:00"
     },
     "gemini-3.8-flash-high": {
       "source": "models.dev",
@@ -68,7 +68,39 @@
       },
       "input_threshold": null,
       "complex_pricing": false,
-      "checked_at": "2026-09-30T09:46:24.950105+00:00"
+      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+    },
+    "gpt-6.1-sol-max": {
+      "source": "models.dev",
+      "source_url": "https://models.dev/api.json",
+      "model_id": "openai/gpt-6.1-sol",
+      "requested_model": "gpt-6.1-sol",
+      "rates_per_million": {
+        "input": 2.0,
+        "output": 10.0,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "complex_pricing": false,
+      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+    },
+    "gpt-6.1-sol-xhigh": {
+      "source": "models.dev",
+      "source_url": "https://models.dev/api.json",
+      "model_id": "openai/gpt-6.1-sol",
+      "requested_model": "gpt-6.1-sol",
+      "rates_per_million": {
+        "input": 2.0,
+        "output": 10.0,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "complex_pricing": false,
+      "checked_at": "2026-10-02T16:18:06.925415+00:00"
     }
   }
 }

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+
+  <!-- background -->
+  <rect width="400" height="400" fill="#e8f4ff"/>
+  <ellipse cx="200" cy="360" rx="150" ry="18" fill="#c8d8e8"/>
+
+  <!-- ===== Juggling bottles ===== -->
+  <g stroke="#333" stroke-width="2">
+    <!-- bottle 1 (left arc) -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="1.6s" repeatCount="indefinite"
+        values="200,120; 140,40; 200,120" keyTimes="0;0.5;1" calcMode="spline"
+        keySplines="0.2 0.8 0.5 1; 0.5 0 0.8 0.2"/>
+      <path d="M -5 0 q -6 -10 -6 -16 v -10 q 0 -4 4 -4 h 4 q 4 0 4 4 v 10 q 0 6 -6 16 z" fill="#7ec8ff"/>
+      <rect x="-3" y="-34" width="6" height="6" rx="2" fill="#c96"/>
+    </g>
+    <!-- bottle 2 (right arc) -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="1.6s" repeatCount="indefinite"
+        begin="-0.8s" values="200,120; 260,40; 200,120" keyTimes="0;0.5;1" calcMode="spline"
+        keySplines="0.2 0.8 0.5 1; 0.5 0 0.8 0.2"/>
+      <path d="M -5 0 q -6 -10 -6 -16 v -10 q 0 -4 4 -4 h 4 q 4 0 4 4 v 10 q 0 6 -6 16 z" fill="#a5e88a"/>
+      <rect x="-3" y="-34" width="6" height="6" rx="2" fill="#c96"/>
+    </g>
+    <!-- bottle 3 (middle arc) -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="1.6s" repeatCount="indefinite"
+        begin="-0.4s" values="200,120; 200,20; 200,120" keyTimes="0;0.5;1" calcMode="spline"
+        keySplines="0.2 0.8 0.5 1; 0.5 0 0.8 0.2"/>
+      <path d="M -5 0 q -6 -10 -6 -16 v -10 q 0 -4 4 -4 h 4 q 4 0 4 4 v 10 q 0 6 -6 16 z" fill="#ffd57e"/>
+      <rect x="-3" y="-34" width="6" height="6" rx="2" fill="#c96"/>
+    </g>
+  </g>
+
+  <!-- ===== Unicycle ===== -->
+  <g>
+    <!-- wheel -->
+    <circle cx="200" cy="320" r="34" fill="none" stroke="#333" stroke-width="6"/>
+    <g stroke="#666" stroke-width="2.5">
+      <animateTransform attributeName="transform" type="rotate" from="0 200 320" to="360 200 320" dur="1.5s" repeatCount="indefinite"/>
+      <line x1="200" y1="288" x2="200" y2="352"/>
+      <line x1="168" y1="320" x2="232" y2="320"/>
+      <line x1="177" y1="297" x2="223" y2="343"/>
+      <line x1="223" y1="297" x2="177" y2="343"/>
+    </g>
+    <!-- fork / seat post -->
+    <path d="M200 320 L200 258" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+    <!-- seat -->
+    <path d="M182 256 q18 -8 36 0 q-18 8 -36 0 z" fill="#5a3a26" stroke="#333" stroke-width="2"/>
+  </g>
+
+  <!-- ===== Anteater ===== -->
+  <g>
+    <!-- bobbing motion while riding -->
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -3; 0 0" dur="0.5s" repeatCount="indefinite"/>
+
+    <!-- body -->
+    <path d="M140 250 q0 -45 55 -45 q65 0 68 50 q1 25 -20 25 h-85 q-18 0 -18 -30 z"
+          fill="#c9a26b" stroke="#7a5a34" stroke-width="3"/>
+    <!-- tail -->
+    <path d="M145 240 q-45 -10 -62 -50 q28 8 55 25 q10 6 7 25 z" fill="#b8925c" stroke="#7a5a34" stroke-width="3">
+      <animateTransform attributeName="transform" type="rotate" values="-6 145 240; 8 145 240; -6 145 240" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- head -->
+    <g>
+      <!-- head bobs slightly -->
+      <animateTransform attributeName="transform" type="rotate" values="0 175 215; 4 175 215; 0 175 215" dur="1.2s" repeatCount="indefinite"/>
+      <!-- long snout -->
+      <path d="M180 205 q-70 5 -100 22 q-6 4 -2 9 q4 4 12 1 q40 -12 92 -12 z"
+            fill="#c9a26b" stroke="#7a5a34" stroke-width="3"/>
+      <!-- nose tip -->
+      <circle cx="78" cy="231" r="5" fill="#4a3222"/>
+      <!-- head top -->
+      <path d="M178 212 q-8 -25 12 -30 q22 -4 24 18 q1 15 -14 18 z" fill="#c9a26b" stroke="#7a5a34" stroke-width="3"/>
+      <!-- eye -->
+      <circle cx="184" cy="196" r="3.5" fill="#222"/>
+      <!-- ear -->
+      <path d="M196 184 q6 -10 12 -4 q4 6 -4 10 z" fill="#b8925c" stroke="#7a5a34" stroke-width="2"/>
+    </g>
+
+    <!-- striped vest pattern -->
+    <path d="M195 214 q25 6 45 4 l-3 10 q-22 2 -44 -4 z" fill="#7a5a34" opacity="0.55"/>
+    <path d="M200 232 q23 5 42 3 l-3 10 q-21 2 -41 -4 z" fill="#7a5a34" opacity="0.55"/>
+
+    <!-- arm juggling (rotates between throws) -->
+    <path d="M198 220 q20 -25 40 -28" fill="none" stroke="#c9a26b" stroke-width="9" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="-20 198 222; 15 198 222; -20 198 222" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <path d="M185 228 q-12 20 -8 38" fill="none" stroke="#c9a26b" stroke-width="9" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" values="15 185 228; -15 185 228; 15 185 228" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- legs on pedals -->
+    <path d="M185 275 q-6 22 -2 40" fill="none" stroke="#c9a26b" stroke-width="9" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -4 3; 0 0; 4 -3; 0 0" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M218 275 q6 22 2 40" fill="none" stroke="#c9a26b" stroke-width="9" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="translate" values="0 0; 4 -3; 0 0; -4 3; 0 0" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

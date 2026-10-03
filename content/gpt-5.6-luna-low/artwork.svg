@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 650" width="900" height="650" role="img" aria-labelledby="title desc">
+  <title id="title">Animated anteater riding a unicycle and juggling bottles</title>
+  <desc id="desc">A friendly anteater balances on a unicycle while three colorful bottles arc through the air.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#b9edff"/><stop offset="1" stop-color="#fff4cf"/></linearGradient>
+    <linearGradient id="fur" x2="0" y2="1"><stop stop-color="#c98245"/><stop offset="1" stop-color="#824221"/></linearGradient>
+    <linearGradient id="bottle1" x2="0" y2="1"><stop stop-color="#ffeb74"/><stop offset="1" stop-color="#e49d19"/></linearGradient>
+    <linearGradient id="bottle2" x2="0" y2="1"><stop stop-color="#a9f3d0"/><stop offset="1" stop-color="#24a77b"/></linearGradient>
+    <linearGradient id="bottle3" x2="0" y2="1"><stop stop-color="#ff9fbd"/><stop offset="1" stop-color="#dd436e"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="7"/></filter>
+    <g id="bottle"><path d="M-13 0h26v48q0 10-13 10t-13-10z"/><path d="M-7 0v-13h14V0" stroke="#fff" stroke-width="5" fill="none"/><path d="M-13 16h26" stroke="#fff" stroke-opacity=".7" stroke-width="4"/></g>
+  </defs>
+  <rect width="900" height="650" fill="url(#sky)"/>
+  <path d="M0 505 Q180 450 350 505T700 500T900 490V650H0Z" fill="#83c978"/>
+  <ellipse cx="460" cy="594" rx="175" ry="19" fill="#355c4a" opacity=".25" filter="url(#shadow)"/>
+  <!-- juggling bottles -->
+  <g stroke="#70452e" stroke-width="3">
+    <g fill="url(#bottle1)"><use href="#bottle" transform="translate(260 174) rotate(-18)"/></g>
+    <g fill="url(#bottle2)"><use href="#bottle" transform="translate(450 92) rotate(9)"/></g>
+    <g fill="url(#bottle3)"><use href="#bottle" transform="translate(650 180) rotate(23)"/></g>
+  </g>
+  <!-- motion trails -->
+  <path d="M285 225 Q450 15 625 225" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="8 12" opacity=".55"/>
+  <!-- unicycle -->
+  <g>
+    <circle cx="470" cy="570" r="58" fill="none" stroke="#303844" stroke-width="12"/>
+    <circle cx="470" cy="570" r="7" fill="#efb83f" stroke="#303844" stroke-width="5"/>
+    <path d="M470 570V420" stroke="#303844" stroke-width="9"/>
+    <path d="M438 419h64" stroke="#303844" stroke-width="9" stroke-linecap="round"/>
+    <path d="M470 570l-29 20M470 570l31 20" stroke="#303844" stroke-width="5"/>
+  </g>
+  <!-- anteater -->
+  <g stroke="#4c291b" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M405 390 Q330 415 296 365 Q270 326 303 288 Q337 248 407 270 Q473 291 499 354 L530 421 Q548 449 514 468 Q477 480 452 441Z" fill="url(#fur)" stroke-width="5"/>
+    <path d="M315 324 Q263 310 174 345 Q128 363 83 346 Q137 318 190 283 Q264 236 338 263Z" fill="#9c572d" stroke-width="5"/>
+    <path d="M88 346 Q126 347 153 330" fill="none" stroke="#301a13" stroke-width="4"/>
+    <circle cx="289" cy="292" r="7" fill="#211612"/>
+    <path d="M392 278 Q414 239 445 220" fill="none" stroke="#4c291b" stroke-width="16"/>
+    <path d="M451 220 Q474 208 489 220" fill="none" stroke="#4c291b" stroke-width="12"/>
+    <path d="M469 346 Q512 306 548 267" fill="none" stroke="#9c572d" stroke-width="18"/>
+    <path d="M548 267 Q577 235 607 244" fill="none" stroke="#9c572d" stroke-width="13"/>
+    <path d="M397 389 Q357 411 335 454" fill="none" stroke="#9c572d" stroke-width="18"/>
+    <path d="M335 454l-20 7M335 454l-4 14M335 454l13 10" stroke-width="5"/>
+    <path d="M472 423 Q505 444 526 482" fill="none" stroke="#9c572d" stroke-width="18"/>
+    <path d="M526 482l-11 12M526 482l6 14M526 482l15 7" stroke-width="5"/>
+    <!-- arms -->
+    <path d="M375 320 Q340 277 307 231" fill="none" stroke="#9c572d" stroke-width="15"/>
+    <path d="M307 231l-15-13M307 231l-3-18M307 231l13-12" fill="none" stroke-width="4"/>
+    <path d="M457 323 Q512 275 548 231" fill="none" stroke="#9c572d" stroke-width="15"/>
+    <path d="M548 231l-12-16M548 231l3-18M548 231l15-11" fill="none" stroke-width="4"/>
+  </g>
+  <!-- animated juggling motion -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="1.2s" repeatCount="indefinite"/>
+  </g>
+  <style>
+    #bottle { animation: bob 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(12px) rotate(7deg); } }
+    circle { animation: roll 2.6s linear infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes roll { to { transform: rotate(360deg); } }
+  </style>
+</svg>

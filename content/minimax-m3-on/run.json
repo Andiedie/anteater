@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "slug": "minimax-m3-on",
+  "name": "MiniMax M3",
+  "vendor": "MiniMax",
+  "date": "2026-10-01T17:18:30.388Z",
+  "model_ids": [
+    "minimax/minimax-m3"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "on"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 464.129,
+    "request_seconds": 464.058,
+    "average_tps": 67.94,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 33469,
+      "output": 31527,
+      "cacheRead": 34363,
+      "cacheWrite": 0,
+      "reasoning": 26817,
+      "totalTokens": 99359
+    },
+    "recorded_cost_usd": 0.04993488,
+    "cost_usd": 0.04993488
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#08729c9553b4943a079508fba1c52b4f",
+    "gist_id": "08729c9553b4943a079508fba1c52b4f",
+    "gist_revision": "1ab1a26ee3bd108ac9488ad2b5edd807348756d5",
+    "session_id": "01a0f879-8ba8-70ea-9790-af4a0109e556",
+    "imported_at": "2026-10-02T16:16:45.381341+00:00",
+    "artwork_sha256": "98787ca030e90241d765fd383cf5e45cde12798a771dcae3c2235c7dfe4a41d2"
+  }
+}

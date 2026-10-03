@@ -24,8 +24,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 PRICES = CONTENT / "pricing.json"
 PROMPT = "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
-EFFORTS = ("off", "minimal", "low", "medium", "high", "xhigh", "max")
-VENDORS = ("OpenAI", "Anthropic", "Google", "DeepSeek", "xAI", "Z.ai", "Tencent", "Xiaomi", "Meta", "Other")
+EFFORTS = ("off", "on", "minimal", "low", "medium", "high", "xhigh", "max")
+VENDORS = ("OpenAI", "Anthropic", "Google", "DeepSeek", "xAI", "Z.ai", "Tencent", "Xiaomi", "Meta", "Alibaba", "Moonshot AI", "MiniMax", "Other")
 SHARE_PATTERN = re.compile(r"https://pi\.dev/session/#([a-f0-9]{32})")
 
 
@@ -108,6 +108,14 @@ def summarize(session):
                                   (efforts, msg.get("thinkingLevel") or effort)):
                 if value and value not in values:
                     values.append(value)
+    # The benchmark uses Pi medium to activate a provider's on/off switch, not an effort tier.
+    if providers == ["openrouter"] and efforts == ["medium"] and any(
+        entry.get("customType") == "anteater-benchmark-policy"
+        and entry.get("data", {}).get("level") == "on"
+        and models == [entry["data"].get("model")]
+        for entry in path
+    ):
+        efforts = ["on"]
     numeric_fields = ("input", "output", "cacheRead", "cacheWrite", "reasoning", "totalTokens")
     totals = {key: 0 for key in numeric_fields}
     present = set()
@@ -147,11 +155,20 @@ def summarize(session):
         available_tools = re.findall(r"^- ([\w_]+):", tool_section[1], re.M) if tool_section else []
     recorded_cost = round(sum(costs), 10) if costs else None
     duration = max(0, timestamp(assistants[-1]["timestamp"]) - timestamp(users[0]["timestamp"]))
+    budgets = {
+        entry["data"]["outputLimitPerRequest"] for entry in path
+        if entry.get("customType") == "anteater-benchmark-policy"
+        and models == [entry.get("data", {}).get("model")]
+        and (efforts or ["unknown"]) == [entry["data"].get("level")]
+        and type(entry["data"].get("outputLimitPerRequest")) is int
+        and entry["data"]["outputLimitPerRequest"] > 0
+    }
     return {
         "date": users[0]["timestamp"],
         "model_ids": models,
         "providers": providers,
         "reasoning": efforts or ["unknown"],
+        **({"output_budget_per_request": next(iter(budgets))} if len(budgets) == 1 else {}),
         "available_tools": available_tools,
         "follow_up_count": len(users) - 1,
         "metrics": {
@@ -178,7 +195,8 @@ def model_label(slug):
         ("gemini-", "Google", "Gemini "), ("deepseek-", "DeepSeek", "DeepSeek "),
         ("grok-", "xAI", "Grok "), ("glm-", "Z.ai", "GLM-"),
         ("hy", "Tencent", "Hunyuan "), ("mimo-", "Xiaomi", "MiMo "),
-        ("muse-", "Meta", "Muse "),
+        ("muse-", "Meta", "Muse "), ("qwen", "Alibaba", "Qwen"),
+        ("kimi-", "Moonshot AI", "Kimi "), ("minimax-", "MiniMax", "MiniMax "),
     ):
         if stem.startswith(prefix):
             suffix = stem[len(prefix):].replace("-", " ")
@@ -312,41 +330,40 @@ def format_time(seconds):
     return f"{seconds // 60}m {seconds % 60:02d}s"
 
 
-def card_html(run):
-    slug, name = escape(run["slug"], quote=True), escape(run["name"])
-    if run.get("outcome") == "no_artwork":
-        status = escape(run['failure']['status'])
-        return f'''<article class="card failure-card" data-slug="{slug}">
-  <a class="preview failure-preview" href="./cases/{slug}/" aria-label="Read failure notes for {name}, max reasoning">
-    <span class="failure-symbol" aria-hidden="true">∅</span>
-    <span class="failure-title" data-i18n="No SVG delivered">No SVG delivered</span>
-    <span class="failure-status" data-i18n="{status}">{status}</span>
-  </a>
-  <div class="card-info"><div class="card-heading"><span class="vendor-name">{escape(run['vendor'])}</span><span class="effort effort-max" data-level="max">max</span></div>
-    <h2><a href="./cases/{slug}/">{name}</a></h2>
-    <a class="text-button failure-link" href="./cases/{slug}/"><span data-i18n="Read failure notes">Read failure notes</span><span aria-hidden="true">↗</span></a>
-  </div>
-</article>'''
-    metrics = run["metrics"]
-    price_info = run.get("price", {"amount_usd": metrics["cost_usd"], "basis": "recorded"})
-    cost = price_info["amount_usd"]
-    price = ("≈" if price_info["basis"] == "public" else "") + (f"${cost:.3f}" if cost is not None and cost >= 0.001 else (f"${cost:.4f}" if cost is not None else "Unknown"))
-    price_label = {"recorded": "Pi · USD", "public": "Public · USD", "unknown": "Cost · USD"}[price_info["basis"]]
-    effort = escape(" → ".join(run["reasoning"]))
-    chips = ''.join(f'<span class="effort" data-level="{escape(level, quote=True)}">{escape(level)}</span>' for level in run['reasoning'])
-    return f'''<article class="card" data-slug="{slug}">
-  <button class="preview" data-open="{slug}" aria-label="View {name}, {effort} reasoning">
-    <iframe class="artwork-frame" data-src="./artwork/{slug}.svg" title="{name} animated SVG" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe>
-    <span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">Loading artwork</span>
-  </button>
+def group_models(runs):
+    # Curated maker/name joins provider-ID aliases without merging versions or variants.
+    groups = {}
+    for run in runs:
+        groups.setdefault((run['vendor'], run['name']), []).append(run)
+    return list(groups.values())
+
+
+def card_html(group):
+    run = next((item for item in group if item.get('outcome') != 'no_artwork'), group[0])
+    slug, name = escape(run['slug'], quote=True), escape(run['name'])
+    key = escape(json.dumps([run['vendor'], run['name']], ensure_ascii=False, separators=(',', ':')), quote=True)
+    ordered = sorted(group, key=lambda item: tuple(EFFORTS.index(level) if level in EFFORTS else len(EFFORTS) for level in item['reasoning']))
+    links = ''.join(f'''<button type="button" class="level-link" data-card-run="{escape(item['slug'], quote=True)}" aria-pressed="{'true' if item['slug'] == run['slug'] else 'false'}" aria-label="View {name}, {escape(' → '.join(item['reasoning']))} reasoning{' · No SVG delivered' if item.get('outcome') == 'no_artwork' else ''}">{''.join(f'<span class="effort" data-level="{escape(level, quote=True)}">{escape(level)}</span>' for level in item['reasoning'])}{'<span class="level-status" data-i18n="No SVG delivered">No SVG delivered</span>' if item.get('outcome') == 'no_artwork' else ''}</button>''' for item in ordered)
+    failed = run.get('outcome') == 'no_artwork'
+    metrics = run.get('metrics', {})
+    price_info = run.get('price', {'amount_usd': metrics.get('cost_usd'), 'basis': 'recorded'})
+    cost = price_info['amount_usd']
+    price = ('≈' if price_info['basis'] == 'public' else '') + (f'${cost:.3f}' if cost is not None and cost >= 0.001 else (f'${cost:.4f}' if cost is not None else 'Unknown'))
+    price_label = {'recorded': 'Pi · USD', 'public': 'Public · USD', 'unknown': 'Cost · USD'}[price_info['basis']]
+    art = f'''<iframe class="artwork-frame" data-src="./artwork/{slug}.svg" title="{name} animated SVG" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe><span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">Loading artwork</span>''' if not failed else '<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title" data-i18n="No SVG delivered">No SVG delivered</span>'
+    enough = sum(item.get('outcome') != 'no_artwork' for item in group) >= 2
+    return f'''<article class="card{' failure-card' if failed else ''}" data-model="{key}" data-slug="{slug}">
+  <button class="preview{' failure-preview' if failed else ''}" data-open="{slug}" aria-label="View {name}, {escape(' → '.join(run['reasoning']))} reasoning{' · No SVG delivered' if failed else ''}">{art}</button>
   <div class="card-info">
-    <div class="card-heading"><span class="vendor-name">{escape(run['vendor'])}</span><span class="effort-chips">{chips}</span></div>
+    <div class="card-heading"><span class="vendor-name">{escape(run['vendor'])}</span></div>
     <h2><a href="?run={slug}" data-open="{slug}">{name}</a></h2>
-    <div class="card-bottom"><dl class="card-stats">
-      <div><dt data-i18n="Time">Time</dt><dd data-time>{format_time(metrics['duration_seconds'])}</dd></div>
-      <div><dt data-i18n="Tools">Tools</dt><dd>{metrics['tool_calls']}</dd></div>
-      <div><dt data-i18n="{price_label}">{price_label}</dt><dd data-price>{price}</dd></div>
-    </dl><label class="compare-check"><input type="checkbox" data-compare="{slug}" aria-label="Compare {name}, {effort} reasoning"><span data-i18n="Compare">Compare</span></label></div>
+    <div class="model-levels" role="group" aria-label="Reasoning level" data-i18n-aria-label="Reasoning level">{links}</div>
+    <div class="card-bottom"><dl class="card-stats"{' hidden' if failed else ''}>
+      <div><dt data-i18n="Time">Time</dt><dd data-time>{format_time(metrics.get('duration_seconds', 0)) if not failed else '—'}</dd></div>
+      <div><dt data-i18n="Output tokens">Output tokens</dt><dd data-output>{metrics.get('tokens', {}).get('output', '—') if not failed else '—'}</dd></div>
+      <div><dt data-price-label data-i18n="{price_label}">{price_label}</dt><dd data-price>{price if not failed else '—'}</dd></div>
+    </dl><a class="text-button failure-link" href="./cases/{slug}/" data-open="{slug}"{' hidden' if not failed else ''} data-i18n="Read failure notes">Read failure notes</a><label class="compare-check"{' hidden' if failed else ''}><input type="checkbox" data-compare="{slug}" aria-label="Compare {name}, {escape(' → '.join(run['reasoning']))} reasoning"{' disabled' if failed else ''}><span data-i18n="Add to compare">Add to compare</span></label></div>
+    <button class="text-button model-compare" data-compare-model="{key}"{' disabled' if not enough else ''} data-i18n="{'Compare levels' if enough else 'Only one SVG available' if not failed else 'No SVG delivered'}">{'Compare levels' if enough else 'Only one SVG available' if not failed else 'No SVG delivered'}</button>
   </div>
 </article>'''
 
@@ -383,9 +400,10 @@ def build():
         if run.get("outcome") != "no_artwork":
             run["price"] = pricing.display_price(run, snapshot)
         run.pop("providers", None)  # Invocation channels are not part of the public gallery.
-    counts = Counter(run["vendor"] for run in runs)
+    models = group_models(runs)
+    counts = Counter(group[0]['vendor'] for group in models)
     vendors = sorted(counts, key=lambda name: VENDORS.index(name) if name in VENDORS else len(VENDORS))
-    tabs = '<button class="vendor-tab active" data-vendor="all" aria-pressed="true"><span class="vendor-label" data-i18n="All models">All models</span><span>' + str(len(runs)) + '</span></button>'
+    tabs = '<button class="vendor-tab active" data-vendor="all" aria-pressed="true"><span class="vendor-label" data-i18n="All models">All models</span><span>' + str(len(models)) + '</span></button>'
     for vendor in vendors:
         icon_name = re.sub(r"[^a-z0-9]", "", vendor.lower())
         icon_path = ROOT / "src/assets/vendors" / (icon_name + ".svg")
@@ -396,8 +414,8 @@ def build():
         tabs += f'<button class="vendor-tab" data-vendor="{escape(vendor, quote=True)}" aria-pressed="false">{icon}{escape(vendor)}<span>{counts[vendor]}</span></button>'
     template = (ROOT / "src/index.html").read_text()
     values = {
-        "CARDS": "\n".join(card_html(run) for run in runs),
-        "VENDORS": tabs, "COUNT": str(len(runs)), "FAMILIES": str(len(vendors)),
+        "CARDS": "\n".join(card_html(group) for group in models),
+        "VENDORS": tabs, "COUNT": str(len(models)), "FAMILIES": str(len(vendors)),
         "CATALOG": json.dumps(runs, ensure_ascii=False, separators=(",", ":"), allow_nan=False).replace("<", "\\u003c"),
         "UPDATED": datetime.fromisoformat(runs[0]["date"].replace("Z", "+00:00")).strftime("%B %Y"),
     }

@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+  <desc>Looping cartoon of a gray anteater balancing on a unicycle and juggling three bottles.</desc>
+
+  <style>
+    .sky { fill: #87c8ef; }
+    .ground { fill: #6aa84f; }
+    .hill { fill: #7dbe5a; }
+    .fur { fill: #8d8a84; }
+    .fur-dark { fill: #5c5854; }
+    .belly { fill: #d8d2c8; }
+    .snout { fill: #c4b8a8; }
+    .nose { fill: #3a342e; }
+    .eye-white { fill: #fff; }
+    .eye { fill: #1a1a1a; }
+    .blush { fill: #e8a0a0; opacity: 0.7; }
+    .ear { fill: #6e6a64; }
+    .wheel { fill: none; stroke: #2b2b2b; stroke-width: 10; }
+    .spoke { stroke: #444; stroke-width: 3; }
+    .hub { fill: #f2c14e; stroke: #2b2b2b; stroke-width: 3; }
+    .frame { fill: none; stroke: #c0392b; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+    .seat { fill: #2c3e50; }
+    .pedal { fill: #f1c40f; stroke: #2b2b2b; stroke-width: 2; }
+    .bottle { stroke: #1a5276; stroke-width: 2; }
+    .label { fill: #f7dc6f; }
+    .cap { fill: #1a5276; }
+    .shadow { fill: #000; opacity: 0.15; }
+
+    #rider {
+      transform-origin: 320px 300px;
+      animation: wobble 1.2s ease-in-out infinite;
+    }
+    #wheel-spin {
+      transform-origin: 320px 360px;
+      animation: spin 0.8s linear infinite;
+    }
+    #crank {
+      transform-origin: 320px 360px;
+      animation: spin 0.8s linear infinite;
+    }
+    #tongue {
+      transform-origin: 168px 248px;
+      animation: flick 1.6s ease-in-out infinite;
+    }
+    #arm-l {
+      transform-origin: 300px 250px;
+      animation: armL 0.7s ease-in-out infinite;
+    }
+    #arm-r {
+      transform-origin: 360px 248px;
+      animation: armR 0.7s ease-in-out infinite;
+    }
+    #bottle-a {
+      offset-path: path("M250,150 C290,70 370,70 400,160 C430,250 340,250 300,180 C270,130 250,150 250,150");
+      animation: juggle 1.05s linear infinite;
+    }
+    #bottle-b {
+      offset-path: path("M250,150 C290,70 370,70 400,160 C430,250 340,250 300,180 C270,130 250,150 250,150");
+      animation: juggle 1.05s linear infinite;
+      animation-delay: -0.35s;
+    }
+    #bottle-c {
+      offset-path: path("M250,150 C290,70 370,70 400,160 C430,250 340,250 300,180 C270,130 250,150 250,150");
+      animation: juggle 1.05s linear infinite;
+      animation-delay: -0.7s;
+    }
+    #scene {
+      animation: roll 4s linear infinite;
+    }
+
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes flick {
+      0%, 70%, 100% { transform: scaleX(1); }
+      80% { transform: scaleX(1.6); }
+      90% { transform: scaleX(0.7); }
+    }
+    @keyframes armL {
+      0%, 100% { transform: rotate(-18deg); }
+      50% { transform: rotate(22deg); }
+    }
+    @keyframes armR {
+      0%, 100% { transform: rotate(16deg); }
+      50% { transform: rotate(-24deg); }
+    }
+    @keyframes juggle {
+      0% { offset-distance: 0%; }
+      100% { offset-distance: 100%; }
+    }
+    @keyframes roll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-160px); }
+    }
+  </style>
+
+  <rect class="sky" width="640" height="480"/>
+  <circle cx="520" cy="70" r="36" fill="#ffe566"/>
+  <g id="scene">
+    <ellipse class="hill" cx="80" cy="400" rx="180" ry="50"/>
+    <ellipse class="hill" cx="360" cy="410" rx="220" ry="46"/>
+    <ellipse class="hill" cx="640" cy="400" rx="200" ry="55"/>
+    <ellipse class="hill" cx="900" cy="408" rx="180" ry="48"/>
+  </g>
+  <rect class="ground" y="400" width="640" height="80"/>
+
+  <!-- juggled bottles travel a loop above the rider -->
+  <g id="bottle-a">
+    <g transform="translate(-10,-28)">
+      <rect class="bottle" x="0" y="8" width="18" height="36" rx="4" fill="#5dade2"/>
+      <rect class="cap" x="4" y="0" width="10" height="10" rx="2"/>
+      <rect class="label" x="2" y="20" width="14" height="10"/>
+    </g>
+  </g>
+  <g id="bottle-b">
+    <g transform="translate(-10,-28)">
+      <rect class="bottle" x="0" y="8" width="18" height="36" rx="4" fill="#48c9b0"/>
+      <rect class="cap" x="4" y="0" width="10" height="10" rx="2"/>
+      <rect class="label" x="2" y="20" width="14" height="10"/>
+    </g>
+  </g>
+  <g id="bottle-c">
+    <g transform="translate(-10,-28)">
+      <rect class="bottle" x="0" y="8" width="18" height="36" rx="4" fill="#af7ac5"/>
+      <rect class="cap" x="4" y="0" width="10" height="10" rx="2"/>
+      <rect class="label" x="2" y="20" width="14" height="10"/>
+    </g>
+  </g>
+
+  <ellipse class="shadow" cx="320" cy="428" rx="70" ry="10"/>
+
+  <g id="rider">
+    <!-- unicycle frame -->
+    <path class="frame" d="M320 300 L320 360 M300 318 L340 318"/>
+    <rect class="seat" x="292" y="292" width="56" height="12" rx="6"/>
+
+    <!-- wheel -->
+    <g id="wheel-spin">
+      <circle class="wheel" cx="320" cy="360" r="48"/>
+      <line class="spoke" x1="320" y1="312" x2="320" y2="408"/>
+      <line class="spoke" x1="272" y1="360" x2="368" y2="360"/>
+      <line class="spoke" x1="286" y1="326" x2="354" y2="394"/>
+      <line class="spoke" x1="354" y1="326" x2="286" y2="394"/>
+    </g>
+    <circle class="hub" cx="320" cy="360" r="8"/>
+
+    <!-- pedals counter-rotate visually by spinning with crank -->
+    <g id="crank">
+      <line class="spoke" x1="292" y1="360" x2="348" y2="360" stroke-width="4"/>
+      <rect class="pedal" x="276" y="354" width="18" height="10" rx="2"/>
+      <rect class="pedal" x="346" y="354" width="18" height="10" rx="2"/>
+    </g>
+
+    <!-- tail -->
+    <path d="M360 280 C420 260 450 300 430 330" fill="none" stroke="#8d8a84" stroke-width="16" stroke-linecap="round"/>
+    <path d="M360 280 C420 260 450 300 430 330" fill="none" stroke="#5c5854" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- body -->
+    <ellipse class="fur" cx="330" cy="250" rx="48" ry="36"/>
+    <ellipse class="belly" cx="318" cy="258" rx="28" ry="22"/>
+
+    <!-- left arm -->
+    <g id="arm-l">
+      <path d="M300 250 C270 240 250 210 246 180" fill="none" stroke="#8d8a84" stroke-width="12" stroke-linecap="round"/>
+      <circle class="fur-dark" cx="246" cy="176" r="8"/>
+    </g>
+    <!-- right arm -->
+    <g id="arm-r">
+      <path d="M360 248 C400 230 410 190 396 162" fill="none" stroke="#8d8a84" stroke-width="12" stroke-linecap="round"/>
+      <circle class="fur-dark" cx="394" cy="158" r="8"/>
+    </g>
+
+    <!-- head + long snout pointing left -->
+    <ellipse class="fur" cx="250" cy="230" rx="34" ry="28"/>
+    <path class="snout" d="M230 228 C160 220 90 236 70 252 C90 268 160 260 230 248 Z"/>
+    <ellipse class="nose" cx="68" cy="252" rx="10" ry="7"/>
+    <g id="tongue">
+      <path d="M78 258 Q60 266 48 260" fill="none" stroke="#e07a8a" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <!-- ears -->
+    <ellipse class="ear" cx="268" cy="204" rx="8" ry="12"/>
+    <ellipse class="ear" cx="246" cy="206" rx="7" ry="10"/>
+
+    <!-- eye -->
+    <circle class="eye-white" cx="236" cy="222" r="7"/>
+    <circle class="eye" cx="234" cy="222" r="3.5"/>
+    <circle class="blush" cx="222" cy="236" r="5"/>
+
+    <!-- tiny smile -->
+    <path d="M210 242 Q200 248 188 244" fill="none" stroke="#5c4033" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- feet on pedals area -->
+    <ellipse class="fur-dark" cx="300" cy="318" rx="12" ry="7"/>
+    <ellipse class="fur-dark" cx="344" cy="318" rx="12" ry="7"/>
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "mimo-v2.6-flash-off",
+  "name": "MiMo V2.6 Flash",
+  "vendor": "Xiaomi",
+  "date": "2026-10-02T02:18:44.820Z",
+  "model_ids": [
+    "xiaomi/mimo-v2.6-flash"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "off"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 218.792,
+    "request_seconds": 218.695,
+    "average_tps": 62.71,
+    "tool_calls": 12,
+    "tool_breakdown": {
+      "edit": 8,
+      "read": 2,
+      "write": 2
+    },
+    "assistant_turns": 13,
+    "errors": 0,
+    "tool_errors": 3,
+    "tokens": {
+      "input": 24918,
+      "output": 13715,
+      "cacheRead": 137920,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 176553
+    },
+    "recorded_cost_usd": 0.007714896,
+    "cost_usd": 0.007714896
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#7fd55ddc0832f98405a6f23ad359046b",
+    "gist_id": "7fd55ddc0832f98405a6f23ad359046b",
+    "gist_revision": "4b5ca09f37d09ef8b02ebbc247284f2c4e925ad3",
+    "session_id": "01a0fa68-267a-703f-a5ff-b155b3871848",
+    "imported_at": "2026-10-03T03:03:03.252016+00:00",
+    "artwork_sha256": "2812c768b991ae57d40891b57da088f785060db0f31c1b2f5a90cb62c1173570"
+  }
+}

@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">The juggling anteater</title>
+  <desc id="description">A smiling anteater pedals a unicycle while three colorful bottles loop through the air.</desc>
+  <defs>
+    <pattern id="speckles" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="4" r="1.3" fill="#a9bbaa" opacity=".45"/>
+      <circle cx="13" cy="13" r="1" fill="#a9bbaa" opacity=".35"/>
+    </pattern>
+    <path id="juggle" d="M 522,277 C 470,215 475,112 554,88 C 655,54 719,132 687,219 C 668,274 582,318 522,277 Z"/>
+    <g id="bottle" stroke="#293e43" stroke-width="3" stroke-linejoin="round">
+      <path d="M-6-25H6V-15C6-12 12-10 12-5V18Q12 23 7 23H-7Q-12 23-12 18V-5C-12-10-6-12-6-15Z" fill="currentColor"/>
+      <path d="M-7-25H7" fill="none" stroke-width="4" stroke-linecap="round"/>
+      <path d="M-10 4H10V13H-10Z" fill="#fff5da" stroke-width="2"/>
+      <path d="M-5-5V-2" fill="none" stroke="#fff5da" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </defs>
+  <style>
+    .ink { stroke: #293e43; stroke-linecap: round; stroke-linejoin: round; }
+    .wheel { transform-origin: 390px 469px; animation: spin 2s linear infinite; }
+    .rider { animation: bounce 1s ease-in-out infinite alternate; }
+    .bottle-shape { animation: tumble 3s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes bounce { to { transform: translateY(-5px); } }
+    @keyframes tumble { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(24deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .wheel, .rider, .bottle-shape { animation: none; }
+    }
+  </style>
+
+  <!-- Warm paper backdrop and a little stage. -->
+  <rect width="800" height="600" fill="#fbf3e4"/>
+  <circle cx="399" cy="293" r="246" fill="#f8e7cb"/>
+  <circle cx="399" cy="293" r="246" fill="url(#speckles)"/>
+  <path d="M45 551H755" class="ink" fill="none" stroke-width="3"/>
+  <ellipse cx="390" cy="555" rx="112" ry="10" fill="#d9c9ad" opacity=".6"/>
+  <path d="M142 536h39m438 0h52M96 548h19m581-12h17" class="ink" fill="none" stroke-width="3" opacity=".48"/>
+
+  <!-- Unicycle: spinning spokes inside a stationary tire. -->
+  <circle cx="390" cy="469" r="77" fill="#fffaf0" class="ink" stroke-width="12"/>
+  <g class="wheel" stroke="#8ba4a0" stroke-width="3" stroke-linecap="round">
+    <path d="M390 398v142M319 469h142M340 419l100 100m0-100L340 519M363 403l54 132m-54 0 54-132M324 442l132 54m-132 0 132-54"/>
+  </g>
+  <circle cx="390" cy="469" r="12" fill="#edaa65" class="ink" stroke-width="4"/>
+  <path d="M390 469V359" class="ink" fill="none" stroke-width="8"/>
+  <path d="M355 362q36-13 69 0q-3 12-17 12h-39q-14 0-13-12Z" fill="#293e43"/>
+  <path d="M390 469l36-17m-36 17-37 18" class="ink" fill="none" stroke-width="5"/>
+  <path d="M413 452h30m-104 35h30" class="ink" fill="none" stroke-width="7"/>
+
+  <!-- Rear leg, then the sweeping tail and body. -->
+  <path d="M372 339q-24 31-38 53l21 88" class="ink" fill="none" stroke="#293e43" stroke-width="24"/>
+  <path d="M372 339q-24 31-38 53l21 88" fill="none" stroke="#b27d5e" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M353 478q-8 13-5 17h23q5-3-2-10" fill="#293e43" class="ink" stroke-width="3"/>
+
+  <g class="rider">
+    <path d="M351 272C304 254 256 285 224 332c-28 42-69 57-120 48 39 57 95 63 144 35 43-24 82-55 129-59Z" fill="#9a6652" class="ink" stroke-width="5"/>
+    <path d="M322 293c-29 29-44 62-83 93-31 25-68 32-108 21 34 22 73 26 107 11 39-17 78-54 111-83" fill="#dfb98a" opacity=".85"/>
+    <path d="M148 395c47 10 96-12 138-52m-109 59c39 2 74-14 104-41" class="ink" fill="none" stroke-width="3" opacity=".28"/>
+
+    <!-- The dark shoulder stripe is a characteristic anteater marking. -->
+    <path d="M322 281c19-31 83-45 123-17 28 20 43 59 29 86-13 25-71 38-114 16-49-25-60-58-38-85Z" fill="#bd8662" class="ink" stroke-width="5"/>
+    <path d="M359 260c24-11 52-10 70-1l35 91c-16 16-38 20-57 18Z" fill="#f5dfba"/>
+    <path d="M369 257c15-5 28-6 41-3l47 103c-12 8-22 11-34 12Z" fill="#344648"/>
+    <path d="M383 254c9-2 15-2 22-1l44 108-12 5Z" fill="#fff1cf"/>
+
+    <!-- Forward leg rests on the opposite pedal. -->
+    <path d="M411 346q20 23 35 49l-20 55" class="ink" fill="none" stroke-width="27"/>
+    <path d="M411 346q20 23 35 49l-20 55" fill="none" stroke="#c38d67" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M425 447q-5 9-2 15h25q5-5-6-13" fill="#293e43" class="ink" stroke-width="3"/>
+
+    <!-- Long neck, little ear, and unmistakable tapered snout. -->
+    <path d="M427 279c8-36 26-72 57-88 27-14 57-6 76 15 23 24 49 39 88 51 10 3 12 13 3 18-15 8-50 0-75-8-22-7-39-11-53-9-14 5-22 28-32 48Z" fill="#bd8662" class="ink" stroke-width="5"/>
+    <path d="M491 193c23-10 46-2 63 16 25 27 53 41 90 50-28 2-53-6-78-16-31-12-53-15-73 1-10 8-18 20-24 33l-19-8c10-33 21-64 41-76Z" fill="#f4e2be"/>
+    <path d="M484 194c-15-5-20-23-15-38 19 2 32 16 33 34" fill="#bd8662" class="ink" stroke-width="4"/>
+    <path d="M480 181q-2-8-1-13" class="ink" fill="none" stroke-width="3"/>
+    <circle cx="542" cy="216" r="4.6" fill="#293e43"/>
+    <path d="M634 257q14 0 19 5-2 11-16 10-7-4-3-15Z" fill="#293e43"/>
+    <path d="M648 273q-1 11-12 13" class="ink" fill="none" stroke-width="2.5"/>
+    <circle cx="556" cy="234" r="11" fill="#db997b" opacity=".5"/>
+
+    <!-- Two open hands ready to catch the bottles. -->
+    <path d="M459 308q29-13 53-31l11-25" class="ink" fill="none" stroke-width="25"/>
+    <path d="M459 308q29-13 53-31l11-25" fill="none" stroke="#bd8662" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M514 259q3-16 8-18m0 13q9-13 13-11m-10 14q10-8 14-6" class="ink" fill="none" stroke-width="5"/>
+    <path d="M465 320q37 4 81-13l22-20" class="ink" fill="none" stroke-width="25"/>
+    <path d="M465 320q37 4 81-13l22-20" fill="none" stroke="#ce9871" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M561 293q5-14 11-15m-5 20q13-10 17-8m-15 13q12-5 17-2" class="ink" fill="none" stroke-width="5"/>
+  </g>
+
+  <!-- Each bottle follows the same closed juggling loop one second apart. -->
+  <g color="#db7770">
+    <g class="bottle-shape"><use xlink:href="#bottle"/></g>
+    <animateMotion dur="3s" begin="0s" repeatCount="indefinite" rotate="0"><mpath xlink:href="#juggle"/></animateMotion>
+  </g>
+  <g color="#75a9a0">
+    <g class="bottle-shape"><use xlink:href="#bottle"/></g>
+    <animateMotion dur="3s" begin="-1s" repeatCount="indefinite" rotate="0"><mpath xlink:href="#juggle"/></animateMotion>
+  </g>
+  <g color="#e8ad60">
+    <g class="bottle-shape"><use xlink:href="#bottle"/></g>
+    <animateMotion dur="3s" begin="-2s" repeatCount="indefinite" rotate="0"><mpath xlink:href="#juggle"/></animateMotion>
+  </g>
+
+  <path d="M320 175l-9-10m31-14 1-14m-47 49-15-3M700 317l14 6m-4-28 15-1" class="ink" fill="none" stroke-width="3" opacity=".55"/>
+  <path d="M207 211l4 9 9 4-9 4-4 9-4-9-9-4 9-4ZM673 376l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#e5a75e"/>
+</svg>

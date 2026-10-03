@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-3.8-flash-low",
+  "name": "Gemini 3.8 Flash",
+  "vendor": "Google",
+  "date": "2026-10-01T13:13:33.750Z",
+  "model_ids": [
+    "gemini-3.8-flash-high"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "low"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 1,
+  "metrics": {
+    "duration_seconds": 73.941,
+    "request_seconds": 70.298,
+    "average_tps": 227.46,
+    "tool_calls": 6,
+    "tool_breakdown": {
+      "edit": 4,
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 8,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 67460,
+      "output": 15990,
+      "cacheRead": 52925,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 136375
+    },
+    "recorded_cost_usd": 0,
+    "cost_usd": null
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#749ebba4b101e0dd7ffa699147158109",
+    "gist_id": "749ebba4b101e0dd7ffa699147158109",
+    "gist_revision": "8296dd44c6f38fbbaec682b46cb65a291e91a7ae",
+    "session_id": "01a0f799-4a19-70b4-8034-8d2d01bff605",
+    "imported_at": "2026-10-02T16:16:45.307388+00:00",
+    "artwork_sha256": "e9c9aa0f2329d244ac6bee6aa4859b712fd1b093a301b78004623b990f74d398"
+  }
+}

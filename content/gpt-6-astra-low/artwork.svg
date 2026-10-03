@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">The Amazing Ant-eater</title>
+  <desc id="desc">An animated circus anteater balances on a spinning unicycle while juggling three colorful bottles.</desc>
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#fff9e9"/><stop offset="1" stop-color="#f4dfbd"/></radialGradient>
+    <linearGradient id="fur" x2="0.8" y2="1"><stop stop-color="#b69b7c"/><stop offset="1" stop-color="#82674f"/></linearGradient>
+    <linearGradient id="tail"><stop stop-color="#705744"/><stop offset="1" stop-color="#ad9271"/></linearGradient>
+    <g id="bottle" stroke="#293941" stroke-width="3" stroke-linejoin="round">
+      <path d="M-6-32H6V-16Q6-12 13-8V26Q13 32 7 32H-7Q-13 32-13 26V-8Q-6-12-6-16Z" fill="currentColor"/>
+      <path d="M-7-33H7V-27H-7Z" fill="#ffe0a0"/>
+      <path d="M-12 1H12V20H-12Z" fill="#fff6de"/>
+      <path d="m0 4 2 5 5 1-4 3 1 5-4-3-4 3 1-5-4-3 5-1Z" fill="currentColor" stroke="none"/>
+      <path d="M-7-6V-1M-7 24V26" fill="none" stroke="white" stroke-linecap="round" opacity=".65"/>
+    </g>
+  </defs>
+  <path fill="url(#bg)" d="M0 0H800V800H0Z"/>
+  <circle cx="400" cy="385" r="288" fill="#fffdf3" opacity=".58"/>
+  <g fill="none" stroke="#c9ac7c" opacity=".4">
+    <circle cx="400" cy="385" r="300" stroke-dasharray="3 12"/>
+    <path d="M75 150Q400 235 725 150"/>
+  </g>
+  <g fill="#ce6857">
+    <path d="m95 156 30 7-21 26zM185 177l30 5-20 25zM585 182l30-5-10 30zM675 163l30-7-10 33z"/>
+  </g>
+  <text x="400" y="78" text-anchor="middle" font-family="Georgia,serif" font-size="35" letter-spacing="5" fill="#343d40">THE AMAZING ANT-EATER</text>
+  <text x="400" y="111" text-anchor="middle" font-family="sans-serif" font-size="12" letter-spacing="5" fill="#997954">ONE WHEEL · THREE BOTTLES · NO WORRIES</text>
+  <ellipse cx="410" cy="697" rx="159" ry="15" fill="#765e44" opacity=".14">
+    <animate attributeName="rx" values="159;145;159" dur="1s" repeatCount="indefinite"/>
+  </ellipse>
+  <path d="M128 699H672" stroke="#baa080" stroke-width="2" stroke-linecap="round"/>
+  <!-- All three bottles share one closed flight loop, phase-shifted by one third. -->
+  <g>
+    <g color="#dd7056">
+      <animateMotion path="M290 364C210 275 327 110 390 206C425 259 459 321 490 364C443 391 337 391 290 364Z" dur="2.4s" begin="-0.0s" repeatCount="indefinite" calcMode="paced"/>
+      <g><animateTransform attributeName="transform" type="rotate" from="0" to="720" dur="2.4s" repeatCount="indefinite"/><use href="#bottle"/></g>
+    </g>
+    <g color="#46a99c">
+      <animateMotion path="M290 364C210 275 327 110 390 206C425 259 459 321 490 364C443 391 337 391 290 364Z" dur="2.4s" begin="-0.8s" repeatCount="indefinite" calcMode="paced"/>
+      <g><animateTransform attributeName="transform" type="rotate" from="0" to="720" dur="2.4s" begin="-0.8s" repeatCount="indefinite"/><use href="#bottle"/></g>
+    </g>
+    <g color="#e1b24d">
+      <animateMotion path="M290 364C210 275 327 110 390 206C425 259 459 321 490 364C443 391 337 391 290 364Z" dur="2.4s" begin="-1.6s" repeatCount="indefinite" calcMode="paced"/>
+      <g><animateTransform attributeName="transform" type="rotate" from="0" to="720" dur="2.4s" begin="-1.6s" repeatCount="indefinite"/><use href="#bottle"/></g>
+    </g>
+  </g>
+  <!-- Wheel and its rotating spokes. -->
+  <circle cx="405" cy="614" r="77" fill="#fff9e9" stroke="#303b40" stroke-width="13"/>
+  <circle cx="405" cy="614" r="67" fill="none" stroke="#c69554" stroke-width="3"/>
+  <g stroke="#94a09e" stroke-width="2">
+    <animateTransform attributeName="transform" type="rotate" from="0 405 614" to="360 405 614" dur="1s" repeatCount="indefinite"/>
+    <path d="M405 546V682M337 614H473M357 566 453 662M357 662 453 566M379 551 431 677M342 588 468 640M342 640 468 588M379 677 431 551"/>
+    <circle cx="405" cy="549" r="4" fill="#dd7056" stroke="none"/>
+  </g>
+  <path d="M400 513 405 614" stroke="#303b40" stroke-width="13" stroke-linecap="round"/>
+  <path d="M400 530 404 598" stroke="#e09b55" stroke-width="5" stroke-linecap="round"/>
+  <path d="M372 513Q400 504 427 513" fill="none" stroke="#303b40" stroke-width="15" stroke-linecap="round"/>
+  <!-- Pedaling legs: joint positions follow the rotating crank. -->
+  <path fill="none" stroke="#655340" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" d="M388 487 367 548 381 614">
+    <animate attributeName="d" values="M388 487 367 548 381 614;M388 487 375 531 405 590;M388 487 414 547 429 614;M388 487 394 559 405 638;M388 487 367 548 381 614" dur="1s" repeatCount="indefinite"/>
+  </path>
+  <path fill="none" stroke="#a68a69" stroke-width="23" stroke-linecap="round" stroke-linejoin="round" d="M414 489 447 551 429 614">
+    <animate attributeName="d" values="M414 489 447 551 429 614;M414 489 436 568 405 638;M414 489 391 552 381 614;M414 489 419 531 405 590;M414 489 447 551 429 614" dur="1s" repeatCount="indefinite"/>
+  </path>
+  <g stroke="#303b40" stroke-width="6" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate" from="0 405 614" to="360 405 614" dur="1s" repeatCount="indefinite"/>
+    <path d="M381 614H429"/>
+    <g transform="translate(381 614)"><g><animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1s" repeatCount="indefinite"/><path d="M-12 0H12"/></g></g>
+    <g transform="translate(429 614)"><g><animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1s" repeatCount="indefinite"/><path d="M-12 0H12"/></g></g>
+  </g>
+  <circle cx="405" cy="614" r="9" fill="#e0aa62" stroke="#303b40" stroke-width="3"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="1s" repeatCount="indefinite"/>
+    <!-- The giant anteater's shaggy, sweeping tail. -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-3 376 461;4 376 461;-3 376 461" dur="2s" repeatCount="indefinite"/>
+      <path d="M387 445C317 427 268 453 238 484S187 544 154 540L168 550 148 560 172 562 160 574C226 587 273 554 315 523S374 503 398 482Z" fill="url(#tail)" stroke="#544638" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M182 553Q260 548 304 491M208 564Q263 547 286 527M248 505Q282 469 326 469" fill="none" stroke="#d3b18a" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+    </g>
+    <path d="M366 374C340 404 345 467 369 493Q398 517 431 493C458 466 441 411 419 381Z" fill="url(#fur)" stroke="#544638" stroke-width="3"/>
+    <path d="M362 390Q385 427 430 431L444 463Q390 457 351 417Z" fill="#303b40"/>
+    <path d="M358 384Q387 419 429 424" fill="none" stroke="#f1dfc0" stroke-width="8"/>
+    <!-- Scooping forearms and curved claws. -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-6 367 413;5 367 413;-6 367 413" dur=".8s" repeatCount="indefinite"/>
+      <path d="M368 414Q331 440 302 382" fill="none" stroke="#544638" stroke-width="21" stroke-linecap="round"/>
+      <path d="M368 410Q331 435 302 378" fill="none" stroke="#ac9070" stroke-width="16" stroke-linecap="round"/>
+      <path d="M291 371Q287 382 299 386M300 367Q296 379 308 383M308 367Q306 377 316 378" fill="none" stroke="#fff1d9" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="6 426 413;-5 426 413;6 426 413" dur=".8s" repeatCount="indefinite"/>
+      <path d="M425 417Q470 443 489 382" fill="none" stroke="#544638" stroke-width="21" stroke-linecap="round"/>
+      <path d="M425 413Q470 438 489 378" fill="none" stroke="#b69b7c" stroke-width="16" stroke-linecap="round"/>
+      <path d="M478 370Q474 383 484 385M488 367Q484 380 494 382M498 370Q495 381 503 381" fill="none" stroke="#fff1d9" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <!-- Long tapered snout, little ear and alert eye. -->
+    <path d="M361 381C340 367 341 333 363 319C387 301 410 318 427 338Q454 364 510 382Q523 388 511 398C474 403 440 386 410 381Q385 398 361 381Z" fill="url(#fur)" stroke="#544638" stroke-width="3"/>
+    <path d="M359 335C341 320 342 297 354 298Q373 302 373 328" fill="#a58b6d" stroke="#544638" stroke-width="3"/>
+    <path d="M356 322Q347 306 355 307L365 323" fill="#d9b39a"/>
+    <path d="M507 382Q524 385 517 395L507 398Q501 391 507 382" fill="#303b40"/>
+    <path d="M451 381Q477 394 496 390" fill="none" stroke="#544638" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="396" cy="343" rx="5" ry="6" fill="#253238"/>
+    <circle cx="397" cy="341" r="1.6" fill="white"/>
+    <path d="M387 331Q394 327 401 331" fill="none" stroke="#544638" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="410" cy="358" rx="9" ry="5" fill="#ce8d73" opacity=".6"/>
+    <path d="m370 386 15 6-14 12zM399 386l-14 6 14 12z" fill="#dc6a53" stroke="#914c3d" stroke-width="2"/>
+    <circle cx="385" cy="392" r="4" fill="#f2b15c"/>
+    <g transform="rotate(12 381 314)">
+      <path d="M360 312 376 265 399 312Z" fill="#d76c55" stroke="#874c3d" stroke-width="2"/>
+      <path d="m368 291 21 0 4 9h-28Z" fill="#f6d88d"/>
+      <ellipse cx="380" cy="314" rx="26" ry="5" fill="#303b40"/>
+      <circle cx="376" cy="264" r="6" fill="#e6b55f"/>
+    </g>
+  </g>
+  <g fill="#bc9459" font-family="Georgia,serif" text-anchor="middle">
+    <text x="400" y="750" font-size="16" letter-spacing="3">A DELICATE BALANCING ACT</text>
+    <path d="m224 745 4-4 4 4-4 4zM568 745l4-4 4 4-4 4z"/>
+  </g>
+</svg>

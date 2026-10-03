@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "hy3-off",
+  "name": "Hunyuan 3",
+  "vendor": "Tencent",
+  "date": "2026-10-01T16:11:49.658Z",
+  "model_ids": [
+    "tencent/hy3"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "off"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 38.784,
+    "request_seconds": 38.757,
+    "average_tps": 100.14,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "write": 2
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 5368,
+      "output": 3881,
+      "cacheRead": 4416,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 13665
+    },
+    "recorded_cost_usd": 0.002903472,
+    "cost_usd": 0.002903472
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#5962e07d15fd4fb537b894795a548287",
+    "gist_id": "5962e07d15fd4fb537b894795a548287",
+    "gist_revision": "fb228a199a32dff2d6a034fa4d6716528185e10d",
+    "session_id": "01a0f83c-7fcb-74e3-9fdc-f3619181dd58",
+    "imported_at": "2026-10-02T16:16:45.365205+00:00",
+    "artwork_sha256": "001c2d3e9096c8bc71260ba4e54814470eab32831f3bf02c9c5171e6a65b17a9"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "qwen3.8-27b-medium",
+  "name": "Qwen3.8 27B",
+  "vendor": "Alibaba",
+  "date": "2026-10-01T17:23:21.441Z",
+  "model_ids": [
+    "qwen/qwen3.8-27b"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 60.183,
+    "request_seconds": 60.167,
+    "average_tps": 59.09,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 6264,
+      "output": 3555,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 256,
+      "totalTokens": 9819
+    },
+    "recorded_cost_usd": 0.01329588,
+    "cost_usd": 0.01329588
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#bdb2a5e9988089a56caed267366ade8e",
+    "gist_id": "bdb2a5e9988089a56caed267366ade8e",
+    "gist_revision": "07cfca8f42214e83b8e0c61308d46dda61ba8096",
+    "session_id": "01a0f87d-fc95-7167-ad56-7ddffec215a3",
+    "imported_at": "2026-10-02T16:16:47.076204+00:00",
+    "artwork_sha256": "384399018978b86adafc8e85410da0abf55b25375b242e984cab4d722fb6d0e7"
+  }
+}

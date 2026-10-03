@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">The juggling unicyclist</title>
+  <desc id="desc">An animated anteater pedals a unicycle and juggles three colorful bottles in an endless loop.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#fcf3db"/>
+      <stop offset="1" stop-color="#f6d6ad"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9c7256"/>
+      <stop offset="1" stop-color="#614b46"/>
+    </linearGradient>
+    <linearGradient id="tail" x1="0" x2="1" y2="1">
+      <stop stop-color="#71534c"/>
+      <stop offset="1" stop-color="#ab8062"/>
+    </linearGradient>
+    <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.3" fill="#e9b892" opacity=".42"/>
+    </pattern>
+    <g id="bottle" stroke="#514644" stroke-width="2.8" stroke-linejoin="round">
+      <path d="M-7-31H7V-22L11-16V21Q11 27 5 27H-5Q-11 27-11 21V-16L-7-22Z" fill="currentColor"/>
+      <path d="M-7-31H7M-11-8H11M-11 10H11" fill="none"/>
+      <rect x="-9" y="-4" width="18" height="11" rx="2" fill="#fff2cf" stroke="none"/>
+      <path d="M-4 1h8" stroke="currentColor" stroke-width="2"/>
+      <path d="M-5-23H5" stroke="#fff2cf" stroke-width="2" opacity=".7"/>
+    </g>
+    <clipPath id="card"><rect width="800" height="600" rx="30"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#card)">
+    <rect width="800" height="600" fill="url(#sky)"/>
+    <rect width="800" height="600" fill="url(#dots)"/>
+    <circle cx="605" cy="157" r="104" fill="#f6b77d" opacity=".48"/>
+    <circle cx="605" cy="157" r="77" fill="#ffdba0" opacity=".75"/>
+    <path d="M0 490Q127 460 228 488T441 488T800 477V600H0Z" fill="#e8c49e" opacity=".55"/>
+    <path d="M0 533Q191 517 375 534T800 522V600H0Z" fill="#d9ae87"/>
+    <path d="M0 545Q176 532 337 543T800 538" fill="none" stroke="#b88c72" stroke-width="3" opacity=".65"/>
+    <ellipse cx="400" cy="539" rx="118" ry="11" fill="#79594e" opacity=".22">
+      <animate attributeName="rx" values="118;107;118" dur=".8s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <!-- The unicycle: the wheel and pedals turn continuously. -->
+    <g stroke="#504546" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="400" cy="450" r="82" fill="#f9e5c7" stroke-width="12"/>
+      <circle cx="400" cy="450" r="72" fill="none" stroke="#c49775" stroke-width="3"/>
+      <g stroke="#ae8973" stroke-width="2" opacity=".85">
+        <g>
+          <path d="M400 378V522M328 450H472M349 399L451 501M451 399L349 501M372 383L428 517M333 422L467 478M333 478L467 422M372 517L428 383"/>
+          <animateTransform attributeName="transform" type="rotate" from="0 400 450" to="360 400 450" dur="1.6s" repeatCount="indefinite"/>
+        </g>
+      </g>
+      <path d="M384 441L390 379H410L416 441M400 383V327" fill="none" stroke-width="9"/>
+      <path d="M381 446L384 423M419 446L416 423" stroke-width="5"/>
+      <path d="M354 326Q357 312 385 316H435Q452 317 450 329Q428 336 405 329Q377 335 354 326Z" fill="#514849" stroke-width="3"/>
+      <g>
+        <path d="M371 450H429" stroke-width="7"/>
+        <path d="M350 450H373M427 450H450" stroke-width="8"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 400 450" to="360 400 450" dur="1.6s" repeatCount="indefinite"/>
+      </g>
+      <circle cx="400" cy="450" r="9" fill="#edaf69" stroke-width="4"/>
+    </g>
+
+    <!-- The rider bobs gently in time with the wheel. -->
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur=".8s" repeatCount="indefinite"/>
+      <!-- A sweeping, shaggy tail behind the saddle. -->
+      <path d="M332 278Q259 231 214 272Q170 310 153 392Q201 362 226 370Q184 397 165 427Q262 414 309 360L356 321Z" fill="url(#tail)" stroke="#514644" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M214 284Q187 323 174 375M233 319Q206 360 192 395M263 334Q251 375 211 401" fill="none" stroke="#c39875" stroke-width="5" stroke-linecap="round" opacity=".65"/>
+
+      <!-- Back leg and shoe. -->
+      <path d="M371 305Q341 331 349 371L368 424" fill="none" stroke="#584a45" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M357 415Q352 424 344 435Q339 447 350 453H382Q395 447 384 437L374 421Z" fill="#734b48" stroke="#4d4141" stroke-width="4"/>
+
+      <!-- Rounded body and the anteater's distinctive shoulder stripe. -->
+      <path d="M307 255Q312 204 363 199Q418 188 461 222Q486 250 461 302Q437 338 382 333Q327 329 310 292Q299 274 307 255Z" fill="url(#coat)" stroke="#514644" stroke-width="5"/>
+      <path d="M343 205Q366 190 391 197Q386 234 411 271Q431 304 456 314Q441 329 418 333Q380 295 364 261Q353 237 343 205Z" fill="#f0d4ae" stroke="#514644" stroke-width="4"/>
+      <path d="M377 199Q396 203 411 219Q426 251 445 272" fill="none" stroke="#554746" stroke-width="12" stroke-linecap="round"/>
+      <path d="M320 268Q330 299 351 308" fill="none" stroke="#bd9472" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+
+      <!-- Front leg reaching toward the pedal. -->
+      <path d="M432 311Q461 337 452 377L428 424" fill="none" stroke="#67524a" stroke-width="27" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M418 415Q411 429 407 437Q401 450 413 453H447Q460 450 451 438L436 420Z" fill="#734b48" stroke="#4d4141" stroke-width="4"/>
+
+      <!-- Long snout, tiny eye, round ear. -->
+      <path d="M423 226Q442 200 474 208Q505 215 521 234Q550 256 618 265Q626 269 620 276Q609 287 579 283L505 271Q468 278 441 261Q424 251 423 226Z" fill="#c89b77" stroke="#514644" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M478 244Q529 266 587 273" fill="none" stroke="#a87864" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+      <path d="M607 266Q621 264 626 270Q629 277 614 282L601 279Z" fill="#453b3d"/>
+      <path d="M610 284Q601 296 585 290" fill="none" stroke="#514644" stroke-width="3" stroke-linecap="round"/>
+      <path d="M417 224Q399 206 402 181Q406 164 420 171Q443 183 442 211Z" fill="#a67860" stroke="#514644" stroke-width="4"/>
+      <path d="M417 204Q412 183 419 181Q431 182 432 208Z" fill="#e9b28b"/>
+      <circle cx="481" cy="230" r="6.5" fill="#413b3b"/>
+      <circle cx="483" cy="228" r="2" fill="#fff5d9"/>
+      <path d="M468 217Q480 211 491 217" fill="none" stroke="#624b45" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Two raised arms wait beneath the flying bottles. -->
+      <path d="M356 241Q326 212 329 177L335 150" fill="none" stroke="#6b5349" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M332 157Q323 145 319 136M333 154L336 135M337 157L348 141" fill="none" stroke="#6b5349" stroke-width="7" stroke-linecap="round"/>
+      <path d="M447 258Q488 244 513 208L528 168" fill="none" stroke="#765a4c" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M525 173L521 151M528 171L537 151M532 174L544 161" fill="none" stroke="#765a4c" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <!-- Offset starts make three bottles chase one another around the same arc. -->
+    <g color="#e27e69">
+      <animateMotion path="M330 134 C357 29 510 22 550 133 C573 221 346 218 330 134Z" dur="2.7s" repeatCount="indefinite" begin="0s" rotate="0"/>
+      <g><use xlink:href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="-20" to="340" dur="2.7s" repeatCount="indefinite"/></g>
+    </g>
+    <g color="#72a79a">
+      <animateMotion path="M330 134 C357 29 510 22 550 133 C573 221 346 218 330 134Z" dur="2.7s" repeatCount="indefinite" begin="-0.9s" rotate="0"/>
+      <g><use xlink:href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="100" to="460" dur="2.7s" repeatCount="indefinite" begin="-0.9s"/></g>
+    </g>
+    <g color="#e9b55f">
+      <animateMotion path="M330 134 C357 29 510 22 550 133 C573 221 346 218 330 134Z" dur="2.7s" repeatCount="indefinite" begin="-1.8s" rotate="0"/>
+      <g><use xlink:href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="220" to="580" dur="2.7s" repeatCount="indefinite" begin="-1.8s"/></g>
+    </g>
+
+    <g fill="#fff4d4" opacity=".9">
+      <path d="M254 133l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z"/>
+      <path d="M637 101l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"/>
+      <circle cx="285" cy="83" r="3"/><circle cx="585" cy="61" r="3"/>
+    </g>
+  </g>
+</svg>

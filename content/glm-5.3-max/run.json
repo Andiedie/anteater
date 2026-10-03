@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "glm-5.3-max",
+  "name": "GLM-5.3",
+  "vendor": "Z.ai",
+  "date": "2026-10-02T02:59:43.406Z",
+  "model_ids": [
+    "z-ai/glm-5.3"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 331.247,
+    "request_seconds": 331.21,
+    "average_tps": 76.92,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 26588,
+      "output": 25476,
+      "cacheRead": 1280,
+      "cacheWrite": 0,
+      "reasoning": 20882,
+      "totalTokens": 53344
+    },
+    "recorded_cost_usd": 0.0924907172,
+    "cost_usd": 0.0924907172
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#09330ef411c3d28d980c9eab7a94edf9",
+    "gist_id": "09330ef411c3d28d980c9eab7a94edf9",
+    "gist_revision": "5f830c80e2bb1b7f4f487667d69ae57cf4e390ea",
+    "session_id": "01a0fa8d-aa57-715a-b5a7-de29d8bb0325",
+    "imported_at": "2026-10-02T16:16:45.315953+00:00",
+    "artwork_sha256": "25b2a8c58415f5d68c9512ef7235b60bab7efb0685cbd46c89eef270b314d605"
+  }
+}

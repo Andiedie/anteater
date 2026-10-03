@@ -3,48 +3,50 @@
   "slug": "deepseek-v4.1-flash-high",
   "name": "DeepSeek V4.1 Flash",
   "vendor": "DeepSeek",
-  "date": "2026-09-10T04:58:41.191Z",
+  "date": "2026-10-02T14:37:53.351Z",
   "model_ids": [
-    "deepseek-flash"
+    "deepseek/deepseek-v4.1-flash"
   ],
   "providers": [
-    "opencode-go"
+    "openrouter"
   ],
   "reasoning": [
     "high"
   ],
-  "available_tools": [],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
   "follow_up_count": 0,
   "metrics": {
-    "duration_seconds": 148.795,
-    "request_seconds": 146.691,
-    "average_tps": 136.59,
-    "tool_calls": 6,
+    "duration_seconds": 58.284,
+    "request_seconds": 58.248,
+    "average_tps": 220.35,
+    "tool_calls": 1,
     "tool_breakdown": {
-      "edit": 2,
-      "read": 2,
-      "write": 2
+      "write": 1
     },
-    "assistant_turns": 8,
-    "errors": 1,
-    "tool_errors": 1,
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
     "tokens": {
-      "input": 3338,
-      "output": 20037,
-      "cacheRead": 124800,
+      "input": 1629,
+      "output": 12835,
+      "cacheRead": 13952,
       "cacheWrite": 0,
-      "reasoning": 14883,
-      "totalTokens": 148175
+      "reasoning": 8244,
+      "totalTokens": 28416
     },
-    "recorded_cost_usd": 0.0128973,
-    "cost_usd": 0.0128973
+    "recorded_cost_usd": 0.00660589,
+    "cost_usd": 0.00660589
   },
   "source": {
-    "share_url": "https://pi.dev/session/#935d038c85576bebf87f4984c102c931",
-    "gist_id": "935d038c85576bebf87f4984c102c931",
-    "gist_revision": "c6f2e13bf95b6225269854f60aeb45827fd51b0b",
-    "session_id": "01a089ad-99bd-70ad-85dd-c8ea065a9e28",
-    "imported_at": "2026-09-30T07:08:51.295386+00:00",
-    "artwork_sha256": "07bae8791cec7f62929c46e075cbe5938e95f4ad62f3501d0d8d6ccfeaa643e8"
+    "share_url": "https://pi.dev/session/#66f7dc84e2677aab97593d0b6ab6da1b",
+    "gist_id": "66f7dc84e2677aab97593d0b6ab6da1b",
+    "gist_revision": "94f56c41e49032d3640d524d8a5cb0487f228ecd",
+    "session_id": "01a0fd0c-daeb-7122-ae1e-113765595be5",
+    "imported_at": "2026-10-02T16:16:45.297793+00:00",
+    "artwork_sha256": "bb9cfdfd59b3f3363fc8e430c2d2399849da48c83bdba8495a7afa944466a083"
   }
 }

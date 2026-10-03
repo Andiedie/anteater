@@ -3,7 +3,7 @@
   "slug": "mimo-v2.6-flash-high",
   "name": "MiMo V2.6 Flash",
   "vendor": "Xiaomi",
-  "date": "2026-09-23T13:48:07.461Z",
+  "date": "2026-10-02T17:07:53.739Z",
   "model_ids": [
     "xiaomi/mimo-v2.6-flash"
   ],
@@ -20,35 +20,37 @@
   ],
   "follow_up_count": 0,
   "metrics": {
-    "duration_seconds": 1464.585,
-    "request_seconds": 1462.389,
-    "average_tps": 36.8,
-    "tool_calls": 3,
+    "duration_seconds": 1536.057,
+    "request_seconds": 1535.694,
+    "average_tps": 90.8,
+    "tool_calls": 10,
     "tool_breakdown": {
-      "edit": 1,
-      "read": 1,
+      "bash": 1,
+      "edit": 4,
+      "read": 4,
       "write": 1
     },
-    "assistant_turns": 5,
-    "errors": 1,
-    "tool_errors": 0,
+    "assistant_turns": 11,
+    "errors": 0,
+    "tool_errors": 1,
     "tokens": {
-      "input": 61149,
-      "output": 53822,
-      "cacheRead": 115904,
+      "input": 153915,
+      "output": 139444,
+      "cacheRead": 1222144,
       "cacheWrite": 0,
-      "reasoning": 45158,
-      "totalTokens": 230875
+      "reasoning": 121760,
+      "totalTokens": 1515503
     },
-    "recorded_cost_usd": 0.0239555512,
-    "cost_usd": 0.0239555512
+    "recorded_cost_usd": 0.0640144232,
+    "cost_usd": 0.0640144232
   },
   "source": {
-    "share_url": "https://pi.dev/session/#644e34523b73e5d90152df55a1e2908f",
-    "gist_id": "644e34523b73e5d90152df55a1e2908f",
-    "gist_revision": "e6d0fe68864a18db95f08052da92c31fe72df381",
-    "session_id": "01a0ce85-c764-7541-8b78-c46157c63629",
-    "imported_at": "2026-09-30T07:08:54.596331+00:00",
-    "artwork_sha256": "0aaf04831587846f1ec727ac5e2f47651c436bcc8777a482ce814c18c10ded03"
-  }
+    "share_url": "https://pi.dev/session/#8200617e652cd015b75833712899671e",
+    "gist_id": "8200617e652cd015b75833712899671e",
+    "gist_revision": "67a66558d357a8de7823ac51c5fbe8ab0aca3b5b",
+    "session_id": "01a0fd96-30c4-73d9-afa7-d9dc7de85378",
+    "imported_at": "2026-10-03T02:50:55.719607+00:00",
+    "artwork_sha256": "bd4de58770086d11471fee6776b276e63129e1cae57150a3a05993db3007a3ea"
+  },
+  "output_budget_per_request": 131072
 }

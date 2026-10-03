@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "slug": "deepseek-v4.1-flash-off",
+  "name": "DeepSeek V4.1 Flash",
+  "vendor": "DeepSeek",
+  "date": "2026-10-01T16:11:19.192Z",
+  "model_ids": [
+    "deepseek/deepseek-v4.1-flash"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "off"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 15.515,
+    "request_seconds": 15.492,
+    "average_tps": 277.24,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 1618,
+      "output": 4295,
+      "cacheRead": 5376,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 11289
+    },
+    "recorded_cost_usd": 0.0022498,
+    "cost_usd": 0.0022498
+  },
+  "source": {
+    "share_url": "https://pi.dev/session/#bee099515a391520793c7c4a1f903fe0",
+    "gist_id": "bee099515a391520793c7c4a1f903fe0",
+    "gist_revision": "436dd22d91232f7194a86c5f95371f8865e87b79",
+    "session_id": "01a0f83c-08c4-71f0-9892-0e84c621a08b",
+    "imported_at": "2026-10-02T16:16:45.295504+00:00",
+    "artwork_sha256": "7273fd0f2e93807e2e21421aed3d8447b35345d8ccad1fe6a13ee71746d24d63"
+  }
+}
