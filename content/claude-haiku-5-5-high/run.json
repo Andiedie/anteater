@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "claude-haiku-5-5-high",
+  "name": "Claude Haiku 5.5",
+  "vendor": "Anthropic",
+  "date": "2026-10-22T13:51:50.546Z",
+  "model_ids": [
+    "claude-haiku-5-5"
+  ],
+  "providers": [
+    "gptge-claude"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 85.984,
+    "request_seconds": 85.974,
+    "average_tps": 202.95,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 6,
+      "output": 17448,
+      "cacheRead": 2422,
+      "cacheWrite": 19678,
+      "reasoning": 13792,
+      "totalTokens": 39554
+    },
+    "recorded_cost_usd": 0,
+    "cost_usd": null
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/claude-haiku-5-5-high.html",
+    "snapshot_url": "./sessions/claude-haiku-5-5-high.json",
+    "session_sha256": "8667159bcd9fba7550cd6a027bd8d347be08b3c33d4848405ac84319a35e1e8c",
+    "export_sha256": "67bbb0f33384148756be72edb973515fad61c19ff0785385c188a34072ca7d48",
+    "session_id": "01a163e1-e30d-7180-8e44-f47455963d63",
+    "imported_at": "2026-10-22T14:11:24.653808+00:00",
+    "artwork_sha256": "2ba3488ef237e61ecb3a6448f7c111182981818c90a03b084d3c26a11314b267"
+  }
+}

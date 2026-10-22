@@ -1,106 +1,650 @@
 {
-  "schema_version": 1,
-  "refreshed_at": "2026-10-02T16:18:06.925415+00:00",
-  "sources": [
-    {
-      "name": "models.dev",
-      "url": "https://models.dev/api.json",
-      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
-      "sha256": "dcd85747ad6ec11690087dace61797f92fe2c7c1c6f647fc5b96faa5660aa2b0"
+  "schema_version": 2,
+  "as_of": "2026-10-22",
+  "currency": "USD",
+  "models": {
+    "gpt-5.6-luna": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-5.6-luna",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 0.2,
+        "output": 1.2,
+        "cacheRead": 0.02,
+        "cacheWrite": 0.25,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
     },
-    {
-      "name": "OpenRouter",
-      "url": "https://openrouter.ai/api/v1/models",
-      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
-      "sha256": "fb6abc341c53fb11d86a8e41ff9753ef22eb56222e30d19367a8020a6d89466a"
+    "gpt-5.6-terra": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-5.6-terra",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 12,
+        "cacheRead": 0.2,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
     },
-    {
-      "name": "LiteLLM",
-      "url": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
-      "fetched_at": "2026-10-02T16:18:06.925415+00:00",
-      "sha256": "d0b0717de0d1f9cade95ee4ef528f9d7004160401e611f485bf21cf48bdd5b59"
+    "gpt-5.6-sol": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-5.6-sol",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 4,
+        "output": 20,
+        "cacheRead": 0.4,
+        "cacheWrite": 5.0,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K. Sol 5.6 introductory rates apply through at least November 21, 2026.",
+        "zh": "标准全球价格，单次输入不超过 272K；5.6 Sol 优惠至少持续至 2026-11-21。"
+      }
+    },
+    "gpt-6-luna": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-6-luna",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 0.1,
+        "output": 0.5,
+        "cacheRead": 0.01,
+        "cacheWrite": 0.125,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
+    },
+    "gpt-6-sol": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-6-sol",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.2,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
+    },
+    "gpt-6-astra": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-6-astra",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 10,
+        "output": 50,
+        "cacheRead": 1,
+        "cacheWrite": 12.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
+    },
+    "gpt-6.1-sol": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-6.1-sol",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K.",
+        "zh": "标准全球价格，单次输入不超过 272K。"
+      }
+    },
+    "claude-opus-5-5": {
+      "vendor": "Anthropic",
+      "source_kind": "official",
+      "source": "Anthropic",
+      "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 4,
+        "output": 20,
+        "cacheRead": 0.2,
+        "cacheWrite": 5.0,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "input_threshold": null,
+      "rate_note": {
+        "en": "Standard global rates; cache-write quote is for 5 minutes.",
+        "zh": "标准全球价格；缓存写入单价对应 5 分钟。"
+      }
+    },
+    "claude-sonnet-5-5": {
+      "vendor": "Anthropic",
+      "source_kind": "official",
+      "source": "Anthropic",
+      "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "input_threshold": null,
+      "rate_note": {
+        "en": "Standard global rates; cache-write quote is for 5 minutes.",
+        "zh": "标准全球价格；缓存写入单价对应 5 分钟。"
+      }
+    },
+    "claude-fable-5-1": {
+      "vendor": "Anthropic",
+      "source_kind": "official",
+      "source": "Anthropic",
+      "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 10,
+        "output": 50,
+        "cacheRead": 0.25,
+        "cacheWrite": 12.5,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "input_threshold": null,
+      "rate_note": {
+        "en": "Standard global rates; cache-write quote is for 5 minutes.",
+        "zh": "标准全球价格；缓存写入单价对应 5 分钟。"
+      }
+    },
+    "claude-haiku-5-5": {
+      "vendor": "Anthropic",
+      "source_kind": "official",
+      "source": "Anthropic",
+      "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 0.1,
+        "output": 0.5,
+        "cacheRead": 0.01,
+        "cacheWrite": 0.125,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "input_threshold": 100000,
+      "rate_note": {
+        "en": "Standard global rates; cache-write quote is for 5 minutes. Haiku prompts must be ≤100K.",
+        "zh": "标准全球价格；缓存写入单价对应 5 分钟，Haiku 单次输入不超过 100K。"
+      }
+    },
+    "gemini-3.8-flash": {
+      "vendor": "Google",
+      "source_kind": "official",
+      "source": "Google",
+      "source_url": "https://ai.google.dev/gemini-api/docs/pricing?authuser=6",
+      "aliases": [
+        "gemini-3.8-flash-high"
+      ],
+      "rates_per_million": {
+        "input": 0.75,
+        "output": 3.75,
+        "cacheRead": 0.075,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Standard introductory rates through December 31, 2026; cache storage is excluded.",
+        "zh": "标准发布优惠价截至 2026-12-31；不含缓存存储费。"
+      }
+    },
+    "gemini-4-argon": {
+      "vendor": "Google",
+      "source_kind": "official",
+      "source": "Google",
+      "source_url": "https://ai.google.dev/gemini-api/docs/latest-model#pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.1,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Standard introductory rates through November 30, 2026. Output includes thinking.",
+        "zh": "标准发布优惠价截至 2026-11-30；输出包含思考 token。"
+      }
+    },
+    "grok-4.6": {
+      "vendor": "xAI",
+      "source_kind": "official",
+      "source": "xAI",
+      "source_url": "https://docs.x.ai/developers/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 6,
+        "cacheRead": 0.5,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "input_threshold": 199999,
+      "rate_note": {
+        "en": "Standard global rates, prompts below 200K.",
+        "zh": "标准全球价格，单次输入低于 200K。"
+      }
+    },
+    "grok-4.7": {
+      "vendor": "xAI",
+      "source_kind": "official",
+      "source": "xAI",
+      "source_url": "https://docs.x.ai/developers/pricing",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 2,
+        "output": 6,
+        "cacheRead": 0.5,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "input_threshold": 199999,
+      "rate_note": {
+        "en": "Standard global rates, prompts below 200K.",
+        "zh": "标准全球价格，单次输入低于 200K。"
+      }
+    },
+    "glm-5.3": {
+      "vendor": "Z.ai",
+      "source_kind": "official",
+      "source": "Z.ai",
+      "source_url": "https://docs.z.ai/guides/overview/pricing",
+      "aliases": [
+        "z-ai/glm-5.3"
+      ],
+      "rates_per_million": {
+        "input": 1.4,
+        "output": 4.4,
+        "cacheRead": 0.26,
+        "cacheWrite": null,
+        "reasoning": null
+      }
+    },
+    "glm-5.3-flash": {
+      "vendor": "Z.ai",
+      "source_kind": "official",
+      "source": "Z.ai",
+      "source_url": "https://docs.z.ai/guides/overview/pricing",
+      "aliases": [
+        "z-ai/glm-5.3-flash"
+      ],
+      "rates_per_million": {
+        "input": 0.15,
+        "output": 0.5,
+        "cacheRead": 0.03,
+        "cacheWrite": null,
+        "reasoning": null
+      }
+    },
+    "deepseek-flash": {
+      "vendor": "DeepSeek",
+      "source_kind": "official",
+      "source": "DeepSeek",
+      "source_url": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "aliases": [
+        "deepseek/deepseek-v4.1-flash",
+        "deepseek-v4.1-flash-1017"
+      ],
+      "rates_per_million": {
+        "input": 0.15,
+        "output": 0.6,
+        "cacheRead": 0.003,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "off_peak_only": true,
+      "rate_note": {
+        "en": "Current Flash API off-peak rates; the entire recorded run must fall outside weekday UTC 01:00–04:00 / 06:00–10:00.",
+        "zh": "当前 Flash API 谷时价；仅在整段记录均不涉及工作日 UTC 01:00–04:00 / 06:00–10:00 时使用。"
+      }
+    },
+    "deepseek-v4-flash": {
+      "vendor": "DeepSeek",
+      "source_kind": "official",
+      "source": "DeepSeek",
+      "source_url": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "aliases": [],
+      "rates_per_million": {
+        "input": null,
+        "output": null,
+        "cacheRead": null,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "unavailable": true,
+      "rate_note": {
+        "en": "The recorded 0731 model is retired. Its former ID now routes to 1017; do not substitute that model’s price.",
+        "zh": "记录中的 0731 版本已退役，旧 ID 现路由至 1017；不冒用新版本价格。"
+      }
+    },
+    "mimo-v2.6-pro": {
+      "vendor": "Xiaomi",
+      "source_kind": "official",
+      "source": "Xiaomi",
+      "source_url": "https://platform.xiaomimimo.com/docs/en-US/price/pay-as-you-go",
+      "aliases": [
+        "xiaomi/mimo-v2.6-pro"
+      ],
+      "rates_per_million": {
+        "input": 0.435,
+        "output": 0.87,
+        "cacheRead": 0.0036,
+        "cacheWrite": 0,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Overseas real-time API rates.",
+        "zh": "海外实时 API 价格。"
+      }
+    },
+    "mimo-v2.6-flash": {
+      "vendor": "Xiaomi",
+      "source_kind": "official",
+      "source": "Xiaomi",
+      "source_url": "https://platform.xiaomimimo.com/docs/en-US/price/pay-as-you-go",
+      "aliases": [
+        "xiaomi/mimo-v2.6-flash"
+      ],
+      "rates_per_million": {
+        "input": 0.14,
+        "output": 0.28,
+        "cacheRead": 0.0028,
+        "cacheWrite": 0,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Overseas real-time API rates.",
+        "zh": "海外实时 API 价格。"
+      }
+    },
+    "mimo-v2.5-pro": {
+      "vendor": "Xiaomi",
+      "source_kind": "official",
+      "source": "Xiaomi",
+      "source_url": "https://platform.xiaomimimo.com/docs/en-US/price/pay-as-you-go",
+      "aliases": [
+        "xiaomi/mimo-v2.5-pro"
+      ],
+      "rates_per_million": {
+        "input": null,
+        "output": null,
+        "cacheRead": null,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "unavailable": true,
+      "rate_note": {
+        "en": "Retired October 21, 2026; no current first-party quote.",
+        "zh": "已于 2026-10-21 退役，没有当前官方报价。"
+      }
+    },
+    "mimo-v2.5": {
+      "vendor": "Xiaomi",
+      "source_kind": "official",
+      "source": "Xiaomi",
+      "source_url": "https://platform.xiaomimimo.com/docs/en-US/price/pay-as-you-go",
+      "aliases": [
+        "xiaomi/mimo-v2.5"
+      ],
+      "rates_per_million": {
+        "input": null,
+        "output": null,
+        "cacheRead": null,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "unavailable": true,
+      "rate_note": {
+        "en": "Retired October 21, 2026; no current first-party quote.",
+        "zh": "已于 2026-10-21 退役，没有当前官方报价。"
+      }
+    },
+    "hy3": {
+      "vendor": "Tencent",
+      "source_kind": "official",
+      "source": "Tencent",
+      "source_url": "https://www.tencentcloud.com/document/product/1300/78937",
+      "aliases": [
+        "tencent/hy3"
+      ],
+      "rates_per_million": {
+        "input": 0.132,
+        "output": 0.528,
+        "cacheRead": 0.033,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Singapore API rates in USD.",
+        "zh": "新加坡 API 美元价格。"
+      }
+    },
+    "hy4-preview": {
+      "vendor": "Tencent",
+      "source_kind": "official",
+      "source": "Tencent",
+      "source_url": "https://www.tencentcloud.com/document/product/1300/78937",
+      "aliases": [
+        "tencent/hy4-preview"
+      ],
+      "rates_per_million": {
+        "input": 0.834,
+        "output": 2.501,
+        "cacheRead": 0.042,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Singapore API rates in USD.",
+        "zh": "新加坡 API 美元价格。"
+      }
+    },
+    "qwen3.8-max-0902": {
+      "vendor": "Alibaba",
+      "source_kind": "official",
+      "source": "Alibaba",
+      "source_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+      "aliases": [
+        "qwen/qwen3.8-max-0902"
+      ],
+      "rates_per_million": {
+        "input": 2,
+        "output": 6,
+        "cacheRead": null,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Singapore international rates. Cached usage remains unresolved: Max requires console pricing; 27B needs the explicit/implicit cache type.",
+        "zh": "新加坡国际价格；缓存命中价格尚无法确认：Max 需控制台报价，27B 需明确显式或隐式缓存类型。"
+      }
+    },
+    "qwen3.8-27b": {
+      "vendor": "Alibaba",
+      "source_kind": "official",
+      "source": "Alibaba",
+      "source_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+      "aliases": [
+        "qwen/qwen3.8-27b"
+      ],
+      "rates_per_million": {
+        "input": 0.5,
+        "output": 3,
+        "cacheRead": null,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Singapore international rates. Cached usage remains unresolved: Max requires console pricing; 27B needs the explicit/implicit cache type.",
+        "zh": "新加坡国际价格；缓存命中价格尚无法确认：Max 需控制台报价，27B 需明确显式或隐式缓存类型。"
+      }
+    },
+    "muse-spark-1.3": {
+      "vendor": "Meta",
+      "source_kind": "official",
+      "source": "Meta",
+      "source_url": "https://dev.meta.ai/docs/pricing-rate-limits",
+      "aliases": [
+        "meta/muse-spark-1.3"
+      ],
+      "rates_per_million": {
+        "input": 1.25,
+        "output": 4.25,
+        "cacheRead": 0.15,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Standard mode, not Contributor mode.",
+        "zh": "标准模式，不使用 Contributor 折扣。"
+      }
+    },
+    "kimi-k3": {
+      "vendor": "Moonshot AI",
+      "source_kind": "official",
+      "source": "Moonshot AI",
+      "source_url": "https://platform.kimi.ai/",
+      "aliases": [
+        "moonshotai/kimi-k3"
+      ],
+      "rates_per_million": {
+        "input": 3,
+        "output": 15,
+        "cacheRead": 0.3,
+        "cacheWrite": 3,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300
+    },
+    "minimax-m3": {
+      "vendor": "MiniMax",
+      "source_kind": "official",
+      "source": "MiniMax",
+      "source_url": "https://platform.minimax.io/subscribe/token-plan?tab=api-enterprise",
+      "aliases": [
+        "minimax/minimax-m3"
+      ],
+      "rates_per_million": {
+        "input": 0.3,
+        "output": 1.2,
+        "cacheRead": 0.06,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "input_threshold": 512000,
+      "rate_note": {
+        "en": "Standard API rates, prompts ≤512K; the permanent price reduction is already included.",
+        "zh": "标准 API 价格，单次输入不超过 512K；已采用永久降价后的公示单价。"
+      }
     }
-  ],
+  },
   "runs": {
-    "gemini-3.8-flash-low": {
-      "source": "models.dev",
-      "source_url": "https://models.dev/api.json",
-      "model_id": "google/gemini-3.8-flash",
-      "requested_model": "gemini-3.8-flash-high",
-      "rates_per_million": {
-        "input": 0.75,
-        "output": 3.75,
-        "cacheRead": 0.075,
-        "cacheWrite": null,
-        "reasoning": null
+    "claude-haiku-5-5-high": {
+      "source": {
+        "session_sha256": "8667159bcd9fba7550cd6a027bd8d347be08b3c33d4848405ac84319a35e1e8c"
       },
-      "input_threshold": null,
-      "complex_pricing": false,
-      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+      "cache_write_ttl_seconds": 300
     },
-    "gemini-3.8-flash-medium": {
-      "source": "models.dev",
-      "source_url": "https://models.dev/api.json",
-      "model_id": "google/gemini-3.8-flash",
-      "requested_model": "gemini-3.8-flash-high",
-      "rates_per_million": {
-        "input": 0.75,
-        "output": 3.75,
-        "cacheRead": 0.075,
-        "cacheWrite": null,
-        "reasoning": null
+    "claude-haiku-5-5-low": {
+      "source": {
+        "session_sha256": "910e0bc962b1c964d8f43f72be0107c3c06d062cc633f671ba8064dcfd2ff965"
       },
-      "input_threshold": null,
-      "complex_pricing": false,
-      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+      "cache_write_ttl_seconds": 300
     },
-    "gemini-3.8-flash-high": {
-      "source": "models.dev",
-      "source_url": "https://models.dev/api.json",
-      "model_id": "google/gemini-3.8-flash",
-      "requested_model": "gemini-3.8-flash-high",
-      "rates_per_million": {
-        "input": 0.75,
-        "output": 3.75,
-        "cacheRead": 0.075,
-        "cacheWrite": null,
-        "reasoning": null
+    "claude-haiku-5-5-max": {
+      "source": {
+        "session_sha256": "931f3095a1d5e879b9c52e645881c29d7fafc7f5d541a2d3383b560e71241be9"
       },
-      "input_threshold": null,
-      "complex_pricing": false,
-      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+      "cache_write_ttl_seconds": 300,
+      "tokens": {
+        "input": 4,
+        "output": 64000,
+        "cacheRead": 0,
+        "cacheWrite": 2414,
+        "reasoning": 64000,
+        "totalTokens": 66418
+      }
     },
-    "gpt-6.1-sol-max": {
-      "source": "models.dev",
-      "source_url": "https://models.dev/api.json",
-      "model_id": "openai/gpt-6.1-sol",
-      "requested_model": "gpt-6.1-sol",
-      "rates_per_million": {
-        "input": 2.0,
-        "output": 10.0,
-        "cacheRead": 0.1,
-        "cacheWrite": 2.5,
-        "reasoning": null
+    "claude-haiku-5-5-medium": {
+      "source": {
+        "session_sha256": "0d57c00788428822f76f0d5cfa035756663e6546765d9cac795e267cff5d4003"
       },
-      "input_threshold": 272000,
-      "complex_pricing": false,
-      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+      "cache_write_ttl_seconds": 300
     },
-    "gpt-6.1-sol-xhigh": {
-      "source": "models.dev",
-      "source_url": "https://models.dev/api.json",
-      "model_id": "openai/gpt-6.1-sol",
-      "requested_model": "gpt-6.1-sol",
-      "rates_per_million": {
-        "input": 2.0,
-        "output": 10.0,
-        "cacheRead": 0.1,
-        "cacheWrite": 2.5,
-        "reasoning": null
+    "claude-haiku-5-5-off": {
+      "source": {
+        "session_sha256": "ff90bc7dafd7f5e9189ad270a01a6816bb64413c2eb441b4a0a1f33a269b51fb"
       },
-      "input_threshold": 272000,
-      "complex_pricing": false,
-      "checked_at": "2026-10-02T16:18:06.925415+00:00"
+      "cache_write_ttl_seconds": 300
+    },
+    "claude-haiku-5-5-xhigh": {
+      "source": {
+        "session_sha256": "e21071c4cb1c5d231a4ffa8566b1f52c073af6a202bd35badfde61cfd0af0c24"
+      },
+      "cache_write_ttl_seconds": 300,
+      "tokens": {
+        "input": 4,
+        "output": 32000,
+        "cacheRead": 997,
+        "cacheWrite": 1094,
+        "reasoning": 32000,
+        "totalTokens": 34095
+      }
     }
   }
 }

@@ -48,7 +48,8 @@ async function smoke() {
     const card = cardFor(catalog.find(run => run.slug === slug).name);
     card.querySelector('[data-card-run="'+slug+'"]').click(); card.querySelector('.preview').click();
   };
-  const defaultRuns = catalog.filter(run => run.outcome !== 'no_artwork').filter((run, index, all) => all.findIndex(item => key(item) === key(run)) === index);
+  const groups = [...new Set(catalog.map(key))].map(model => catalog.filter(run => key(run) === model));
+  const defaultRuns = groups.map(group => group.find(run => run.outcome !== 'no_artwork') || group[0]);
   assert(document.querySelectorAll('.card').length === defaultRuns.length && defaultRuns.length < catalog.length, 'one card per model, not per run');
   assert([...document.querySelectorAll('.card')].every(card => card.querySelectorAll('.level-link').length === catalog.filter(run => key(run) === card.dataset.model).length), 'every recorded level remains reachable on its model card');
   const set = (selector, value, event = 'change') => {
@@ -58,6 +59,7 @@ async function smoke() {
   assert(!document.querySelector('.site-header a[href="#the-prompt"]') && document.querySelector('.github-link svg') && document.querySelector('.github-link').getAttribute('aria-label') === 'GitHub', 'header drops prompt shortcut and exposes an accessible GitHub logo');
   assert([...document.querySelectorAll('.language-control,.filter-selects > label')].every(label => getComputedStyle(label,'::after').right === '14px' && parseFloat(getComputedStyle(label.querySelector('select')).paddingRight) >= 34), 'select arrows have reserved space away from text and border');
   const flash = cardFor('MiMo V2.6 Flash'), flashPosition = [...document.querySelector('#gallery').children].indexOf(flash), pageUrl = location.href;
+  flash.scrollIntoView({block: 'center'});
   flash.querySelector('[data-card-run="mimo-v2.6-flash-off"]').click();
   await waitFor(() => flash.querySelector('iframe.loaded'), 'in-card off artwork');
   assert(!document.querySelector('dialog[open]') && location.href === pageUrl && flash.dataset.slug === 'mimo-v2.6-flash-off' && [...document.querySelector('#gallery').children].indexOf(flash) === flashPosition, 'level button switches artwork in place without opening details or changing URL');
@@ -75,8 +77,8 @@ async function smoke() {
   document.querySelector('#clear-selection').click();
   const sonnetCard = cardFor('Claude Sonnet 5.5');
   sonnetCard.querySelector('[data-card-run="claude-sonnet-5.5-max"]').click();
-  assert(!document.querySelector('dialog[open]') && !sonnetCard.querySelector('iframe') && sonnetCard.querySelector('.card-stats').hidden && sonnetCard.querySelector('[data-compare]').disabled && sonnetCard.querySelector('.preview').textContent.includes('No SVG delivered') && sonnetCard.querySelector('[aria-pressed="true"]').getAttribute('aria-label').includes('No SVG delivered'), 'failed level switches to an accessible no-artwork card without invented metrics');
-  set('#language','zh');assert(sonnetCard.dataset.slug === 'claude-sonnet-5.5-max' && sonnetCard.querySelector('.preview').textContent.includes('未交付 SVG'), 'selected failed card translates without resetting level');set('#language','en');
+  assert(!document.querySelector('dialog[open]') && !sonnetCard.querySelector('iframe') && sonnetCard.querySelector('.card-stats').hidden && sonnetCard.querySelector('[data-compare]').disabled && sonnetCard.querySelector('.preview').textContent.includes('Output truncated') && !/No SVG|truncated|failure/i.test(sonnetCard.querySelector('.model-levels').textContent + sonnetCard.querySelector('[aria-pressed="true"]').getAttribute('aria-label')), 'failed preview explains the result while level buttons stay neutral, without invented artwork or metrics');
+  set('#language','zh');assert(sonnetCard.dataset.slug === 'claude-sonnet-5.5-max' && sonnetCard.querySelector('.preview').textContent.includes('输出被截断'), 'failure preview translates without resetting level');set('#language','en');
   sonnetCard.querySelector('[data-card-run="claude-sonnet-5.5-low"]').click();
   assert(sonnetCard.querySelector('iframe') && !sonnetCard.querySelector('.card-stats').hidden && !sonnetCard.querySelector('[data-compare]').disabled, 'card can return from failed level to delivered artwork');
   set('#reasoning','low'); flash.querySelector('[data-card-run="mimo-v2.6-flash-off"]').click();
@@ -85,9 +87,40 @@ async function smoke() {
   assert(flash.dataset.slug === defaultRuns.find(run => run.name === 'MiMo V2.6 Flash').slug, 'clear filters restores default card levels');
   assert(performance.getEntriesByType('resource').some(resource => resource.name.endsWith('/assets/fuse/fuse.min.mjs')), 'local Fuse module loaded');
   const failures = catalog.filter(run => run.outcome === 'no_artwork');
-  assert(failures.length === 2 && document.querySelectorAll('.failure-card').length === 0, 'failed levels do not duplicate model cards or replace default artwork');
-  assert(failures.every(run => document.querySelector(`[data-card-run="${run.slug}"] .level-status`).textContent === 'No SVG delivered'), 'failed levels are explicit and reachable, not unsupported');
-  assert(document.querySelector('#summary-count').textContent === `${defaultRuns.length} models · ${catalog.length} runs · ${failures.length} without SVG`, 'summary distinguishes models, records and failures');
+  assert(document.querySelectorAll('.failure-card').length === defaultRuns.filter(run => run.outcome === 'no_artwork').length, 'failed levels do not duplicate model cards or replace default artwork');
+  assert(failures.every(run => document.querySelector(`[data-card-run="${run.slug}"]`)) && !document.querySelector('.card .level-status'), 'all result levels remain reachable without failure badges in the list');
+  assert(document.querySelector('#summary-count').textContent === `${defaultRuns.length} models · ${catalog.length} runs`, 'list summary shows models and records only');
+  assert([...document.querySelectorAll('.card [data-price-label]')].every(label => label.textContent === 'Cost estimate · USD'), 'one cost label for every model, including unavailable estimates');
+  assert(catalog.every(run => ['official', 'unknown'].includes(run.price.basis)), 'all prices use the official snapshot without recorded or aggregator fallbacks');
+  for (const run of catalog.filter(run => run.source?.kind === 'local')) {
+    showRun(run.slug);
+    if (run.outcome !== 'no_artwork') await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `local artwork loads: ${run.slug}`);
+    const links = [...document.querySelectorAll('#detail-info .source-links a')];
+    assert([run.source.share_url, run.source.snapshot_url].every(url => links.some(link => link.href === new URL(url, location.href).href)) && links.every(link => link.origin === location.origin), `local evidence links stay local: ${run.slug}`);
+    const snapshot = await (await fetch(run.source.snapshot_url)).json();
+    assert(snapshot.header.id === run.source.session_id, `local snapshot matches session: ${run.slug}`);
+    if (run.price?.basis === 'official') {
+      const info = document.querySelector('#detail-info');
+      assert(info.textContent.includes('Cost estimate · USD') && info.textContent.includes('≈$') && [...info.querySelectorAll('.price-notes a')].some(a => a.href === run.price.source_url), `official estimate and vendor source: ${run.slug}`);
+      assert(info.textContent.includes(run.price.rate_note.en), `official rate conditions: ${run.slug}`);
+      if (run.price.cache_write_ttl_seconds === 300) assert(info.textContent.includes('Cache write (5 min)'), 'resolved five-minute cache price');
+      set('#language', 'zh');
+      assert(info.textContent.includes('价格估算 · USD') && !info.textContent.includes('官方价格估算') && info.textContent.includes(run.price.rate_note.zh), `Chinese official estimate: ${run.slug}`);
+      set('#language', 'en');
+    }
+    if (run.response_model_ids) assert(document.querySelector('#detail-info').textContent.includes(run.response_model_ids.join(', ')), 'legacy response alias is distinct from the requested model ID');
+    if (run.outcome === 'no_artwork') assert(!document.querySelector('#detail-preview iframe,#detail-info [download],#detail-info .metric-highlights'), `local failure has no invented artwork or metrics: ${run.slug}`);
+    document.querySelector('#detail-dialog [data-close]').click();
+    await waitFor(() => !document.querySelector('#detail-dialog').open, `local record closes: ${run.slug}`);
+  }
+  const unpriced = catalog.find(run => run.price.amount_usd == null && run.metrics?.cost_usd > 0);
+  if (unpriced) {
+    showRun(unpriced.slug);
+    const label = [...document.querySelectorAll('#detail-info .metric-highlights dt')].find(node => node.textContent === 'Cost estimate · USD');
+    assert(label.nextElementSibling.textContent === 'Estimate unavailable', 'missing official quote does not fall back to a positive Pi estimate');
+    document.querySelector('#detail-dialog [data-close]').click();
+    await waitFor(() => !document.querySelector('#detail-dialog').open, 'unpriced detail closes');
+  }
   const select = slug => {
     set('#reasoning', catalog.find(run => run.slug === slug).reasoning[0]);
     const checkbox = document.querySelector(`[data-compare="${slug}"]`);
@@ -100,9 +133,10 @@ async function smoke() {
   document.querySelector('[data-vendor="Anthropic"]').click();
   assert(visible().length === defaultRuns.filter(run => run.vendor === 'Anthropic').length, 'Anthropic groups all levels including failed tests');
   set('#reasoning', 'max');
-  assert(visible().length === catalog.filter(run => run.vendor === 'Anthropic' && run.reasoning.includes('max')).length && visible().filter(card => card.classList.contains('failure-card')).length === failures.length, 'Anthropic max filter keeps successes and failures');
-  assert(failures.every(run => { const card=document.querySelector('[data-slug="'+run.slug+'"]'); return !card.querySelector('iframe') && card.querySelector('.card-stats').hidden && card.querySelector('[data-compare]').disabled; }), 'filtered failures have no artwork, invented metrics or active comparison');
-  set('#language', 'zh'); assert(visible().filter(card => card.classList.contains('failure-card')).every(card => card.querySelector('.preview').textContent.includes('未交付 SVG')), 'filtered failure states translate'); set('#language', 'en');
+  const maxFailures = failures.filter(run => run.vendor === 'Anthropic' && run.reasoning.includes('max'));
+  assert(visible().length === catalog.filter(run => run.vendor === 'Anthropic' && run.reasoning.includes('max')).length && visible().filter(card => card.classList.contains('failure-card')).length === maxFailures.length, 'Anthropic max filter keeps successes and failures');
+  assert(maxFailures.every(run => { const card=document.querySelector('[data-slug="'+run.slug+'"]'); return !card.querySelector('iframe') && card.querySelector('.card-stats').hidden && card.querySelector('[data-compare]').disabled; }), 'filtered failures have no artwork, invented metrics or active comparison');
+  set('#language', 'zh'); assert(visible().filter(card => card.classList.contains('failure-card')).every(card => card.querySelector('.preview').textContent.includes('未交付 SVG')), 'filtered failure previews translate'); set('#language', 'en');
   set('#search', 'claude opus', 'input');
   assert(visible().length === 1 && visible()[0].dataset.slug === 'claude-opus-5.5-max', 'failed model remains searchable');
   document.querySelector('#clear-filters').click();
@@ -139,7 +173,7 @@ async function smoke() {
   assert(document.querySelector('#sort').value === 'relevance', 'search defaults to relevance');
   set('#sort', 'cost');
   set('#search', 'gptt6', 'input');
-  const prices = visible().map(card => { const run = catalog.find(run => run.slug === card.dataset.slug); return run.price?.amount_usd ?? run.metrics?.cost_usd; }).filter(value => value != null);
+  const prices = visible().map(card => { const run = catalog.find(run => run.slug === card.dataset.slug); return run.price?.amount_usd; }).filter(value => value != null);
   assert(document.querySelector('#sort').value === 'cost' && prices.every((value, index) => !index || value >= prices[index - 1]), 'explicit cost sort survives fuzzy input');
   set('#sort', 'newest');
   set('#search', 'g pt6', 'input');
@@ -172,9 +206,9 @@ async function smoke() {
   document.querySelector('#clear-filters').click();
   assert(visible().length === defaultRuns.length && !new URLSearchParams(location.search).has('reasoning'), 'clear filters restores all models');
   set('#sort', 'cost');
-  const missing = defaultRuns.filter(run => (run.price?.amount_usd ?? run.metrics?.cost_usd) == null).map(run => run.slug);
+  const missing = defaultRuns.filter(run => run.price?.amount_usd == null).map(run => run.slug);
   assert(!missing.length || visible().slice(-missing.length).every(card => missing.includes(card.dataset.slug)), 'unknown prices sorted last');
-  const amounts = visible().map(card => { const run = catalog.find(run => run.slug === card.dataset.slug); return run.price?.amount_usd ?? run.metrics?.cost_usd; }).filter(value => value != null);
+  const amounts = visible().map(card => { const run = catalog.find(run => run.slug === card.dataset.slug); return run.price?.amount_usd; }).filter(value => value != null);
   assert(amounts.every((value, index) => index === 0 || value >= amounts[index - 1]), 'cost sort includes supplemented estimates');
   set('#sort', 'newest');
   await waitFor(() => document.querySelector('.card iframe.loaded')?.contentDocument?.documentElement.localName === 'svg', 'artwork survives rapid filtering/sorting');
@@ -204,7 +238,7 @@ async function smoke() {
   await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), 'detail artwork');
   assert(document.querySelector('#detail-dialog').open && location.search.includes('run=gpt-6.1-sol-max'), 'detail + deep link');
   assert(catalog.every(run => !Object.hasOwn(run, 'providers')) && !/CPA|cliproxyapi|opencode-go/.test(JSON.stringify(catalog)), 'private invocation channels omitted');
-  assert(document.querySelector('#detail-info').textContent.includes('Public estimate') && document.querySelector('#detail-info').textContent.includes('≈$'), 'missing recorded cost uses marked public estimate');
+  assert(document.querySelector('#detail-info').textContent.includes('Cost estimate · USD') && document.querySelector('#detail-info').textContent.includes('≈$') && !document.querySelector('.price-notes').open, 'unified estimate with pricing details collapsed by default');
   const targetIndex = catalog.findIndex(run => run.slug === 'gpt-6.1-sol-max');
   assert(document.querySelector('#detail-info').textContent.includes(new Intl.NumberFormat('en-US').format(catalog[targetIndex].metrics.average_tps)), 'TPS displayed');
   assert(document.activeElement.getAttribute('aria-label') === 'Close performance', 'dialog focus');
@@ -213,7 +247,7 @@ async function smoke() {
   assert(!document.querySelector('[data-motion],[data-restart],.preview-controls'), 'no playback, pause or restart controls');
   const detailFrame = document.querySelector('#detail-preview iframe');
   set('#language', 'zh');
-  assert(document.documentElement.lang === 'zh-CN' && document.querySelector('#detail-info').textContent.includes('公开价格估算'), 'Chinese details and price labels');
+  assert(document.documentElement.lang === 'zh-CN' && document.querySelector('#detail-info').textContent.includes('价格估算 · USD') && !/Pi 记录估算|公开价格估算|官方价格估算/.test(document.querySelector('#detail-info').textContent), 'Chinese unified cost labels');
   assert(document.querySelector('#detail-preview iframe') === detailFrame && document.querySelector('#detail-dialog').open, 'language switch preserves detail artwork');
   set('#language', 'en');
   document.querySelector('#next-run').click();
@@ -267,7 +301,7 @@ async function smoke() {
   const dialog = document.querySelector('#detail-dialog'), historyLength = history.length;
   assert(dialog.open && new URLSearchParams(location.search).get('run') === 'claude-sonnet-5.5-max' && !document.querySelector('#detail-preview iframe,#detail-info [download],#detail-info .metric-highlights'), 'old failed-run link stays in model details without fake artwork or metrics');
   assert(document.querySelector('#detail-info').textContent.includes('64,000') && !document.querySelector('#detail-info').textContent.includes('128,000'), 'inline failure keeps model-specific evidence');
-  assert(document.querySelector('#detail-levels [aria-pressed="true"]').dataset.levelRun === 'claude-sonnet-5.5-max' && document.querySelector('#detail-levels [aria-pressed="true"]').getAttribute('aria-label').includes('No SVG delivered'), 'failed level remains selected, navigable and labeled for screen readers');
+  assert(document.querySelector('#detail-levels [aria-pressed="true"]').dataset.levelRun === 'claude-sonnet-5.5-max' && !document.querySelector('#detail-levels [aria-pressed="true"]').getAttribute('aria-label').includes('No SVG delivered') && !/No SVG delivered/.test(document.querySelector('#detail-levels').textContent + document.querySelector('#level-summary').textContent), 'failed level remains selected and navigable without failure labels in either level selector');
   document.querySelector('#previous-run').click(); await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), 'failure to delivered sibling');
   assert(document.querySelector('#detail-dialog') === dialog && new URLSearchParams(location.search).get('run') === 'claude-sonnet-5.5-xhigh', 'failure switches back to artwork without leaving the model');
   document.querySelector('#next-run').click();
@@ -279,7 +313,7 @@ async function smoke() {
   assert(dialog.open && document.querySelector('#level-overview').open && document.querySelectorAll('#level-summary tbody tr').length === 5, 'multi-level model opens an in-model picker with all records');
   assert(document.querySelectorAll('.tray-item').length === 2 && document.querySelector('#compare-level-selection').disabled, 'entering local picker preserves cross-model selection until comparison is committed');
   const failedChoice = document.querySelector('[data-level-compare="claude-sonnet-5.5-max"]');
-  assert(failedChoice.disabled && [...failedChoice.closest('tr').querySelectorAll('td')].slice(1).every(cell => cell.textContent === '—'), 'failed level is visible but cannot fabricate comparison values');
+  assert(failedChoice.disabled && [...failedChoice.closest('tr').querySelectorAll('td')].slice(1).map(cell => cell.textContent).join('|') === '—|—|Estimate unavailable|—', 'failed level has no fabricated metrics and does not infer a cost from output alone');
   failedChoice.checked = true; failedChoice.dispatchEvent(new Event('change', {bubbles:true}));
   assert(!failedChoice.checked && document.querySelector('#compare-level-selection').disabled, 'failure cannot enter local comparison selection');
   for (const level of ['low','medium','high','xhigh']) {
@@ -354,7 +388,27 @@ try {
   await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'en-US,en'});
   await send('Emulation.setDeviceMetricsOverride', {width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false});
   await send('Emulation.setEmulatedMedia', {features: [{name: 'prefers-reduced-motion', value: 'no-preference'}]});
-  await reload();
+  for (const scheme of ['light', 'dark']) {
+    await send('Emulation.setEmulatedMedia', {features: [{name: 'prefers-color-scheme', value: scheme}]});
+    const failureUrl = new URL(process.argv[2] || 'http://localhost:8765');
+    failureUrl.searchParams.set('run', 'claude-haiku-5-5-high');
+    await reload(failureUrl.href);
+    await evaluate(`(async()=>{const start=performance.now();while(!document.querySelector('#detail-preview iframe.loaded')){if(performance.now()-start>5000)throw Error('Haiku artwork did not load');await new Promise(r=>setTimeout(r,20))}document.querySelector('#detail-levels [data-level-run="claude-haiku-5-5-xhigh"]').click()})()`);
+    const contrast = await evaluate(`(()=>{const linear=v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4},lum=c=>c.match(/[\\d.]+/g).slice(0,3).map(Number).map(linear).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0),stage=document.querySelector('#detail-preview'),bg=lum(getComputedStyle(stage).backgroundColor);return Math.min(...[...stage.querySelectorAll('.failure-title,.failure-status')].map(n=>{const fg=lum(getComputedStyle(n).color);return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)}))})()`);
+    if (process.env.UI_SCREENSHOT_DIR) await writeFile(join(process.env.UI_SCREENSHOT_DIR, `placeholder-${scheme}.png`), Buffer.from((await send('Page.captureScreenshot', {format:'png'})).data, 'base64'));
+    if (contrast < 4.5) throw Error(`${scheme} failure placeholder contrast is ${contrast.toFixed(2)}, expected ≥4.5`);
+    await evaluate(`document.querySelector('[data-card-run="claude-sonnet-5.5-max"]').click()`);
+    const placeholder = await evaluate(`(()=>{const stage=document.querySelector('[data-slug="claude-sonnet-5.5-max"] .preview');return {colors:[...stage.querySelectorAll('.failure-title,.failure-status')].map(n=>getComputedStyle(n).color),background:getComputedStyle(stage).backgroundColor,text:stage.textContent}})()`);
+    const luminance = color => color.match(/[\d.]+/g).slice(0,3).map(Number).map(v => {v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+    const bg = luminance(placeholder.background);
+    if (!placeholder.colors.length || placeholder.colors.some(color => {const fg=luminance(color);return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)<4.5}) || !placeholder.text.includes('Output truncated')) throw Error(`${scheme} list placeholder is unreadable or hides the failure reason`);
+    const point = await evaluate(`(async()=>{document.querySelector('#detail-dialog [data-close]').click();const start=performance.now();while(document.querySelector('#detail-dialog').open){if(performance.now()-start>5000)throw Error('Result did not close');await new Promise(r=>setTimeout(r,20))}const stage=document.querySelector('[data-slug="claude-sonnet-5.5-max"] .preview');stage.scrollIntoView({block:'center',behavior:'instant'});await new Promise(r=>requestAnimationFrame(r));const r=stage.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+    await send('Input.dispatchMouseEvent', {type:'mousePressed',button:'left',clickCount:1,...point});
+    await send('Input.dispatchMouseEvent', {type:'mouseReleased',button:'left',clickCount:1,...point});
+    if (!await evaluate(`document.querySelector('#detail-dialog').open && new URLSearchParams(location.search).get('run')==='claude-sonnet-5.5-max'`)) throw Error(`${scheme} pointer click did not open the failed result`);
+  }
+  await send('Emulation.setEmulatedMedia', {features: [{name:'prefers-color-scheme',value:'light'}, {name:'prefers-reduced-motion',value:'no-preference'}]});
+  await reload(process.argv[2] || 'http://localhost:8765');
   await evaluate(`document.querySelector('#reasoning').value='xhigh';document.querySelector('#reasoning').dispatchEvent(new Event('change',{bubbles:true}))`);
   const stillRect = await evaluate(`(async()=>{const frame=document.querySelector('[data-slug="gpt-6.1-sol-xhigh"] iframe');frame.scrollIntoView({block:'center',behavior:'instant'});const start=performance.now();while(!frame.classList.contains('loaded')){if(performance.now()-start>5000)throw Error('xhigh artwork not ready');await new Promise(r=>setTimeout(r,30))}await frame.contentDocument.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const r=frame.getBoundingClientRect();return {x:r.x+scrollX,y:r.y+scrollY+r.height*.75,width:r.width,height:r.height*.25,scale:1}})()`);
   const stillBefore = await send('Page.captureScreenshot', {format:'png',clip:stillRect});
@@ -379,6 +433,7 @@ try {
   await send('Input.dispatchMouseEvent', {type: 'mouseMoved', x: 0, y: 0});
   if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,50));return document.querySelector('.card iframe.loaded').contentDocument.documentElement.animationsPaused()})()`)) throw new Error('Mouse leave did not pause artwork');
   const checks = await evaluate(`(${smoke.toString()})()`);
+  checks.push('light and dark truncated-placeholder text contrast', 'light and dark list failure placeholder contrast', 'real pointer opens failure details in both themes');
   await evaluate(`document.querySelector('#language').value='auto';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
   await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'zh-CN,zh,en'});
   // A forced iframe navigation in the failure fixture creates child history entries.

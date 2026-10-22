@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+
+  <!-- Sky -->
+  <rect width="800" height="500" fill="#cfe8ff"/>
+  <circle cx="90" cy="80" r="110" fill="#fff3c4" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="450" width="800" height="50" fill="#9bcf7a"/>
+  <line x1="0" y1="450" x2="800" y2="450" stroke="#6aa84f" stroke-width="4"/>
+  <!-- Scrolling road markings (suggest forward motion) -->
+  <line x1="-40" y1="475" x2="840" y2="475" stroke="#7fb861" stroke-width="6"
+        stroke-dasharray="40 40">
+    <animate attributeName="stroke-dashoffset" from="0" to="-80" dur="1s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Unicycle (wheel + frame) -->
+  <g id="unicycle">
+    <!-- Frame post and seat -->
+    <line x1="400" y1="380" x2="396" y2="268" stroke="#555" stroke-width="8" stroke-linecap="round"/>
+    <rect x="368" y="258" width="44" height="12" rx="6" fill="#333"/>
+
+    <!-- Wheel -->
+    <circle cx="400" cy="380" r="70" fill="none" stroke="#222" stroke-width="8"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 400 380" to="360 400 380"
+                        dur="5.5s" repeatCount="indefinite"/>
+      <g stroke="#777" stroke-width="3">
+        <line x1="400" y1="380" x2="400" y2="310"/>
+        <line x1="400" y1="380" x2="450" y2="330"/>
+        <line x1="400" y1="380" x2="470" y2="380"/>
+        <line x1="400" y1="380" x2="450" y2="430"/>
+        <line x1="400" y1="380" x2="400" y2="450"/>
+        <line x1="400" y1="380" x2="350" y2="430"/>
+        <line x1="400" y1="380" x2="330" y2="380"/>
+        <line x1="400" y1="380" x2="350" y2="330"/>
+      </g>
+      <!-- Pedal crank -->
+      <line x1="400" y1="370" x2="400" y2="390" stroke="#444" stroke-width="5"/>
+      <rect x="385" y="368" width="30" height="5" rx="2" fill="#444"/>
+      <rect x="385" y="387" width="30" height="5" rx="2" fill="#444"/>
+    </g>
+    <circle cx="400" cy="380" r="9" fill="#444"/>
+  </g>
+
+  <!-- Rider (bobs gently) -->
+  <g id="rider">
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -3; 0 0"
+                      dur="0.55s" repeatCount="indefinite"/>
+
+    <!-- Tail -->
+    <path d="M325,215 Q275,245 240,205 Q228,182 255,172" fill="none" stroke="#8c6a40"
+          stroke-width="14" stroke-linecap="round"/>
+
+    <!-- Hind legs -->
+    <path d="M375,240 Q360,300 392,322" fill="none" stroke="#8c6a40" stroke-width="13" stroke-linecap="round"/>
+    <path d="M405,240 Q410,300 420,330" fill="none" stroke="#8c6a40" stroke-width="13" stroke-linecap="round"/>
+    <ellipse cx="398" cy="330" rx="14" ry="8" fill="#5e4528"/>
+    <ellipse cx="428" cy="338" rx="14" ry="8" fill="#5e4528"/>
+
+    <!-- Body -->
+    <ellipse cx="390" cy="215" rx="70" ry="42" fill="#b08a5a"/>
+    <!-- Belly -->
+    <ellipse cx="385" cy="232" rx="50" ry="18" fill="#d6b68a"/>
+
+    <!-- Head and long snout -->
+    <ellipse cx="465" cy="170" rx="40" ry="32" fill="#b08a5a"/>
+    <path d="M490,158 Q560,150 615,180 Q565,194 490,190 Z" fill="#a07d4f"/>
+    <ellipse cx="612" cy="180" rx="5" ry="4" fill="#333"/>
+    <!-- Ear -->
+    <path d="M450,142 Q455,118 472,130 Z" fill="#8c6a40"/>
+    <!-- Eye -->
+    <circle cx="477" cy="160" r="5" fill="#222"/>
+    <circle cx="478" cy="158" r="1.5" fill="#fff"/>
+
+    <!-- Arms raised for juggling -->
+    <path d="M420,205 Q395,165 365,128" fill="none" stroke="#8c6a40" stroke-width="12" stroke-linecap="round"/>
+    <path d="M445,212 Q440,170 436,128" fill="none" stroke="#8c6a40" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="365" cy="126" r="8" fill="#5e4528"/>
+    <circle cx="436" cy="126" r="8" fill="#5e4528"/>
+  </g>
+
+  <!-- Juggled bottles: each follows the same figure-of-two-arcs path, offset in time -->
+  <defs>
+    <g id="bottle">
+      <rect x="-6" y="-18" width="12" height="30" rx="5" fill="currentColor"/>
+      <rect x="-3" y="-26" width="6" height="9" rx="2" fill="currentColor"/>
+      <rect x="-6" y="-2" width="12" height="8" fill="#e8f5e9" opacity="0.8"/>
+    </g>
+  </defs>
+
+  <use href="#bottle" color="#2e8b57">
+    <animateMotion path="M365,126 Q400,-14 436,126 Q400,-14 365,126 Z" dur="1.8s" begin="0s" repeatCount="indefinite"/>
+  </use>
+  <use href="#bottle" color="#c0392b">
+    <animateMotion path="M365,126 Q400,-14 436,126 Q400,-14 365,126 Z" dur="1.8s" begin="-0.6s" repeatCount="indefinite"/>
+  </use>
+  <use href="#bottle" color="#2471a3">
+    <animateMotion path="M365,126 Q400,-14 436,126 Q400,-14 365,126 Z" dur="1.8s" begin="-1.2s" repeatCount="indefinite"/>
+  </use>
+</svg>

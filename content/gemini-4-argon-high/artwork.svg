@@ -1,0 +1,769 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Sky & Spotlight Gradients -->
+    <radialGradient id="skyGrad" cx="50%" cy="42%" r="65%" fx="50%" fy="35%">
+      <stop offset="0%" stop-color="#432357"/>
+      <stop offset="45%" stop-color="#26143d"/>
+      <stop offset="100%" stop-color="#0f081d"/>
+    </radialGradient>
+
+    <linearGradient id="spotlightGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffe89e" stop-opacity="0.28"/>
+      <stop offset="65%" stop-color="#ffbe55" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#ffbe55" stop-opacity="0"/>
+    </linearGradient>
+
+    <radialGradient id="stageGrad" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#5c3547"/>
+      <stop offset="55%" stop-color="#381d31"/>
+      <stop offset="100%" stop-color="#190c1c"/>
+    </radialGradient>
+
+    <radialGradient id="stageGlow" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#ffcf70" stop-opacity="0.32"/>
+      <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#07030d" stop-opacity="0.85"/>
+      <stop offset="65%" stop-color="#07030d" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#07030d" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Anteater Fur Gradients -->
+    <linearGradient id="furBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8c7365"/>
+      <stop offset="50%" stop-color="#6e584c"/>
+      <stop offset="100%" stop-color="#4d3c34"/>
+    </linearGradient>
+
+    <linearGradient id="furSnoutGrad" x1="0%" y1="30%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#7c6558"/>
+      <stop offset="45%" stop-color="#634f44"/>
+      <stop offset="85%" stop-color="#3e3029"/>
+      <stop offset="100%" stop-color="#241a16"/>
+    </linearGradient>
+
+    <linearGradient id="tailBaseGrad" x1="100%" y1="30%" x2="0%" y2="70%">
+      <stop offset="0%" stop-color="#5a473e"/>
+      <stop offset="40%" stop-color="#786154"/>
+      <stop offset="80%" stop-color="#493931"/>
+      <stop offset="100%" stop-color="#332620"/>
+    </linearGradient>
+
+    <linearGradient id="tailHighlightGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9e8676"/>
+      <stop offset="55%" stop-color="#6e584b"/>
+      <stop offset="100%" stop-color="#3d2f28"/>
+    </linearGradient>
+
+    <linearGradient id="creamFurGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f7efe4"/>
+      <stop offset="65%" stop-color="#e3d3be"/>
+      <stop offset="100%" stop-color="#bfa88f"/>
+    </linearGradient>
+
+    <!-- Unicycle Gradients -->
+    <linearGradient id="chromeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="35%" stop-color="#f8fafc"/>
+      <stop offset="65%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <linearGradient id="goldRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde68a"/>
+      <stop offset="45%" stop-color="#f59e0b"/>
+      <stop offset="80%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+
+    <linearGradient id="saddleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="55%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+
+    <!-- Bottle Gradients -->
+    <linearGradient id="greenGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="45%" stop-color="#10b981"/>
+      <stop offset="85%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+
+    <linearGradient id="rubyGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="45%" stop-color="#e11d48"/>
+      <stop offset="85%" stop-color="#9f1239"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+
+    <linearGradient id="amberGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="45%" stop-color="#f59e0b"/>
+      <stop offset="85%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- Reusable Pedal Platform (always stays horizontal) -->
+    <g id="pedalPlatform">
+      <rect x="-15" y="-5" width="30" height="10" rx="3" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+      <rect x="-10" y="-2.5" width="20" height="5" rx="1.5" fill="#f59e0b"/>
+      <circle cx="0" cy="0" r="2.5" fill="#e2e8f0"/>
+    </g>
+
+    <!-- Reusable Bottle 1: Emerald Elixir -->
+    <g id="bottleEmerald">
+      <!-- Cork -->
+      <path d="M-4,-44 L4,-44 L3,-36 L-3,-36 Z" fill="#d97706" stroke="#78350f" stroke-width="1"/>
+      <!-- Neck & Lip -->
+      <rect x="-5.5" y="-37" width="11" height="4" rx="2" fill="#34d399" stroke="#064e3b" stroke-width="1.2"/>
+      <!-- Bottle Body -->
+      <path d="M-4.5,-33 L-4.5,-19 C-4.5,-12 -14,-8 -14,2 L-14,28 C-14,33 -10,36 -5,36 L5,36 C10,36 14,33 14,28 L14,2 C14,-8 4.5,-12 4.5,-19 L4.5,-33 Z"
+            fill="url(#greenGlass)" stroke="#064e3b" stroke-width="1.8"/>
+      <!-- Liquid Level Inside -->
+      <path d="M-11.5,6 Q0,9 11.5,6 L11.5,27 C11.5,31 8,33.5 4,33.5 L-4,33.5 C-8,33.5 -11.5,31 -11.5,27 Z"
+            fill="#6ee7b7" fill-opacity="0.38"/>
+      <!-- Vintage Label -->
+      <rect x="-11" y="1" width="22" height="19" rx="2.5" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+      <path d="M0,5 L1.8,9 L6,9.5 L2.8,12.2 L3.8,16.5 L0,14.2 L-3.8,16.5 L-2.8,12.2 L-6,9.5 L-1.8,9 Z" fill="#10b981"/>
+      <!-- Glass Specular Highlights -->
+      <path d="M-9.5,-2 C-9.5,5 -9.5,20 -9.5,27" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.65" fill="none"/>
+      <path d="M-2.2,-30 L-2.2,-20" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65" fill="none"/>
+      <circle cx="8" cy="26" r="2" fill="#ffffff" fill-opacity="0.35"/>
+    </g>
+
+    <!-- Reusable Bottle 2: Ruby Tonic -->
+    <g id="bottleRuby">
+      <!-- Gold Crown Cap -->
+      <rect x="-5.5" y="-41" width="11" height="5" rx="1.5" fill="#fbbf24" stroke="#92400e" stroke-width="1"/>
+      <!-- Bottle Body -->
+      <path d="M-4.5,-36 L-4.5,-21 C-4.5,-13 -15,-7 -15,3 C-15,11 -12,16 -12,21 C-12,26 -14.5,29 -14.5,32 C-14.5,35 -10,37 -5,37 L5,37 C10,37 14.5,35 14.5,32 C14.5,29 12,26 12,21 C12,16 15,11 15,3 C15,-7 4.5,-13 4.5,-21 L4.5,-36 Z"
+            fill="url(#rubyGlass)" stroke="#881337" stroke-width="1.8"/>
+      <!-- Liquid Glow -->
+      <path d="M-11,9 Q0,6 11,9 L10,31 C10,33 6,34.5 0,34.5 C-6,34.5 -10,33 -10,31 Z"
+            fill="#fda4af" fill-opacity="0.35"/>
+      <!-- Diamond Label -->
+      <polygon points="0,-3 11,8 0,19 -11,8" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.2"/>
+      <circle cx="0" cy="8" r="3.5" fill="#e11d48"/>
+      <!-- Glass Specular Highlights -->
+      <path d="M-10,-1 C-10,7 -8.5,16 -9.5,27" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.68" fill="none"/>
+      <path d="M-2.2,-33 L-2.2,-22" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65" fill="none"/>
+    </g>
+
+    <!-- Reusable Bottle 3: Amber Honey-Brew -->
+    <g id="bottleAmber">
+      <!-- Cork & Wax Seal -->
+      <path d="M-4,-43 L4,-43 L3,-35 L-3,-35 Z" fill="#fde68a" stroke="#92400e" stroke-width="1"/>
+      <rect x="-6" y="-36" width="12" height="4.5" rx="2" fill="#ef4444" stroke="#7f1d1d" stroke-width="1"/>
+      <!-- Bottle Body -->
+      <path d="M-5,-31.5 L-5,-20 C-5,-14 -14.5,-10 -14.5,-1 L-14.5,27 C-14.5,33 -10.5,36 -5,36 L5,36 C10.5,36 14.5,33 14.5,27 L14.5,-1 C14.5,-10 5,-14 5,-20 L5,-31.5 Z"
+            fill="url(#amberGlass)" stroke="#78350f" stroke-width="1.8"/>
+      <!-- Liquid Level -->
+      <path d="M-12,5 Q0,8 12,5 L12,26 C12,30 8.5,33 4,33 L-4,33 C-8.5,33 -12,30 -12,26 Z"
+            fill="#fde68a" fill-opacity="0.4"/>
+      <!-- Turquoise Band Label -->
+      <rect x="-11.5" y="0" width="23" height="17" rx="2" fill="#ecfeff" stroke="#0891b2" stroke-width="1.2"/>
+      <rect x="-8" y="3.5" width="16" height="10" rx="1" fill="#06b6d4"/>
+      <circle cx="0" cy="8.5" r="2.5" fill="#fef08a"/>
+      <!-- Glass Specular Highlights -->
+      <path d="M-10,-3 L-10,25" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.68" fill="none"/>
+      <path d="M-2.4,-29 L-2.4,-20" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.65" fill="none"/>
+    </g>
+
+    <!-- Sparkle Element -->
+    <g id="sparkle">
+      <path d="M0,-8 C1,-2 2,-1 8,0 C2,1 1,2 0,8 C-1,2 -2,1 -8,0 C-2,-1 -1,-2 0,-8 Z" fill="#fef08a"/>
+      <circle cx="0" cy="0" r="2" fill="#ffffff"/>
+    </g>
+  </defs>
+
+  <!-- ================= BACKGROUND & CIRCUS RING ================= -->
+  <rect width="800" height="800" fill="url(#skyGrad)"/>
+
+  <!-- Distant Twinkling Stars / String Lights -->
+  <g fill="#fef3c7">
+    <circle cx="95" cy="140" r="2" opacity="0.6">
+      <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.1s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="185" cy="95" r="2.5" opacity="0.5">
+      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="630" cy="105" r="2" opacity="0.7">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="715" cy="160" r="2.5" opacity="0.4">
+      <animate attributeName="opacity" values="0.9;0.25;0.9" dur="1.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="130" cy="260" r="1.8" opacity="0.4">
+      <animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="680" cy="275" r="1.8" opacity="0.5">
+      <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Spotlight Cone -->
+  <polygon points="290,0 510,0 740,730 60,730" fill="url(#spotlightGrad)"/>
+
+  <!-- Festive Circus Bunting (Top Left & Right) -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 400 0; 0.8 400 0; 0 400 0; -0.8 400 0; 0 400 0" dur="3.2s" repeatCount="indefinite"/>
+    <!-- Left Garland -->
+    <path d="M-10,25 Q130,95 295,10" fill="none" stroke="#fde68a" stroke-width="2" opacity="0.7"/>
+    <polygon points="25,41 55,50 32,78" fill="#f43f5e"/>
+    <polygon points="75,55 105,60 86,90" fill="#fbbf24"/>
+    <polygon points="125,61 155,61 140,92" fill="#10b981"/>
+    <polygon points="175,59 205,53 195,86" fill="#38bdf8"/>
+    <polygon points="225,48 253,36 248,70" fill="#a855f7"/>
+    <!-- Warm Bulb Lights along Left Garland -->
+    <circle cx="25" cy="41" r="4" fill="#fef08a"/>
+    <circle cx="75" cy="55" r="4" fill="#fef08a"/>
+    <circle cx="125" cy="61" r="4" fill="#fef08a"/>
+    <circle cx="175" cy="59" r="4" fill="#fef08a"/>
+    <circle cx="225" cy="48" r="4" fill="#fef08a"/>
+
+    <!-- Right Garland -->
+    <path d="M505,10 Q670,95 810,25" fill="none" stroke="#fde68a" stroke-width="2" opacity="0.7"/>
+    <polygon points="547,36 575,48 552,70" fill="#f43f5e"/>
+    <polygon points="595,53 625,59 605,86" fill="#fbbf24"/>
+    <polygon points="645,61 675,61 660,92" fill="#10b981"/>
+    <polygon points="695,60 725,55 714,90" fill="#38bdf8"/>
+    <polygon points="745,50 775,41 768,78" fill="#a855f7"/>
+    <!-- Warm Bulb Lights along Right Garland -->
+    <circle cx="575" cy="48" r="4" fill="#fef08a"/>
+    <circle cx="625" cy="59" r="4" fill="#fef08a"/>
+    <circle cx="675" cy="61" r="4" fill="#fef08a"/>
+    <circle cx="725" cy="55" r="4" fill="#fef08a"/>
+    <circle cx="775" cy="41" r="4" fill="#fef08a"/>
+  </g>
+
+  <!-- Circus Stage Floor -->
+  <ellipse cx="400" cy="715" rx="460" ry="115" fill="url(#stageGrad)" stroke="#7c3aed" stroke-opacity="0.25" stroke-width="3"/>
+  <ellipse cx="400" cy="712" rx="370" ry="78" fill="none" stroke="#f59e0b" stroke-opacity="0.22" stroke-width="2" stroke-dasharray="14 10"/>
+  <ellipse cx="400" cy="708" rx="320" ry="65" fill="url(#stageGlow)"/>
+
+  <!-- Animated Ground Speed / Balance Lines -->
+  <g stroke="#fde68a" stroke-linecap="round" opacity="0.35">
+    <line x1="250" y1="712" x2="295" y2="712" stroke-width="2.5">
+      <animate attributeName="x1" values="260;220;260" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="305;255;305" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.15;0.5;0.15" dur="1.6s" repeatCount="indefinite"/>
+    </line>
+    <line x1="505" y1="712" x2="550" y2="712" stroke-width="2.5">
+      <animate attributeName="x1" values="495;545;495" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="540;580;540" dur="1.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;0.15;0.5" dur="1.6s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Ground Shadow directly under Unicycle Tire -->
+  <ellipse cx="400" cy="706" rx="115" ry="18" fill="url(#shadowGrad)">
+    <animate attributeName="rx" values="112;124;112;124;112" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="cx" values="396;404;396" dur="1.6s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ================= MAIN PERFORMER GROUP (Centered at Wheel Axle 400, 615) ================= -->
+  <g transform="translate(400, 615)">
+    <!-- Subtle Dynamic Balance Sway of Unicycle + Rider -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        values="-1.8 0 88; 1.8 0 88; -1.8 0 88"
+        keyTimes="0; 0.5; 1" calcMode="spline"
+        keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
+        dur="1.6s" repeatCount="indefinite"/>
+
+      <!-- ================= JUGGLING MOTION ARCS (Subtle Background Guides) ================= -->
+      <g fill="none" stroke="#fef08a" stroke-width="1.8" stroke-dasharray="5 9" opacity="0.28">
+        <!-- Left-to-Right High Cascade Arc -->
+        <path d="M-65,-280 C-40,-535 65,-535 115,-255"/>
+        <!-- Right-to-Left High Cascade Arc -->
+        <path d="M80,-280 C55,-525 -45,-525 -95,-255"/>
+      </g>
+
+      <!-- ================= BACK ARM (LEFT ARM - Juggling on Left Side) ================= -->
+      <!-- Hand scoops from Left Outside (-95,-255) at t=0.44s to Left Inside (-65,-280) at t=0.80s (0.0s) -->
+      <g id="backArm">
+        <!-- Upper & Lower Arm Curve -->
+        <path fill="none" stroke="#524139" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"
+              d="M-18,-262 Q-62,-235 -65,-280">
+          <animate attributeName="d"
+            values="M-18,-262 Q-52,-238 -65,-280;
+                    M-18,-262 Q-72,-268 -82,-272;
+                    M-18,-262 Q-88,-242 -95,-255;
+                    M-18,-262 Q-75,-215 -80,-238;
+                    M-18,-262 Q-52,-238 -65,-280"
+            keyTimes="0; 0.25; 0.55; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+        </path>
+        <!-- Creamy Forearm Fur Highlight -->
+        <path fill="none" stroke="url(#creamFurGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"
+              d="M-34,-253 Q-60,-240 -65,-280">
+          <animate attributeName="d"
+            values="M-34,-253 Q-52,-238 -65,-280;
+                    M-34,-253 Q-72,-268 -82,-272;
+                    M-34,-253 Q-88,-242 -95,-255;
+                    M-34,-253 Q-75,-215 -80,-238;
+                    M-34,-253 Q-52,-238 -65,-280"
+            keyTimes="0; 0.25; 0.55; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+        </path>
+        <!-- Left Hand & Curved Anteater Claws -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="-65,-280; -82,-272; -95,-255; -80,-238; -65,-280"
+            keyTimes="0; 0.25; 0.55; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+          <!-- Dark Wrist Band -->
+          <ellipse cx="0" cy="4" rx="10" ry="7" fill="#271e1a"/>
+          <!-- Paw Pad -->
+          <circle cx="0" cy="0" r="8" fill="#d6c3ad" stroke="#4a3a32" stroke-width="1.5"/>
+          <!-- Long Curved Claws -->
+          <path d="M-6,-4 C-14,-14 -6,-22 2,-16" fill="none" stroke="#f8fafc" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M0,-6 C-6,-18 4,-24 9,-16" fill="none" stroke="#f8fafc" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M5,-3 C3,-13 11,-17 14,-10" fill="none" stroke="#e2e8f0" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- ================= BACK LEG (LEFT LEG) & BACK PEDAL ================= -->
+      <!-- Phase shifted by 180 deg (k=6..12..6) from Front Leg -->
+      <g id="backPedalSystem">
+        <!-- Back Crank Arm -->
+        <line x1="0" y1="0" x2="-32" y2="0" stroke="#64748b" stroke-width="7" stroke-linecap="round">
+          <animate attributeName="x2" values="-32;-28;-16;0;16;28;32;28;16;0;-16;-28;-32" dur="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="y2" values="0;-16;-28;-32;-28;-16;0;16;28;32;28;16;0" dur="1.6s" repeatCount="indefinite"/>
+        </line>
+        <!-- Back Pedal Platform -->
+        <use href="#pedalPlatform">
+          <animateTransform attributeName="transform" type="translate"
+            values="-32,0; -28,-16; -16,-28; 0,-32; 16,-28; 28,-16; 32,0; 28,16; 16,28; 0,32; -16,28; -28,16; -32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+        </use>
+        <!-- Back Leg (Thigh + Shin) -->
+        <path fill="none" stroke="#4d3c34" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"
+              d="M-4,-152 L37,-67 L-32,0">
+          <animate attributeName="d"
+            values="M-4,-152 L37,-67 L-32,0;
+                    M-4,-152 L48,-74 L-28,-16;
+                    M-4,-152 L61,-85 L-16,-28;
+                    M-4,-152 L71,-97 L0,-32;
+                    M-4,-152 L75,-104 L16,-28;
+                    M-4,-152 L73,-101 L28,-16;
+                    M-4,-152 L65,-90 L32,0;
+                    M-4,-152 L52,-77 L28,16;
+                    M-4,-152 L35,-66 L16,28;
+                    M-4,-152 L23,-61 L0,32;
+                    M-4,-152 L21,-60 L-16,28;
+                    M-4,-152 L27,-63 L-28,16;
+                    M-4,-152 L37,-67 L-32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+        </path>
+        <!-- Back Foot & Claws -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="-32,0; -28,-16; -16,-28; 0,-32; 16,-28; 28,-16; 32,0; 28,16; 16,28; 0,32; -16,28; -28,16; -32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+          <path d="M-12,-4 C-4,-12 12,-12 18,-3 L16,3 L-12,3 Z" fill="#3e3029" stroke="#271e1a" stroke-width="1.5"/>
+          <path d="M15,-4 C21,-5 24,-1 22,3" fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M12,-6 C18,-8 22,-4 20,1" fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- ================= UNICYCLE WHEEL & FRAME ================= -->
+      <g id="unicycleWheel">
+        <!-- Rotating Wheel Group -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="1.6s" repeatCount="indefinite"/>
+          <!-- Spokes (12 spokes) -->
+          <g stroke="#cbd5e1" stroke-width="2" opacity="0.85">
+            <line x1="-74" y1="0" x2="74" y2="0"/>
+            <line x1="0" y1="-74" x2="0" y2="74"/>
+            <line x1="-52" y1="-52" x2="52" y2="52"/>
+            <line x1="-52" y1="52" x2="52" y2="-52"/>
+            <line x1="-64" y1="-37" x2="64" y2="37"/>
+            <line x1="-37" y1="-64" x2="37" y2="64"/>
+            <line x1="-64" y1="37" x2="64" y2="-37"/>
+            <line x1="-37" y1="64" x2="37" y2="-64"/>
+          </g>
+          <!-- Outer Rubber Tire -->
+          <circle cx="0" cy="0" r="82" fill="none" stroke="#1e293b" stroke-width="14"/>
+          <!-- Tire Tread Notches -->
+          <circle cx="0" cy="0" r="88" fill="none" stroke="#0f172a" stroke-width="3" stroke-dasharray="6 12"/>
+          <!-- Vintage Cream Whitewall & Gold Rim -->
+          <circle cx="0" cy="0" r="74" fill="none" stroke="#fef3c7" stroke-width="3.5"/>
+          <circle cx="0" cy="0" r="70" fill="none" stroke="url(#goldRimGrad)" stroke-width="5"/>
+          <!-- Valve Stem -->
+          <rect x="-2" y="61" width="4" height="7" rx="1" fill="#fbbf24"/>
+          <!-- Rotating Hub Star -->
+          <circle cx="0" cy="0" r="14" fill="#334155" stroke="#94a3b8" stroke-width="2"/>
+        </g>
+
+        <!-- Unicycle Frame / Fork & Seatpost -->
+        <!-- Seatpost Tube -->
+        <path d="M0,0 L0,-148" stroke="url(#chromeGrad)" stroke-width="10" stroke-linecap="round"/>
+        <!-- Fork Crown Accent -->
+        <path d="M-8,-96 L8,-96 L6,-106 L-6,-106 Z" fill="#f59e0b" stroke="#78350f" stroke-width="1.5"/>
+        <!-- Seatpost Clamp -->
+        <rect x="-8" y="-134" width="16" height="8" rx="2" fill="#fbbf24" stroke="#78350f" stroke-width="1.5"/>
+        <!-- Axle Hub Cap -->
+        <circle cx="0" cy="0" r="9" fill="url(#goldRimGrad)" stroke="#78350f" stroke-width="1.5"/>
+        <circle cx="0" cy="0" r="4" fill="#f8fafc"/>
+      </g>
+
+      <!-- ================= ANTEATER HUGE BUSHY TAIL ================= -->
+      <g id="anteaterTail" transform="translate(-26, -158)">
+        <!-- Secondary Motion Tail Bob -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate"
+            values="-4 0 0; 6 0 0; -4 0 0; 5 0 0; -4 0 0"
+            keyTimes="0; 0.25; 0.5; 0.75; 1"
+            dur="1.6s" repeatCount="indefinite"/>
+          <!-- Deep Shadow Plume Layer -->
+          <path d="M8,6 C-35,28 -115,48 -188,22 C-228,8 -258,-28 -246,-65 C-235,-98 -195,-118 -142,-108 C-82,-96 -28,-52 12,-10 Z"
+                fill="url(#tailBaseGrad)" stroke="#291e19" stroke-width="2.5"/>
+          <!-- Outer Furry Serrated Edge Plumes -->
+          <path d="M0,0 C-45,22 -95,34 -145,26 L-135,38 C-175,32 -215,15 -238,-14 L-224,-8 C-248,-35 -255,-65 -236,-86 L-222,-76 C-225,-102 -192,-118 -155,-110 L-162,-98 C-122,-106 -72,-85 -32,-48 C-10,-28 4,-12 10,0 Z"
+                fill="url(#tailHighlightGrad)"/>
+          <!-- Grizzled Silver-Cream & Dark Fur Streaks -->
+          <path d="M-12,-8 C-65,-2 -135,-12 -208,-48" fill="none" stroke="#cbb59f" stroke-width="4.5" stroke-linecap="round" opacity="0.65"/>
+          <path d="M-18,-18 C-75,-25 -140,-45 -212,-75" fill="none" stroke="#362821" stroke-width="6" stroke-linecap="round" opacity="0.75"/>
+          <path d="M-22,-2 C-80,14 -145,14 -215,-18" fill="none" stroke="#2b1f1a" stroke-width="5.5" stroke-linecap="round" opacity="0.7"/>
+          <path d="M-30,-28 C-82,-45 -135,-72 -182,-95" fill="none" stroke="#d8c5b1" stroke-width="3.5" stroke-linecap="round" opacity="0.55"/>
+          <path d="M-15,6 C-65,22 -125,28 -175,16" fill="none" stroke="#b89f88" stroke-width="3.5" stroke-linecap="round" opacity="0.5"/>
+        </g>
+      </g>
+
+      <!-- ================= UNICYCLE SADDLE ================= -->
+      <g id="saddle">
+        <path d="M-38,-154 C-38,-168 -15,-164 4,-162 C22,-160 36,-168 40,-154 C42,-144 24,-138 -2,-139 C-26,-140 -38,-144 -38,-154 Z"
+              fill="url(#saddleGrad)" stroke="#450a0a" stroke-width="2"/>
+        <!-- Brass Saddle Rivets & Front Handle -->
+        <circle cx="-26" cy="-150" r="2.2" fill="#fbbf24"/>
+        <circle cx="-12" cy="-148" r="2.2" fill="#fbbf24"/>
+        <circle cx="28" cy="-150" r="2.2" fill="#fbbf24"/>
+        <path d="M34,-158 C44,-162 47,-152 38,-146" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- ================= ANTEATER TORSO & ICONIC SHOULDER STRIPE ================= -->
+      <g id="anteaterBody">
+        <!-- Subtle Athletic Breathing / Bounce -->
+        <animateTransform attributeName="transform" type="translate"
+          values="0,0; 0,-3; 0,0; 0,-3; 0,0"
+          dur="1.6s" repeatCount="indefinite"/>
+
+        <!-- Main Furry Torso -->
+        <path d="M-34,-156 C-45,-188 -44,-238 -25,-274 C-12,-298 18,-300 28,-274 C38,-245 36,-195 22,-156 C12,-144 -24,-144 -34,-156 Z"
+              fill="url(#furBodyGrad)" stroke="#3b2d26" stroke-width="2"/>
+
+        <!-- Soft Belly Fur Shading -->
+        <path d="M18,-258 C32,-230 31,-188 18,-158" fill="none" stroke="#9e8576" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+
+        <!-- ICONIC GIANT ANTEATER BLACK-AND-WHITE DIAGONAL STRIPE -->
+        <!-- White Border Stripe (Lower) -->
+        <path d="M25,-242 C2,-236 -18,-216 -38,-184" fill="none" stroke="#f7efe4" stroke-width="18" stroke-linecap="round"/>
+        <!-- White Border Stripe (Upper) -->
+        <path d="M22,-256 C-2,-248 -22,-226 -40,-192" fill="none" stroke="#f7efe4" stroke-width="16" stroke-linecap="round"/>
+        <!-- Bold Jet-Black Diagonal Band Sweeping from Chest to Back -->
+        <path d="M26,-248 C2,-242 -20,-220 -39,-188 L-34,-175 C-14,-205 6,-226 29,-232 Z"
+              fill="#1c1614" stroke="#1c1614" stroke-width="4" stroke-linejoin="round"/>
+        <!-- Tapered Black Stripe Tip on Upper Back -->
+        <path d="M-26,-208 C-34,-196 -41,-184 -42,-174" fill="none" stroke="#1c1614" stroke-width="10" stroke-linecap="round"/>
+
+        <!-- Fluffy Chest Fur Tufts -->
+        <path d="M24,-256 L33,-251 L26,-244 L34,-237 L25,-231" fill="none" stroke="#f7efe4" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Dapper Circus Bowtie at Neck -->
+        <g transform="translate(18, -264) rotate(12)">
+          <polygon points="-12,-7 0,0 -12,7" fill="#ef4444" stroke="#7f1d1d" stroke-width="1.2"/>
+          <polygon points="12,-7 0,0 12,7" fill="#ef4444" stroke="#7f1d1d" stroke-width="1.2"/>
+          <circle cx="0" cy="0" r="3.5" fill="#fbbf24" stroke="#78350f" stroke-width="1"/>
+        </g>
+
+        <!-- ================= ANTEATER HEAD, TUBULAR SNOUT & TONGUE ================= -->
+        <g id="anteaterHead">
+          <!-- Subtle Head Tracking Nod -->
+          <animateTransform attributeName="transform" type="rotate"
+            values="-2.5 -5 -285; 2.5 -5 -285; -2.5 -5 -285"
+            dur="0.8s" repeatCount="indefinite"/>
+
+          <!-- Far Ear (Left Ear) -->
+          <ellipse cx="4" cy="-314" rx="7" ry="9" transform="rotate(15 4 -314)" fill="#4d3c34" stroke="#2b201b" stroke-width="1.5"/>
+
+          <!-- Long Curved Tubular Head & Rostrum (Snout) -->
+          <path d="M-26,-276
+                   C-30,-302 -12,-318 10,-312
+                   C32,-306 54,-294 72,-280
+                   C75,-277 75,-271 71,-269
+                   C50,-276 26,-282 4,-274
+                   C-8,-270 -18,-266 -26,-276 Z"
+                fill="url(#furSnoutGrad)" stroke="#2b201b" stroke-width="2"/>
+
+          <!-- Snout Bridge Highlight -->
+          <path d="M-6,-308 C18,-304 45,-293 66,-278" fill="none" stroke="#a68d7e" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+
+          <!-- Whimsical Wiggling Pink Tongue at Snout Tip -->
+          <path d="M71,-273 C84,-276 92,-268 100,-274 C105,-278 103,-285 98,-283"
+                fill="none" stroke="#fb7185" stroke-width="3.8" stroke-linecap="round">
+            <animate attributeName="d"
+              values="M71,-273 C84,-276 92,-268 100,-274 C105,-278 103,-285 98,-283;
+                      M71,-273 C83,-270 93,-279 102,-272 C107,-268 104,-262 99,-265;
+                      M71,-273 C84,-276 92,-268 100,-274 C105,-278 103,-285 98,-283"
+              dur="0.8s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- Wet Dark Nose Tip -->
+          <circle cx="71" cy="-275" r="4" fill="#17110e"/>
+          <circle cx="72" cy="-276.5" r="1.3" fill="#ffffff" opacity="0.75"/>
+
+          <!-- Near Ear (Right Ear) -->
+          <g transform="translate(-14, -308)">
+            <ellipse cx="0" cy="0" rx="8.5" ry="10.5" transform="rotate(-18)" fill="#6e584c" stroke="#2b201b" stroke-width="1.8"/>
+            <ellipse cx="0" cy="1" rx="4.5" ry="6" transform="rotate(-18)" fill="#d6a296" opacity="0.65"/>
+          </g>
+
+          <!-- Expressive Eye (Looking Up at the Juggling Bottles!) -->
+          <g transform="translate(8, -298)">
+            <!-- Eye White / Sclera -->
+            <circle cx="0" cy="0" r="6.2" fill="#fef3c7" stroke="#241a16" stroke-width="1.5"/>
+            <!-- Pupil looking up-right -->
+            <circle cx="1.2" cy="-1.8" r="4" fill="#17110e">
+              <animate attributeName="cx" values="0.2;2.0;0.2" dur="0.8s" repeatCount="indefinite"/>
+            </circle>
+            <!-- Bright Eye Catchlights -->
+            <circle cx="-0.5" cy="-3.5" r="1.6" fill="#ffffff"/>
+            <circle cx="2.5" cy="-0.5" r="0.8" fill="#ffffff"/>
+            <!-- Joyful Lower Eyelid Curve -->
+            <path d="M-5.5,2.5 Q0,0.5 5.5,2.5" fill="none" stroke="#634f44" stroke-width="2" stroke-linecap="round"/>
+            <!-- Periodic Blink Eyelid -->
+            <ellipse cx="0" cy="0" rx="6.5" ry="0" fill="#634f44">
+              <animate attributeName="ry" values="0;0;6.5;0;0" keyTimes="0;0.92;0.95;0.98;1" dur="3.2s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- Expressive Arched Eyebrow -->
+            <path d="M-6,-8 Q0,-12 6,-7" fill="none" stroke="#241a16" stroke-width="2.2" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- ================= FRONT LEG (RIGHT LEG) & FRONT PEDAL ================= -->
+      <g id="frontPedalSystem">
+        <!-- Front Leg (Furry Thigh + Shin following exact 12-step IK) -->
+        <!-- Outer Dark Outline -->
+        <path fill="none" stroke="#3b2d26" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"
+              d="M-8,-152 L65,-90 L32,0">
+          <animate attributeName="d"
+            values="M-8,-152 L65,-90 L32,0;
+                    M-8,-152 L52,-77 L28,16;
+                    M-8,-152 L35,-66 L16,28;
+                    M-8,-152 L23,-61 L0,32;
+                    M-8,-152 L21,-60 L-16,28;
+                    M-8,-152 L27,-63 L-28,16;
+                    M-8,-152 L37,-67 L-32,0;
+                    M-8,-152 L48,-74 L-28,-16;
+                    M-8,-152 L61,-85 L-16,-28;
+                    M-8,-152 L71,-97 L0,-32;
+                    M-8,-152 L75,-104 L16,-28;
+                    M-8,-152 L73,-101 L28,-16;
+                    M-8,-152 L65,-90 L32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+        </path>
+        <!-- Inner Grizzled Brown Fur Fill -->
+        <path fill="none" stroke="#786153" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"
+              d="M-8,-152 L65,-90 L32,0">
+          <animate attributeName="d"
+            values="M-8,-152 L65,-90 L32,0;
+                    M-8,-152 L52,-77 L28,16;
+                    M-8,-152 L35,-66 L16,28;
+                    M-8,-152 L23,-61 L0,32;
+                    M-8,-152 L21,-60 L-16,28;
+                    M-8,-152 L27,-63 L-28,16;
+                    M-8,-152 L37,-67 L-32,0;
+                    M-8,-152 L48,-74 L-28,-16;
+                    M-8,-152 L61,-85 L-16,-28;
+                    M-8,-152 L71,-97 L0,-32;
+                    M-8,-152 L75,-104 L16,-28;
+                    M-8,-152 L73,-101 L28,-16;
+                    M-8,-152 L65,-90 L32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+        </path>
+
+        <!-- Front Crank Arm (Metallic) -->
+        <line x1="0" y1="0" x2="32" y2="0" stroke="url(#chromeGrad)" stroke-width="7.5" stroke-linecap="round">
+          <animate attributeName="x2" values="32;28;16;0;-16;-28;-32;-28;-16;0;16;28;32" dur="1.6s" repeatCount="indefinite"/>
+          <animate attributeName="y2" values="0;16;28;32;28;16;0;-16;-28;-32;-28;-16;0" dur="1.6s" repeatCount="indefinite"/>
+        </line>
+        <circle cx="0" cy="0" r="5" fill="#475569"/>
+
+        <!-- Front Foot & Claws Resting on Pedal -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="32,0; 28,16; 16,28; 0,32; -16,28; -28,16; -32,0; -28,-16; -16,-28; 0,-32; 16,-28; 28,-16; 32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+          <path d="M-13,-5 C-5,-14 12,-14 19,-4 L17,3 L-13,3 Z" fill="#5e4a3f" stroke="#2b201b" stroke-width="1.6"/>
+          <path d="M16,-5 C23,-6 26,-1 24,3" fill="none" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M13,-7 C19,-9 23,-4 21,1" fill="none" stroke="#f8fafc" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M9,-7 C15,-9 18,-5 17,0" fill="none" stroke="#e2e8f0" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+
+        <!-- Front Pedal Platform -->
+        <use href="#pedalPlatform">
+          <animateTransform attributeName="transform" type="translate"
+            values="32,0; 28,16; 16,28; 0,32; -16,28; -28,16; -32,0; -28,-16; -16,-28; 0,-32; 16,-28; 28,-16; 32,0"
+            dur="1.6s" repeatCount="indefinite"/>
+        </use>
+      </g>
+
+      <!-- ================= THREE JUGGLING BOTTLES (3-Bottle Cascade) ================= -->
+      <!--
+        Full Figure-8 Cascade Trajectory (Period = 2.4s, 3 bottles offset by 0s, -0.8s, -1.6s):
+        t=0.000 (0.00s): Left Hand Release at (-65, -280)
+        t=0.088 (0.21s): Ascending Left-to-Right (-24, -442)
+        t=0.175 (0.42s): Right-Side High Peak (25, -495)
+        t=0.263 (0.63s): Descending to Right Hand (74, -432)
+        t=0.350 (0.84s): Right Hand Catch at (115, -255)
+        t=0.425 (1.02s): Right Hand Scoop Bottom at (98, -238)
+        t=0.500 (1.20s): Right Hand Release at (80, -280)
+        t=0.588 (1.41s): Ascending Right-to-Left (36, -438)
+        t=0.675 (1.62s): Left-Side High Peak (-15, -490)
+        t=0.763 (1.83s): Descending to Left Hand (-60, -428)
+        t=0.850 (2.04s): Left Hand Catch at (-95, -255)
+        t=0.925 (2.22s): Left Hand Scoop Bottom at (-80, -238)
+        t=1.000 (2.40s): Left Hand Release at (-65, -280)
+      -->
+
+      <!-- BOTTLE 1: Emerald Elixir (Phase 0.0s) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate"
+          values="-65,-280; -24,-442; 25,-495; 74,-432; 115,-255; 98,-238; 80,-280; 36,-438; -15,-490; -60,-428; -95,-255; -80,-238; -65,-280"
+          keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+          dur="2.4s" begin="0s" repeatCount="indefinite"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate"
+            values="18; 190; 360; 545; 702; 720; 702; 530; 360; 185; 18; 0; 18"
+            keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+            dur="2.4s" begin="0s" repeatCount="indefinite"/>
+          <use href="#bottleEmerald"/>
+        </g>
+      </g>
+
+      <!-- BOTTLE 2: Ruby Tonic (Phase -0.8s) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate"
+          values="-65,-280; -24,-442; 25,-495; 74,-432; 115,-255; 98,-238; 80,-280; 36,-438; -15,-490; -60,-428; -95,-255; -80,-238; -65,-280"
+          keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+          dur="2.4s" begin="-0.8s" repeatCount="indefinite"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate"
+            values="18; 190; 360; 545; 702; 720; 702; 530; 360; 185; 18; 0; 18"
+            keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+            dur="2.4s" begin="-0.8s" repeatCount="indefinite"/>
+          <use href="#bottleRuby"/>
+        </g>
+      </g>
+
+      <!-- BOTTLE 3: Amber Honey-Brew (Phase -1.6s) -->
+      <g>
+        <animateTransform attributeName="transform" type="translate"
+          values="-65,-280; -24,-442; 25,-495; 74,-432; 115,-255; 98,-238; 80,-280; 36,-438; -15,-490; -60,-428; -95,-255; -80,-238; -65,-280"
+          keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+          dur="2.4s" begin="-1.6s" repeatCount="indefinite"/>
+        <g>
+          <animateTransform attributeName="transform" type="rotate"
+            values="18; 190; 360; 545; 702; 720; 702; 530; 360; 185; 18; 0; 18"
+            keyTimes="0; 0.088; 0.175; 0.263; 0.35; 0.425; 0.5; 0.588; 0.675; 0.763; 0.85; 0.925; 1"
+            dur="2.4s" begin="-1.6s" repeatCount="indefinite"/>
+          <use href="#bottleAmber"/>
+        </g>
+      </g>
+
+      <!-- ================= FRONT ARM (RIGHT ARM - Juggling on Right Side) ================= -->
+      <!-- Hand catches at Right Outside (115,-255) at t=0.04s, scoops via (98,-238) at t=0.22s, throws at Right Inside (80,-280) at t=0.40s -->
+      <g id="frontArm">
+        <!-- Upper Shoulder Dark Fur Base -->
+        <path fill="none" stroke="#2b201b" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"
+              d="M6,-242 Q55,-215 115,-255">
+          <animate attributeName="d"
+            values="M6,-242 Q62,-215 115,-255;
+                    M6,-242 Q55,-198 98,-238;
+                    M6,-242 Q42,-220 80,-280;
+                    M6,-242 Q60,-245 98,-270;
+                    M6,-242 Q62,-215 115,-255"
+            keyTimes="0; 0.25; 0.5; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+        </path>
+        <!-- Creamy-White Anteater Forelimb Fur -->
+        <path fill="none" stroke="url(#creamFurGrad)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+              d="M6,-242 Q55,-215 115,-255">
+          <animate attributeName="d"
+            values="M6,-242 Q62,-215 115,-255;
+                    M6,-242 Q55,-198 98,-238;
+                    M6,-242 Q42,-220 80,-280;
+                    M6,-242 Q60,-245 98,-270;
+                    M6,-242 Q62,-215 115,-255"
+            keyTimes="0; 0.25; 0.5; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+        </path>
+        <!-- Shoulder Cap Blending into Stripe -->
+        <circle cx="6" cy="-242" r="14" fill="#1c1614"/>
+        <path d="M-2,-248 C6,-250 14,-244 14,-235" fill="none" stroke="#f7efe4" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- Right Hand & Long Curved Anteater Claws -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="115,-255; 98,-238; 80,-280; 98,-270; 115,-255"
+            keyTimes="0; 0.25; 0.5; 0.78; 1"
+            dur="0.8s" repeatCount="indefinite"/>
+          <!-- Dark Wrist Band -->
+          <ellipse cx="-2" cy="4" rx="10.5" ry="7.5" fill="#1c1614"/>
+          <!-- Paw Pad -->
+          <circle cx="0" cy="0" r="8.5" fill="#e3d3be" stroke="#3b2d26" stroke-width="1.5"/>
+          <!-- Iconic Curved Foreclaws -->
+          <path d="M6,-4 C15,-14 7,-23 -1,-16" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M0,-6 C7,-19 -3,-25 -8,-16" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M-5,-3 C-2,-13 -10,-18 -13,-10" fill="none" stroke="#e2e8f0" stroke-width="2.6" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- ================= SPARKLE POPS AROUND JUGGLING APEX ================= -->
+      <use href="#sparkle" transform="translate(28, -525) scale(0.9)">
+        <animate attributeName="opacity" values="0;1;0" dur="0.8s" repeatCount="indefinite"/>
+      </use>
+      <use href="#sparkle" transform="translate(-20, -518) scale(0.75)">
+        <animate attributeName="opacity" values="0;1;0" dur="0.8s" begin="-0.4s" repeatCount="indefinite"/>
+      </use>
+      <use href="#sparkle" transform="translate(132, -285) scale(0.65)">
+        <animate attributeName="opacity" values="0;0.9;0" dur="0.8s" begin="-0.2s" repeatCount="indefinite"/>
+      </use>
+      <use href="#sparkle" transform="translate(-112, -285) scale(0.65)">
+        <animate attributeName="opacity" values="0;0.9;0" dur="0.8s" begin="-0.6s" repeatCount="indefinite"/>
+      </use>
+    </g>
+  </g>
+
+  <!-- ================= FOREGROUND DETAILS: TINY CHEERING ANTS ================= -->
+  <g transform="translate(650, 735)">
+    <animateTransform attributeName="transform" type="translate"
+      values="650,735; 650,729; 650,735" dur="0.8s" repeatCount="indefinite"/>
+    <!-- Ant 1 -->
+    <ellipse cx="0" cy="0" rx="6" ry="4" fill="#27141d"/>
+    <ellipse cx="-10" cy="-2" rx="4.5" ry="3.2" fill="#27141d"/>
+    <circle cx="-18" cy="-5" r="4" fill="#27141d"/>
+    <circle cx="-19" cy="-6" r="1" fill="#ffffff"/>
+    <!-- Antennae & Cheering Arms -->
+    <path d="M-20,-8 Q-24,-15 -20,-17 M-17,-8 Q-18,-15 -14,-16" fill="none" stroke="#27141d" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M-12,-4 L-16,-12 M-9,-4 L-6,-12 M-8,1 L-11,7 M-2,2 L0,7" fill="none" stroke="#27141d" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(682, 742)">
+    <animateTransform attributeName="transform" type="translate"
+      values="682,742; 682,736; 682,742" dur="0.8s" begin="-0.4s" repeatCount="indefinite"/>
+    <!-- Ant 2 -->
+    <ellipse cx="0" cy="0" rx="5.5" ry="3.8" fill="#27141d"/>
+    <ellipse cx="-9" cy="-2" rx="4" ry="3" fill="#27141d"/>
+    <circle cx="-16" cy="-4.5" r="3.6" fill="#27141d"/>
+    <circle cx="-17" cy="-5.5" r="0.9" fill="#ffffff"/>
+    <path d="M-18,-7 Q-22,-13 -18,-15 M-15,-7 Q-16,-13 -12,-14" fill="none" stroke="#27141d" stroke-width="1.1" stroke-linecap="round"/>
+    <path d="M-11,-3 L-14,-10 M-8,-3 L-5,-10 M-7,1 L-9,6 M-1,2 L1,6" fill="none" stroke="#27141d" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+</svg>

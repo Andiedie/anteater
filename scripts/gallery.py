@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import Pi shares and build an offline-first static gallery."""
+"""Import Pi shares or local exports and build an offline-first static gallery."""
 
 import argparse
 import base64
@@ -216,6 +216,46 @@ def read_url(request):
                 raise
 
 
+def parse_session(html):
+    embedded = re.search(r'<script\b[^>]*\bid=["\']session-data["\'][^>]*>(.*?)</script>', html, re.S)
+    if not embedded:
+        raise ValueError("Export has no embedded session data")
+    payload = embedded[1].strip()
+    return json.loads(payload if payload.startswith("{") else base64.b64decode(payload))
+
+
+def local_session(folder):
+    files = {name: folder / name for name in ("session.json", "session.html")}
+    if any(not file.is_file() or file.is_symlink() for file in files.values()):
+        raise ValueError(f"{folder.name}: needs regular session.json and session.html files")
+    raw, html = files["session.json"].read_bytes(), files["session.html"].read_bytes()
+    session, exported = json.loads(raw), parse_session(html.decode("utf-8"))
+    if any(session.get(key) != exported.get(key) for key in ("header", "entries", "leafId", "systemPrompt")):
+        raise ValueError(f"{folder.name}: JSON and HTML sessions differ")
+    return session, {"kind": "local", "share_url": f"./sessions/{folder.name}.html",
+                     "snapshot_url": f"./sessions/{folder.name}.json",
+                     "session_sha256": digest(raw), "export_sha256": digest(html)}
+
+
+def check_source(folder, run):
+    source = run["source"]
+    if source.get("kind") == "local":
+        session, expected = local_session(folder)
+        if any(source.get(key) != value for key, value in expected.items()) or source.get("session_id") != session["header"]["id"]:
+            raise ValueError(f"{folder.name}: local session snapshot changed; import it again")
+    else:
+        share = (folder / "share.txt").read_text().strip()
+        match = SHARE_PATTERN.fullmatch(share)
+        if not match or share != source["share_url"]:
+            raise ValueError(f"{folder.name}: invalid share URL")
+        if run.get("outcome") == "no_artwork" and (match[1] != source["gist_id"] or not re.fullmatch(r"[a-f0-9]{40}", source["gist_revision"])):
+            raise ValueError(f"{folder.name}: invalid failure share snapshot")
+
+
+def snapshot_url(source):
+    return source['snapshot_url'] if source.get('kind') == 'local' else f"https://gist.github.com/{source['gist_id']}/{source['gist_revision']}"
+
+
 def fetch_session(share_url):
     match = SHARE_PATTERN.fullmatch(share_url)
     if not match:
@@ -229,12 +269,7 @@ def fetch_session(share_url):
     html = file.get("content")
     if html is None or file.get("truncated"):
         html = read_url(file["raw_url"]).decode("utf-8")
-    embedded = re.search(r'<script\b[^>]*\bid=["\']session-data["\'][^>]*>(.*?)</script>', html, re.S)
-    if not embedded:
-        raise ValueError("Share has no embedded session data")
-    payload = embedded[1].strip()
-    session = json.loads(payload if payload.startswith("{") else base64.b64decode(payload))
-    return session, gist_id, gist["history"][0]["version"]
+    return parse_session(html), gist_id, gist["history"][0]["version"]
 
 
 def import_run(folder, refresh=False):
@@ -245,19 +280,29 @@ def import_run(folder, refresh=False):
         return f"Kept {folder.name} (no-artwork report)"
     if not svgs and not (folder / "share.txt").exists():
         return f"Skipped {folder.name} (no artwork)"
-    if len(svgs) != 1 or not (folder / "share.txt").is_file():
-        raise ValueError(f"{folder.name}: needs exactly one SVG and share.txt")
+    local = (folder / "session.json").exists() or (folder / "session.html").exists()
+    if len(svgs) != 1 or not (local or (folder / "share.txt").is_file()):
+        raise ValueError(f"{folder.name}: needs exactly one SVG and share.txt or local session exports")
     artwork = svgs[0].read_bytes()
     check_svg(artwork)
-    share = (folder / "share.txt").read_text().strip()
-    if not SHARE_PATTERN.fullmatch(share):
-        raise ValueError(f"{folder.name}: invalid share URL")
+    if local:
+        session, source = local_session(folder)
+        assistants = [entry['message'] for entry in active_entries(session) if entry.get('message', {}).get('role') == 'assistant']
+        if not assistants or assistants[-1].get('stopReason') != 'stop':
+            raise ValueError(f"{folder.name}: unfinished local session; use a failure report")
+    else:
+        share = (folder / "share.txt").read_text().strip()
+        if not SHARE_PATTERN.fullmatch(share):
+            raise ValueError(f"{folder.name}: invalid share URL")
+        source = {"share_url": share}
     target = CONTENT / folder.name
     previous_path = target / "run.json"
     previous = json.loads(previous_path.read_text()) if previous_path.exists() else None
-    if not refresh and previous and previous.get("outcome") != "no_artwork" and previous["source"]["share_url"] == share and previous["source"]["artwork_sha256"] == digest(artwork):
+    if not refresh and previous and previous.get("outcome") != "no_artwork" and all(previous["source"].get(key) == value for key, value in source.items()) and previous["source"]["artwork_sha256"] == digest(artwork):
         return f"Unchanged {folder.name}"
-    session, gist_id, revision = fetch_session(share)
+    if not local:
+        session, gist_id, revision = fetch_session(share)
+        source.update(gist_id=gist_id, gist_revision=revision)
     name, vendor = model_label(folder.name)
     run = {
         "schema_version": 1, "slug": folder.name,
@@ -265,15 +310,24 @@ def import_run(folder, refresh=False):
         "vendor": previous["vendor"] if previous else vendor,
         **summarize(session),
         "source": {
-            "share_url": share, "gist_id": gist_id, "gist_revision": revision,
-            "session_id": session["header"]["id"],
+            **source, "session_id": session["header"]["id"],
             "imported_at": datetime.now(timezone.utc).isoformat(),
             "artwork_sha256": digest(artwork),
         },
     }
+    if local and previous and previous['source'].get('session_sha256') == source['session_sha256'] and 'response_model_ids' in previous:
+        run['response_model_ids'] = previous['response_model_ids']
     target.mkdir(parents=True, exist_ok=True)
     (target / "artwork.svg").write_bytes(artwork)
-    (target / "share.txt").write_text(share + "\n")
+    if local:
+        if folder.resolve() != target.resolve():
+            for filename in ("session.json", "session.html"):
+                shutil.copy2(folder / filename, target / filename)
+        (target / "share.txt").unlink(missing_ok=True)
+    else:
+        (target / "share.txt").write_text(share + "\n")
+        for filename in ("session.json", "session.html"):
+            (target / filename).unlink(missing_ok=True)
     (target / "run.json").write_text(json.dumps(run, ensure_ascii=False, indent=2) + "\n")
     return f"Imported {folder.name}"
 
@@ -295,11 +349,7 @@ def load_catalog():
                 if any(not isinstance(field.get(lang), str) or not field[lang].strip() for lang in ("en", "zh")):
                     raise ValueError(f"{folder.name}: failure text needs English and Chinese")
             if "source" in run:
-                source = run["source"]
-                share = (folder / "share.txt").read_text().strip()
-                match = SHARE_PATTERN.fullmatch(share)
-                if not match or share != source["share_url"] or match[1] != source["gist_id"] or not re.fullmatch(r"[a-f0-9]{40}", source["gist_revision"]):
-                    raise ValueError(f"{folder.name}: invalid failure share snapshot")
+                check_source(folder, run)
             if any(not reference["url"].startswith("https://") for reference in failure["references"]):
                 raise ValueError(f"{folder.name}: references must use HTTPS")
             runs.append(run)
@@ -308,15 +358,13 @@ def load_catalog():
         check_svg(svg)
         if digest(svg) != run["source"]["artwork_sha256"]:
             raise ValueError(f"{folder.name}: artwork changed; import it again before building")
-        share = (folder / "share.txt").read_text().strip()
-        if share != run["source"]["share_url"] or not SHARE_PATTERN.fullmatch(share):
-            raise ValueError(f"{folder.name}: share link changed; import it again before building")
+        check_source(folder, run)
         runs.append(run)
     if not runs:
         raise ValueError("No imported artwork")
     by_slug = {run["slug"]: run for run in runs}
     for run in runs:
-        if run.get("outcome") == "no_artwork":
+        if run.get("outcome") == "no_artwork" and run["failure"].get("related_slug") is not None:
             related = by_slug.get(run["failure"]["related_slug"])
             if not related or related.get("outcome") == "no_artwork" or related["name"] != run["name"] or related["vendor"] != run["vendor"]:
                 raise ValueError(f"{run['slug']}: related artwork must be the same model")
@@ -338,22 +386,26 @@ def group_models(runs):
     return list(groups.values())
 
 
+def format_price(amount, lang='en'):
+    if amount is None:
+        return '暂无法估算' if lang == 'zh' else 'Estimate unavailable'
+    return f'≈${amount:.3f}' if amount >= 0.001 else f'≈${amount:.4f}'
+
+
 def card_html(group):
     run = next((item for item in group if item.get('outcome') != 'no_artwork'), group[0])
     slug, name = escape(run['slug'], quote=True), escape(run['name'])
     key = escape(json.dumps([run['vendor'], run['name']], ensure_ascii=False, separators=(',', ':')), quote=True)
     ordered = sorted(group, key=lambda item: tuple(EFFORTS.index(level) if level in EFFORTS else len(EFFORTS) for level in item['reasoning']))
-    links = ''.join(f'''<button type="button" class="level-link" data-card-run="{escape(item['slug'], quote=True)}" aria-pressed="{'true' if item['slug'] == run['slug'] else 'false'}" aria-label="View {name}, {escape(' → '.join(item['reasoning']))} reasoning{' · No SVG delivered' if item.get('outcome') == 'no_artwork' else ''}">{''.join(f'<span class="effort" data-level="{escape(level, quote=True)}">{escape(level)}</span>' for level in item['reasoning'])}{'<span class="level-status" data-i18n="No SVG delivered">No SVG delivered</span>' if item.get('outcome') == 'no_artwork' else ''}</button>''' for item in ordered)
+    links = ''.join(f'''<button type="button" class="level-link" data-card-run="{escape(item['slug'], quote=True)}" aria-pressed="{'true' if item['slug'] == run['slug'] else 'false'}" aria-label="View {name}, {escape(' → '.join(item['reasoning']))} reasoning">{''.join(f'<span class="effort" data-level="{escape(level, quote=True)}">{escape(level)}</span>' for level in item['reasoning'])}</button>''' for item in ordered)
     failed = run.get('outcome') == 'no_artwork'
     metrics = run.get('metrics', {})
-    price_info = run.get('price', {'amount_usd': metrics.get('cost_usd'), 'basis': 'recorded'})
-    cost = price_info['amount_usd']
-    price = ('≈' if price_info['basis'] == 'public' else '') + (f'${cost:.3f}' if cost is not None and cost >= 0.001 else (f'${cost:.4f}' if cost is not None else 'Unknown'))
-    price_label = {'recorded': 'Pi · USD', 'public': 'Public · USD', 'unknown': 'Cost · USD'}[price_info['basis']]
-    art = f'''<iframe class="artwork-frame" data-src="./artwork/{slug}.svg" title="{name} animated SVG" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe><span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">Loading artwork</span>''' if not failed else '<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title" data-i18n="No SVG delivered">No SVG delivered</span>'
+    price = format_price(run.get('price', {}).get('amount_usd'))
+    price_label = 'Cost estimate · USD'
+    art = f'''<iframe class="artwork-frame" data-src="./artwork/{slug}.svg" title="{name} animated SVG" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe><span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">Loading artwork</span>''' if not failed else f'<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title" data-i18n="No SVG delivered">No SVG delivered</span><span class="failure-status" data-i18n="{escape(run["failure"]["status"], quote=True)}">{escape(run["failure"]["status"])}</span>'
     enough = sum(item.get('outcome') != 'no_artwork' for item in group) >= 2
     return f'''<article class="card{' failure-card' if failed else ''}" data-model="{key}" data-slug="{slug}">
-  <button class="preview{' failure-preview' if failed else ''}" data-open="{slug}" aria-label="View {name}, {escape(' → '.join(run['reasoning']))} reasoning{' · No SVG delivered' if failed else ''}">{art}</button>
+  <button class="preview{' failure-preview' if failed else ''}" data-open="{slug}" aria-label="View {name}, {escape(' → '.join(run['reasoning']))} reasoning">{art}</button>
   <div class="card-info">
     <div class="card-heading"><span class="vendor-name">{escape(run['vendor'])}</span></div>
     <h2><a href="?run={slug}" data-open="{slug}">{name}</a></h2>
@@ -362,10 +414,18 @@ def card_html(group):
       <div><dt data-i18n="Time">Time</dt><dd data-time>{format_time(metrics.get('duration_seconds', 0)) if not failed else '—'}</dd></div>
       <div><dt data-i18n="Output tokens">Output tokens</dt><dd data-output>{metrics.get('tokens', {}).get('output', '—') if not failed else '—'}</dd></div>
       <div><dt data-price-label data-i18n="{price_label}">{price_label}</dt><dd data-price>{price if not failed else '—'}</dd></div>
-    </dl><a class="text-button failure-link" href="./cases/{slug}/" data-open="{slug}"{' hidden' if not failed else ''} data-i18n="Read failure notes">Read failure notes</a><label class="compare-check"{' hidden' if failed else ''}><input type="checkbox" data-compare="{slug}" aria-label="Compare {name}, {escape(' → '.join(run['reasoning']))} reasoning"{' disabled' if failed else ''}><span data-i18n="Add to compare">Add to compare</span></label></div>
-    <button class="text-button model-compare" data-compare-model="{key}"{' disabled' if not enough else ''} data-i18n="{'Compare levels' if enough else 'Only one SVG available' if not failed else 'No SVG delivered'}">{'Compare levels' if enough else 'Only one SVG available' if not failed else 'No SVG delivered'}</button>
+    </dl><label class="compare-check"{' hidden' if failed else ''}><input type="checkbox" data-compare="{slug}" aria-label="Compare {name}, {escape(' → '.join(run['reasoning']))} reasoning"{' disabled' if failed else ''}><span data-i18n="Add to compare">Add to compare</span></label></div>
+    <button class="text-button model-compare" data-compare-model="{key}"{' disabled hidden' if not enough else ''} data-i18n="Compare levels">Compare levels</button>
   </div>
 </article>'''
+
+
+def version_assets(page):
+    # New content gets a new URL so warm browsers cannot mix old UI assets with new HTML.
+    for filename in ("i18n.js", "gallery.js", "failure.js", "styles.css"):
+        version = digest((ROOT / "src" / filename).read_bytes())[:12]
+        page = page.replace(f'./{filename}"', f'./{filename}?v={version}"')
+    return page
 
 
 def failure_html(run, related):
@@ -373,33 +433,47 @@ def failure_html(run, related):
     copies = []
     for lang in ("en", "zh"):
         facts = ''.join(f'<div><dt>{escape(fact["label"][lang])}</dt><dd>{escape(str(fact["value"]))}</dd></div>' for fact in failure["facts"])
+        price = run.get('price', {})
+        facts += f'<div><dt>{"价格估算 · USD" if lang == "zh" else "Cost estimate · USD"}</dt><dd>{format_price(price.get("amount_usd"), lang)}</dd></div>'
+        price_notes = ''
+        if price.get('source'):
+            labels = ('输入', '输出', '缓存读取', '缓存写入') if lang == 'zh' else ('Input', 'Output', 'Cache read', 'Cache write')
+            rates = ''.join(f'<div><dt>{label}</dt><dd>{escape("—" if price["rates_per_million"].get(key) is None else "$" + str(price["rates_per_million"][key]))}</dd></div>' for label, key in zip(labels, ('input', 'output', 'cacheRead', 'cacheWrite')))
+            price_notes = f'''<details class="metric-notes price-notes"><summary>{'计价详情' if lang == 'zh' else 'Pricing details'}</summary>
+  {('<p>' + ('当前记录缺少可靠估价所需的信息。' if lang == 'zh' else 'This record lacks the information needed for a reliable estimate.') + '</p>') if price.get('amount_usd') is None else ''}
+  <p>{escape(price.get('rate_note', {}).get(lang, ''))}</p>
+  <p><a href="{escape(price['source_url'], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(price['source'])} ↗</a> · {escape(price['checked_at'])}</p>
+  <dl class="metric-list">{rates}</dl><p>{'美元 / 百万 token；不代表实际账单。' if lang == 'zh' else 'USD / 1M tokens; not an actual bill.'}</p></details>'''
         copies.append(f'''<div class="case-copy" lang="{lang}">
   <p class="case-summary">{escape(failure['summary'][lang])}</p>
   {f'<dl class="case-facts">{facts}</dl>' if facts else ''}
   <p>{escape(failure['explanation'][lang])}</p>
   <p class="case-limitation">{escape(failure['limitation'][lang])}</p>
+  {price_notes}
 </div>''')
     references = ''.join(f'<a href="{escape(reference["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(reference["label"])} ↗</a>' for reference in failure["references"])
     values = {
         "NAME": escape(run["name"]), "SLUG": escape(run["slug"], quote=True), "DATE": escape(run["date"]),
         "VENDOR": escape(run["vendor"]), "STATUS": escape(failure["status"], quote=True), "COPY": '\n'.join(copies),
         "REFERENCES": f'<details class="case-references"><summary data-i18n="References">References</summary><div class="source-links">{references}</div></details>' if references else '',
-        "RELATED": escape(related["slug"], quote=True), "LEVEL": escape(' → '.join(related["reasoning"])),
-        "SOURCE_LINKS": f'''<div class="source-links case-sources"><a href="{escape(run['source']['share_url'], quote=True)}" target="_blank" rel="noopener noreferrer" data-i18n="Pi conversation ↗">Pi conversation ↗</a><a href="https://gist.github.com/{escape(run['source']['gist_id'])}/{escape(run['source']['gist_revision'])}" target="_blank" rel="noopener noreferrer" data-i18n="Source snapshot ↗">Source snapshot ↗</a></div>''' if 'source' in run else '',
+        "RUN_LEVEL": escape(' → '.join(run["reasoning"])),
+        "RELATED_LINK": f'''<a class="solid-button case-related" href="./?run={escape(related['slug'], quote=True)}"><span data-i18n="View the">View the</span><span>{escape(' → '.join(related['reasoning']))}</span><span data-i18n="artwork →">artwork →</span></a>''' if related else '',
+        "SOURCE_LINKS": f'''<div class="source-links case-sources"><a href="{escape(run['source']['share_url'], quote=True)}" target="_blank" rel="noopener noreferrer" data-i18n="Pi conversation ↗">Pi conversation ↗</a><a href="{escape(snapshot_url(run['source']), quote=True)}" target="_blank" rel="noopener noreferrer" data-i18n="Source snapshot ↗">Source snapshot ↗</a></div>''' if 'source' in run else '',
     }
     page = (ROOT / "src/failure.html").read_text()
     for key, value in values.items():
         page = page.replace('{{' + key + '}}', value)
-    return page
+    return version_assets(page)
 
 
 def build():
     runs = load_catalog()
     snapshot = json.loads(PRICES.read_text()) if PRICES.exists() else {}
     for run in runs:
-        if run.get("outcome") != "no_artwork":
-            run["price"] = pricing.display_price(run, snapshot)
+        run["price"] = pricing.display_price(run, snapshot)
         run.pop("providers", None)  # Invocation channels are not part of the public gallery.
+        if 'source' in run:
+            run['source']['snapshot_url'] = snapshot_url(run['source'])
     models = group_models(runs)
     counts = Counter(group[0]['vendor'] for group in models)
     vendors = sorted(counts, key=lambda name: VENDORS.index(name) if name in VENDORS else len(VENDORS))
@@ -423,21 +497,26 @@ def build():
         template = template.replace("{{" + key + "}}", value)
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
-    (dist / "index.html").write_text(template)
+    (dist / "index.html").write_text(version_assets(template))
     for filename in ("i18n.js", "gallery.js", "failure.js", "styles.css"):
         shutil.copy2(ROOT / "src" / filename, dist / filename)
     shutil.copytree(ROOT / "src/assets", dist / "assets", dirs_exist_ok=True)
     shutil.rmtree(dist / "artwork", ignore_errors=True)
     (dist / "artwork").mkdir()
     shutil.rmtree(dist / "cases", ignore_errors=True)
+    shutil.rmtree(dist / "sessions", ignore_errors=True)
+    (dist / "sessions").mkdir()
     by_slug = {run["slug"]: run for run in runs}
     for run in runs:
         if run.get("outcome") == "no_artwork":
             case = dist / "cases" / run["slug"]
             case.mkdir(parents=True)
-            (case / "index.html").write_text(failure_html(run, by_slug[run["failure"]["related_slug"]]))
+            (case / "index.html").write_text(failure_html(run, by_slug.get(run["failure"].get("related_slug"))))
         else:
             shutil.copy2(CONTENT / run["slug"] / "artwork.svg", dist / "artwork" / (run["slug"] + ".svg"))
+        if run.get('source', {}).get('kind') == 'local':
+            for extension in ('json', 'html'):
+                shutil.copy2(CONTENT / run['slug'] / ('session.' + extension), dist / 'sessions' / (run['slug'] + '.' + extension))
     (dist / ".nojekyll").touch()
     failures = sum(run.get("outcome") == "no_artwork" for run in runs)
     print(f"Built {len(runs) - failures} artworks + {failures} failure cases → {dist}")
@@ -446,10 +525,10 @@ def build():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    importer = commands.add_parser("import", help="Import folders containing an SVG and share.txt")
+    importer = commands.add_parser("import", help="Import folders containing an SVG and share.txt or local session exports")
     importer.add_argument("source", nargs="?", type=Path, default=CONTENT)
     importer.add_argument("--refresh", action="store_true", help="Re-fetch already imported shares")
-    commands.add_parser("prices", help="Refresh public price snapshots for runs without recorded costs")
+    commands.add_parser("prices", help="Check official-price coverage from the reviewed local snapshot (no network)")
     commands.add_parser("build", help="Build static dist/ without network access")
     server = commands.add_parser("serve", help="Build and serve a local preview")
     server.add_argument("--port", type=int, default=8765)
@@ -460,7 +539,7 @@ def main():
             for result in workers.map(lambda folder: import_run(folder, args.refresh), folders):
                 print(result)
     elif args.command == "prices":
-        pricing.refresh([run for run in load_catalog() if run.get("outcome") != "no_artwork"], PRICES, read_url)
+        pricing.report(load_catalog(), json.loads(PRICES.read_text()))
     elif args.command == "build":
         build()
     else:

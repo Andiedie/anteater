@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "slug": "claude-haiku-5-5-max",
+  "date": "2026-10-22",
+  "model_ids": [
+    "claude-haiku-5-5"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "outcome": "no_artwork",
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/claude-haiku-5-5-max.html",
+    "snapshot_url": "./sessions/claude-haiku-5-5-max.json",
+    "session_sha256": "931f3095a1d5e879b9c52e645881c29d7fafc7f5d541a2d3383b560e71241be9",
+    "export_sha256": "08f2216e98f940d515fc957d8531517e5b17d8438d06ea4abaec571909ce20d7",
+    "session_id": "01a163e5-afdc-7180-8e44-f47872eaba36",
+    "imported_at": "2026-10-22T14:11:24.675393+00:00"
+  },
+  "failure": {
+    "status": "Output truncated",
+    "summary": {
+      "en": "This fresh attempt was truncated before normal completion.",
+      "zh": "本次全新测试的输出在正常完成前被截断。"
+    },
+    "explanation": {
+      "en": "The final response ended with stopReason=length. The request asked for 64,000 output tokens; the separately reported output below is the actual usage evidence, not the requested ceiling.",
+      "zh": "最终回复以 stopReason=length 结束。请求指定 64,000 输出 token；下方另列的报告输出才是实际用量证据，不能把请求上限当作消耗量。"
+    },
+    "limitation": {
+      "en": "The upstream may truncate before the requested ceiling. The cutoff does not establish an internal infinite loop; no automatic retry or new drawing prompt was submitted.",
+      "zh": "上游可能在请求上限之前截断；不能据此认定内部无限循环。没有自动重试或另发绘图提示词。"
+    },
+    "facts": [
+      {
+        "label": {
+          "en": "Requests / tool calls",
+          "zh": "请求 / 工具调用"
+        },
+        "value": "1 / 0"
+      },
+      {
+        "label": {
+          "en": "Termination",
+          "zh": "终止记录"
+        },
+        "value": "length"
+      },
+      {
+        "label": {
+          "en": "Output budget per request",
+          "zh": "单次请求输出预算"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "XML-feedback turns",
+          "zh": "XML 反馈轮数"
+        },
+        "value": "0"
+      },
+      {
+        "label": {
+          "en": "Reported output",
+          "zh": "报告输出"
+        },
+        "value": "64,000 tokens"
+      }
+    ],
+    "references": [
+      {
+        "label": "Anthropic official pricing",
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing"
+      }
+    ],
+    "related_slug": "claude-haiku-5-5-high"
+  },
+  "name": "Claude Haiku 5.5",
+  "vendor": "Anthropic",
+  "output_budget_per_request": 64000
+}

@@ -1,7 +1,6 @@
 import Fuse from './assets/fuse/fuse.min.mjs';
 
 const runs = JSON.parse(document.querySelector('#catalog-data').textContent);
-const artworkRuns = runs.filter(run => run.outcome !== 'no_artwork');
 const modelKey = run => JSON.stringify([run.vendor, run.name]);
 const models = new Map();
 for (const run of runs) {
@@ -43,7 +42,7 @@ const time = seconds => {
   const total = Math.round(seconds);
   return total < 60 ? t('{seconds}s', {seconds: total}) : t('{minutes}m {seconds}s', {minutes: Math.floor(total / 60), seconds: String(total % 60).padStart(2, '0')});
 };
-const money = value => value == null ? t('Unknown') : `$${value.toFixed(value < .001 ? 4 : 3)}`;
+const money = value => value == null ? t('Estimate unavailable') : `$${value.toFixed(value < .001 ? 4 : 3)}`;
 const date = value => new Intl.DateTimeFormat(locale(), {dateStyle: 'medium', timeZone: 'UTC'}).format(new Date(value));
 const levels = run => run.reasoning.join(' → ');
 const effortChips = run => run.reasoning.map(level => `<span class="effort" data-level="${e(level)}">${e(level)}</span>`).join('');
@@ -52,12 +51,10 @@ const siblings = run => [...models.get(modelKey(run))].sort((a, b) => {
   const rank = item => levelOrder.indexOf(item.reasoning[0]) < 0 ? levelOrder.length : levelOrder.indexOf(item.reasoning[0]);
   return rank(a) - rank(b) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug);
 });
-const levelStatus = run => run.outcome === 'no_artwork' ? `<span class="level-status">${e(t('No SVG delivered'))}</span>` : '';
 const validComparison = slugs => slugs.length >= 2 && slugs.length <= 4 && new Set(slugs).size === slugs.length && slugs.every(slug => bySlug.has(slug) && bySlug.get(slug).outcome !== 'no_artwork');
-const cost = run => run.price?.amount_usd ?? run.metrics?.cost_usd;
-const costText = run => (run.price?.basis === 'public' ? '≈' : '') + money(cost(run));
-const costLabel = run => ({recorded: 'Pi estimate · USD', public: 'Public estimate · USD'}[run.price?.basis] || 'Estimated cost · USD');
-const comparisonNote = 'Individual runs, not normalized benchmarks. Run time includes any follow-up waits; average TPS includes request latency and reasoning. Costs are estimates; public-rate estimates are marked ≈.';
+const cost = run => run.price?.amount_usd;
+const costText = run => (cost(run) == null ? '' : '≈') + money(cost(run));
+const comparisonNote = 'Individual runs, not normalized benchmarks. Run time includes any follow-up waits; average TPS includes request latency and reasoning. Costs are estimates, not actual bills.';
 
 function notify(message) {
   const toast = document.querySelector('#toast');
@@ -85,17 +82,17 @@ function updateCard(run) {
   }
   card.classList.toggle('failure-card', failed);
   if (failed) card.querySelector('.preview').innerHTML = failurePreview(run);
-  for (const link of card.querySelectorAll('.preview, h2 a, .failure-link')) {
+  for (const link of card.querySelectorAll('.preview, h2 a')) {
     link.dataset.open = run.slug;
-    if (link.matches('a')) link.href = link.classList.contains('failure-link') ? `./cases/${run.slug}/` : `?run=${run.slug}`;
+    if (link.matches('a')) link.href = `?run=${run.slug}`;
   }
-  card.querySelector('.preview').setAttribute('aria-label', t('View {model}, {level} reasoning', {model: run.name, level: levels(run)}) + (failed ? ' · ' + t('No SVG delivered') : ''));
+  card.querySelector('.preview').setAttribute('aria-label', t('View {model}, {level} reasoning', {model: run.name, level: levels(run)}));
   for (const button of card.querySelectorAll('[data-card-run]')) {
     const item = bySlug.get(button.dataset.cardRun);
     button.setAttribute('aria-pressed', String(item.slug === run.slug));
-    button.setAttribute('aria-label', t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}) + (item.outcome === 'no_artwork' ? ' · ' + t('No SVG delivered') : ''));
+    button.setAttribute('aria-label', t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}));
   }
-  card.querySelector('.card-stats').hidden = failed; card.querySelector('.failure-link').hidden = !failed;
+  card.querySelector('.card-stats').hidden = failed;
   const checkbox = card.querySelector('[data-compare]');
   checkbox.dataset.compare = run.slug; checkbox.disabled = failed; checkbox.closest('label').hidden = failed;
   checkbox.setAttribute('aria-label', t('Compare {model}, {level} reasoning', {model: run.name, level: levels(run)}));
@@ -104,8 +101,6 @@ function updateCard(run) {
     card.querySelector('[data-time]').textContent = time(run.metrics.duration_seconds);
     card.querySelector('[data-output]').textContent = number(run.metrics.tokens.output);
     card.querySelector('[data-price]').textContent = costText(run);
-    const label = card.querySelector('[data-price-label]');
-    label.dataset.i18n = {recorded: 'Pi · USD', public: 'Public · USD'}[run.price?.basis] || 'Cost · USD'; label.textContent = t(label.dataset.i18n);
   }
 }
 function switchCard(slug) {
@@ -249,15 +244,13 @@ function sourceLinks(run) {
 }
 function priceDetails(run) {
   const price = run.price;
-  if (price?.basis === 'recorded') return `<p>${e(t('Pi recorded this estimate in the shared session.'))}</p>`;
-  const reasons = {not_found: 'No exact public model price was found.', missing_usage: 'Required usage fields are missing.', missing_cache_price: 'Cache pricing is missing for the recorded cache usage.', cache_write_duration: 'Cache-write duration is not recorded.', per_request_usage: 'Per-request usage is needed to apply context price tiers.', conditional_price: 'Conditional pricing cannot be resolved from this export.'};
-  const explanation = price?.basis === 'public' ? 'The share records $0; the displayed estimate uses public text-token rates.' : reasons[price?.reason] || reasons.not_found;
-  return `<p>${e(t(explanation))}</p>${price?.source ? `<dl class="metric-list"><div><dt>${e(t('Price source'))}</dt><dd><a href="${e(price.source_url)}" target="_blank" rel="noopener noreferrer">${e(price.source)} ↗</a></dd></div>${metricRow('Catalog model', price.model_id)}${metricRow('Checked', date(price.checked_at))}${['input', 'output', 'cacheRead', 'cacheWrite'].map((key, index) => metricRow(['Input', 'Output', 'Cache read', 'Cache write'][index], price.rates_per_million[key] == null ? '—' : '$' + number(price.rates_per_million[key]))).join('')}</dl><p>${e(t('USD / 1M tokens'))}</p><p>${e(t('Public catalog rates at the checked date, not the actual bill. Excludes search, tool surcharges, discounts, and subscriptions.'))}</p>` : ''}`;
+  const reasons = {source_changed: 'The session changed; official pricing conditions need rechecking.', not_found: 'No current official price is verified for this model.', missing_usage: 'Required usage fields are missing.', missing_cache_price: 'Cache pricing is missing for the recorded cache usage.', cache_write_duration: 'Cache-write duration is not recorded.', per_request_usage: 'Per-request usage is needed to apply context price tiers.', conditional_price: 'Conditional pricing cannot be resolved from this export.'};
+  return `${price?.reason ? `<p>${e(t(reasons[price.reason] || reasons.not_found))}</p>` : ''}${price?.rate_note ? `<p>${e(price.rate_note[locale().startsWith('zh') ? 'zh' : 'en'])}</p>` : ''}${price?.source ? `<dl class="metric-list"><div><dt>${e(t('Price source'))}</dt><dd><a href="${e(price.source_url)}" target="_blank" rel="noopener noreferrer">${e(price.source)} ↗</a></dd></div>${metricRow('Catalog model', price.model_id)}${metricRow('Checked', date(price.checked_at))}${['input', 'output', 'cacheRead', 'cacheWrite'].map((key, index) => metricRow(['Input', 'Output', 'Cache read', price.cache_write_ttl_seconds === 300 ? 'Cache write (5 min)' : price.cache_write_ttl_seconds === 3600 ? 'Cache write (1 hour)' : 'Cache write'][index], price.rates_per_million[key] == null ? '—' : '$' + number(price.rates_per_million[key]))).join('')}</dl><p>${e(t('USD / 1M tokens'))}</p><p>${e(t('Standard API token rates; not an actual bill.'))}</p>` : ''}`;
 }
 function failurePreview(run) { return `<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title">${e(t('No SVG delivered'))}</span><span class="failure-status">${e(t(run.failure.status))}</span>`; }
 function failureDetails(run) {
   const f = run.failure, text = value => value[locale().startsWith('zh') ? 'zh' : 'en'];
-  return `<div class="run-badges">${effortChips(run)}</div><div class="case-copy"><p class="case-summary">${e(text(f.summary))}</p><dl class="case-facts">${f.facts.map(fact => `<div><dt>${e(text(fact.label))}</dt><dd>${e(fact.value)}</dd></div>`).join('')}</dl><p>${e(text(f.explanation))}</p><p class="case-limitation">${e(text(f.limitation))}</p></div><div class="source-links"><a href="./cases/${e(run.slug)}/">${e(t('Read failure notes'))} ↗</a>${run.source ? `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer">${e(t('Pi conversation ↗'))}</a><a href="https://gist.github.com/${e(run.source.gist_id)}/${e(run.source.gist_revision)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a>` : ''}</div>`;
+  return `<div class="run-badges">${effortChips(run)}</div><div class="case-copy"><p class="case-summary">${e(text(f.summary))}</p><dl class="case-facts">${f.facts.map(fact => `<div><dt>${e(text(fact.label))}</dt><dd>${e(fact.value)}</dd></div>`).join('')}${metricRow('Cost estimate · USD', costText(run))}</dl><p>${e(text(f.explanation))}</p><p class="case-limitation">${e(text(f.limitation))}</p></div><details class="metric-notes price-notes"><summary>${e(t('Pricing details'))}</summary>${priceDetails(run)}</details><div class="source-links"><a href="./cases/${e(run.slug)}/">${e(t('Read failure notes'))} ↗</a>${run.source ? `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer">${e(t('Pi conversation ↗'))}</a><a href="${e(run.source.snapshot_url)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a>` : ''}</div>`;
 }
 function runDetails(run) {
   if (run.outcome === 'no_artwork') return failureDetails(run);
@@ -266,12 +259,12 @@ function runDetails(run) {
     + (run.follow_up_count ? `<span class="badge note">${e(t('{count} follow-up corrections', {count: run.follow_up_count}))}</span>` : '')
     + (m.errors || m.tool_errors ? `<span class="badge note">${e(t('Includes errors / retries'))}</span>` : '');
   return `<div class="run-badges">${badges}</div>
-    <dl class="metric-highlights">${metricRow('Total run time', time(m.duration_seconds))}${metricRow('Average output TPS', number(m.average_tps))}${metricRow('Tool calls', number(m.tool_calls))}${metricRow(costLabel(run), costText(run))}</dl>
+    <dl class="metric-highlights">${metricRow('Total run time', time(m.duration_seconds))}${metricRow('Average output TPS', number(m.average_tps))}${metricRow('Tool calls', number(m.tool_calls))}${metricRow('Cost estimate · USD', costText(run))}</dl>
     <section class="metric-section"><h3>${e(t('Tokens'))}</h3><dl class="metric-list">${metricRow('Input', number(tokens.input))}${metricRow('Output', number(tokens.output))}${metricRow('Reasoning', number(tokens.reasoning))}${metricRow('Cache read', number(tokens.cacheRead))}${metricRow('Cache write', number(tokens.cacheWrite))}${metricRow('Recorded total', number(tokens.totalTokens), 'token-total')}</dl></section>
-    <section class="metric-section"><h3>${e(t('The run'))}</h3><dl class="metric-list">${metricRow('Tested', date(run.date) + ' · UTC')}${metricRow('Model ID', run.model_ids.join(', '))}${metricRow('Request time', time(m.request_seconds))}${metricRow('Output budget / request (incl. reasoning)', number(run.output_budget_per_request))}${metricRow('Assistant turns', number(m.assistant_turns))}${metricRow('Tool breakdown', Object.entries(m.tool_breakdown).map(([tool, count]) => `${tool} × ${count}`).join(' · ') || t('No tool calls'))}${metricRow('Available tools', run.available_tools.join(' · ') || t('Not recorded'))}${metricRow('Errors recorded', number(m.errors + m.tool_errors))}</dl></section>
-    <details class="metric-notes price-notes"><summary>${e(t('Price reference'))}</summary>${priceDetails(run)}</details>
-    <details class="metric-notes"><summary>${e(t('How these numbers are measured'))}</summary>${['Total run time includes tool execution, retries, and any wait for a follow-up prompt. Request time is the sum of recorded assistant request intervals.', 'Average output TPS = reported output tokens ÷ request time. It includes first-token latency and reasoning time; it is not a streaming decode benchmark. Output may include reasoning tokens.', 'Token totals follow the exported usage. Reasoning is a breakdown, not an extra amount added to the total. Input and cache usage can recur across turns.', 'Costs are estimates, not billing receipts. Unverified zero costs are not treated as free.'].map(text => `<p>${e(t(text))}</p>`).join('')}</details>
-    <div class="source-links">${sourceLinks(run)}<a href="https://gist.github.com/${e(run.source.gist_id)}/${e(run.source.gist_revision)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a></div>`;
+    <section class="metric-section"><h3>${e(t('The run'))}</h3><dl class="metric-list">${metricRow('Tested', date(run.date) + ' · UTC')}${metricRow('Model ID', run.model_ids.join(', '))}${run.response_model_ids ? metricRow('Response model ID', run.response_model_ids.join(', ')) : ''}${metricRow('Request time', time(m.request_seconds))}${metricRow('Output budget / request (incl. reasoning)', number(run.output_budget_per_request))}${metricRow('Assistant turns', number(m.assistant_turns))}${metricRow('Tool breakdown', Object.entries(m.tool_breakdown).map(([tool, count]) => `${tool} × ${count}`).join(' · ') || t('No tool calls'))}${metricRow('Available tools', run.available_tools.join(' · ') || t('Not recorded'))}${metricRow('Errors recorded', number(m.errors + m.tool_errors))}</dl></section>
+    <details class="metric-notes price-notes"><summary>${e(t('Pricing details'))}</summary>${priceDetails(run)}</details>
+    <details class="metric-notes"><summary>${e(t('How these numbers are measured'))}</summary>${['Total run time includes tool execution, retries, and any wait for a follow-up prompt. Request time is the sum of recorded assistant request intervals.', 'Average output TPS = reported output tokens ÷ request time. It includes first-token latency and reasoning time; it is not a streaming decode benchmark. Output may include reasoning tokens.', 'Token totals follow the exported usage. Reasoning is a breakdown, not an extra amount added to the total. Input and cache usage can recur across turns.'].map(text => `<p>${e(t(text))}</p>`).join('')}</details>
+    <div class="source-links">${sourceLinks(run)}<a href="${e(run.source.snapshot_url)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a></div>`;
 }
 
 function syncLevelSelection() {
@@ -285,8 +278,8 @@ function renderLevels(run) {
   const summary = document.querySelector('#level-overview summary');
   summary.dataset.i18n = enough ? 'Compare levels' : 'Reasoning level overview'; summary.textContent = t(summary.dataset.i18n);
   document.querySelector('.level-actions').hidden = !enough;
-  document.querySelector('#detail-levels').innerHTML = group.map(item => `<button type="button" class="level-link" data-level-run="${e(item.slug)}" aria-pressed="${item.slug === run.slug}" aria-label="${e(t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}) + (item.outcome === 'no_artwork' ? ' · ' + t('No SVG delivered') : ''))}">${effortChips(item)}${levelStatus(item)}</button>`).join('');
-  document.querySelector('#level-summary').innerHTML = `<caption class="sr-only">${e(t('Choose 2–4 artworks'))}</caption><thead><tr>${['Select', 'Reasoning', 'Time', 'Output tokens', 'Estimated cost · USD', 'Output budget / request (incl. reasoning)'].map(label => `<th scope="col">${e(t(label))}</th>`).join('')}</tr></thead><tbody>${group.map(item => `<tr><td><input type="checkbox" data-level-compare="${e(item.slug)}" aria-label="${e(t('Compare {model}, {level} reasoning', {model: item.name, level: levels(item)}))}" ${levelSelection.has(item.slug) ? 'checked' : ''} ${item.outcome === 'no_artwork' || !enough ? 'disabled' : ''}></td><th scope="row"><button type="button" class="level-link" data-level-run="${e(item.slug)}">${effortChips(item)}${levelStatus(item)}</button></th><td>${e(item.metrics ? time(item.metrics.duration_seconds) : '—')}</td><td>${e(number(item.metrics?.tokens.output))}</td><td>${e(item.metrics ? costText(item) : '—')}</td><td>${e(number(item.output_budget_per_request))}</td></tr>`).join('')}</tbody>`;
+  document.querySelector('#detail-levels').innerHTML = group.map(item => `<button type="button" class="level-link" data-level-run="${e(item.slug)}" aria-pressed="${item.slug === run.slug}" aria-label="${e(t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}))}">${effortChips(item)}</button>`).join('');
+  document.querySelector('#level-summary').innerHTML = `<caption class="sr-only">${e(t('Choose 2–4 artworks'))}</caption><thead><tr>${['Select', 'Reasoning', 'Time', 'Output tokens', 'Cost estimate · USD', 'Output budget / request (incl. reasoning)'].map(label => `<th scope="col">${e(t(label))}</th>`).join('')}</tr></thead><tbody>${group.map(item => `<tr><td><input type="checkbox" data-level-compare="${e(item.slug)}" aria-label="${e(t('Compare {model}, {level} reasoning', {model: item.name, level: levels(item)}))}" ${levelSelection.has(item.slug) ? 'checked' : ''} ${item.outcome === 'no_artwork' || !enough ? 'disabled' : ''}></td><th scope="row"><button type="button" class="level-link" data-level-run="${e(item.slug)}">${effortChips(item)}</button></th><td>${e(item.metrics ? time(item.metrics.duration_seconds) : '—')}</td><td>${e(number(item.metrics?.tokens.output))}</td><td>${e(costText(item))}</td><td>${e(number(item.output_budget_per_request))}</td></tr>`).join('')}</tbody>`;
   syncLevelSelection();
 }
 function showDetail(slug) {
@@ -355,7 +348,7 @@ function toggleSelection(slug, checked) {
   syncSelection();
 }
 function comparisonTable(pair) {
-  const rows = [['Model maker', run => run.vendor], ['Reasoning', levels], ['Output budget / request (incl. reasoning)', run => number(run.output_budget_per_request)], ['Total run time', run => time(run.metrics.duration_seconds)], ['Request time', run => time(run.metrics.request_seconds)], ['Avg. output TPS', run => number(run.metrics.average_tps)], ['Estimated cost · USD', costText], ['Tool calls', run => number(run.metrics.tool_calls)], ['Assistant turns', run => number(run.metrics.assistant_turns)], ['Follow-up prompts', run => number(run.follow_up_count)], ['Errors recorded', run => number(run.metrics.errors + run.metrics.tool_errors)], ['Input tokens', run => number(run.metrics.tokens.input)], ['Output tokens', run => number(run.metrics.tokens.output)], ['Reasoning tokens', run => number(run.metrics.tokens.reasoning)], ['Cache read tokens', run => number(run.metrics.tokens.cacheRead)], ['Cache write tokens', run => number(run.metrics.tokens.cacheWrite)], ['Recorded total tokens', run => number(run.metrics.tokens.totalTokens)]];
+  const rows = [['Model maker', run => run.vendor], ['Reasoning', levels], ['Output budget / request (incl. reasoning)', run => number(run.output_budget_per_request)], ['Total run time', run => time(run.metrics.duration_seconds)], ['Request time', run => time(run.metrics.request_seconds)], ['Avg. output TPS', run => number(run.metrics.average_tps)], ['Cost estimate · USD', costText], ['Tool calls', run => number(run.metrics.tool_calls)], ['Assistant turns', run => number(run.metrics.assistant_turns)], ['Follow-up prompts', run => number(run.follow_up_count)], ['Errors recorded', run => number(run.metrics.errors + run.metrics.tool_errors)], ['Input tokens', run => number(run.metrics.tokens.input)], ['Output tokens', run => number(run.metrics.tokens.output)], ['Reasoning tokens', run => number(run.metrics.tokens.reasoning)], ['Cache read tokens', run => number(run.metrics.tokens.cacheRead)], ['Cache write tokens', run => number(run.metrics.tokens.cacheWrite)], ['Recorded total tokens', run => number(run.metrics.tokens.totalTokens)]];
   return `<table class="compare-table"><caption class="sr-only">${e(t('Performance metrics comparison'))}</caption><thead><tr><th scope="col">${e(t('Run details'))}</th>${pair.map(run => `<th scope="col">${e(run.name)} · ${e(levels(run))}</th>`).join('')}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${e(t(label))}</th>${pair.map(run => `<td>${e(value(run))}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }
 function showComparison(slugs) {
@@ -397,8 +390,7 @@ async function copyLink(button) {
   } catch { notify('Copy unavailable. Copy this page’s address from your browser.'); }
 }
 function renderLanguage() {
-  const failed = runs.length - artworkRuns.length;
-  document.querySelector('#summary-count').textContent = t('{models} models · {runs} runs', {models: number(models.size), runs: number(runs.length)}) + (failed ? ' · ' + t('{count} without SVG', {count: number(failed)}) : '');
+  document.querySelector('#summary-count').textContent = t('{models} models · {runs} runs', {models: number(models.size), runs: number(runs.length)});
   document.querySelector('#summary-makers').textContent = t('{count} model makers', {count: number(new Set(runs.map(run => run.vendor)).size)});
   document.querySelector('#updated-date').textContent = new Intl.DateTimeFormat(locale(), {month: 'long', year: 'numeric', timeZone: 'UTC'}).format(new Date(runs[0].date));
   if (currentDetail) {

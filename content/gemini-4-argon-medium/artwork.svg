@@ -1,0 +1,592 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Sky / Circus Backdrop Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#fff8eb" />
+      <stop offset="65%" stop-color="#fce4b8" />
+      <stop offset="100%" stop-color="#f2c48d" />
+    </radialGradient>
+
+    <!-- Spotlight Gradient -->
+    <linearGradient id="spotlight" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Anteater Fur Gradients -->
+    <linearGradient id="furMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8c735b" />
+      <stop offset="55%" stop-color="#6e5742" />
+      <stop offset="100%" stop-color="#4f3d2d" />
+    </linearGradient>
+
+    <linearGradient id="furSnout" x1="0%" y1="30%" x2="100%" y2="70%">
+      <stop offset="0%" stop-color="#7c654f" />
+      <stop offset="60%" stop-color="#5c4836" />
+      <stop offset="100%" stop-color="#3c2e22" />
+    </linearGradient>
+
+    <linearGradient id="tailFur" x1="100%" y1="50%" x2="0%" y2="30%">
+      <stop offset="0%" stop-color="#594534" />
+      <stop offset="40%" stop-color="#786049" />
+      <stop offset="75%" stop-color="#4a3929" />
+      <stop offset="100%" stop-color="#33261b" />
+    </linearGradient>
+
+    <!-- Unicycle Chrome Gradient -->
+    <linearGradient id="chrome" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d8e2eb" />
+      <stop offset="50%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#8fa1b3" />
+    </linearGradient>
+
+    <!-- Bottle Gradients -->
+    <linearGradient id="greenGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#196f3d" />
+      <stop offset="35%" stop-color="#2ecc71" />
+      <stop offset="85%" stop-color="#145a32" />
+      <stop offset="100%" stop-color="#0b3b1e" />
+    </linearGradient>
+
+    <linearGradient id="amberGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#935116" />
+      <stop offset="35%" stop-color="#f39c12" />
+      <stop offset="85%" stop-color="#784212" />
+      <stop offset="100%" stop-color="#4a2306" />
+    </linearGradient>
+
+    <linearGradient id="cobaltGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1b4f72" />
+      <stop offset="35%" stop-color="#3498db" />
+      <stop offset="85%" stop-color="#154360" />
+      <stop offset="100%" stop-color="#0b2638" />
+    </linearGradient>
+
+    <!-- Reusable Juggling Bottle Template -->
+    <g id="bottleShape">
+      <!-- Bottle Body -->
+      <path d="M -6,-38 L 6,-38 L 6,-33 L 5,-33 L 7,-14 C 9,-6 15,-2 15,8 L 15,34 C 15,39 11,42 6,42 L -6,42 C -11,42 -15,39 -15,34 L -15,8 C -15,-2 -9,-6 -7,-14 L -5,-33 L -6,-33 Z" />
+      <!-- Crown Cap -->
+      <path d="M -7,-41 L 7,-41 L 6,-36 L -6,-36 Z" fill="#e74c3c" stroke="#922b21" stroke-width="1" />
+      <!-- Neck Foil -->
+      <path d="M -5.5,-32 L 5.5,-32 L 6.3,-22 L -6.3,-22 Z" fill="#f4d03f" />
+      <!-- Bottle Label -->
+      <rect x="-13" y="6" width="26" height="20" rx="2" fill="#fdfefe" stroke="#d5dbdb" stroke-width="1" />
+      <rect x="-10" y="10" width="20" height="4" rx="1" fill="#e74c3c" />
+      <rect x="-8" y="17" width="16" height="2.5" rx="1" fill="#95a5a6" />
+      <rect x="-6" y="21" width="12" height="2" rx="1" fill="#bdc3c7" />
+      <!-- Glass Specular Highlight -->
+      <path d="M -9,6 C -9,-1 -5,-5 -4,-13 L -3,-29" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.65" />
+      <line x1="-10" y1="10" x2="-10" y2="33" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.55" />
+    </g>
+  </defs>
+
+  <style><![CDATA[
+    /* Wheel Rotation */
+    @keyframes spinWheel {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Ground Shadow Pulse */
+    @keyframes shadowRock {
+      0%, 100% { transform: translateX(-8px) scaleX(0.97); }
+      50% { transform: translateX(8px) scaleX(1.03); }
+    }
+
+    /* Unicycle Frame and Rider Balance Sway */
+    @keyframes riderBalance {
+      0%, 100% { transform: rotate(-2.2deg); }
+      50% { transform: rotate(2.2deg); }
+    }
+
+    /* Bushy Tail Counter-Balance Wave */
+    @keyframes tailWave {
+      0%, 100% { transform: rotate(-7deg); }
+      50% { transform: rotate(9deg); }
+    }
+
+    /* Head and Long Snout Bob */
+    @keyframes headBob {
+      0%, 100% { transform: rotate(-2.5deg) translateY(0px); }
+      25% { transform: rotate(1deg) translateY(-3px); }
+      50% { transform: rotate(3deg) translateY(1px); }
+      75% { transform: rotate(-1deg) translateY(-2px); }
+    }
+
+    /* Playful Pink Tongue Flick */
+    @keyframes tongueFlick {
+      0%, 72%, 100% { transform: translate(0, 0) scaleX(0.2); opacity: 0; }
+      78% { transform: translate(12px, 4px) scaleX(1); opacity: 1; }
+      85% { transform: translate(18px, 1px) scaleX(1.15); opacity: 1; }
+      92% { transform: translate(6px, 2px) scaleX(0.6); opacity: 1; }
+    }
+
+    /* Pedaling Legs and Crank (1.2s cycle synced to wheel) */
+    @keyframes pedalFrontOrbit {
+      0%   { transform: translate(434px, 625px); }
+      25%  { transform: translate(400px, 659px); }
+      50%  { transform: translate(366px, 625px); }
+      75%  { transform: translate(400px, 591px); }
+      100% { transform: translate(434px, 625px); }
+    }
+
+    @keyframes pedalBackOrbit {
+      0%   { transform: translate(366px, 625px); }
+      25%  { transform: translate(400px, 591px); }
+      50%  { transform: translate(434px, 625px); }
+      75%  { transform: translate(400px, 659px); }
+      100% { transform: translate(366px, 625px); }
+    }
+
+    @keyframes frontThighAnim {
+      0%, 100% { transform: rotate(-28deg); }
+      25%      { transform: rotate(-6deg); }
+      50%      { transform: rotate(24deg); }
+      75%      { transform: rotate(-42deg); }
+    }
+
+    @keyframes frontShinAnim {
+      0%, 100% { transform: rotate(22deg); }
+      25%      { transform: rotate(8deg); }
+      50%      { transform: rotate(28deg); }
+      75%      { transform: rotate(72deg); }
+    }
+
+    @keyframes backThighAnim {
+      0%, 100% { transform: rotate(24deg); }
+      25%      { transform: rotate(-42deg); }
+      50%      { transform: rotate(-28deg); }
+      75%      { transform: rotate(-6deg); }
+    }
+
+    @keyframes backShinAnim {
+      0%, 100% { transform: rotate(28deg); }
+      25%      { transform: rotate(72deg); }
+      50%      { transform: rotate(22deg); }
+      75%      { transform: rotate(8deg); }
+    }
+
+    /* Juggling Arms Motion */
+    @keyframes leftArmJuggle {
+      0%, 100% { transform: rotate(12deg); }
+      25%      { transform: rotate(-18deg); }
+      50%      { transform: rotate(12deg); }
+      75%      { transform: rotate(-18deg); }
+    }
+
+    @keyframes rightArmJuggle {
+      0%, 100% { transform: rotate(-16deg); }
+      25%      { transform: rotate(16deg); }
+      50%      { transform: rotate(-16deg); }
+      75%      { transform: rotate(16deg); }
+    }
+
+    /* 3-Bottle Juggling Cascade (Figure-8 Arc) */
+    @keyframes juggleCascade {
+      0% {
+        transform: translate(315px, 345px) rotate(0deg);
+        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      24% {
+        transform: translate(435px, 120px) rotate(210deg);
+        animation-timing-function: cubic-bezier(0.55, 0.05, 0.68, 0.53);
+      }
+      48% {
+        transform: translate(525px, 340px) rotate(390deg);
+        animation-timing-function: ease-in-out;
+      }
+      52% {
+        transform: translate(495px, 355px) rotate(420deg);
+        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      76% {
+        transform: translate(395px, 115px) rotate(570deg);
+        animation-timing-function: cubic-bezier(0.55, 0.05, 0.68, 0.53);
+      }
+      96% {
+        transform: translate(300px, 340px) rotate(705deg);
+        animation-timing-function: ease-in-out;
+      }
+      100% {
+        transform: translate(315px, 345px) rotate(720deg);
+      }
+    }
+
+    /* Floating Circus Sparkles */
+    @keyframes twinkle {
+      0%, 100% { transform: scale(0.7) rotate(0deg); opacity: 0.4; }
+      50% { transform: scale(1.15) rotate(45deg); opacity: 0.95; }
+    }
+
+    .wheel-spin {
+      transform-origin: 400px 625px;
+      animation: spinWheel 1.2s linear infinite;
+    }
+
+    .pedal-front {
+      animation: pedalFrontOrbit 1.2s linear infinite;
+    }
+
+    .pedal-back {
+      animation: pedalBackOrbit 1.2s linear infinite;
+    }
+
+    .rider-sway {
+      transform-origin: 400px 625px;
+      animation: riderBalance 2.4s ease-in-out infinite;
+    }
+
+    .tail-group {
+      transform-origin: 350px 475px;
+      animation: tailWave 2.4s ease-in-out infinite;
+    }
+
+    .head-group {
+      transform-origin: 425px 350px;
+      animation: headBob 1.2s ease-in-out infinite;
+    }
+
+    .tongue {
+      transform-origin: 605px 380px;
+      animation: tongueFlick 3.6s ease-in-out infinite;
+    }
+
+    .front-thigh {
+      transform-origin: 400px 485px;
+      animation: frontThighAnim 1.2s ease-in-out infinite;
+    }
+
+    .front-shin {
+      transform-origin: 428px 548px;
+      animation: frontShinAnim 1.2s ease-in-out infinite;
+    }
+
+    .back-thigh {
+      transform-origin: 400px 485px;
+      animation: backThighAnim 1.2s ease-in-out infinite;
+    }
+
+    .back-shin {
+      transform-origin: 428px 548px;
+      animation: backShinAnim 1.2s ease-in-out infinite;
+    }
+
+    .left-arm {
+      transform-origin: 385px 365px;
+      animation: leftArmJuggle 1.2s ease-in-out infinite;
+    }
+
+    .right-arm {
+      transform-origin: 430px 368px;
+      animation: rightArmJuggle 1.2s ease-in-out infinite;
+    }
+
+    .bottle-1 {
+      animation: juggleCascade 2.4s infinite;
+      animation-delay: 0s;
+    }
+
+    .bottle-2 {
+      animation: juggleCascade 2.4s infinite;
+      animation-delay: -0.8s;
+    }
+
+    .bottle-3 {
+      animation: juggleCascade 2.4s infinite;
+      animation-delay: -1.6s;
+    }
+
+    .ground-shadow {
+      transform-origin: 400px 722px;
+      animation: shadowRock 2.4s ease-in-out infinite;
+    }
+
+    .star-1 { transform-origin: 225px 190px; animation: twinkle 2.2s ease-in-out infinite; }
+    .star-2 { transform-origin: 575px 175px; animation: twinkle 1.8s ease-in-out infinite -0.7s; }
+    .star-3 { transform-origin: 295px 95px;  animation: twinkle 2.6s ease-in-out infinite -1.3s; }
+    .star-4 { transform-origin: 515px 88px;  animation: twinkle 2.0s ease-in-out infinite -0.4s; }
+  ]]></style>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bgGrad)" />
+
+  <!-- Subtle Circus Tent Ring Floor and Spotlight -->
+  <polygon points="260,0 540,0 690,800 110,800" fill="url(#spotlight)" />
+  <ellipse cx="400" cy="735" rx="340" ry="42" fill="#e5b176" opacity="0.55" />
+  <ellipse cx="400" cy="735" rx="310" ry="32" fill="none" stroke="#d49553" stroke-width="3" stroke-dasharray="18 12" opacity="0.6" />
+
+  <!-- Decorative Circus Bunting Flags at Top -->
+  <g opacity="0.85">
+    <path d="M 0,25 Q 200,75 400,30 Q 600,75 800,25" fill="none" stroke="#8e6b4e" stroke-width="2.5" />
+    <polygon points="45,35 75,42 58,72" fill="#e74c3c" />
+    <polygon points="105,47 135,51 118,82" fill="#f1c40f" />
+    <polygon points="165,54 195,56 180,86" fill="#2ecc71" />
+    <polygon points="225,56 255,54 242,85" fill="#3498db" />
+    <polygon points="285,52 315,47 302,79" fill="#9b59b6" />
+    <polygon points="345,42 375,35 362,67" fill="#e67e22" />
+    <polygon points="425,35 455,42 438,67" fill="#e74c3c" />
+    <polygon points="485,47 515,52 498,79" fill="#f1c40f" />
+    <polygon points="545,54 575,56 558,85" fill="#2ecc71" />
+    <polygon points="605,56 635,54 620,86" fill="#3498db" />
+    <polygon points="665,51 695,47 682,82" fill="#9b59b6" />
+    <polygon points="725,42 755,35 742,72" fill="#e67e22" />
+  </g>
+
+  <!-- Juggling Motion Arcs (Subtle Dotted Air Trails) -->
+  <path d="M 308,335 C 330,80 480,80 515,335" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6 10" opacity="0.55" />
+  <path d="M 515,335 C 470,95 340,95 308,335" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6 10" opacity="0.4" />
+
+  <!-- Sparkle Stars Around Juggling Zone -->
+  <g fill="#f39c12">
+    <path class="star-1" d="M 225,178 L 228,187 L 237,190 L 228,193 L 225,202 L 222,193 L 213,190 L 222,187 Z" />
+    <path class="star-2" d="M 575,163 L 578,172 L 587,175 L 578,178 L 575,187 L 572,178 L 563,175 L 572,172 Z" />
+    <path class="star-3" d="M 295,85 L 297,92 L 304,95 L 297,98 L 295,105 L 293,98 L 286,95 L 293,92 Z" />
+    <path class="star-4" d="M 515,78 L 517,85 L 524,88 L 517,91 L 515,98 L 513,91 L 506,88 L 513,85 Z" />
+  </g>
+
+  <!-- Dynamic Ground Shadow -->
+  <ellipse class="ground-shadow" cx="400" cy="722" rx="115" ry="14" fill="#9c6d3e" opacity="0.45" />
+
+  <!-- ===================================================== -->
+  <!-- MAIN SWAYING GROUP: UNICYCLE + ANTEATER               -->
+  <!-- ===================================================== -->
+  <g class="rider-sway">
+
+    <!-- 1. BACK CRANK AND BACK PEDAL (Behind Wheel) -->
+    <g class="wheel-spin">
+      <!-- Back Crank Arm (180 deg phase) -->
+      <line x1="400" y1="625" x2="366" y2="625" stroke="#7f8c8d" stroke-width="7" stroke-linecap="round" />
+    </g>
+    <g class="pedal-back">
+      <rect x="-16" y="-5" width="32" height="10" rx="3" fill="#2c3e50" stroke="#1a252f" stroke-width="1.5" />
+      <rect x="-11" y="-2" width="22" height="4" rx="1" fill="#e67e22" />
+    </g>
+
+    <!-- 2. ANTEATER BACK LEG (Behind Wheel and Frame) -->
+    <g class="back-thigh">
+      <!-- Thigh -->
+      <path d="M 384,485 C 384,515 405,542 428,548 C 442,550 448,532 436,512 C 424,492 405,475 384,485 Z" fill="#4f3d2d" />
+      <!-- Knee and Shin -->
+      <g class="back-shin">
+        <path d="M 418,542 C 412,568 415,595 422,608 L 442,608 C 444,588 444,562 436,542 Z" fill="#3e2f22" />
+        <!-- Foot and Claws on Back Pedal -->
+        <path d="M 416,604 C 416,612 438,614 452,610 C 454,604 445,598 434,598 Z" fill="#2b2017" />
+        <path d="M 448,604 L 460,609 M 446,608 L 458,613" stroke="#d5cabd" stroke-width="2.5" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- 3. ANTEATER RIGHT ARM (Background Juggling Arm) -->
+    <g class="right-arm">
+      <!-- Shaggy Forelimb -->
+      <path d="M 422,358 C 448,370 475,375 502,355 C 514,344 522,326 510,318 C 498,312 486,332 470,336 C 454,340 438,334 425,342 Z" fill="#5b4635" />
+      <!-- Cream/White Forearm Fur Patch (Characteristic of Giant Anteaters) -->
+      <path d="M 465,337 C 482,338 498,325 510,320 C 518,326 512,344 498,354 C 484,364 466,358 456,352 Z" fill="#e8dec8" />
+      <!-- Dark Wrist Band -->
+      <path d="M 494,327 C 502,329 509,336 506,346" stroke="#2c2219" stroke-width="6" stroke-linecap="round" fill="none" />
+      <!-- Curved Anteater Claws -->
+      <path d="M 508,320 C 522,312 532,320 528,332" fill="none" stroke="#f0e6d2" stroke-width="4" stroke-linecap="round" />
+      <path d="M 512,328 C 525,324 532,332 526,342" fill="none" stroke="#dcd0b8" stroke-width="3.2" stroke-linecap="round" />
+    </g>
+
+    <!-- 4. UNICYCLE WHEEL AND FRAME -->
+    <g id="unicycle-wheel">
+      <!-- Outer Rubber Tire -->
+      <circle cx="400" cy="625" r="90" fill="none" stroke="#262b30" stroke-width="15" />
+      <!-- Whitewall Rim Accent -->
+      <circle cx="400" cy="625" r="81" fill="none" stroke="#f2e9dc" stroke-width="4" />
+      <!-- Metallic Rim -->
+      <circle cx="400" cy="625" r="77" fill="none" stroke="#bdc3c7" stroke-width="4" />
+
+      <!-- Rotating Spokes and Tire Treads -->
+      <g class="wheel-spin">
+        <g stroke="#d0d7de" stroke-width="2">
+          <line x1="400" y1="548" x2="400" y2="702" />
+          <line x1="323" y1="625" x2="477" y2="625" />
+          <line x1="345.5" y1="570.5" x2="454.5" y2="679.5" />
+          <line x1="454.5" y1="570.5" x2="345.5" y2="679.5" />
+          <line x1="370.5" y1="553.8" x2="429.5" y2="696.2" />
+          <line x1="328.8" y1="595.5" x2="471.2" y2="654.5" />
+          <line x1="328.8" y1="654.5" x2="471.2" y2="595.5" />
+          <line x1="370.5" y1="696.2" x2="429.5" y2="553.8" />
+        </g>
+        <!-- Valve Stem -->
+        <rect x="397" y="548" width="6" height="11" rx="2" fill="#f1c40f" />
+        <!-- Tire Tread Notches -->
+        <circle cx="400" cy="625" r="96" fill="none" stroke="#181b1e" stroke-width="3" stroke-dasharray="6 18" />
+      </g>
+
+      <!-- Unicycle Fork and Seatpost -->
+      <path d="M 388,625 L 392,522 C 392,512 408,512 408,522 L 412,625" fill="none" stroke="url(#chrome)" stroke-width="8" stroke-linecap="round" />
+      <line x1="400" y1="516" x2="400" y2="485" stroke="url(#chrome)" stroke-width="9" />
+      <!-- Seatpost Clamp -->
+      <rect x="392" y="508" width="16" height="7" rx="2" fill="#c0392b" />
+
+      <!-- Center Hub Flange -->
+      <circle cx="400" cy="625" r="12" fill="#e74c3c" stroke="#2c3e50" stroke-width="3" />
+    </g>
+
+    <!-- 5. MAGNIFICENT BUSHY ANTEATER TAIL (Counter-balance) -->
+    <g class="tail-group">
+      <!-- Base Tail Plume -->
+      <path d="M 365,475
+               C 325,485 280,455 230,400
+               C 190,355 135,345 105,375
+               C 90,390 112,415 95,432
+               C 80,445 105,468 128,478
+               C 105,492 130,518 168,522
+               C 155,536 195,552 242,542
+               C 290,532 335,515 372,498 Z"
+            fill="url(#tailFur)" />
+      <!-- Light and Dark Shaggy Feathering Sweeps -->
+      <path d="M 355,480 C 300,475 245,425 185,385 C 155,365 128,372 115,388" fill="none" stroke="#9e846b" stroke-width="7" stroke-linecap="round" opacity="0.65" />
+      <path d="M 350,488 C 295,495 230,470 165,442 C 138,430 118,440 108,450" fill="none" stroke="#36281c" stroke-width="8" stroke-linecap="round" opacity="0.7" />
+      <path d="M 355,494 C 305,512 245,510 185,495 C 160,488 140,498 135,505" fill="none" stroke="#8f755d" stroke-width="6" stroke-linecap="round" opacity="0.6" />
+      <path d="M 362,496 C 325,520 270,532 215,528" fill="none" stroke="#2c2016" stroke-width="6" stroke-linecap="round" opacity="0.75" />
+    </g>
+
+    <!-- 6. UNICYCLE BANANA SADDLE -->
+    <path d="M 358,472 C 375,492 418,492 436,478 C 442,473 438,463 428,466 C 410,472 382,472 368,460 C 360,454 352,464 358,472 Z"
+          fill="#c0392b" stroke="#781e14" stroke-width="2.5" />
+    <path d="M 366,468 C 384,480 412,480 430,472" fill="none" stroke="#e74c3c" stroke-width="3" stroke-linecap="round" />
+
+    <!-- 7. ANTEATER TORSO AND ICONIC SHOULDER STRIPE -->
+    <g id="anteater-body">
+      <!-- Main Torso -->
+      <path d="M 355,468
+               C 342,435 348,378 375,342
+               C 392,320 422,320 438,345
+               C 456,375 454,435 432,474
+               C 415,488 372,488 355,468 Z"
+            fill="url(#furMain)" />
+
+      <!-- Shaggy Back Fur Tufting -->
+      <path d="M 356,425 L 346,430 L 354,412 L 345,414 L 356,395 L 348,394 L 362,375" fill="#7c654f" />
+
+      <!-- Iconic Giant Anteater Diagonal Black Stripe with Cream-White Border -->
+      <path d="M 442,365 C 415,368 386,392 360,438 L 368,455 C 398,412 425,392 448,388 Z"
+            fill="#1e1813" stroke="#f5ebd6" stroke-width="5" stroke-linejoin="round" />
+
+      <!-- Jaunty Circus Bowtie / Collar -->
+      <path d="M 392,340 C 408,352 428,354 442,348" fill="none" stroke="#c0392b" stroke-width="5" stroke-linecap="round" />
+      <g transform="translate(436, 352) rotate(12)">
+        <polygon points="0,0 -14,-9 -12,9" fill="#e74c3c" stroke="#922b21" stroke-width="1.2" />
+        <polygon points="0,0 14,-9 12,9" fill="#e74c3c" stroke="#922b21" stroke-width="1.2" />
+        <circle cx="0" cy="0" r="3.8" fill="#f1c40f" />
+      </g>
+    </g>
+
+    <!-- 8. ANTEATER HEAD, LONG TUBULAR SNOUT, HAT AND TONGUE -->
+    <g class="head-group">
+      <!-- Flicking Pink Tongue -->
+      <path class="tongue" d="M 595,378 C 618,380 638,372 648,362 C 652,358 655,362 650,367 C 638,379 618,386 595,383 Z" fill="#ff7eb9" stroke="#d94e8f" stroke-width="1.2" />
+
+      <!-- Back Ear -->
+      <ellipse cx="426" cy="304" rx="8" ry="11" transform="rotate(15 426 304)" fill="#4a3929" />
+
+      <!-- Long Downward-Curving Tubular Snout and Head -->
+      <path d="M 382,342
+               C 386,312 408,298 438,304
+               C 475,310 525,326 572,348
+               C 592,358 606,368 609,375
+               C 612,382 606,389 598,387
+               C 582,383 560,368 530,358
+               C 495,346 462,348 436,354
+               C 415,358 392,354 382,342 Z"
+            fill="url(#furSnout)" />
+
+      <!-- Upper Snout Highlight -->
+      <path d="M 435,308 C 480,315 535,334 596,366" fill="none" stroke="#9c846c" stroke-width="3.5" stroke-linecap="round" opacity="0.55" />
+
+      <!-- Cute Dark Nose Tip and Nostril -->
+      <ellipse cx="605" cy="378" rx="6" ry="7" transform="rotate(22 605 378)" fill="#1f1812" />
+      <circle cx="606" cy="376" r="2" fill="#4f3d2d" />
+      <!-- Little Smile / Mouth Line -->
+      <path d="M 592,383 C 598,384 603,383 607,381" fill="none" stroke="#1f1812" stroke-width="1.8" stroke-linecap="round" />
+
+      <!-- Front Ear -->
+      <ellipse cx="406" cy="310" rx="9" ry="12" transform="rotate(-12 406 310)" fill="#5c4836" stroke="#3c2e22" stroke-width="1.5" />
+      <ellipse cx="406" cy="311" rx="5" ry="7" transform="rotate(-12 406 311)" fill="#d4a59a" opacity="0.65" />
+
+      <!-- Expressive Eye (Focused Upward on Juggling Bottles!) -->
+      <circle cx="444" cy="322" r="6.5" fill="#1a1410" />
+      <circle cx="446" cy="319.5" r="2.4" fill="#ffffff" />
+      <circle cx="442" cy="324" r="1" fill="#ffffff" />
+      <!-- Eyebrow -->
+      <path d="M 436,312 Q 445,308 452,314" fill="none" stroke="#2c2016" stroke-width="2.2" stroke-linecap="round" />
+
+      <!-- Rosy Cheek -->
+      <ellipse cx="452" cy="333" rx="6" ry="3.5" fill="#e87a7a" opacity="0.45" />
+
+      <!-- Tiny Circus Bowler / Top Hat Perched on Head -->
+      <g transform="translate(418, 297) rotate(-14)">
+        <!-- Hat Brim -->
+        <ellipse cx="0" cy="4" rx="22" ry="5" fill="#2c3e50" stroke="#1a252f" stroke-width="1.5" />
+        <!-- Hat Crown -->
+        <path d="M -14,3 C -15,-14 -10,-20 0,-20 C 10,-20 15,-14 14,3 Z" fill="#34495e" stroke="#1a252f" stroke-width="1.5" />
+        <!-- Gold Hat Ribbon -->
+        <path d="M -14,-1 C -5,2 5,2 14,-1 L 14,3 C 5,6 -5,6 -14,3 Z" fill="#f1c40f" />
+        <!-- Little Red Feather -->
+        <path d="M -10,-2 C -22,-14 -24,-28 -12,-30 C -6,-28 -6,-14 -10,-2 Z" fill="#e74c3c" />
+      </g>
+    </g>
+
+    <!-- 9. ANTEATER FRONT LEG (In Front of Unicycle Frame) -->
+    <g class="front-thigh">
+      <!-- Thigh -->
+      <path d="M 380,482 C 380,515 404,544 428,548 C 444,550 450,530 436,508 C 422,486 402,472 380,482 Z" fill="#6e5742" />
+      <!-- Knee and Shin -->
+      <g class="front-shin">
+        <path d="M 416,542 C 410,568 413,595 420,608 L 442,608 C 445,588 445,562 436,542 Z" fill="#594534" />
+        <!-- Foot and Claws on Front Pedal -->
+        <path d="M 415,604 C 415,612 438,614 454,610 C 456,604 446,597 434,597 Z" fill="#3c2e22" />
+        <path d="M 450,604 L 462,609 M 448,608 L 460,613" stroke="#efe6d5" stroke-width="2.5" stroke-linecap="round" />
+      </g>
+    </g>
+
+    <!-- 10. FRONT CRANK AND FRONT PEDAL (Foreground) -->
+    <g class="wheel-spin">
+      <!-- Front Crank Arm (0 deg phase) -->
+      <line x1="400" y1="625" x2="434" y2="625" stroke="url(#chrome)" stroke-width="7.5" stroke-linecap="round" />
+      <circle cx="400" cy="625" r="5" fill="#2c3e50" />
+    </g>
+    <g class="pedal-front">
+      <rect x="-17" y="-5.5" width="34" height="11" rx="3" fill="#2c3e50" stroke="#1a252f" stroke-width="1.5" />
+      <rect x="-12" y="-2" width="24" height="4" rx="1" fill="#f39c12" />
+    </g>
+
+    <!-- 11. ANTEATER LEFT ARM (Foreground Juggling Arm) -->
+    <g class="left-arm">
+      <!-- Shaggy Shoulder and Forelimb -->
+      <path d="M 368,365 C 345,382 325,385 302,360 C 292,348 288,330 300,322 C 312,315 322,336 336,342 C 350,348 364,342 378,348 Z" fill="#6e5742" />
+      <!-- Cream-White Forearm Fur (Signature Giant Anteater Marking) -->
+      <path d="M 342,343 C 325,342 312,326 300,322 C 290,328 295,348 308,358 C 322,368 340,366 352,358 Z" fill="#f5ebd6" />
+      <!-- Black Wrist Band -->
+      <path d="M 314,330 C 306,334 300,342 304,352" stroke="#1e1813" stroke-width="6.5" stroke-linecap="round" fill="none" />
+      <!-- Prominent Curved Anteater Claws -->
+      <path d="M 300,322 C 284,314 274,322 278,335" fill="none" stroke="#fff9eb" stroke-width="4.2" stroke-linecap="round" />
+      <path d="M 296,330 C 282,326 275,335 280,346" fill="none" stroke="#e6dec8" stroke-width="3.4" stroke-linecap="round" />
+      <path d="M 295,338 C 285,336 280,344 285,352" fill="none" stroke="#cfc5b0" stroke-width="2.6" stroke-linecap="round" />
+    </g>
+
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- JUGGLING BOTTLES (3-Bottle Cascade Loop)              -->
+  <!-- ===================================================== -->
+  <!-- Bottle 1: Emerald Green -->
+  <g class="bottle-1" fill="url(#greenGlass)" stroke="#0b3b1e" stroke-width="1.5">
+    <use href="#bottleShape" />
+  </g>
+
+  <!-- Bottle 2: Amber Root Beer -->
+  <g class="bottle-2" fill="url(#amberGlass)" stroke="#4a2306" stroke-width="1.5">
+    <use href="#bottleShape" />
+  </g>
+
+  <!-- Bottle 3: Cobalt Blue -->
+  <g class="bottle-3" fill="url(#cobaltGlass)" stroke="#0b2638" stroke-width="1.5">
+    <use href="#bottleShape" />
+  </g>
+
+</svg>

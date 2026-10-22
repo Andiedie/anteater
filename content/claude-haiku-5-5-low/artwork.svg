@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <title>Anteater riding a unicycle while juggling bottles</title>
+
+  <!-- Sky and ground -->
+  <rect width="400" height="300" fill="#bfe6ff"/>
+  <circle cx="340" cy="45" r="22" fill="#ffd54a"/>
+  <rect y="262" width="400" height="38" fill="#7cc46b"/>
+  <line x1="0" y1="262" x2="400" y2="262" stroke="#5a9c4f" stroke-width="3" stroke-dasharray="20 10">
+    <animate attributeName="stroke-dashoffset" from="0" to="-60" dur="1s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Unicycle wheel (spins) -->
+  <g>
+    <circle cx="200" cy="208" r="50" fill="none" stroke="#222" stroke-width="6"/>
+    <g>
+      <line x1="200" y1="158" x2="200" y2="258" stroke="#555" stroke-width="2"/>
+      <line x1="150" y1="208" x2="250" y2="208" stroke="#555" stroke-width="2"/>
+      <line x1="164" y1="172" x2="236" y2="244" stroke="#555" stroke-width="2"/>
+      <line x1="236" y1="172" x2="164" y2="244" stroke="#555" stroke-width="2"/>
+      <animateTransform attributeName="transform" type="rotate" from="0 200 208" to="-360 200 208" dur="1.2s" repeatCount="indefinite"/>
+    </g>
+    <circle cx="200" cy="208" r="5" fill="#888"/>
+  </g>
+
+  <!-- Frame and pedal crank -->
+  <line x1="200" y1="208" x2="200" y2="150" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+  <line x1="185" y1="208" x2="215" y2="208" stroke="#444" stroke-width="5" stroke-linecap="round"/>
+  <rect x="186" y="142" width="30" height="8" rx="4" fill="#333"/>
+
+  <!-- Anteater (bobs gently) -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="0.6s" repeatCount="indefinite"/>
+
+    <!-- Tail -->
+    <path d="M160 112 Q120 100 118 70 Q117 58 128 62 Q130 90 166 102 Z" fill="#8a6a4f"/>
+
+    <!-- Legs -->
+    <path d="M190 128 L196 146" stroke="#6b4f3a" stroke-width="7" stroke-linecap="round"/>
+    <path d="M212 128 L206 146" stroke="#6b4f3a" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Body -->
+    <ellipse cx="200" cy="106" rx="40" ry="26" fill="#a47c5c"/>
+
+    <!-- Raised juggling arms -->
+    <path d="M186 96 Q168 80 152 62" stroke="#6b4f3a" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M214 96 Q232 80 248 62" stroke="#6b4f3a" stroke-width="8" fill="none" stroke-linecap="round"/>
+
+    <!-- Head and long snout -->
+    <circle cx="236" cy="86" r="18" fill="#a47c5c"/>
+    <path d="M250 80 L332 96 Q336 100 332 104 L250 98 Z" fill="#8a6a4f"/>
+    <path d="M324 92 L334 96 L324 102 Z" fill="#4a3728"/>
+    <circle cx="242" cy="80" r="3" fill="#222"/>
+    <path d="M226 74 Q232 70 238 74" stroke="#4a3728" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Juggled bottles (cascade over the same arc) -->
+  <g>
+    <!-- Bottle 1 -->
+    <g>
+      <animateMotion dur="1.2s" repeatCount="indefinite" begin="0s" path="M152 62 Q200 -10 248 62 Q200 -10 152 62"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="0.6s" repeatCount="indefinite"/>
+        <rect x="-7" y="-10" width="14" height="20" rx="4" fill="#2e8b57"/>
+        <rect x="-3" y="-18" width="6" height="9" rx="2" fill="#2e8b57"/>
+        <rect x="-5" y="-3" width="10" height="5" fill="#dff5e6"/>
+      </g>
+    </g>
+    <!-- Bottle 2 -->
+    <g>
+      <animateMotion dur="1.2s" repeatCount="indefinite" begin="-0.4s" path="M152 62 Q200 -10 248 62 Q200 -10 152 62"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="0.6s" repeatCount="indefinite"/>
+        <rect x="-7" y="-10" width="14" height="20" rx="4" fill="#d9822b"/>
+        <rect x="-3" y="-18" width="6" height="9" rx="2" fill="#d9822b"/>
+        <rect x="-5" y="-3" width="10" height="5" fill="#fff1dc"/>
+      </g>
+    </g>
+    <!-- Bottle 3 -->
+    <g>
+      <animateMotion dur="1.2s" repeatCount="indefinite" begin="-0.8s" path="M152 62 Q200 -10 248 62 Q200 -10 152 62"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="0.6s" repeatCount="indefinite"/>
+        <rect x="-7" y="-10" width="14" height="20" rx="4" fill="#3b6fd6"/>
+        <rect x="-3" y="-18" width="6" height="9" rx="2" fill="#3b6fd6"/>
+        <rect x="-5" y="-3" width="10" height="5" fill="#e3ecff"/>
+      </g>
+    </g>
+  </g>
+</svg>

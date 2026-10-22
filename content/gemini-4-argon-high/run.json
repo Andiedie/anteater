@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-argon-high",
+  "name": "Gemini 4 Argon",
+  "vendor": "Google",
+  "date": "2026-10-22T14:00:14.880Z",
+  "model_ids": [
+    "gemini-4-argon"
+  ],
+  "providers": [
+    "gptge-gemini"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 614.896,
+    "request_seconds": 614.885,
+    "average_tps": 75.83,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 31799,
+      "output": 46628,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 10977,
+      "totalTokens": 78427
+    },
+    "recorded_cost_usd": 0,
+    "cost_usd": null
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-argon-high.html",
+    "snapshot_url": "./sessions/gemini-4-argon-high.json",
+    "session_sha256": "1bb793aee06cf217120a6fc821379580a8303d0ad23222f2836b1bcc8fd03575",
+    "export_sha256": "f22675a4c981531b44843e73c48f93ff75df04ed4b2569a2d2a2f200031d68c8",
+    "session_id": "01a163e9-951d-70c4-ab44-e0f18d3e0d83",
+    "imported_at": "2026-10-22T14:11:24.763693+00:00",
+    "artwork_sha256": "fc559ba8d9daa69dacbdda91e3a3e64d3807f1e7ab3c82f72836e9f7d4a07af4"
+  }
+}

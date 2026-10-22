@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <base href="../../">
-  <title>{{NAME}} · max — No SVG delivered</title>
+  <title>{{NAME}} · {{RUN_LEVEL}} — No SVG delivered</title>
   <meta name="description" data-i18n-content="A recorded test without a delivered SVG, with evidence and limitations." content="A recorded test without a delivered SVG, with evidence and limitations.">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./styles.css">
@@ -20,13 +20,13 @@
       <nav aria-label="Main" data-i18n-aria-label="Main"><a href="./" data-i18n="← Collection">← Collection</a><label class="language-control"><span class="sr-only" data-i18n="Language">Language</span><select id="language"><option value="auto">Auto · EN</option><option value="en" lang="en">English</option><option value="zh" lang="zh-CN">中文</option></select></label></nav>
     </header>
     <main class="case-page" id="case" tabindex="-1">
-      <p class="eyebrow">{{VENDOR}} <span aria-hidden="true">/</span> <span class="effort" data-level="max">max</span></p>
+      <p class="eyebrow">{{VENDOR}} <span aria-hidden="true">/</span> <span class="effort" data-level="{{RUN_LEVEL}}">{{RUN_LEVEL}}</span></p>
       <h1>{{NAME}}</h1>
       <div class="case-status"><span data-i18n="No SVG delivered">No SVG delivered</span><span class="badge note" data-i18n="{{STATUS}}">{{STATUS}}</span></div>
       {{COPY}}
       {{SOURCE_LINKS}}
       {{REFERENCES}}
-      <a class="solid-button case-related" href="./?run={{RELATED}}"><span data-i18n="View the">View the</span><span>{{LEVEL}}</span><span data-i18n="artwork →">artwork →</span></a>
+      {{RELATED_LINK}}
       <p class="case-date"><span data-i18n="Report dated">Report dated</span> <time datetime="{{DATE}}">{{DATE}}</time></p>
     </main>
   </div>

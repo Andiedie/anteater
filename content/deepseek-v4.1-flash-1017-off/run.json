@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "slug": "deepseek-v4.1-flash-1017-off",
+  "name": "DeepSeek V4.1 Flash 1017",
+  "vendor": "DeepSeek",
+  "date": "2026-10-22T13:50:22.717Z",
+  "model_ids": [
+    "deepseek-v4.1-flash-1017"
+  ],
+  "providers": [
+    "gptge-deepseek"
+  ],
+  "reasoning": [
+    "off"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 32.148,
+    "request_seconds": 31.998,
+    "average_tps": 212.73,
+    "tool_calls": 4,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 2,
+      "write": 1
+    },
+    "assistant_turns": 5,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 3335,
+      "output": 6807,
+      "cacheRead": 31872,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 42014
+    },
+    "recorded_cost_usd": 0,
+    "cost_usd": null
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/deepseek-v4.1-flash-1017-off.html",
+    "snapshot_url": "./sessions/deepseek-v4.1-flash-1017-off.json",
+    "session_sha256": "e6b41e11f68be22c0da5d01486266cb76a65d1a41b6b7e1abb9f0c438e1b78be",
+    "export_sha256": "4ce404df628380a2adb4979256e21a85b60eadead82d2bf82b46718cc1aa5673",
+    "session_id": "01a163e0-8be7-7452-b705-69fd059f0640",
+    "imported_at": "2026-10-22T14:11:24.688006+00:00",
+    "artwork_sha256": "7a415334954c3130feedd3655e8d523f4503bcc23fadda1cea3421b25bc37558"
+  },
+  "response_model_ids": [
+    "deepseek-v4-flash"
+  ]
+}

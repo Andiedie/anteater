@@ -13,6 +13,23 @@ import gallery
 
 
 def check():
+    with TemporaryDirectory() as temp:
+        root = gallery.ROOT
+        try:
+            gallery.ROOT = Path(temp)
+            (gallery.ROOT / 'src').mkdir()
+            assets = ('styles.css', 'gallery.js', 'i18n.js', 'failure.js')
+            for filename in assets:
+                (gallery.ROOT / 'src' / filename).write_text('first version')
+            page = ' '.join(f'"./{filename}"' for filename in assets)
+            before = gallery.version_assets(page)
+            assert gallery.version_assets(page) == before
+            (gallery.ROOT / 'src/styles.css').write_text('new theme rules')
+            after = gallery.version_assets(page)
+            assert after != before and after.split()[1:] == before.split()[1:]
+        finally:
+            gallery.ROOT = root
+
     session = {
         "header": {"id": "test"},
         "leafId": "final",
@@ -120,6 +137,71 @@ def check():
     switch['entries'][0]['data']['model'] = 'another-model'
     assert gallery.summarize(switch)['reasoning'] == ['medium']
 
+    with TemporaryDirectory() as directory:
+        original, fetch = gallery.CONTENT, gallery.read_url
+        try:
+            gallery.CONTENT = Path(directory) / 'content'
+            gallery.CONTENT.mkdir()
+            gallery.read_url = lambda request: (_ for _ in ()).throw(AssertionError('Local import accessed the network'))
+            folder = Path(directory) / 'claude-test-max'
+            folder.mkdir()
+            (folder / 'artwork.svg').write_bytes(good)
+            local = deepcopy(session)
+            local['entries'][1]['timestamp'] = '1970-01-01T00:00:01Z'
+            raw = json.dumps(local)
+            (folder / 'session.json').write_text(raw)
+            (folder / 'session.html').write_text(f'<script id="session-data" type="application/json">{raw}</script>')
+            assert gallery.import_run(folder).startswith('Imported ')
+            assert gallery.import_run(folder).startswith('Unchanged ')
+            imported = gallery.load_catalog()[0]
+            assert imported['source']['kind'] == 'local'
+            assert imported['source']['share_url'] == './sessions/claude-test-max.html'
+            assert imported['source']['snapshot_url'] == './sessions/claude-test-max.json'
+            assert imported['source']['session_id'] == 'test'
+            imported['response_model_ids'] = ['upstream-alias']
+            metadata = gallery.CONTENT / imported['slug'] / 'run.json'
+            metadata.write_text(json.dumps(imported))
+            assert gallery.import_run(folder, refresh=True).startswith('Imported ')
+            assert json.loads(metadata.read_text())['response_model_ids'] == ['upstream-alias']
+            mismatched = deepcopy(local)
+            mismatched['header']['id'] = 'another-session'
+            html = folder / 'session.html'
+            html.write_text(f'<script id="session-data" type="application/json">{json.dumps(mismatched)}</script>')
+            try:
+                gallery.import_run(folder)
+                raise AssertionError('Accepted mismatched HTML and JSON sessions')
+            except ValueError:
+                pass
+            html.write_text(f'<script id="session-data" type="application/json">{raw}</script>')
+            failed = deepcopy(imported)
+            failed.update(slug='gemini-test-low', name='Gemini Test', vendor='Google', date='1970-01-01', reasoning=['low'], outcome='no_artwork')
+            failed.pop('metrics')
+            failed['source'].pop('artwork_sha256')
+            failed['source'].update(share_url='./sessions/gemini-test-low.html', snapshot_url='./sessions/gemini-test-low.json')
+            failed['failure'] = {'status': 'Upstream error', 'summary': {'en': 'No accepted artwork.', 'zh': '没有合格产物。'},
+                                 'explanation': {'en': 'The upstream failed.', 'zh': '上游失败。'},
+                                 'limitation': {'en': 'Not a capability verdict.', 'zh': '不作为能力结论。'},
+                                 'facts': [], 'references': [], 'related_slug': None}
+            target = gallery.CONTENT / failed['slug']
+            target.mkdir()
+            for name in ('session.json', 'session.html'):
+                shutil.copy2(folder / name, target / name)
+            (target / 'run.json').write_text(json.dumps(failed))
+            assert len(gallery.load_catalog()) == 2
+            case = gallery.failure_html(failed, None)
+            assert ' · low — ' in case and 'data-level="low"' in case
+            assert 'case-related' not in case and 'undefined' not in case
+            assert './sessions/gemini-test-low.json' in case
+            pinned = gallery.CONTENT / imported['slug'] / 'session.json'
+            pinned.write_text(raw + '\n')
+            try:
+                gallery.load_catalog()
+                raise AssertionError('Accepted modified local session snapshot')
+            except ValueError:
+                pass
+        finally:
+            gallery.CONTENT, gallery.read_url = original, fetch
+
     if gallery.CONTENT.exists():
         catalog = gallery.load_catalog()
         assert len(catalog) > 0
@@ -134,11 +216,12 @@ def check():
             finally:
                 gallery.CONTENT = original
         failures = [run for run in catalog if run.get('outcome') == 'no_artwork']
-        assert {run['slug'] for run in failures} == {'claude-opus-5.5-max', 'claude-sonnet-5.5-max'}
+        legacy_failures = {'claude-opus-5.5-max', 'claude-sonnet-5.5-max'}
+        assert legacy_failures <= {run['slug'] for run in failures}
         for run in catalog:
             if run.get('outcome') == 'no_artwork':
-                assert 'metrics' not in run and run['reasoning'] == ['max']
-                assert gallery.SHARE_PATTERN.fullmatch(run['source']['share_url'])
+                assert 'metrics' not in run and all(level in gallery.EFFORTS for level in run['reasoning'])
+                gallery.check_source(gallery.CONTENT / run['slug'], run)
                 assert gallery.import_run(gallery.CONTENT / run['slug']).startswith('Kept ')
                 assert gallery.import_run(gallery.CONTENT / run['slug'], refresh=True).startswith('Kept ')
                 continue
@@ -146,7 +229,7 @@ def check():
             assert metrics["duration_seconds"] >= 0
             assert metrics["tool_calls"] == sum(metrics["tool_breakdown"].values())
             assert metrics["cost_usd"] is None or metrics["cost_usd"] > 0
-            assert gallery.SHARE_PATTERN.fullmatch(run["source"]["share_url"])
+            gallery.check_source(gallery.CONTENT / run['slug'], run)
             assert "<" not in run["slug"]
         icons = gallery.ROOT / "src/assets/vendors"
         for icon in icons.glob("*.svg"):
@@ -165,12 +248,13 @@ def check():
                    dict(catalog[0], name='Same model', model_ids=['gateway/id']),
                    dict(catalog[0], name='Other variant')]
         assert [len(group) for group in gallery.group_models(aliases)] == [2, 1]
-        failure = failures[0]
+        failure = next(run for run in failures if run['slug'] in legacy_failures)
         artwork = next(run for run in catalog if run['slug'] == failure['failure']['related_slug'])
         assert f'data-slug="{artwork["slug"]}"' in gallery.card_html([failure, artwork])
         failure_only = gallery.card_html([failure])
         assert 'class="card failure-card"' in failure_only and '<iframe' not in failure_only
-        assert 'No SVG delivered' in failure_only and 'disabled' in failure_only
+        assert 'No SVG delivered' in failure_only and failure['failure']['status'] in failure_only and 'disabled hidden' in failure_only
+        assert 'level-status' not in failure_only
         escaped = gallery.card_html([dict(artwork, name='<script>unsafe</script>')])
         assert '<script>unsafe</script>' not in escaped and '&lt;script&gt;unsafe&lt;/script&gt;' in escaped
         for group in models:
@@ -180,45 +264,69 @@ def check():
             assert 'type="button" class="level-link"' in html
             if any(run.get('outcome') != 'no_artwork' for run in group):
                 assert 'class="card failure-card"' not in html
-            for run in group:
-                if run.get('outcome') == 'no_artwork':
-                    assert 'No SVG delivered' in html
+            assert all('No SVG delivered' not in button for button in re.findall(r'<button[^>]*data-card-run=.*?</button>', html))
+            assert 'Read failure notes' not in html and 'level-status' not in html
         assert 'https://unpkg.com' not in page
         assert not re.search(r'CPA|cliproxyapi|opencode-go', page)
         public = json.loads(re.search(r'<script type="application/json" id="catalog-data">(.*?)</script>', page, re.S)[1])
+        local_runs = [run for run in public if run['source'].get('kind') == 'local']
+        for run in local_runs:
+            for extension in ('json', 'html'):
+                exported = gallery.ROOT / 'dist/sessions' / (run['slug'] + '.' + extension)
+                assert exported.read_bytes() == (gallery.CONTENT / run['slug'] / ('session.' + extension)).read_bytes()
+            assert not run['source']['share_url'].startswith('https://')
+            if run.get('response_model_ids'):
+                assert run['response_model_ids'] == ['deepseek-v4-flash']
         for run in public:
             assert 'providers' not in run
             if run.get('outcome') == 'no_artwork':
-                assert 'price' not in run and 'metrics' not in run
-                assert gallery.SHARE_PATTERN.fullmatch(run['source']['share_url'])
+                assert 'metrics' not in run and run['price']['basis'] in ('official', 'unknown')
+                gallery.check_source(gallery.CONTENT / run['slug'], run)
                 case = gallery.ROOT / 'dist/cases' / run['slug'] / 'index.html'
                 assert case.is_file()
                 case_html = case.read_text()
                 assert '<iframe' not in case_html and 'download=' not in case_html
-                assert run['failure']['related_slug'] in case_html
+                assert 'Cost estimate · USD' in case_html and '价格估算 · USD' in case_html
+                assert gallery.format_price(run['price']['amount_usd']) in case_html
+                assert 'Official estimate' not in case_html and 'Actual cost' not in case_html
+                related = next((item for item in catalog if item['slug'] == run['failure'].get('related_slug')), None)
+                assert (related['slug'] in case_html) if related else 'case-related' not in case_html
+                assert f'data-level="{run["reasoning"][0]}"' in case_html
                 assert 'lang="zh"' in case_html and 'lang="en"' in case_html
                 assert not re.search(r'CPA|cliproxyapi|gpt\.ge|/Users/|session_id|file://', case_html)
                 assert not (gallery.ROOT / 'dist/artwork' / (run['slug'] + '.svg')).exists()
                 unsafe = deepcopy(run)
                 unsafe['failure']['summary']['en'] = '<script>alert(1)</script>'
-                assert '&lt;script&gt;' in gallery.failure_html(unsafe, next(item for item in catalog if item['slug'] == run['failure']['related_slug']))
-                assert run['source']['share_url'] in case_html and run['source']['gist_revision'] in case_html
-                assert 'incomplete.max_output_tokens' in case_html and '思考阶段耗尽输出预算' in case_html
-                assert 'Response was truncated before completion' in case_html
-                if run['slug'].startswith('claude-sonnet'):
-                    assert '64,000' in case_html and '128,000' not in case_html
-                else:
-                    assert '128,000' in case_html
+                assert '&lt;script&gt;' in gallery.failure_html(unsafe, related)
+                unsafe['price']['rates_per_million']['input'] = '<script>bad quote</script>'
+                assert '$&lt;script&gt;bad quote&lt;/script&gt;' in gallery.failure_html(unsafe, related)
+                assert run['source']['share_url'] in case_html and gallery.snapshot_url(run['source']) in case_html
+                if run['slug'] in legacy_failures:
+                    assert run['source']['gist_revision'] in case_html
+                    assert 'incomplete.max_output_tokens' in case_html and '思考阶段耗尽输出预算' in case_html
+                    assert 'Response was truncated before completion' in case_html
+                    if run['slug'].startswith('claude-sonnet'):
+                        assert '64,000' in case_html and '128,000' not in case_html
+                    else:
+                        assert '128,000' in case_html
                 continue
-            if run['metrics']['cost_usd'] is not None:
-                assert run['price']['amount_usd'] == run['metrics']['cost_usd']
+            original_run = next(item for item in catalog if item['slug'] == run['slug'])
+            assert run['metrics'] == original_run['metrics']
+            assert run['price']['basis'] in ('official', 'unknown')
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
+            if run['price']['amount_usd'] is not None:
+                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-10-22'
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
         assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))
         assert 'preview-action' not in page and 'View performance' not in page
         assert 'id="follow-up"' not in page and 'name="followup"' not in page
-        assert '<script src="./gallery.js" type="module">' in page
+        for filename in ('styles.css', 'i18n.js', 'gallery.js'):
+            assert f'./{filename}?v={gallery.digest((gallery.ROOT / "src" / filename).read_bytes())[:12]}"' in page
+        for failure in failures:
+            case_page = (gallery.ROOT / 'dist/cases' / failure['slug'] / 'index.html').read_text()
+            for filename in ('styles.css', 'i18n.js', 'failure.js'):
+                assert f'./{filename}?v={gallery.digest((gallery.ROOT / "src" / filename).read_bytes())[:12]}"' in case_page
         assert 'value="relevance"' in page
         fuse = gallery.ROOT / 'src/assets/fuse/fuse.min.mjs'
         assert gallery.digest(fuse.read_bytes()) == '5ab524d12492bb233568e9600046e1aaa9623d36ebe689589144f7dc9b1da6f7'
