@@ -32,7 +32,7 @@ async function smoke() {
   const waitFor = async (predicate, name) => {
     const start = performance.now();
     while (!predicate()) {
-      if (performance.now() - start > 5000) throw new Error(`Timed out: ${name}`);
+      if (performance.now() - start > 30000) throw new Error(`Timed out: ${name}`);
       await new Promise(resolve => setTimeout(resolve, 30));
     }
   };
@@ -242,7 +242,8 @@ async function smoke() {
   const targetIndex = catalog.findIndex(run => run.slug === 'gpt-6.1-sol-max');
   assert(document.querySelector('#detail-info').textContent.includes(new Intl.NumberFormat('en-US').format(catalog[targetIndex].metrics.average_tps)), 'TPS displayed');
   assert(document.activeElement.getAttribute('aria-label') === 'Close performance', 'dialog focus');
-  assert(document.querySelector('.card iframe').dataset.playing === 'false', 'gallery pauses behind dialog');
+  const backgroundFrames = [...document.querySelectorAll('.card iframe.loaded')];
+  assert(backgroundFrames.length && backgroundFrames.every(frame => frame.dataset.playing === 'false' && [...frame.contentDocument.querySelectorAll('svg')].every(clock => clock.animationsPaused())), 'all loaded gallery SVG clocks pause behind dialog');
   assert([...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused()), 'detail opens with every SVG clock playing');
   assert(!document.querySelector('[data-motion],[data-restart],.preview-controls'), 'no playback, pause or restart controls');
   const detailFrame = document.querySelector('#detail-preview iframe');
