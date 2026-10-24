@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-10-22",
+  "as_of": "2026-10-24",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -558,7 +558,7 @@
       "vendor": "Moonshot AI",
       "source_kind": "official",
       "source": "Moonshot AI",
-      "source_url": "https://platform.kimi.ai/",
+      "source_url": "https://platform.kimi.ai/docs/pricing/chat",
       "aliases": [
         "moonshotai/kimi-k3"
       ],
@@ -570,6 +570,27 @@
         "reasoning": null
       },
       "cache_write_ttl_seconds": 300
+    },
+    "kimi-k3.1-pro": {
+      "vendor": "Moonshot AI",
+      "source_kind": "official",
+      "source": "Moonshot AI",
+      "source_url": "https://platform.kimi.ai/docs/pricing/chat",
+      "aliases": [
+        "moonshotai/kimi-k3.1-pro"
+      ],
+      "rates_per_million": {
+        "input": 2,
+        "output": 10,
+        "cacheRead": 0.2,
+        "cacheWrite": 2,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "rate_note": {
+        "en": "Standard API rates, not highspeed; no context-length tiers. Cache-write quote is for 5 minutes.",
+        "zh": "标准 API 价格，不使用 highspeed 高速版；不按上下文长度分档，缓存写入报价对应 5 分钟。"
+      }
     },
     "minimax-m3": {
       "vendor": "MiniMax",

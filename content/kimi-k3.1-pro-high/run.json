@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "kimi-k3.1-pro-high",
+  "name": "Kimi K3.1 Pro",
+  "vendor": "Moonshot AI",
+  "date": "2026-10-24T03:17:07.866Z",
+  "model_ids": [
+    "moonshotai/kimi-k3.1-pro"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 99.893,
+    "request_seconds": 99.839,
+    "average_tps": 56.19,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 7077,
+      "output": 5610,
+      "cacheRead": 1024,
+      "cacheWrite": 0,
+      "reasoning": 534,
+      "totalTokens": 13711
+    },
+    "recorded_cost_usd": 0.0704588,
+    "cost_usd": 0.0704588
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/kimi-k3.1-pro-high.html",
+    "snapshot_url": "./sessions/kimi-k3.1-pro-high.json",
+    "session_sha256": "62a563eaa6c41546403913ca7f5fdcc533ed6cbf646f4548fa277150582244ef",
+    "export_sha256": "9fd8f468136fae58eebc8792651bf434d3e573f056376f6225045f0613ee578c",
+    "session_id": "01a16be9-828f-760f-824f-212b891dedde",
+    "imported_at": "2026-10-24T03:52:09.585939+00:00",
+    "artwork_sha256": "45367365ea91fde9871d0883a954ac2100afb28b5b801c0f975a760ce5e984b4"
+  }
+}

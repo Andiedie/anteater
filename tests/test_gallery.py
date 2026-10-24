@@ -323,7 +323,7 @@ def check():
             assert run['price']['basis'] in ('official', 'unknown')
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
             if run['price']['amount_usd'] is not None:
-                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-10-22'
+                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-10-24'
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
         assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))

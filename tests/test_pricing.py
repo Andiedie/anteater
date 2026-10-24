@@ -68,7 +68,28 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-10-22'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-10-24'
+    kimi = actual['models'].get('kimi-k3.1-pro')
+    assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
+    assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
+    assert kimi['rates_per_million'] == {'input': 2, 'output': 10, 'cacheRead': .2, 'cacheWrite': 2, 'reasoning': None}
+    assert kimi['cache_write_ttl_seconds'] == 300
+    content = Path(__file__).resolve().parents[1] / 'content'
+    for level, expected in [('low', .0836388), ('high', .0704588), ('max', .3687824)]:
+        recorded = json.loads((content / f'kimi-k3.1-pro-{level}' / 'run.json').read_text())
+        estimated = pricing.display_price(recorded, actual)
+        assert estimated['amount_usd'] == expected and estimated['basis'] == 'official'
+        assert estimated['checked_at'] == actual['as_of']
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    assert pricing.find_price({**recorded, 'model_ids': ['kimi-k3.1-pro']}, actual)['model_id'] == 'kimi-k3.1-pro'
+    assert pricing.find_price({**recorded, 'model_ids': ['moonshotai/kimi-k3.1-pro-highspeed']}, actual) is None
+    assert pricing.find_price({**recorded, 'model_ids': ['moonshotai/kimi-k3']}, actual)['rates_per_million']['input'] == 3
+    cache_write = {'input': 0, 'output': 0, 'cacheRead': 0, 'cacheWrite': 100}
+    assert pricing.estimate(cache_write, kimi)[1] == 'cache_write_duration'
+    assert pricing.estimate(cache_write, kimi, 300) == (.0002, None)
+    assert pricing.estimate(cache_write, kimi, 3600)[1] == 'cache_write_duration'
     identifiers = set()
     for model_id, quote in actual['models'].items():
         assert quote['source_kind'] == 'official' and quote['source_url'].startswith('https://')
