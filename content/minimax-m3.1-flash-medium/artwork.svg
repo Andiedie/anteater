@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640" role="img" aria-label="An animated anteater riding a unicycle while juggling bottles">
+  <title>Anteater on a unicycle juggling bottles</title>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfe6f5"/>
+      <stop offset="60%" stop-color="#e9f7e4"/>
+      <stop offset="100%" stop-color="#fdf6e0"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8fc86b"/>
+      <stop offset="100%" stop-color="#5ea246"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#d8c3a5"/>
+      <stop offset="100%" stop-color="#a68d70"/>
+    </linearGradient>
+    <linearGradient id="tail" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbb597"/>
+      <stop offset="100%" stop-color="#8f775c"/>
+    </linearGradient>
+    <radialGradient id="shadowGrad" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <style>
+    /* ===== scene ===== */
+    .cloud  { animation: drift 26s linear infinite; }
+    .cloud2 { animation: drift 34s linear infinite; }
+    @keyframes drift {
+      from { transform: translateX(-180px); }
+      to   { transform: translateX(820px); }
+    }
+
+    /* spinning wheel: pivot is the hub in the svg user space */
+    .wheel {
+      transform-origin: 300px 492px;
+      animation: spin 1.1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* rider bobs, the wheel stays planted on the ground */
+    .rider {
+      transform-origin: 300px 430px;
+      animation: bob 1.1s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      25%     { transform: translateY(-6px) rotate(-1.1deg); }
+      50%     { transform: translateY(0px) rotate(0deg); }
+      75%     { transform: translateY(-6px) rotate(1.1deg); }
+    }
+
+    .tail {
+      transform-origin: 232px 322px;
+      animation: sway 2.2s ease-in-out infinite;
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-7deg); }
+      50%     { transform: rotate(9deg); }
+    }
+
+    .armL {
+      transform-origin: 318px 288px;
+      animation: armL 2s ease-in-out infinite;
+    }
+    @keyframes armL {
+      0%,100% { transform: rotate(-6deg); }
+      50%     { transform: rotate(6deg); }
+    }
+
+    .armR {
+      transform-origin: 336px 282px;
+      animation: armR 2s ease-in-out infinite;
+    }
+    @keyframes armR {
+      0%,100% { transform: rotate(7deg); }
+      50%     { transform: rotate(-6deg); }
+    }
+
+    .ear {
+      transform-origin: 352px 244px;
+      animation: twitch 3.4s ease-in-out infinite;
+    }
+    @keyframes twitch {
+      0%,86%,100% { transform: rotate(0deg); }
+      90% { transform: rotate(-12deg); }
+      94% { transform: rotate(7deg); }
+    }
+
+    .snout {
+      transform-origin: 358px 268px;
+      animation: snout 2.6s ease-in-out infinite;
+    }
+    @keyframes snout {
+      0%,100% { transform: rotate(0deg); }
+      50%     { transform: rotate(2.5deg); }
+    }
+
+    /* ===== juggling ===== */
+    .jug {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation-duration: 2s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    .jug1 { animation-name: jug1; animation-delay: 0s; }
+    .jug2 { animation-name: jug2; animation-delay: -0.67s; }
+    .jug3 { animation-name: jug3; animation-delay: -1.33s; }
+
+    @keyframes jug1 {
+      0%   { transform: translate(0px,0px) rotate(0deg); }
+      8%   { transform: translate(-6px,-34px) rotate(55deg); }
+      20%  { transform: translate(-26px,-122px) rotate(170deg); }
+      34%  { transform: translate(-38px,-168px) rotate(250deg); }
+      48%  { transform: translate(-30px,-104px) rotate(320deg); }
+      60%  { transform: translate(-12px,-26px) rotate(348deg); }
+      70%  { transform: translate(0px,0px) rotate(360deg); }
+      100% { transform: translate(0px,0px) rotate(360deg); }
+    }
+    @keyframes jug2 {
+      0%   { transform: translate(0px,0px) rotate(0deg); }
+      8%   { transform: translate(2px,-38px) rotate(50deg); }
+      20%  { transform: translate(4px,-134px) rotate(160deg); }
+      34%  { transform: translate(2px,-186px) rotate(240deg); }
+      48%  { transform: translate(-4px,-116px) rotate(310deg); }
+      60%  { transform: translate(-4px,-30px) rotate(345deg); }
+      70%  { transform: translate(0px,0px) rotate(360deg); }
+      100% { transform: translate(0px,0px) rotate(360deg); }
+    }
+    @keyframes jug3 {
+      0%   { transform: translate(0px,0px) rotate(0deg); }
+      8%   { transform: translate(8px,-40px) rotate(60deg); }
+      20%  { transform: translate(30px,-128px) rotate(180deg); }
+      34%  { transform: translate(44px,-160px) rotate(260deg); }
+      48%  { transform: translate(34px,-96px) rotate(330deg); }
+      60%  { transform: translate(14px,-24px) rotate(352deg); }
+      70%  { transform: translate(0px,0px) rotate(360deg); }
+      100% { transform: translate(0px,0px) rotate(360deg); }
+    }
+
+    .spark {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: twinkle 1.6s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0; transform: scale(0.4); }
+      50%     { opacity: 0.9; transform: scale(1); }
+    }
+  </style>
+
+  <!-- ======== background ======== -->
+  <rect width="640" height="640" fill="url(#sky)"/>
+
+  <g class="cloud" opacity="0.85">
+    <g fill="#ffffff">
+      <ellipse cx="0" cy="120" rx="52" ry="26"/>
+      <ellipse cx="44" cy="108" rx="40" ry="30"/>
+      <ellipse cx="-42" cy="112" rx="34" ry="22"/>
+      <rect x="-52" y="120" width="110" height="26" rx="13"/>
+    </g>
+  </g>
+  <g class="cloud2" opacity="0.6">
+    <g fill="#ffffff">
+      <ellipse cx="0" cy="70" rx="40" ry="18"/>
+      <ellipse cx="34" cy="60" rx="30" ry="22"/>
+      <ellipse cx="-32" cy="64" rx="26" ry="16"/>
+      <rect x="-40" y="68" width="86" height="20" rx="10"/>
+    </g>
+  </g>
+
+  <circle cx="552" cy="88" r="38" fill="#ffe38a" opacity="0.9"/>
+  <circle cx="552" cy="88" r="54" fill="#ffe38a" opacity="0.28"/>
+
+  <path d="M0 470 Q90 425 190 468 Q280 505 380 466 Q470 432 640 476 L640 640 L0 640 Z" fill="#9fd07a" opacity="0.55"/>
+  <rect y="500" width="640" height="140" fill="url(#ground)"/>
+  <path d="M0 500 Q160 512 320 500 Q470 490 640 502 L640 512 Q470 500 320 510 Q160 522 0 512 Z" fill="#7cb85c" opacity="0.7"/>
+
+  <ellipse cx="300" cy="588" rx="120" ry="20" fill="url(#shadowGrad)"/>
+
+  <g stroke="#4f9340" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <path d="M92 560 l6 -16 M98 560 l12 -12"/>
+    <path d="M540 545 l-5 -15 M546 545 l8 -13"/>
+    <path d="M170 605 l6 -14 M176 605 l11 -10"/>
+    <path d="M470 610 l-6 -15 M464 610 l10 -12"/>
+  </g>
+
+  <!-- ======== unicycle ======== -->
+  <g>
+    <circle cx="300" cy="492" r="92" fill="none" stroke="#3c352e" stroke-width="12"/>
+    <circle cx="300" cy="492" r="92" fill="none" stroke="#6b6154" stroke-width="4"/>
+
+    <g class="wheel">
+      <g stroke="#8c8175" stroke-width="3" stroke-linecap="round">
+        <line x1="300" y1="410" x2="300" y2="574"/>
+        <line x1="218" y1="492" x2="382" y2="492"/>
+        <line x1="240" y1="432" x2="360" y2="552"/>
+        <line x1="360" y1="432" x2="240" y2="552"/>
+        <line x1="226" y1="458" x2="374" y2="526"/>
+        <line x1="374" y1="458" x2="226" y2="526"/>
+      </g>
+      <!-- crank arms, pedals and the rider's feet ride around with the wheel -->
+      <g>
+        <line x1="300" y1="492" x2="268" y2="492" stroke="#3c352e" stroke-width="8" stroke-linecap="round"/>
+        <line x1="300" y1="492" x2="332" y2="492" stroke="#3c352e" stroke-width="8" stroke-linecap="round"/>
+        <rect x="252" y="486" width="24" height="11" rx="4" fill="#3c352e"/>
+        <rect x="324" y="486" width="24" height="11" rx="4" fill="#3c352e"/>
+        <ellipse cx="264" cy="479" rx="15" ry="8" fill="#c9b9a2" stroke="#5f5142" stroke-width="2.5"/>
+        <ellipse cx="336" cy="479" rx="15" ry="8" fill="#c9b9a2" stroke="#5f5142" stroke-width="2.5"/>
+      </g>
+    </g>
+
+    <circle cx="300" cy="492" r="12" fill="#3c352e"/>
+    <circle cx="300" cy="492" r="5" fill="#cfc3b2"/>
+
+    <path d="M300 492 L300 396" stroke="#3c352e" stroke-width="11" stroke-linecap="round"/>
+    <path d="M300 492 L300 396" stroke="#8c8175" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+    <path d="M266 388 q34 -18 68 0 q-34 12 -68 0 Z" fill="#4a4038"/>
+    <rect x="292" y="386" width="16" height="10" rx="4" fill="#332c26"/>
+  </g>
+
+  <!-- ======== rider ======== -->
+  <g class="rider">
+
+    <!-- legs -->
+    <g fill="none" stroke-linecap="round">
+      <path d="M284 336 L266 440" stroke="#7d6c58" stroke-width="17"/>
+      <path d="M318 330 L338 432" stroke="#8a775f" stroke-width="17"/>
+    </g>
+
+    <!-- tail -->
+    <g class="tail">
+      <path d="M232 300
+               C 190 296 150 320 118 352
+               C 86 384 62 424 56 462
+               C 52 486 66 500 88 494
+               C 128 484 168 450 198 410
+               C 224 376 244 336 252 316
+               Z"
+            fill="url(#tail)" stroke="#5f5142" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M118 352 C 92 380 72 420 66 452" fill="none" stroke="#a58b6b" stroke-width="3" opacity="0.7"/>
+      <path d="M150 336 C 128 368 108 402 96 436" fill="none" stroke="#a58b6b" stroke-width="3" opacity="0.5"/>
+    </g>
+
+    <!-- body -->
+    <g>
+      <ellipse cx="286" cy="300" rx="86" ry="58" fill="url(#fur)" stroke="#5f5142" stroke-width="4"/>
+      <path d="M232 262 C 262 296 268 340 250 356 C 236 366 214 352 206 326 C 198 300 208 272 232 262 Z"
+            fill="#3b332c" opacity="0.9"/>
+      <ellipse cx="300" cy="322" rx="58" ry="24" fill="#e6d3b6" opacity="0.5"/>
+    </g>
+
+    <ellipse cx="262" cy="318" rx="30" ry="26" fill="#c2ab8c" opacity="0.7"/>
+
+    <!-- ear -->
+    <g class="ear">
+      <ellipse cx="352" cy="243" rx="12" ry="15" fill="#b7a084" stroke="#5f5142" stroke-width="3"/>
+      <ellipse cx="352" cy="243" rx="6" ry="8" fill="#d9b9a4"/>
+    </g>
+
+    <!-- head -->
+    <path d="M300 262 C 310 238 340 228 366 238 C 386 246 392 262 386 278 C 378 298 342 308 316 298 C 302 292 296 276 300 262 Z"
+          fill="url(#fur)" stroke="#5f5142" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M322 250 C 344 244 372 246 388 256 C 380 268 356 272 336 268 Z" fill="#3b332c" opacity="0.85"/>
+    <circle cx="368" cy="258" r="6" fill="#231e19"/>
+    <circle cx="370" cy="256" r="2" fill="#ffffff"/>
+
+    <!-- snout -->
+    <g class="snout">
+      <path d="M372 262 C 410 266 448 282 484 302 C 486 305 484 309 480 310 C 442 320 402 312 372 296 Z"
+            fill="#9c8a74" stroke="#5f5142" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M386 272 C 418 278 450 290 476 304 C 448 310 414 306 388 296 Z" fill="#c7b498" opacity="0.55"/>
+      <ellipse cx="480" cy="303" rx="8" ry="6" fill="#3b332c"/>
+      <circle cx="478" cy="301" r="1.8" fill="#fff" opacity="0.6"/>
+      <path d="M396 300 C 424 306 452 308 474 306" fill="none" stroke="#5f5142" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- arms -->
+    <g class="armL">
+      <path d="M306 276 C 296 250 300 226 318 210" fill="none" stroke="#7d6c58" stroke-width="12" stroke-linecap="round"/>
+      <path d="M306 276 C 296 250 300 226 318 210" fill="none" stroke="#b09a7d" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="320" cy="206" r="8" fill="#b09a7d" stroke="#5f5142" stroke-width="2.5"/>
+    </g>
+    <g class="armR">
+      <path d="M340 272 C 358 246 364 214 366 190" fill="none" stroke="#8a775f" stroke-width="12" stroke-linecap="round"/>
+      <path d="M340 272 C 358 246 364 214 366 190" fill="none" stroke="#bda684" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="367" cy="186" r="8" fill="#bda684" stroke="#5f5142" stroke-width="2.5"/>
+    </g>
+
+    <!-- juggling bottles -->
+    <g transform="translate(372,188)">
+      <g class="jug jug1">
+        <g>
+          <rect x="-9" y="-16" width="18" height="30" rx="6" fill="#4f9d5d" stroke="#2f6438" stroke-width="2.5"/>
+          <path d="M-9 -16 L-4 -26 L4 -26 L9 -16 Z" fill="#4f9d5d" stroke="#2f6438" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="-4.5" y="-32" width="9" height="7" fill="#3d7f4a"/>
+          <rect x="-7" y="-37" width="14" height="6" rx="2" fill="#c9a227" stroke="#8f741a" stroke-width="2"/>
+          <rect x="-6" y="-10" width="12" height="9" rx="2" fill="#f6f1e2" opacity="0.9"/>
+        </g>
+      </g>
+      <g class="jug jug2">
+        <g>
+          <rect x="-9" y="-16" width="18" height="30" rx="6" fill="#d98a34" stroke="#96561a" stroke-width="2.5"/>
+          <path d="M-9 -16 L-4 -26 L4 -26 L9 -16 Z" fill="#d98a34" stroke="#96561a" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="-4.5" y="-32" width="9" height="7" fill="#b26d22"/>
+          <rect x="-7" y="-37" width="14" height="6" rx="2" fill="#4b6fa8" stroke="#2f4b76" stroke-width="2"/>
+          <rect x="-6" y="-10" width="12" height="9" rx="2" fill="#f6f1e2" opacity="0.9"/>
+        </g>
+      </g>
+      <g class="jug jug3">
+        <g>
+          <rect x="-9" y="-16" width="18" height="30" rx="6" fill="#4b7fb8" stroke="#2b4f78" stroke-width="2.5"/>
+          <path d="M-9 -16 L-4 -26 L4 -26 L9 -16 Z" fill="#4b7fb8" stroke="#2b4f78" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="-4.5" y="-32" width="9" height="7" fill="#3a6593"/>
+          <rect x="-7" y="-37" width="14" height="6" rx="2" fill="#c94f4f" stroke="#8d3030" stroke-width="2"/>
+          <rect x="-6" y="-10" width="12" height="9" rx="2" fill="#f6f1e2" opacity="0.9"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- sparkle accents -->
+    <g fill="#fff3b0">
+      <circle class="spark" cx="470" cy="200" r="4" style="animation-delay:0.1s"/>
+      <circle class="spark" cx="330" cy="120" r="3.5" style="animation-delay:0.6s"/>
+      <circle class="spark" cx="440" cy="140" r="3" style="animation-delay:1.1s"/>
+    </g>
+  </g>
+
+  <!-- ======== foreground ======== -->
+  <g opacity="0.5">
+    <ellipse cx="120" cy="628" rx="150" ry="14" fill="#4f9340"/>
+    <ellipse cx="540" cy="620" rx="160" ry="16" fill="#4f9340"/>
+  </g>
+</svg>

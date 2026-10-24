@@ -123,6 +123,7 @@ def check():
     assert gallery.model_label("qwen3.8-27b-off") == ("Qwen3.8 27B", "Alibaba")
     assert gallery.model_label("kimi-k3-max") == ("Kimi K3", "Moonshot AI")
     assert gallery.model_label("minimax-m3-on") == ("MiniMax M3", "MiniMax")
+    assert gallery.model_label("minimax-m3.1-flash-xhigh") == ("MiniMax M3.1 Flash", "MiniMax")
     switch = deepcopy(session)
     switch['entries'][0]['thinkingLevel'] = 'medium'
     for entry in switch['entries']:
@@ -252,6 +253,12 @@ def check():
             'DeepSeek V4.1 Flash 1017': {f'deepseek-v4.1-flash-1017-{level}' for level in ('off', 'low', 'high', 'max')},
         }
         assert 'DeepSeek V4.1 Flash 0910</a>' in page
+        minimax = [run for run in catalog if run['name'] == 'MiniMax M3.1 Flash']
+        assert {run['slug'] for run in minimax} == {f'minimax-m3.1-flash-{level}' for level in ('low', 'medium', 'high', 'xhigh', 'max')}
+        for run in minimax:
+            assert run['vendor'] == 'MiniMax' and run['model_ids'] == ['minimax/minimax-m3.1-flash']
+            assert run['reasoning'] == [run['slug'].rsplit('-', 1)[-1]]
+            assert run['output_budget_per_request'] == 64000 and run['source']['kind'] == 'local'
         aliases = [dict(catalog[0], name='Same model', model_ids=['native/id']),
                    dict(catalog[0], name='Same model', model_ids=['gateway/id']),
                    dict(catalog[0], name='Other variant')]
@@ -284,7 +291,10 @@ def check():
                 assert exported.read_bytes() == (gallery.CONTENT / run['slug'] / ('session.' + extension)).read_bytes()
             assert not run['source']['share_url'].startswith('https://')
             if run.get('response_model_ids'):
-                assert run['response_model_ids'] == ['deepseek-v4-flash']
+                original_run = next(item for item in catalog if item['slug'] == run['slug'])
+                assert run['response_model_ids'] == original_run['response_model_ids']
+                if run['vendor'] == 'DeepSeek':
+                    assert run['response_model_ids'] == ['deepseek-v4-flash']
         for run in public:
             assert 'providers' not in run
             if run.get('outcome') == 'no_artwork':

@@ -90,6 +90,16 @@ def check():
     assert pricing.estimate(cache_write, kimi)[1] == 'cache_write_duration'
     assert pricing.estimate(cache_write, kimi, 300) == (.0002, None)
     assert pricing.estimate(cache_write, kimi, 3600)[1] == 'cache_write_duration'
+    minimax = actual['models']['minimax-m3.1-flash']
+    assert minimax['source_url'] == 'https://platform.minimax.io/docs/pricing/overview'
+    assert minimax['rates_per_million'] == {'input': .15, 'output': .6, 'cacheRead': .015, 'cacheWrite': None, 'reasoning': None}
+    assert pricing.estimate(tokens, minimax) == (.0002745, None)
+    assert pricing.estimate({**tokens, 'reasoning': None}, minimax) == (.0002745, None)
+    assert pricing.estimate({**tokens, 'cacheWrite': 100}, minimax)[1] == 'missing_cache_price'
+    for identifier in ('minimax-m3.1-flash', 'minimax/minimax-m3.1-flash', 'MiniMax-M3.1-Flash'):
+        assert pricing.find_price({'model_ids': [identifier], 'vendor': 'MiniMax'}, actual)['model_id'] == 'minimax-m3.1-flash'
+    assert pricing.find_price({'model_ids': ['minimax/minimax-m3.1'], 'vendor': 'MiniMax'}, actual) is None
+    assert pricing.find_price({'model_ids': ['minimax/minimax-m3'], 'vendor': 'MiniMax'}, actual)['rates_per_million']['input'] == .3
     identifiers = set()
     for model_id, quote in actual['models'].items():
         assert quote['source_kind'] == 'official' and quote['source_url'].startswith('https://')

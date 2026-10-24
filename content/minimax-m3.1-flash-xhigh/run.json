@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "slug": "minimax-m3.1-flash-xhigh",
+  "name": "MiniMax M3.1 Flash",
+  "vendor": "MiniMax",
+  "date": "2026-10-24T12:43:22.645Z",
+  "model_ids": [
+    "minimax/minimax-m3.1-flash"
+  ],
+  "providers": [
+    "commandcode"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 388.329,
+    "request_seconds": 388.237,
+    "average_tps": 138.1,
+    "tool_calls": 9,
+    "tool_breakdown": {
+      "edit": 3,
+      "read": 5,
+      "write": 1
+    },
+    "assistant_turns": 10,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 61418,
+      "output": 53614,
+      "cacheRead": 397374,
+      "cacheWrite": 0,
+      "reasoning": 39980,
+      "totalTokens": 512406
+    },
+    "recorded_cost_usd": 0,
+    "cost_usd": null
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/minimax-m3.1-flash-xhigh.html",
+    "snapshot_url": "./sessions/minimax-m3.1-flash-xhigh.json",
+    "session_sha256": "f314f284d64187fa69bcb21a625e4787ee6b847791f0797148b2425ecf26ff0d",
+    "export_sha256": "1e6516c387004eaa3858d53d3f053f7ecf6c9200399b5ea9224076cf5e6cf426",
+    "session_id": "01a16def-ec92-708e-8223-e1054081df2d",
+    "imported_at": "2026-10-24T12:55:11.274796+00:00",
+    "artwork_sha256": "3a8d24657837849525ba6d8c859c7d6dda92da5da5b8c3d6683e31fcb0b6067d"
+  },
+  "response_model_ids": [
+    "MiniMax-M3.1-Flash",
+    "minimax/minimax-m3.1-flash"
+  ]
+}

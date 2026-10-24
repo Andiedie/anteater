@@ -592,6 +592,27 @@
         "zh": "标准 API 价格，不使用 highspeed 高速版；不按上下文长度分档，缓存写入报价对应 5 分钟。"
       }
     },
+    "minimax-m3.1-flash": {
+      "vendor": "MiniMax",
+      "source_kind": "official",
+      "source": "MiniMax",
+      "source_url": "https://platform.minimax.io/docs/pricing/overview",
+      "aliases": [
+        "minimax/minimax-m3.1-flash",
+        "MiniMax-M3.1-Flash"
+      ],
+      "rates_per_million": {
+        "input": 0.15,
+        "output": 0.6,
+        "cacheRead": 0.015,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Flat standard API rates; no context-length tiers. Reasoning is included in output; no separate cache-write rate is published.",
+        "zh": "标准 API 固定价格，不按上下文长度分档；思考已计入输出，未公布独立缓存写入价。"
+      }
+    },
     "minimax-m3": {
       "vendor": "MiniMax",
       "source_kind": "official",
