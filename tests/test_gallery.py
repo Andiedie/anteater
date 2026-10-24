@@ -244,6 +244,14 @@ def check():
         assert len(models) == len({(run['vendor'], run['name']) for run in catalog})
         assert len(re.findall(r'<article class="card[^\"]*" data-model=', page)) == len(models)
         assert all(len({(run['vendor'], run['name']) for run in group}) == 1 for group in models)
+        deepseek = {group[0]['name']: {run['slug'] for run in group}
+                    for group in models if group[0]['vendor'] == 'DeepSeek'}
+        assert deepseek == {
+            'DeepSeek V4 Flash 0731': {'deepseek-v4-flash-0731-max'},
+            'DeepSeek V4.1 Flash 0910': {f'deepseek-v4.1-flash-{level}' for level in ('off', 'low', 'high', 'max')},
+            'DeepSeek V4.1 Flash 1017': {f'deepseek-v4.1-flash-1017-{level}' for level in ('off', 'low', 'high', 'max')},
+        }
+        assert 'DeepSeek V4.1 Flash 0910</a>' in page
         aliases = [dict(catalog[0], name='Same model', model_ids=['native/id']),
                    dict(catalog[0], name='Same model', model_ids=['gateway/id']),
                    dict(catalog[0], name='Other variant')]
