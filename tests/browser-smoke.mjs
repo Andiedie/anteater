@@ -58,6 +58,21 @@ async function smoke() {
   };
   assert(!document.querySelector('.site-header a[href="#the-prompt"]') && document.querySelector('.github-link svg') && document.querySelector('.github-link').getAttribute('aria-label') === 'GitHub', 'header drops prompt shortcut and exposes an accessible GitHub logo');
   assert([...document.querySelectorAll('.language-control,.filter-selects > label')].every(label => getComputedStyle(label,'::after').right === '14px' && parseFloat(getComputedStyle(label.querySelector('select')).paddingRight) >= 34), 'select arrows have reserved space away from text and border');
+  const terra = cardFor('GPT-6.1 Terra'), terraLevels = ['low','medium','high','xhigh','max'];
+  assert(terra && [...terra.querySelectorAll('.effort')].map(chip => chip.dataset.level).join(',') === terraLevels.join(','), 'Terra keeps only the five supported levels on one card');
+  assert(!document.querySelector('#reasoning option[value="ultra"]') && !catalog.some(run => run.reasoning.includes('ultra')), 'removed ultra has no filter or catalog record');
+  for (const level of terraLevels) {
+    const slug = 'gpt-6.1-terra-' + level, run = catalog.find(run => run.slug === slug);
+    terra.querySelector('[data-card-run="'+slug+'"]').click();
+    assert(run.price.basis === 'official' && run.price.amount_usd > 0 && terra.querySelector('[data-price]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Terra ${level} displays its official estimate`);
+  }
+  showRun('gpt-6.1-terra-max');
+  assert(document.querySelector('#next-run').disabled && [...document.querySelectorAll('#detail-levels .effort')].map(chip => chip.dataset.level).join(',') === terraLevels.join(','), 'Terra max is the final tier');
+  document.querySelector('#previous-run').click();
+  assert(new URLSearchParams(location.search).get('run') === 'gpt-6.1-terra-xhigh', 'previous from max opens xhigh');
+  document.querySelector('#detail-dialog [data-close]').click();
+  await waitFor(() => !document.querySelector('#detail-dialog').open, 'Terra detail closes');
+  document.querySelector('#clear-filters').click();
   const flash = cardFor('MiMo V2.6 Flash'), flashPosition = [...document.querySelector('#gallery').children].indexOf(flash), pageUrl = location.href;
   flash.scrollIntoView({block: 'center'});
   flash.querySelector('[data-card-run="mimo-v2.6-flash-off"]').click();

@@ -1,0 +1,438 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a19ba3-d8fd-774d-86ac-67a5cb954384",
+    "timestamp": "2026-11-02T09:42:48.830Z",
+    "cwd": "/Users/andie/Downloads/anteater-terra-20261102-173659/runs/low/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "dd5fde8f",
+      "parentId": null,
+      "timestamp": "2026-11-02T09:42:48.834Z",
+      "provider": "cliproxyapi",
+      "modelId": "gpt-6.1-terra"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "d0ab0d17",
+      "parentId": "dd5fde8f",
+      "timestamp": "2026-11-02T09:42:48.834Z",
+      "thinkingLevel": "low"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "gpt-6.1-terra",
+        "provider": "cliproxyapi",
+        "level": "low",
+        "piThinkingLevel": "low",
+        "outputLimitPerRequest": 64000,
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "settings": {
+          "compaction": {
+            "enabled": false
+          },
+          "retry": {
+            "enabled": false,
+            "maxRetries": 0,
+            "provider": {
+              "maxRetries": 0
+            }
+          },
+          "cacheWarming": "off",
+          "transport": "sse",
+          "httpIdleTimeoutMs": 0,
+          "enableInstallTelemetry": false,
+          "enableAnalytics": false,
+          "packages": [],
+          "defaultTools": [
+            "read",
+            "write",
+            "edit"
+          ]
+        },
+        "publicationApproved": false,
+        "piVersion": "1.4.0",
+        "providerVersion": "1.4.20",
+        "launchCommand": "node /Users/andie/Downloads/anteater-terra-20261102-173659/run.mjs low",
+        "directory": "/Users/andie/Downloads/anteater-terra-20261102-173659/runs/low/work",
+        "sessionId": "01a19ba3-d8fd-774d-86ac-67a5cb954384",
+        "modelMetadata": {
+          "id": "gpt-6.1-terra",
+          "name": "GPT 6.1 Terra",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "cost": {
+            "input": 1,
+            "output": 5,
+            "cacheRead": 0.05,
+            "cacheWrite": 1.25,
+            "tiers": [
+              {
+                "input": 2,
+                "output": 7.5,
+                "cacheRead": 0.1,
+                "cacheWrite": 2.5,
+                "inputTokensAbove": 272000
+              }
+            ]
+          },
+          "contextWindow": 500000,
+          "maxTokens": 128000,
+          "thinkingLevelMap": {
+            "off": null,
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": "high",
+            "xhigh": "xhigh",
+            "max": "max",
+            "ultra": "ultra"
+          },
+          "lastSeenAt": 1793611993291,
+          "stale": false,
+          "provider": "cliproxyapi",
+          "api": "cliproxyapi-codex-responses",
+          "baseUrl": "http://127.0.0.1:8317/backend-api/"
+        },
+        "providerExtensionSha256": "072688b677c998f66cdd1adb874b3feb95bdedd2c09e9624475c755066a795f9"
+      },
+      "id": "afc5abb4",
+      "parentId": "d0ab0d17",
+      "timestamp": "2026-11-02T09:42:48.838Z"
+    },
+    {
+      "type": "message",
+      "id": "607a33ce",
+      "parentId": "afc5abb4",
+      "timestamp": "2026-11-02T09:42:48.840Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are an expert coding assistant operating inside pi, a coding agent harness. You help users by reading files, executing commands, editing code, and writing new files.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nIn addition to the tools above, you may have access to other custom tools depending on the project.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for precise changes (edits[].oldText must match exactly)\n- When changing multiple separate locations in one file, use one edit call with multiple entries in edits[] instead of multiple edit calls\n- Each edits[].oldText is matched against the original file, not after earlier edits are applied. Do not emit overlapping or nested edits. Merge nearby changes into one edit.\n- Keep edits[].oldText as small as possible while still being unique in the file. Do not pad with large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about pi itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- When working on pi topics, read the docs and examples, and follow .md cross-references before implementing\n- Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/Downloads/anteater-terra-20261102-173659/runs/low/work\n</cwd>"
+        },
+        "timestamp": 1793612568839,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "e12dc9e7",
+      "parentId": "607a33ce",
+      "timestamp": "2026-11-02T09:42:48.840Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1793612568838
+      }
+    },
+    {
+      "type": "message",
+      "id": "a2d56eb8",
+      "parentId": "e12dc9e7",
+      "timestamp": "2026-11-02T09:43:16.459Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_8d8ac88a26974814a5d26d5412a7fdc4|fc_0375c691f73092ea016ae85b1abe2c81939e80771160a2cf0c",
+            "name": "write",
+            "arguments": {
+              "path": "anteater-unicycle.svg",
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">A juggling anteater on a unicycle</title>\n  <desc id=\"desc\">A cheerful anteater pedals a unicycle while three colorful bottles orbit overhead.</desc>\n  <defs>\n    <linearGradient id=\"sky\" x2=\"0\" y2=\"1\"><stop stop-color=\"#fff5dc\"/><stop offset=\"1\" stop-color=\"#f8d6ba\"/></linearGradient>\n    <linearGradient id=\"fur\" x2=\"1\" y2=\"1\"><stop stop-color=\"#b88c70\"/><stop offset=\"1\" stop-color=\"#79594f\"/></linearGradient>\n    <g id=\"bottle\"><path d=\"M-8-35h16v8l-3 5v7c0 4 10 8 10 16v24q0 8-8 8H-7q-8 0-8-8V1c0-8 10-12 10-16v-7l-3-5z\" fill=\"currentColor\" stroke=\"#523b44\" stroke-width=\"2.5\"/><path d=\"M-12 3h24v15h-24z\" fill=\"#fff5db\" opacity=\".85\"/><path d=\"M-7-35h14\" stroke=\"#523b44\" stroke-width=\"4\" stroke-linecap=\"round\"/><path d=\"M-9-5v5\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\" opacity=\".55\"/></g>\n  </defs>\n  <rect width=\"800\" height=\"600\" fill=\"url(#sky)\"/>\n  <circle cx=\"400\" cy=\"277\" r=\"245\" fill=\"#fff9e9\" opacity=\".55\"/>\n  <path d=\"M0 523q110-18 220 0t220 0 220 0 140 0v77H0z\" fill=\"#eab9a1\"/>\n  <ellipse cx=\"406\" cy=\"535\" rx=\"155\" ry=\"15\" fill=\"#a97170\" opacity=\".2\"/>\n  <!-- The bottles follow the same looping cascade, offset in time. -->\n  <g><animateMotion dur=\"3s\" repeatCount=\"indefinite\" path=\"M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z\"/><g style=\"color:#dc715f\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"-25\" to=\"335\" dur=\"3s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g></g>\n  <g><animateMotion dur=\"3s\" begin=\"-1s\" repeatCount=\"indefinite\" path=\"M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z\"/><g style=\"color:#6da79c\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"-25\" to=\"335\" dur=\"3s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g></g>\n  <g><animateMotion dur=\"3s\" begin=\"-2s\" repeatCount=\"indefinite\" path=\"M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z\"/><g style=\"color:#e2ae52\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"-25\" to=\"335\" dur=\"3s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g></g>\n  <!-- Wheel and spinning spokes -->\n  <circle cx=\"405\" cy=\"453\" r=\"79\" fill=\"#fff8e8\" stroke=\"#59424a\" stroke-width=\"10\"/>\n  <g stroke=\"#c59d88\" stroke-width=\"3\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 405 453\" to=\"360 405 453\" dur=\"2s\" repeatCount=\"indefinite\"/><path d=\"M405 375v156M327 453h156M350 398l110 110M460 398 350 508\"/></g>\n  <path d=\"M405 453l-27-93h54z\" fill=\"none\" stroke=\"#dd7664\" stroke-width=\"9\" stroke-linejoin=\"round\"/><path d=\"M366 358h78\" stroke=\"#59424a\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 405 453\" to=\"360 405 453\" dur=\"2s\" repeatCount=\"indefinite\"/><path d=\"M382 453h46\" stroke=\"#59424a\" stroke-width=\"7\"/><path d=\"M374 448v10m62-10v10\" stroke=\"#59424a\" stroke-width=\"7\" stroke-linecap=\"round\"/></g>\n  <circle cx=\"405\" cy=\"453\" r=\"8\" fill=\"#59424a\"/>\n  <!-- Tail, body and legs -->\n  <path d=\"M375 325C318 318 274 354 225 338c18 40 73 61 132 42 25-8 40-24 43-38z\" fill=\"#76564e\" stroke=\"#59424a\" stroke-width=\"4\"/>\n  <path d=\"M250 347q40 13 94-5\" fill=\"none\" stroke=\"#c49a7b\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n  <path d=\"M391 337q-10 42-2 63l-24 30\" fill=\"none\" stroke=\"#76564e\" stroke-width=\"19\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M424 341q24 35 7 65l-22 25\" fill=\"none\" stroke=\"#a77c65\" stroke-width=\"20\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M355 432h23m22 1h23\" stroke=\"#59424a\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n  <path d=\"M370 345c-16-45-8-92 25-108 31-15 67 5 74 40 7 39-5 65-31 80-20 11-49 5-68-12z\" fill=\"url(#fur)\" stroke=\"#59424a\" stroke-width=\"4\"/>\n  <path d=\"M382 255c9-11 20-16 32-17l34 101-20 14z\" fill=\"#f6dfc7\"/><path d=\"M388 251l17-10 35 106-14 7z\" fill=\"#55434a\"/>\n  <!-- Arms reach toward the bottles -->\n  <path d=\"M389 276q-24 12-43-4l-35-37\" fill=\"none\" stroke=\"#96705f\" stroke-width=\"17\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M450 278q25 12 44-3l30-39\" fill=\"none\" stroke=\"#a77c65\" stroke-width=\"17\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <circle cx=\"310\" cy=\"234\" r=\"9\" fill=\"#59424a\"/><circle cx=\"525\" cy=\"235\" r=\"9\" fill=\"#59424a\"/>\n  <!-- Long snout and face -->\n  <path d=\"M388 248c-13-15-16-34-5-49 12-17 34-22 55-12 14 7 19 18 20 31l31 20c6 4 5 12-2 14l-53 12c-20 5-35-1-46-16z\" fill=\"#b88c70\" stroke=\"#59424a\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <ellipse cx=\"390\" cy=\"190\" rx=\"12\" ry=\"17\" transform=\"rotate(-25 390 190)\" fill=\"#79594f\" stroke=\"#59424a\" stroke-width=\"4\"/>\n  <circle cx=\"430\" cy=\"211\" r=\"4\" fill=\"#392e35\"/><circle cx=\"488\" cy=\"242\" r=\"6\" fill=\"#392e35\"/>\n  <path d=\"M450 244q8 5 16 0\" fill=\"none\" stroke=\"#59424a\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n  <circle cx=\"441\" cy=\"225\" r=\"7\" fill=\"#e58f83\" opacity=\".5\"/>\n  <path d=\"M362 150l5-11m-18 21-10-5m128 4 8-9\" stroke=\"#e2ae52\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n</svg>"
+            }
+          }
+        ],
+        "api": "cliproxyapi-codex-responses",
+        "provider": "cliproxyapi",
+        "model": "gpt-6.1-terra",
+        "usage": {
+          "input": 1041,
+          "output": 2220,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 3261,
+          "cost": {
+            "input": 0.001041,
+            "output": 0.0111,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.012141
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1793612568842,
+        "responseId": "resp_0375c691f73092ea016ae85b19ecc48193b0a52a765c6f5687",
+        "rawStopReason": "completed",
+        "durationMs": 27615,
+        "thinkingLevel": "low"
+      }
+    },
+    {
+      "type": "message",
+      "id": "73815191",
+      "parentId": "a2d56eb8",
+      "timestamp": "2026-11-02T09:43:16.493Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_8d8ac88a26974814a5d26d5412a7fdc4|fc_0375c691f73092ea016ae85b1abe2c81939e80771160a2cf0c",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to anteater-unicycle.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1793612596493
+      }
+    },
+    {
+      "type": "message",
+      "id": "4f4bba5c",
+      "parentId": "73815191",
+      "timestamp": "2026-11-02T09:43:18.618Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Created [anteater-unicycle.svg](anteater-unicycle.svg), featuring a spinning wheel and three animated juggling bottles.",
+            "textSignature": "{\"v\":1,\"id\":\"msg_0375c691f73092ea016ae85b360f5c8193815e3f892253f2b1\",\"phase\":\"final_answer\"}"
+          }
+        ],
+        "api": "cliproxyapi-codex-responses",
+        "provider": "cliproxyapi",
+        "model": "gpt-6.1-terra",
+        "usage": {
+          "input": 3279,
+          "output": 28,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 3307,
+          "cost": {
+            "input": 0.003279,
+            "output": 0.00014000000000000001,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.0034189999999999997
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1793612596496,
+        "responseId": "resp_0375c691f73092ea016ae85b3548cc8193a3d6a96a5098bd56",
+        "rawStopReason": "completed",
+        "durationMs": 2121,
+        "thinkingLevel": "low"
+      }
+    }
+  ],
+  "leafId": "4f4bba5c",
+  "systemPrompt": "You are an expert coding assistant operating inside pi, a coding agent harness. You help users by reading files, executing commands, editing code, and writing new files.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nIn addition to the tools above, you may have access to other custom tools depending on the project.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for precise changes (edits[].oldText must match exactly)\n- When changing multiple separate locations in one file, use one edit call with multiple entries in edits[] instead of multiple edit calls\n- Each edits[].oldText is matched against the original file, not after earlier edits are applied. Do not emit overlapping or nested edits. Merge nearby changes into one edit.\n- Keep edits[].oldText as small as possible while still being unique in the file. Do not pad with large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about pi itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), pi packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- When working on pi topics, read the docs and examples, and follow .md cross-references before implementing\n- Always read pi .md files completely and follow links to related docs (e.g., tui.md for TUI API details)\n</docs>\n\n<cwd>\n/Users/andie/Downloads/anteater-terra-20261102-173659/runs/low/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}

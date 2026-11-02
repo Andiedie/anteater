@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">A balancing act</title>
+  <desc id="desc">A cheerful anteater rides a unicycle while juggling three colorful bottles.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#fdf2df"/><stop offset="1" stop-color="#f8d9c4"/></linearGradient>
+    <linearGradient id="fur" x2="1" y2="1"><stop stop-color="#a67c64"/><stop offset="1" stop-color="#755247"/></linearGradient>
+    <g id="bottle">
+      <path d="M-8-30h16v11c0 5 3 8 7 12 3 3 4 7 4 12v24c0 5-3 8-8 8h-22c-5 0-8-3-8-8V5c0-5 1-9 4-12 4-4 7-7 7-12z" fill="currentColor" stroke="#503c3a" stroke-width="2.5"/>
+      <path d="M-8-30h16v6H-8z" fill="#f8e9cb" stroke="#503c3a" stroke-width="2"/>
+      <path d="M-18 8h36v16h-36z" fill="#fff4dc" opacity=".9"/>
+      <path d="M-11-3v8" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+    </g>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="400" cy="270" r="220" fill="#fbe8cc"/>
+  <g fill="#d99f85" opacity=".6"><circle cx="112" cy="143" r="4"/><circle cx="683" cy="158" r="5"/><circle cx="160" cy="330" r="3"/><circle cx="644" cy="310" r="3"/></g>
+  <g stroke="#d99f85" stroke-width="3" stroke-linecap="round" opacity=".7"><path d="M226 102v16m-8-8h16M574 94v16m-8-8h16M700 255v12m-6-6h12"/></g>
+  <ellipse cx="400" cy="551" rx="166" ry="12" fill="#b87967" opacity=".18"/>
+  <path d="M122 550h556" stroke="#c88d78" stroke-width="3" stroke-linecap="round"/>
+  <!-- Wheel and spokes rotate independently of the frame. -->
+  <g>
+    <circle cx="400" cy="476" r="72" fill="#fff8e9" stroke="#493d40" stroke-width="9"/>
+    <circle cx="400" cy="476" r="61" fill="none" stroke="#e4ad83" stroke-width="3"/>
+    <g stroke="#c5a093" stroke-width="2">
+      <path d="M400 406v140M330 476h140M350.5 426.5l99 99M449.5 426.5l-99 99"/>
+      <animateTransform attributeName="transform" type="rotate" from="0 400 476" to="360 400 476" dur="2s" repeatCount="indefinite"/>
+    </g>
+    <circle cx="400" cy="476" r="8" fill="#493d40"/>
+  </g>
+  <path d="M400 476l-22-86h45l-23 86M378 390h45" fill="none" stroke="#507c7c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M368 386q28-12 61 0" fill="none" stroke="#493d40" stroke-width="10" stroke-linecap="round"/>
+  <!-- Body gently bobs as the anteater balances. -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0;0 -5;0 0" dur="2s" repeatCount="indefinite"/>
+    <!-- tail -->
+    <path d="M359 343C307 349 267 320 244 280c-12 60 11 121 83 127 23 2 42-8 54-22z" fill="#866253" stroke="#563f3c" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M254 305c18 40 50 69 91 76" fill="none" stroke="#b99880" stroke-width="5" stroke-linecap="round"/>
+    <!-- rear leg -->
+    <path d="M385 369q-9 29 12 48l23 20" fill="none" stroke="#624b44" stroke-width="17" stroke-linecap="round"/>
+    <path d="M413 436h25" stroke="#493d40" stroke-width="9" stroke-linecap="round"/>
+    <!-- torso -->
+    <path d="M349 297c-21 24-22 62-7 84 14 20 55 25 77 6 20-18 17-54 2-80-15-27-52-31-72-10z" fill="url(#fur)" stroke="#563f3c" stroke-width="4"/>
+    <path d="M350 309q23 3 52 64l-17 18q-25-49-48-57z" fill="#f1dfc5"/>
+    <path d="M351 312q19 5 45 61" fill="none" stroke="#493d40" stroke-width="9"/>
+    <!-- head and long snout -->
+    <path d="M360 303q-16-15-12-40 4-31 32-38 29-8 47 13 10 12 23 20l58 26q10 5 5 13-3 5-13 3l-69-13q-15-2-26 10-22 22-45 6z" fill="#ad8870" stroke="#563f3c" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M504 284q12 1 12 8t-12 6z" fill="#493d40"/>
+    <ellipse cx="365" cy="232" rx="12" ry="17" transform="rotate(-27 365 232)" fill="#866253" stroke="#563f3c" stroke-width="4"/>
+    <ellipse cx="365" cy="232" rx="5" ry="8" transform="rotate(-27 365 232)" fill="#e2b29f"/>
+    <circle cx="411" cy="256" r="4" fill="#302d30"/><circle cx="412" cy="255" r="1.2" fill="#fff"/>
+    <path d="M440 279q8 5 15 4" fill="none" stroke="#765449" stroke-width="2" stroke-linecap="round"/>
+    <!-- arms -->
+    <path d="M365 325q-25 8-39-3l-28-28" fill="none" stroke="#866253" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M405 330q26 11 48-3l30-24" fill="none" stroke="#98725e" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="297" cy="293" r="9" fill="#563f3c"/><circle cx="484" cy="302" r="9" fill="#563f3c"/>
+    <!-- front leg -->
+    <path d="M372 379q-15 20-7 39l-10 25" fill="none" stroke="#a47d68" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M344 444h25" stroke="#493d40" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <!-- Three bottles follow the same looping juggling path, offset in time. -->
+  <g>
+    <animateMotion dur="3s" repeatCount="indefinite" path="M295 267 C270 170 320 95 395 105 C465 115 510 180 485 275 C450 206 350 206 295 267"/>
+    <g style="color:#e77e68"><use href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3s" repeatCount="indefinite"/></g>
+  </g>
+  <g>
+    <animateMotion dur="3s" begin="-1s" repeatCount="indefinite" path="M295 267 C270 170 320 95 395 105 C465 115 510 180 485 275 C450 206 350 206 295 267"/>
+    <g style="color:#6fa5a0"><use href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3s" begin="-1s" repeatCount="indefinite"/></g>
+  </g>
+  <g>
+    <animateMotion dur="3s" begin="-2s" repeatCount="indefinite" path="M295 267 C270 170 320 95 395 105 C465 115 510 180 485 275 C450 206 350 206 295 267"/>
+    <g style="color:#d8ab53"><use href="#bottle"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3s" begin="-2s" repeatCount="indefinite"/></g>
+  </g>
+  <text x="400" y="585" text-anchor="middle" fill="#9c6d60" font-family="Georgia, serif" font-size="15" letter-spacing="4">THE GREAT BALANCING ACT</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">A juggling anteater on a unicycle</title>
+  <desc id="desc">A cheerful anteater pedals a unicycle while three colorful bottles orbit overhead.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#fff5dc"/><stop offset="1" stop-color="#f8d6ba"/></linearGradient>
+    <linearGradient id="fur" x2="1" y2="1"><stop stop-color="#b88c70"/><stop offset="1" stop-color="#79594f"/></linearGradient>
+    <g id="bottle"><path d="M-8-35h16v8l-3 5v7c0 4 10 8 10 16v24q0 8-8 8H-7q-8 0-8-8V1c0-8 10-12 10-16v-7l-3-5z" fill="currentColor" stroke="#523b44" stroke-width="2.5"/><path d="M-12 3h24v15h-24z" fill="#fff5db" opacity=".85"/><path d="M-7-35h14" stroke="#523b44" stroke-width="4" stroke-linecap="round"/><path d="M-9-5v5" stroke="white" stroke-width="3" stroke-linecap="round" opacity=".55"/></g>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="400" cy="277" r="245" fill="#fff9e9" opacity=".55"/>
+  <path d="M0 523q110-18 220 0t220 0 220 0 140 0v77H0z" fill="#eab9a1"/>
+  <ellipse cx="406" cy="535" rx="155" ry="15" fill="#a97170" opacity=".2"/>
+  <!-- The bottles follow the same looping cascade, offset in time. -->
+  <g><animateMotion dur="3s" repeatCount="indefinite" path="M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z"/><g style="color:#dc715f"><animateTransform attributeName="transform" type="rotate" from="-25" to="335" dur="3s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+  <g><animateMotion dur="3s" begin="-1s" repeatCount="indefinite" path="M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z"/><g style="color:#6da79c"><animateTransform attributeName="transform" type="rotate" from="-25" to="335" dur="3s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+  <g><animateMotion dur="3s" begin="-2s" repeatCount="indefinite" path="M 298,210 C 285,65 385,40 420,103 C 466,180 510,210 540,195 C 550,125 490,70 420,103 C 360,150 340,215 298,210 Z"/><g style="color:#e2ae52"><animateTransform attributeName="transform" type="rotate" from="-25" to="335" dur="3s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+  <!-- Wheel and spinning spokes -->
+  <circle cx="405" cy="453" r="79" fill="#fff8e8" stroke="#59424a" stroke-width="10"/>
+  <g stroke="#c59d88" stroke-width="3"><animateTransform attributeName="transform" type="rotate" from="0 405 453" to="360 405 453" dur="2s" repeatCount="indefinite"/><path d="M405 375v156M327 453h156M350 398l110 110M460 398 350 508"/></g>
+  <path d="M405 453l-27-93h54z" fill="none" stroke="#dd7664" stroke-width="9" stroke-linejoin="round"/><path d="M366 358h78" stroke="#59424a" stroke-width="10" stroke-linecap="round"/>
+  <g><animateTransform attributeName="transform" type="rotate" from="0 405 453" to="360 405 453" dur="2s" repeatCount="indefinite"/><path d="M382 453h46" stroke="#59424a" stroke-width="7"/><path d="M374 448v10m62-10v10" stroke="#59424a" stroke-width="7" stroke-linecap="round"/></g>
+  <circle cx="405" cy="453" r="8" fill="#59424a"/>
+  <!-- Tail, body and legs -->
+  <path d="M375 325C318 318 274 354 225 338c18 40 73 61 132 42 25-8 40-24 43-38z" fill="#76564e" stroke="#59424a" stroke-width="4"/>
+  <path d="M250 347q40 13 94-5" fill="none" stroke="#c49a7b" stroke-width="8" stroke-linecap="round"/>
+  <path d="M391 337q-10 42-2 63l-24 30" fill="none" stroke="#76564e" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M424 341q24 35 7 65l-22 25" fill="none" stroke="#a77c65" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M355 432h23m22 1h23" stroke="#59424a" stroke-width="9" stroke-linecap="round"/>
+  <path d="M370 345c-16-45-8-92 25-108 31-15 67 5 74 40 7 39-5 65-31 80-20 11-49 5-68-12z" fill="url(#fur)" stroke="#59424a" stroke-width="4"/>
+  <path d="M382 255c9-11 20-16 32-17l34 101-20 14z" fill="#f6dfc7"/><path d="M388 251l17-10 35 106-14 7z" fill="#55434a"/>
+  <!-- Arms reach toward the bottles -->
+  <path d="M389 276q-24 12-43-4l-35-37" fill="none" stroke="#96705f" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M450 278q25 12 44-3l30-39" fill="none" stroke="#a77c65" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="310" cy="234" r="9" fill="#59424a"/><circle cx="525" cy="235" r="9" fill="#59424a"/>
+  <!-- Long snout and face -->
+  <path d="M388 248c-13-15-16-34-5-49 12-17 34-22 55-12 14 7 19 18 20 31l31 20c6 4 5 12-2 14l-53 12c-20 5-35-1-46-16z" fill="#b88c70" stroke="#59424a" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="390" cy="190" rx="12" ry="17" transform="rotate(-25 390 190)" fill="#79594f" stroke="#59424a" stroke-width="4"/>
+  <circle cx="430" cy="211" r="4" fill="#392e35"/><circle cx="488" cy="242" r="6" fill="#392e35"/>
+  <path d="M450 244q8 5 16 0" fill="none" stroke="#59424a" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="441" cy="225" r="7" fill="#e58f83" opacity=".5"/>
+  <path d="M362 150l5-11m-18 21-10-5m128 4 8-9" stroke="#e2ae52" stroke-width="4" stroke-linecap="round"/>
+</svg>

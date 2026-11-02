@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">The amazing juggling anteater</title>
+  <desc id="desc">An animated illustration of an anteater riding a unicycle while three bottles spin overhead.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#fff7df"/><stop offset="1" stop-color="#f5dcc3"/></linearGradient>
+    <linearGradient id="fur" x2="1" y2="1"><stop stop-color="#b99a85"/><stop offset="1" stop-color="#806a61"/></linearGradient>
+    <style>
+      .bob { animation: bob 1.4s ease-in-out infinite; transform-origin: 400px 400px; }
+      .wheel { animation: spin 2s linear infinite; transform-origin: 400px 473px; }
+      .bottle { transform-box: fill-box; transform-origin: center; animation: tumble 1.5s linear infinite; }
+      .j1 { animation: juggle1 2.4s ease-in-out infinite; }
+      .j2 { animation: juggle2 2.4s ease-in-out infinite; }
+      .j3 { animation: juggle3 2.4s ease-in-out infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes tumble { to { transform: rotate(360deg); } }
+      @keyframes bob { 50% { transform: translateY(-6px) rotate(-1deg); } }
+      @keyframes juggle1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(230px,-55px); } }
+      @keyframes juggle2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-115px,55px); } }
+      @keyframes juggle3 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-115px,-55px); } }
+      @media (prefers-reduced-motion: reduce) { .bob,.wheel,.bottle,.j1,.j2,.j3 { animation: none; } }
+    </style>
+    <g id="bottle">
+      <path d="M-7-30h14v13l9 12v29q0 6-6 6h-20q-6 0-6-6V-5l9-12z" fill="#4b9e94" stroke="#315a59" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M-8-31h16v6H-8z" fill="#e5a45b" stroke="#315a59" stroke-width="2"/>
+      <path d="M-15 3h30v15h-30z" fill="#fff0c9"/><path d="M-7 10h14" stroke="#df8b73" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-10-3v4" stroke="#b8e5cf" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </defs>
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="400" cy="280" r="220" fill="#fffaf0" opacity=".55"/>
+  <g fill="#e4ad80" opacity=".7"><circle cx="115" cy="135" r="5"/><circle cx="687" cy="196" r="6"/><circle cx="624" cy="86" r="4"/><circle cx="173" cy="294" r="4"/></g>
+  <g fill="none" stroke="#df9c75" stroke-width="3" stroke-linecap="round"><path d="M205 105v18m-9-9h18M602 270v18m-9-9h18M706 344v14m-7-7h14"/></g>
+  <ellipse cx="400" cy="558" rx="180" ry="15" fill="#b78e79" opacity=".2"/>
+  <path d="M80 550h640" stroke="#c99e84" stroke-width="3" stroke-linecap="round"/>
+  <!-- The bottles follow staggered paths while spinning. -->
+  <g class="j1"><g transform="translate(285 150)"><use href="#bottle" class="bottle"/></g></g>
+  <g class="j2"><g transform="translate(400 95)"><use href="#bottle" class="bottle"/></g></g>
+  <g class="j3"><g transform="translate(515 150)"><use href="#bottle" class="bottle"/></g></g>
+  <!-- Unicycle -->
+  <g class="wheel"><circle cx="400" cy="473" r="72" fill="#fffaf0" stroke="#514a4b" stroke-width="12"/><circle cx="400" cy="473" r="60" fill="none" stroke="#d8a975" stroke-width="3"/><g stroke="#b8aaa0" stroke-width="3"><path d="M400 413v120M340 473h120M358 431l84 84M442 431l-84 84"/></g><circle cx="400" cy="473" r="8" fill="#514a4b"/><path d="M400 473l27 20" stroke="#514a4b" stroke-width="5"/><path d="M416 494h23" stroke="#514a4b" stroke-width="7" stroke-linecap="round"/></g>
+  <path d="M357 416l43 57 43-57-31-62" fill="none" stroke="#ce775b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M375 354h52" stroke="#514a4b" stroke-width="12" stroke-linecap="round"/>
+  <g class="bob">
+    <!-- Tail behind body -->
+    <path d="M356 320q-50-6-81-53-30-46-84-35 43 13 38 50-5 53 51 85 38 22 80-8" fill="#8d7468" stroke="#5c4c49" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M204 240q52 11 55 54 6 45 73 59-48 0-72-24-22-23-22-52 0-25-34-37z" fill="#c4a997"/>
+    <!-- legs -->
+    <path d="M372 342q-13 39 6 67l-16 14" fill="none" stroke="#695751" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M414 345q12 35 5 59l17 13" fill="none" stroke="#a88b78" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M349 425h25m51-5h25" stroke="#514a4b" stroke-width="9" stroke-linecap="round"/>
+    <!-- body and distinctive shoulder stripe -->
+    <ellipse cx="385" cy="312" rx="60" ry="55" transform="rotate(-12 385 312)" fill="url(#fur)" stroke="#5c4c49" stroke-width="4"/>
+    <path d="M355 272q25 1 47 17l-37 72q-13-3-24-12z" fill="#f5e8d5"/>
+    <path d="M362 274q22 4 35 16l-36 68q-8-2-15-7z" fill="#4e4545"/>
+    <!-- head and long snout -->
+    <path d="M397 272q-5-35 17-51 18-13 42 1 12 7 18 20l65 31q10 5 7 13-3 8-15 7l-75-12q-16 13-33 10-18-3-26-19z" fill="#b99a85" stroke="#5c4c49" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="418" cy="224" rx="11" ry="15" transform="rotate(-25 418 224)" fill="#8d7468" stroke="#5c4c49" stroke-width="4"/>
+    <circle cx="453" cy="246" r="4" fill="#3f3939"/><circle cx="454" cy="245" r="1.2" fill="white"/>
+    <ellipse cx="539" cy="282" rx="9" ry="6" transform="rotate(15 539 282)" fill="#4d4240"/>
+    <path d="M479 275q12 4 22 3" fill="none" stroke="#81685e" stroke-width="2" stroke-linecap="round"/>
+    <!-- raised juggling arms -->
+    <path d="M355 299q-31 4-50-20l-19-32" fill="none" stroke="#695751" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M413 303q34 13 61-4l26-34" fill="none" stroke="#a88b78" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M279 245l-5-10m12 10 2-11m206 31 3-11m4 12 9-8" fill="none" stroke="#5c4c49" stroke-width="5" stroke-linecap="round"/>
+    <path d="M396 213l15-32 23 28z" fill="#e07e65" stroke="#5c4c49" stroke-width="3" stroke-linejoin="round"/><circle cx="411" cy="180" r="5" fill="#e6ad67"/>
+  </g>
+  <text x="400" y="585" text-anchor="middle" font-family="Georgia,serif" font-size="16" letter-spacing="4" fill="#987665">THE AMAZING ANTEATER</text>
+</svg>

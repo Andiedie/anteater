@@ -118,6 +118,7 @@ def check():
         except ValueError:
             pass
     assert gallery.model_label("gpt-6.1-sol-max") == ("GPT-6.1 Sol", "OpenAI")
+    assert gallery.model_label("gpt-6.1-terra-max") == ("GPT-6.1 Terra", "OpenAI")
     assert gallery.model_label("hy4-preview-high") == ("Hunyuan 4 Preview", "Tencent")
     assert gallery.model_label("qwen3.8-max-0902-high") == ("Qwen3.8 Max 0902", "Alibaba")
     assert gallery.model_label("qwen3.8-27b-off") == ("Qwen3.8 27B", "Alibaba")
@@ -259,6 +260,17 @@ def check():
             assert run['vendor'] == 'MiniMax' and run['model_ids'] == ['minimax/minimax-m3.1-flash']
             assert run['reasoning'] == [run['slug'].rsplit('-', 1)[-1]]
             assert run['output_budget_per_request'] == 64000 and run['source']['kind'] == 'local'
+        terra = [run for run in catalog if run['name'] == 'GPT-6.1 Terra']
+        assert len(terra) == 5 and {run['reasoning'][0] for run in terra} == {'low', 'medium', 'high', 'xhigh', 'max'}
+        assert 'ultra' not in gallery.EFFORTS and 'value="ultra"' not in page
+        assert not (gallery.ROOT / 'dist/cases/gpt-6.1-terra-ultra').exists()
+        assert not any((gallery.ROOT / 'dist/sessions').glob('gpt-6.1-terra-ultra.*'))
+        for run in terra:
+            assert run['model_ids'] == ['gpt-6.1-terra'] and run['source']['kind'] == 'local'
+            assert run['output_budget_per_request'] == 64000
+            snapshot, _ = gallery.local_session(gallery.CONTENT / run['slug'])
+            assert gallery.summarize(snapshot)['reasoning'] == run['reasoning']
+            assert run.get('outcome') != 'no_artwork'
         aliases = [dict(catalog[0], name='Same model', model_ids=['native/id']),
                    dict(catalog[0], name='Same model', model_ids=['gateway/id']),
                    dict(catalog[0], name='Other variant')]
@@ -333,7 +345,7 @@ def check():
             assert run['price']['basis'] in ('official', 'unknown')
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
             if run['price']['amount_usd'] is not None:
-                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-10-24'
+                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-11-02'
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
         assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))

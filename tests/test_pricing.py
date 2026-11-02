@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-10-24'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-02'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -100,6 +100,26 @@ def check():
         assert pricing.find_price({'model_ids': [identifier], 'vendor': 'MiniMax'}, actual)['model_id'] == 'minimax-m3.1-flash'
     assert pricing.find_price({'model_ids': ['minimax/minimax-m3.1'], 'vendor': 'MiniMax'}, actual) is None
     assert pricing.find_price({'model_ids': ['minimax/minimax-m3'], 'vendor': 'MiniMax'}, actual)['rates_per_million']['input'] == .3
+    terra = actual['models'].get('gpt-6.1-terra')
+    assert terra is not None, 'GPT-6.1 Terra needs an official price profile'
+    assert terra['source_url'] == 'https://platform.openai.com/docs/models/gpt-6.1-terra'
+    assert terra['rates_per_million'] == {'input': 1, 'output': 5, 'cacheRead': .05, 'cacheWrite': 1.25, 'reasoning': None}
+    assert terra['input_threshold'] == 272000 and terra['cache_write_ttl_seconds'] == 1800
+    for level, expected in [('low', .01556), ('medium', .017582), ('high', .017512), ('xhigh', .023161), ('max', .1559598)]:
+        recorded = json.loads((content / f'gpt-6.1-terra-{level}' / 'run.json').read_text())
+        estimated = pricing.display_price(recorded, actual)
+        assert estimated['amount_usd'] == expected and estimated['basis'] == 'official'
+        assert estimated['checked_at'] == actual['as_of']
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        candidate['metrics']['tokens']['reasoning'] = None
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    assert pricing.estimate(cache_write, terra)[1] == 'cache_write_duration'
+    assert pricing.estimate(cache_write, terra, 1800) == (.000125, None)
+    assert pricing.estimate(cache_write, terra, 43200)[1] == 'cache_write_duration'
+    assert pricing.estimate({**tokens, 'input': 272001}, terra)[1] == 'per_request_usage'
+    assert pricing.find_price({**recorded, 'model_ids': ['gpt-6.1-terra-unreviewed']}, actual) is None
+    assert pricing.find_price({**recorded, 'model_ids': ['gpt-5.6-terra']}, actual)['rates_per_million']['output'] == 12
     identifiers = set()
     for model_id, quote in actual['models'].items():
         assert quote['source_kind'] == 'official' and quote['source_url'].startswith('https://')

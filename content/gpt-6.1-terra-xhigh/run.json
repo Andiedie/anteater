@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-6.1-terra-xhigh",
+  "name": "GPT-6.1 Terra",
+  "vendor": "OpenAI",
+  "date": "2026-11-02T09:44:27.331Z",
+  "model_ids": [
+    "gpt-6.1-terra"
+  ],
+  "providers": [
+    "cliproxyapi"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 46.288,
+    "request_seconds": 46.257,
+    "average_tps": 76.01,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 5581,
+      "output": 3516,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 201,
+      "totalTokens": 9097
+    },
+    "recorded_cost_usd": 0.023161,
+    "cost_usd": 0.023161
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gpt-6.1-terra-xhigh.html",
+    "snapshot_url": "./sessions/gpt-6.1-terra-xhigh.json",
+    "session_sha256": "e74106bebf48ebe7b268d81941dcc68c4334ed9c0fad1fccd07e3bc84a5f7429",
+    "export_sha256": "c222356d560a61fea3209166002c951838baa8b40c527d9bc99d91ce8b3a0687",
+    "session_id": "01a19ba5-59ba-768b-8f63-aa06bec4e3e9",
+    "imported_at": "2026-11-02T09:57:53.279184+00:00",
+    "artwork_sha256": "2fe84b39f74d5f85953869d813ffa71d86f3facc770b506f30f01a2dd8a509b4"
+  }
+}

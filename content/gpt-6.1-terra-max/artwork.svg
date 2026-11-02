@@ -1,0 +1,248 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">The Amazing Anteater</title>
+  <desc id="desc">A cheerful anteater rides a unicycle and juggles three colorful bottles in a little circus performance.</desc>
+
+  <defs>
+    <radialGradient id="spotlight" cx="50%" cy="42%" r="60%">
+      <stop offset="0" stop-color="#fff8df"/>
+      <stop offset="1" stop-color="#f2c9a7"/>
+    </radialGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="0.8" y2="1">
+      <stop stop-color="#d6a681"/>
+      <stop offset="1" stop-color="#a87557"/>
+    </linearGradient>
+    <linearGradient id="tail-fur" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#c69672"/>
+      <stop offset="1" stop-color="#825b48"/>
+    </linearGradient>
+    <linearGradient id="wheel-fill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#fff6e2"/>
+      <stop offset="1" stop-color="#eed5b6"/>
+    </linearGradient>
+
+    <!-- The colored glass inherits its color from each use. -->
+    <g id="bottle" stroke-linejoin="round">
+      <path d="M-7-40 H7 V-24 C7-19 19-18 19-9 V27 Q19 36 10 36 H-10 Q-19 36-19 27 V-9 C-19-18-7-19-7-24 Z" fill="currentColor" stroke="#49382f" stroke-width="3"/>
+      <path d="M-17-3 H17 V18 H-17 Z" fill="#fff3da"/>
+      <path d="M-12 1 H12 M-12 14 H12" fill="none" stroke="#d7bda0" stroke-width="1"/>
+      <path d="M0 2 L5 7.5 0 13-5 7.5 Z" fill="currentColor"/>
+      <path d="M-12-13 V-7 M-12 22 V27" fill="none" stroke="#fff8e9" stroke-width="3" stroke-linecap="round" opacity=".65"/>
+      <rect x="-9" y="-46" width="18" height="8" rx="2" fill="#49382f"/>
+      <path d="M-6-43 H6" stroke="#f8e3c7" stroke-width="1.5" opacity=".7"/>
+    </g>
+
+    <style>
+      .wheel-turn, .crank-turn {
+        transform-box: view-box;
+        transform-origin: 480px 570px;
+        animation: spin 4s linear infinite;
+      }
+      .pedal-left, .pedal-right {
+        transform-box: view-box;
+        animation: counterspin 4s linear infinite;
+      }
+      .pedal-left { transform-origin: 437px 570px; }
+      .pedal-right { transform-origin: 523px 570px; }
+      .bob {
+        transform-box: view-box;
+        transform-origin: 480px 420px;
+        animation: bob 2s ease-in-out infinite;
+      }
+      .twinkle { animation: twinkle 2.8s ease-in-out infinite alternate; }
+      .twinkle-late { animation: twinkle 3.2s 1s ease-in-out infinite alternate; }
+      .still-bottles, .still-legs { display: none; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      @keyframes counterspin { to { transform: rotate(-360deg); } }
+      @keyframes bob {
+        0%, 100% { transform: translateY(0) rotate(-.5deg); }
+        50% { transform: translateY(-3px) rotate(.5deg); }
+      }
+      @keyframes twinkle { from { opacity: .4; } to { opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) {
+        .wheel-turn, .crank-turn, .pedal-left, .pedal-right, .bob, .twinkle, .twinkle-late { animation: none; }
+        .moving-bottles, .moving-legs { display: none; }
+        .still-bottles, .still-legs { display: inline; }
+      }
+    </style>
+  </defs>
+
+  <!-- A little circus-poster backdrop. -->
+  <rect width="960" height="720" rx="28" fill="#f7efdf"/>
+  <rect x="14" y="14" width="932" height="692" rx="19" fill="none" stroke="#dccbb1" stroke-width="1.5"/>
+  <circle cx="480" cy="348" r="267" fill="url(#spotlight)"/>
+  <circle cx="480" cy="348" r="278" fill="none" stroke="#dfb999" stroke-width="1.5" stroke-dasharray="2 9" opacity=".75"/>
+
+  <g fill="#5b4437">
+    <text x="65" y="68" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="2.8">THE AMAZING</text>
+    <text x="63" y="102" font-family="Georgia, serif" font-size="31" font-weight="700">Anteater</text>
+    <text x="65" y="123" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="2.5">BALANCING ACT</text>
+  </g>
+  <path d="M65 139 H150" stroke="#c78f73" stroke-width="2" stroke-linecap="round"/>
+  <g text-anchor="end" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#8d6a55">
+    <text x="894" y="72">ONE WHEEL</text>
+    <text x="894" y="91">THREE BOTTLES</text>
+  </g>
+  <path d="M820 106 H894" stroke="#c78f73" stroke-width="2" stroke-linecap="round"/>
+
+  <g fill="none" stroke-linecap="round">
+    <path d="M382 252 C399 197 428 155 463 130" stroke="#dcae92" stroke-width="2" stroke-dasharray="2 9" opacity=".8"/>
+    <path d="M634 252 C613 220 579 199 548 188" stroke="#dcae92" stroke-width="2" stroke-dasharray="2 9" opacity=".8"/>
+    <path d="M156 286 q-14 8 0 16 t0 16" stroke="#cda687" stroke-width="2"/>
+    <path d="M798 373 q14 8 0 16 t0 16" stroke="#cda687" stroke-width="2"/>
+  </g>
+  <g class="twinkle" fill="#dc987a">
+    <path d="M311 176 l4 11 11 4-11 4-4 11-4-11-11-4 11-4z"/>
+    <path d="M695 226 l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+  </g>
+  <g class="twinkle-late" fill="#d2a461">
+    <path d="M724 150 l4 11 11 4-11 4-4 11-4-11-11-4 11-4z"/>
+    <path d="M230 458 l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+  </g>
+  <g fill="#d79479">
+    <circle cx="266" cy="222" r="3"/><circle cx="741" cy="289" r="3"/>
+    <circle cx="210" cy="358" r="2.5"/><circle cx="767" cy="465" r="2.5"/>
+  </g>
+  <g fill="#d8ae70">
+    <circle cx="337" cy="120" r="3"/><circle cx="676" cy="123" r="3"/>
+    <circle cx="197" cy="411" r="2.5"/><circle cx="728" cy="415" r="2.5"/>
+  </g>
+
+  <!-- The ground and the wheel. -->
+  <ellipse cx="480" cy="677" rx="214" ry="13" fill="#cba98e" opacity=".28"/>
+  <path d="M211 679 H749 M190 679 H199 M761 679 H770" stroke="#997761" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="480" cy="570" r="96" fill="url(#wheel-fill)" stroke="#49382f" stroke-width="15"/>
+  <circle cx="480" cy="570" r="84" fill="none" stroke="#d49a6a" stroke-width="6"/>
+  <circle cx="480" cy="570" r="76" fill="none" stroke="#fff4dd" stroke-width="2"/>
+  <g class="wheel-turn" fill="none">
+    <path d="M480 487 V653 M397 570 H563 M421.3 511.3 L538.7 628.7 M421.3 628.7 L538.7 511.3 M438.5 498.1 L521.5 641.9 M408.1 528.5 L551.9 611.5 M408.1 611.5 L551.9 528.5 M438.5 641.9 L521.5 498.1" stroke="#be906e" stroke-width="2.5"/>
+    <circle cx="480" cy="570" r="92" stroke="#f4d8b2" stroke-width="3" stroke-dasharray="14 34" opacity=".85"/>
+  </g>
+
+  <!-- Saddle and fork, in front of the wheel. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M480 435 V471 M480 466 L445 557 Q441 570 480 570 M480 466 L515 557 Q519 570 480 570" stroke="#523d32" stroke-width="12"/>
+    <path d="M480 437 V470 M480 468 L448 557 Q445 565 463 568 M480 468 L512 557 Q515 565 497 568" stroke="#d4a174" stroke-width="6"/>
+  </g>
+  <path d="M426 427 C434 423 446 424 457 426 C472 429 489 426 499 424 C508 422 518 426 517 432 C516 439 504 442 490 441 L450 439 C437 439 427 436 426 431 Z" fill="#49382f"/>
+  <path d="M435 429 Q451 428 465 432" fill="none" stroke="#b88c6e" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- The legs follow the pedals through a full revolution. -->
+  <g class="moving-legs" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke="#49382f" stroke-width="25">
+      <path id="back-leg" d="M434 405 C415 424 404 450 416 478 Q424 518 437 559">
+        <animate attributeName="d" dur="4s" repeatCount="indefinite" keyTimes="0;.125;.25;.375;.5;.625;.75;.875;1" values="M434 405 C415 424 404 450 416 478 Q424 518 437 559; M434 405 C414 424 405 449 414 470 Q425 505 450 529; M434 405 C414 424 406 448 417 461 Q439 491 480 516; M434 405 C414 424 410 449 424 461 Q457 492 510 529; M434 405 C415 424 417 453 435 470 Q474 513 523 559; M434 405 C415 424 419 460 440 482 Q477 533 510 589; M434 405 C415 424 410 464 430 490 Q457 546 480 602; M434 405 C415 424 404 461 419 487 Q435 539 450 589; M434 405 C415 424 404 450 416 478 Q424 518 437 559"/>
+      </path>
+    </g>
+    <use href="#back-leg" stroke="#8d6550" stroke-width="18"/>
+    <g stroke="#49382f" stroke-width="26">
+      <path id="front-leg" d="M477 407 C500 421 514 446 515 475 Q516 520 523 559">
+        <animate attributeName="d" dur="4s" repeatCount="indefinite" keyTimes="0;.125;.25;.375;.5;.625;.75;.875;1" values="M477 407 C500 421 514 446 515 475 Q516 520 523 559; M477 407 C501 422 519 453 520 482 Q520 535 510 589; M477 407 C502 424 521 460 520 490 Q512 548 480 602; M477 407 C501 425 519 464 508 491 Q489 540 450 589; M477 407 C500 423 516 457 498 482 Q468 518 437 559; M477 407 C499 420 511 446 497 463 Q470 492 450 529; M477 407 C499 419 510 438 504 450 Q491 481 480 516; M477 407 C500 420 515 439 515 456 Q518 491 510 529; M477 407 C500 421 514 446 515 475 Q516 520 523 559"/>
+      </path>
+    </g>
+    <use href="#front-leg" stroke="#bd8c69" stroke-width="19"/>
+  </g>
+  <g class="still-legs" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M434 405 C415 424 404 450 416 478 Q424 518 437 559" stroke="#49382f" stroke-width="25"/>
+    <path d="M434 405 C415 424 404 450 416 478 Q424 518 437 559" stroke="#8d6550" stroke-width="18"/>
+    <path d="M477 407 C500 421 514 446 515 475 Q516 520 523 559" stroke="#49382f" stroke-width="26"/>
+    <path d="M477 407 C500 421 514 446 515 475 Q516 520 523 559" stroke="#bd8c69" stroke-width="19"/>
+  </g>
+
+  <!-- Counter-rotating feet keep the pedals level as the crank turns. -->
+  <g class="crank-turn">
+    <path d="M437 570 H523" stroke="#49382f" stroke-width="9" stroke-linecap="round"/>
+    <path d="M437 570 H523" stroke="#d5aa81" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="480" cy="570" r="13" fill="#49382f"/>
+    <circle cx="480" cy="570" r="7" fill="#efd4ac"/>
+    <circle cx="480" cy="570" r="3" fill="#9c755b"/>
+    <g class="pedal-left">
+      <g transform="translate(437 570)">
+        <rect x="-22" y="-2" width="44" height="8" rx="4" fill="#49382f"/>
+        <path d="M-8-19 Q-2-23 7-19 L9-10 Q11-7 18-5 Q22-4 21 0 Q20 3 15 3 H-14 Q-19 3-18-1 L-13-9 Z" fill="#8d6550" stroke="#49382f" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M8-5 l1 4 M14-4 l1 3" stroke="#f4d8b5" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+    <g class="pedal-right">
+      <g transform="translate(523 570)">
+        <rect x="-22" y="-2" width="44" height="8" rx="4" fill="#49382f"/>
+        <path d="M-8-19 Q-2-23 7-19 L9-10 Q11-7 18-5 Q22-4 21 0 Q20 3 15 3 H-14 Q-19 3-18-1 L-13-9 Z" fill="#bd8c69" stroke="#49382f" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M8-5 l1 4 M14-4 l1 3" stroke="#f4d8b5" stroke-width="2" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- The anteater: a bushy tail, a distinctive shoulder stripe, and a long snout. -->
+  <g class="bob" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M414 345 C379 337 360 295 324 285 C303 279 285 282 270 271 Q279 289 266 306 L253 322 L267 322 L247 344 L262 343 L238 365 L257 365 L234 389 L255 386 L239 409 L263 401 L254 426 L280 414 L281 432 L304 416 L310 432 L331 415 L340 426 Q364 405 408 407 C435 402 450 371 414 345 Z" fill="url(#tail-fur)" stroke="#49382f" stroke-width="4"/>
+    <g fill="none" stroke="#e0b18b" stroke-width="3" opacity=".65">
+      <path d="M286 301 Q320 326 354 348"/>
+      <path d="M273 345 Q309 353 344 369"/>
+      <path d="M265 385 Q305 378 341 384"/>
+      <path d="M281 410 Q310 396 346 396"/>
+    </g>
+    <path d="M388 349 C388 319 417 302 454 299 C481 296 510 303 534 311 C555 317 564 340 556 362 C548 384 532 399 519 412 C505 426 478 428 453 420 L425 415 C394 411 379 397 381 375 Q383 359 388 349 Z" fill="url(#fur)" stroke="#49382f" stroke-width="4"/>
+    <path d="M515 305 C493 311 480 326 464 341 C443 360 420 366 385 366 L382 392 C422 391 451 383 475 370 C495 359 510 342 527 326 Z" fill="#f7e4c9"/>
+    <path d="M511 313 C493 319 481 333 467 347 C448 365 423 373 383 374 L382 385 C421 385 449 378 471 366 C491 355 504 340 519 326 Z" fill="#49382f"/>
+    <g fill="none" stroke="#795644" stroke-width="2" opacity=".6">
+      <path d="M403 400 l12 3 M419 405 l10 2 M494 406 l10-5"/>
+    </g>
+
+    <!-- Arms are held up beneath the bottle-catching hands. -->
+    <g fill="none">
+      <path d="M417 354 C391 355 369 343 352 324" stroke="#49382f" stroke-width="30"/>
+      <path d="M417 354 C391 355 369 343 352 324" stroke="#b88968" stroke-width="22"/>
+      <path d="M527 366 C560 383 598 390 628 369 C647 356 658 339 665 324" stroke="#49382f" stroke-width="30"/>
+      <path d="M527 366 C560 383 598 390 628 369 C647 356 658 339 665 324" stroke="#bc8d6a" stroke-width="22"/>
+    </g>
+
+    <path d="M529 300 C522 281 527 266 538 263 C549 259 558 270 556 283 Z" fill="#b58363" stroke="#49382f" stroke-width="4"/>
+    <path d="M534 283 Q532 270 539 269 Q547 268 550 279" fill="#e4b69b" stroke="#795644" stroke-width="2"/>
+    <path d="M528 304 C535 282 549 274 565 277 C583 279 592 295 602 309 C614 325 630 338 647 347 Q655 352 651 359 Q648 366 637 365 L607 359 C588 355 571 355 555 358 C534 357 523 345 523 328 Q523 314 528 304 Z" fill="url(#fur)" stroke="#49382f" stroke-width="4"/>
+    <path d="M642 345 Q654 349 653 356 Q651 363 642 363 L635 360 Q641 355 642 345 Z" fill="#49382f"/>
+    <path d="M645 350 l3 1" stroke="#fff2db" stroke-width="2" opacity=".8"/>
+    <circle cx="568" cy="301" r="4.5" fill="#49382f"/>
+    <circle cx="569.4" cy="299.5" r="1.3" fill="#fff8e7"/>
+    <path d="M559 292 Q565 288 571 291" fill="none" stroke="#795644" stroke-width="2"/>
+    <ellipse cx="583" cy="316" rx="8" ry="5" fill="#da9c86" opacity=".65"/>
+    <path d="M617 349 Q624 353 631 352" fill="none" stroke="#795644" stroke-width="2"/>
+  </g>
+
+  <!-- Alternating high and low throws keep the three bottles visibly separated. -->
+  <g class="moving-bottles">
+    <g transform="translate(352 287)">
+      <g>
+        <animateMotion path="M0 0 C11 -102 126 -216 188 -195 C256 -174 315 -81 313 0 C302 -64 187 -115 125 -102 C57 -89 -2 -64 0 0 Z" dur="4.8s" repeatCount="indefinite" calcMode="spline" keyPoints="0;.31;.569;.812;1" keyTimes="0;.25;.5;.75;1" keySplines=".2 .6 .4 1;.6 0 .8 .4;.2 .6 .4 1;.6 0 .8 .4"/>
+        <g style="color:#d87960"><animateTransform attributeName="transform" type="rotate" from="-12" to="708" dur="4.8s" repeatCount="indefinite"/><use href="#bottle"/></g>
+      </g>
+    </g>
+    <g transform="translate(540 92)">
+      <g>
+        <animateMotion path="M-188 195 C-177 93 -62 -21 0 0 C68 21 127 114 125 195 C114 131 -1 80 -63 93 C-131 106 -190 131 -188 195 Z" dur="4.8s" begin="-1.6s" repeatCount="indefinite" calcMode="spline" keyPoints="0;.31;.569;.812;1" keyTimes="0;.25;.5;.75;1" keySplines=".2 .6 .4 1;.6 0 .8 .4;.2 .6 .4 1;.6 0 .8 .4"/>
+        <g style="color:#639f90"><animateTransform attributeName="transform" type="rotate" from="-12" to="708" dur="4.8s" begin="-1.6s" repeatCount="indefinite"/><use href="#bottle"/></g>
+      </g>
+    </g>
+    <g transform="translate(477 185)">
+      <g>
+        <animateMotion path="M-125 102 C-114 0 1 -114 63 -93 C131 -72 190 21 188 102 C177 38 62 -13 0 0 C-68 13 -127 38 -125 102 Z" dur="4.8s" begin="-3.2s" repeatCount="indefinite" calcMode="spline" keyPoints="0;.31;.569;.812;1" keyTimes="0;.25;.5;.75;1" keySplines=".2 .6 .4 1;.6 0 .8 .4;.2 .6 .4 1;.6 0 .8 .4"/>
+        <g style="color:#dda954"><animateTransform attributeName="transform" type="rotate" from="-12" to="708" dur="4.8s" begin="-3.2s" repeatCount="indefinite"/><use href="#bottle"/></g>
+      </g>
+    </g>
+  </g>
+  <g class="still-bottles">
+    <g transform="translate(410 169) rotate(-28)" style="color:#d87960"><use href="#bottle"/></g>
+    <g transform="translate(520 103) rotate(20)" style="color:#639f90"><use href="#bottle"/></g>
+    <g transform="translate(625 180) rotate(32)" style="color:#dda954"><use href="#bottle"/></g>
+  </g>
+
+  <!-- Hands sit in front of the bottles at the bottom of each toss. -->
+  <g class="bob" fill="#f2d6b5" stroke="#49382f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <g transform="translate(352 324)">
+      <path d="M-20 1 Q-20-5-15-7 Q-11-8-8-4 Q-6-11-1-10 Q3-10 4-5 Q8-10 12-8 Q16-7 15-2 Q20-4 22 0 Q23 6 17 9 L-11 10 Q-18 8-20 1 Z"/>
+      <path d="M-8-4 l1 4 M4-5 l1 4 M15-2 l-1 4" fill="none" stroke="#8d6550" stroke-width="2"/>
+    </g>
+    <g transform="translate(665 324)">
+      <path d="M-20 1 Q-20-5-15-7 Q-11-8-8-4 Q-6-11-1-10 Q3-10 4-5 Q8-10 12-8 Q16-7 15-2 Q20-4 22 0 Q23 6 17 9 L-11 10 Q-18 8-20 1 Z"/>
+      <path d="M-8-4 l1 4 M4-5 l1 4 M15-2 l-1 4" fill="none" stroke="#8d6550" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

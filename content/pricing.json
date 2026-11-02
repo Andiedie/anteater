@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-10-24",
+  "as_of": "2026-11-02",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -141,6 +141,26 @@
       "rate_note": {
         "en": "Standard global rates, prompts ≤272K.",
         "zh": "标准全球价格，单次输入不超过 272K。"
+      }
+    },
+    "gpt-6.1-terra": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://platform.openai.com/docs/models/gpt-6.1-terra",
+      "aliases": [],
+      "rates_per_million": {
+        "input": 1,
+        "output": 5,
+        "cacheRead": 0.05,
+        "cacheWrite": 1.25,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K; cache-write quote is for 30 minutes. Output includes reasoning.",
+        "zh": "标准全球价格，单次输入不超过 272K；缓存写入单价对应 30 分钟。输出已含思考。"
       }
     },
     "claude-opus-5-5": {
