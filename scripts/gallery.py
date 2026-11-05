@@ -190,6 +190,8 @@ def summarize(session):
 def model_label(slug):
     effort = slug.rsplit("-", 1)[-1]
     stem = slug[:-(len(effort) + 1)] if effort in EFFORTS else slug
+    if stem == "hy4":
+        return "Hy4", "Tencent"
     for prefix, vendor, label in (
         ("gpt-", "OpenAI", "GPT-"), ("claude-", "Anthropic", "Claude "),
         ("gemini-", "Google", "Gemini "), ("deepseek-", "DeepSeek", "DeepSeek "),

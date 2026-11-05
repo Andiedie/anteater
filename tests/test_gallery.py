@@ -120,6 +120,8 @@ def check():
     assert gallery.model_label("gpt-6.1-sol-max") == ("GPT-6.1 Sol", "OpenAI")
     assert gallery.model_label("gpt-6.1-terra-max") == ("GPT-6.1 Terra", "OpenAI")
     assert gallery.model_label("hy4-preview-high") == ("Hunyuan 4 Preview", "Tencent")
+    for level in ('off', 'high'):
+        assert gallery.model_label(f"hy4-{level}") == ("Hy4", "Tencent")
     assert gallery.model_label("qwen3.8-max-0902-high") == ("Qwen3.8 Max 0902", "Alibaba")
     assert gallery.model_label("qwen3.8-27b-off") == ("Qwen3.8 27B", "Alibaba")
     assert gallery.model_label("kimi-k3-max") == ("Kimi K3", "Moonshot AI")
@@ -345,7 +347,7 @@ def check():
             assert run['price']['basis'] in ('official', 'unknown')
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
             if run['price']['amount_usd'] is not None:
-                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-11-02'
+                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-11-05'
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
         assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))

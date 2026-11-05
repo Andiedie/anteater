@@ -58,6 +58,15 @@ async function smoke() {
   };
   assert(!document.querySelector('.site-header a[href="#the-prompt"]') && document.querySelector('.github-link svg') && document.querySelector('.github-link').getAttribute('aria-label') === 'GitHub', 'header drops prompt shortcut and exposes an accessible GitHub logo');
   assert([...document.querySelectorAll('.language-control,.filter-selects > label')].every(label => getComputedStyle(label,'::after').right === '14px' && parseFloat(getComputedStyle(label.querySelector('select')).paddingRight) >= 34), 'select arrows have reserved space away from text and border');
+  const hy4 = cardFor('Hy4');
+  assert(hy4 && cardFor('Hunyuan 4 Preview') && !cardFor('Hunyuan 4'), 'official Hy4 name stays separate from the historical Preview');
+  assert([...hy4.querySelectorAll('.effort')].map(chip => chip.dataset.level).join(',') === 'off,high', 'Hy4 has exactly the two recorded levels');
+  for (const level of ['off', 'high']) {
+    const run = catalog.find(run => run.slug === 'hy4-' + level);
+    hy4.querySelector('[data-card-run="'+run.slug+'"]').click();
+    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-05' && hy4.querySelector('[data-price]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
+    assert(run.price.rates_per_million.input === .417 && run.price.rates_per_million.output === 1.2505 && run.price.rates_per_million.cacheRead === .021 && run.price.rate_note.en.includes('2026-12-31 23:59:59'), `Hy4 ${level} retains the discount deadline and cached-input quote`);
+  }
   const terra = cardFor('GPT-6.1 Terra'), terraLevels = ['low','medium','high','xhigh','max'];
   assert(terra && [...terra.querySelectorAll('.effort')].map(chip => chip.dataset.level).join(',') === terraLevels.join(','), 'Terra keeps only the five supported levels on one card');
   assert(!document.querySelector('#reasoning option[value="ultra"]') && !catalog.some(run => run.reasoning.includes('ultra')), 'removed ultra has no filter or catalog record');

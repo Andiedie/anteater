@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-02",
+  "as_of": "2026-11-05",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -59,8 +59,8 @@
       "input_threshold": 272000,
       "cache_write_ttl_seconds": 1800,
       "rate_note": {
-        "en": "Standard global rates, prompts ≤272K. Sol 5.6 introductory rates apply through at least November 21, 2026.",
-        "zh": "标准全球价格，单次输入不超过 272K；5.6 Sol 优惠至少持续至 2026-11-21。"
+        "en": "Standard global rates, prompts ≤272K. Sol 5.6 promotional rates apply until November 30, 2026.",
+        "zh": "标准全球价格，单次输入不超过 272K；5.6 Sol 优惠持续至 2026-11-30。"
       }
     },
     "gpt-6-luna": {
@@ -492,6 +492,26 @@
       "rate_note": {
         "en": "Singapore API rates in USD.",
         "zh": "新加坡 API 美元价格。"
+      }
+    },
+    "hy4": {
+      "vendor": "Tencent",
+      "source_kind": "official",
+      "source": "Tencent",
+      "source_url": "https://www.tencentcloud.com/document/product/1300/78937",
+      "aliases": [
+        "tencent/hy4"
+      ],
+      "rates_per_million": {
+        "input": 0.417,
+        "output": 1.2505,
+        "cacheRead": 0.021,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "rate_note": {
+        "en": "Singapore API rates in USD, including the public 50% discount through 2026-12-31 23:59:59 Beijing time. Output includes reasoning; no separate cache-write rate is published. Not the Preview tariff.",
+        "zh": "新加坡 API 美元价格，已包含截至北京时间 2026-12-31 23:59:59 的公开五折优惠。输出已含思考，未公布独立缓存写入价；不适用于 Preview。"
       }
     },
     "hy4-preview": {

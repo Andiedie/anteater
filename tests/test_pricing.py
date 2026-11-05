@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-02'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-05'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -120,6 +120,26 @@ def check():
     assert pricing.estimate({**tokens, 'input': 272001}, terra)[1] == 'per_request_usage'
     assert pricing.find_price({**recorded, 'model_ids': ['gpt-6.1-terra-unreviewed']}, actual) is None
     assert pricing.find_price({**recorded, 'model_ids': ['gpt-5.6-terra']}, actual)['rates_per_million']['output'] == 12
+    hy4 = actual['models']['hy4']
+    assert hy4['source_url'] == 'https://www.tencentcloud.com/document/product/1300/78937'
+    assert hy4['rates_per_million'] == {'input': .417, 'output': 1.2505, 'cacheRead': .021, 'cacheWrite': None, 'reasoning': None}
+    assert all('2026-12-31 23:59:59' in note for note in hy4['rate_note'].values())
+    for level, expected in [('off', .0117715595), ('high', .077454915)]:
+        recorded = json.loads((content / f'hy4-{level}' / 'run.json').read_text())
+        assert recorded['name'] == 'Hy4'
+        estimated = pricing.display_price(recorded, actual)
+        assert estimated['basis'] == 'official' and estimated['amount_usd'] == expected
+        assert estimated['checked_at'] == actual['as_of']
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        candidate['metrics']['tokens']['reasoning'] = None
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    for identifier in ('hy4', 'tencent/hy4'):
+        assert pricing.find_price({'model_ids': [identifier], 'vendor': 'Tencent'}, actual)['model_id'] == 'hy4'
+    assert pricing.find_price({'model_ids': ['tencent/hy4'], 'vendor': 'Other'}, actual) is None
+    assert pricing.find_price({'model_ids': ['tencent/hy4-flash'], 'vendor': 'Tencent'}, actual) is None
+    assert pricing.find_price({'model_ids': ['tencent/hy4-preview'], 'vendor': 'Tencent'}, actual)['rates_per_million']['input'] == .834
+    assert pricing.estimate(cache_write, hy4)[1] == 'missing_cache_price'
     identifiers = set()
     for model_id, quote in actual['models'].items():
         assert quote['source_kind'] == 'official' and quote['source_url'].startswith('https://')

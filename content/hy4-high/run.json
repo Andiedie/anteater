@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "slug": "hy4-high",
+  "name": "Hy4",
+  "vendor": "Tencent",
+  "date": "2026-11-05T09:42:37.867Z",
+  "model_ids": [
+    "tencent/hy4"
+  ],
+  "providers": [
+    "openrouter"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 1,
+  "metrics": {
+    "duration_seconds": 318.976,
+    "request_seconds": 318.93,
+    "average_tps": 95.78,
+    "tool_calls": 8,
+    "tool_breakdown": {
+      "edit": 2,
+      "read": 5,
+      "write": 1
+    },
+    "assistant_turns": 10,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 80502,
+      "output": 30546,
+      "cacheRead": 270848,
+      "cacheWrite": 0,
+      "reasoning": 21137,
+      "totalTokens": 381896
+    },
+    "recorded_cost_usd": 0.077454915,
+    "cost_usd": 0.077454915
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/hy4-high.html",
+    "snapshot_url": "./sessions/hy4-high.json",
+    "session_sha256": "606145d3f345df2d8c28ce2614091c3f5a8be6605c8965982f27b458b7435598",
+    "export_sha256": "61736e0628ee4f95aba95a6414574ed5262add44d97eeb61fa59f4c5c8b2f7fc",
+    "session_id": "01a1ab16-c229-704f-b88e-18bf6d493a5b",
+    "imported_at": "2026-11-05T09:54:23.269879+00:00",
+    "artwork_sha256": "ec92e7f06390cd4e832dd26043c44334adff2dc83e61b7a0a80ec535d9287e23"
+  }
+}
