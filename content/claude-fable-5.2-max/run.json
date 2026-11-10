@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "slug": "claude-fable-5.2-max",
+  "name": "Claude Fable 5.2",
+  "vendor": "Anthropic",
+  "date": "2026-11-10",
+  "model_ids": [
+    "remote/v-api/claude-fable-5-2"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "output_budget_per_request": 64000,
+  "outcome": "no_artwork",
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/claude-fable-5.2-max.html",
+    "snapshot_url": "./sessions/claude-fable-5.2-max.json",
+    "session_sha256": "2fb2ad22a718ddb822411e5710ae39a40ab07c29ed313a712ff8ca4f055ca3e2",
+    "export_sha256": "e0622a6e2fd14e971e6c928a5d7d545f06b4bfb4a2bce082b95ee723c812d5e3",
+    "session_id": "01a1c39d-2b0d-71c3-9e9e-1403bb20644c",
+    "imported_at": "2026-11-10T11:47:17.375234+00:00"
+  },
+  "failure": {
+    "status": "Output truncated",
+    "summary": {
+      "en": "The request exhausted its output budget while thinking and delivered no SVG.",
+      "zh": "本次请求在思考阶段耗尽输出预算，未交付 SVG。"
+    },
+    "explanation": {
+      "en": "The only response ended with stopReason=length. The request specified 64,000 output tokens, and the upstream reported 64,000 output tokens, all 64,000 classified as reasoning. No tool calls or SVG were delivered.",
+      "zh": "唯一一次响应以 stopReason=length 结束。请求指定 64,000 输出 token，上游也报告 64,000 输出 token，全部 64,000 被计为思考；没有工具调用或 SVG 产物。"
+    },
+    "limitation": {
+      "en": "This supports output-budget exhaustion, not an internal infinite loop or a general inability to draw. Reasoning is already included in output. No automatic retry, extra drawing prompt, or tester abort occurred; actual channel charges remain unverified.",
+      "zh": "证据支持输出预算耗尽，不能据此认定内部无限循环或普遍绘图能力不足。思考已包含在输出内；没有自动重试、追加绘图提示或测试人员中止，渠道实际扣费仍未核实。"
+    },
+    "facts": [
+      {
+        "label": {
+          "en": "Requests / tool calls",
+          "zh": "请求 / 工具调用"
+        },
+        "value": "1 / 0"
+      },
+      {
+        "label": {
+          "en": "Termination",
+          "zh": "终止记录"
+        },
+        "value": "length"
+      },
+      {
+        "label": {
+          "en": "Output budget per request",
+          "zh": "单次请求输出预算"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "XML-feedback turns",
+          "zh": "XML 反馈轮数"
+        },
+        "value": "0"
+      },
+      {
+        "label": {
+          "en": "Reported output",
+          "zh": "报告输出"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "Reasoning (included in output)",
+          "zh": "思考（已包含在输出中）"
+        },
+        "value": "64,000 tokens"
+      }
+    ],
+    "references": [],
+    "related_slug": "claude-fable-5.2-high"
+  }
+}

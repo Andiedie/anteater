@@ -16,6 +16,7 @@ An animated SVG gallery. One prompt, different models, and the recorded numbers 
 Python 3.10+ is the only build dependency. The frontend uses native HTML, CSS, and JavaScript.
 
 ```sh
+python3 tests/test_reporting.py
 python3 tests/test_gallery.py
 python3 scripts/gallery.py serve
 ```
@@ -73,9 +74,11 @@ For approved publication, commit each run's source files together. `run.json` pi
 
 ## Tests without an SVG
 
-Unsuccessful tests stay searchable and their level buttons remain available. Selecting one in the list shows **No SVG delivered** and its specific reason (such as **Output truncated**) in the preview, without fabricated artwork or success metrics. Level buttons show only the reasoning level, both on cards and inside details. Opening the preview reveals the evidence inline; **Read failure notes** opens the standalone bilingual page at `cases/<slug>/`. Failures cannot enter artwork comparisons, and unavailable comparison actions are hidden on list cards. A standalone page links to another delivered level of the same model when one exists. Placeholder surfaces use theme colors independently of the light artwork stage; authored SVGs are never recolored. Builds add content hashes to CSS/JS URLs on both gallery and case pages, so a refreshed page cannot reuse stale UI assets. Browser checks cover direct failure links and switching from delivered artwork into a failure in both themes.
+Only sufficiently evidenced, reproducible model failures under fixed test conditions, such as output-budget exhaustion, become final no-artwork gallery records. Transient request, network, channel, authentication, and harness failures remain in the attempt audit; rerun the affected model/level in a fresh directory and session within the user's authorized test scope. Do not finalize an interrupted request as a model result or claim repeated reproduction from a single observation. Preserve all discarded attempts and their billing evidence.
 
-A failure directory contains `run.json`, with `outcome: "no_artwork"` and a `failure` object: English/Chinese `summary`, `explanation`, and `limitation`, labeled `facts`, HTTPS `references`, and an optional `related_slug` pointing to delivered artwork of the same model. A published session can be attached with `share.txt` and a `source` containing its `share_url`, `gist_id`, and pinned `gist_revision`; the page links to both the conversation and snapshot. Local-only reports instead attach matching `session.html` / `session.json` files with `source.kind: "local"`, canonical local URLs, their SHA-256 hashes, and the session ID. Failure reasons distinguish output exhaustion, invalid XML, upstream errors, and harness failures; a harness fault is not a model-capability verdict. `date` is the **report date**, not an invented request timestamp. The importer leaves these entries intact. Builds never invent success metrics for them. A price estimate can be calculated from separately reviewed, complete token usage pinned to the source snapshot; output-only evidence is insufficient. If the same test later delivers an SVG, add it and `share.txt`, then import to replace the failure entry with a checked session snapshot.
+Final no-artwork records stay searchable and their level buttons remain available. Selecting one in the list shows **No SVG delivered** and its specific reason (such as **Output truncated**) in the preview, without fabricated artwork or success metrics. Level buttons show only the reasoning level, both on cards and inside details. Opening the preview reveals the evidence inline; **Read failure notes** opens the standalone bilingual page at `cases/<slug>/`. Failures cannot enter artwork comparisons, and unavailable comparison actions are hidden on list cards. A standalone page links to another delivered level of the same model when one exists. Placeholder surfaces use theme colors independently of the light artwork stage; authored SVGs are never recolored. Builds add content hashes to CSS/JS URLs on both gallery and case pages, so a refreshed page cannot reuse stale UI assets. Browser checks cover direct failure links and switching from delivered artwork into a failure in both themes.
+
+A failure directory contains `run.json`, with `outcome: "no_artwork"` and a `failure` object: English/Chinese `summary`, `explanation`, and `limitation`, labeled `facts`, HTTPS `references`, and an optional `related_slug` pointing to delivered artwork of the same model. A published session can be attached with `share.txt` and a `source` containing its `share_url`, `gist_id`, and pinned `gist_revision`; the page links to both the conversation and snapshot. Local-only reports instead attach matching `session.html` / `session.json` files with `source.kind: "local"`, canonical local URLs, their SHA-256 hashes, and the session ID. Classify output exhaustion, invalid XML, upstream errors, and harness failures separately in the audit; historical records retain their actual evidence, while new final gallery entries follow the admission rule above. `date` is the **report date**, not an invented request timestamp. The importer leaves these entries intact. Builds never invent success metrics for them. A price estimate can be calculated from separately reviewed, complete token usage pinned to the source snapshot; output-only evidence is insufficient. If the same test later delivers an SVG, add it and `share.txt`, then import to replace the failure entry with a checked session snapshot.
 
 The Claude max pages describe the two sessions supplied by the tester on 2026-09-30, checked against their local records and public Gist snapshots. Both contain only thinking, no text/tool calls, and `length / incomplete.max_output_tokens`: Opus reports **128,000 output tokens**, Sonnet **64,000**. This supports thinking exhausting the output budget before delivering an SVG; it does not establish an internal infinite loop or native reasoning-token breakdown. Do not apply Opus's output figure to Sonnet or treat normalized usage as an actual bill. The earlier handoff discussed additional Opus attempts; they are not folded into these single-session pages. No model requests were rerun.
 
@@ -89,6 +92,14 @@ The Claude max pages describe the two sessions supplied by the tester on 2026-09
 - Binary thinking controls remain `on` / `off`, separate from effort tiers. When the session's benchmark policy explicitly records `on`, the Pi-internal `medium` used to enable that switch is not presented as a provider effort level.
 - Raw Pi cost fields remain in source records, but never feed displayed amounts, sorting, or comparisons. All displayed **Cost estimate · USD** values use the same dated official API price snapshot and are marked **≈**. Missing prices or billing conditions show **Estimate unavailable**, not zero or a fallback estimate.
 - Model makers and model IDs are shown; separately audited response model IDs can be retained when an upstream returns a legacy alias. An alias does not independently attest the backend version. Invocation channels are omitted from gallery data, details, and comparisons; attached original sessions retain their original evidence.
+
+### Outcome and intervention reports
+
+Comparable outcomes use the same summary, ordered facts, explanation, and evidence boundary in both languages. Run-specific evidence appears under **Additional notes**. All truncated cases use the same five facts: requests / tool calls, termination, per-request output budget (including reasoning), XML feedback rounds, and reported output. Missing values stay **Not recorded**; reported output is never used to invent a requested ceiling. Authored evidence, native termination details, Pi warnings, and reproduction history remain available in the additional notes and original sources.
+
+Delivered SVGs with interventions use the same report layout under **Run notes**. Follow-up prompts, verified XML feedback, request errors, and tool errors have separate counts and consistent labels in details and comparisons. An arbitrary follow-up is not automatically classified as XML correction; an error count does not establish a retry. Subsequent turns remain included in the selected attempt's original metrics.
+
+`scripts/reporting.py` derives this presentation without rewriting source records. `content/reporting.json` holds reviewed classifications and missing legacy counters, pinned to the original Gist ID/revision or local HTML/JSON hashes. A changed source invalidates its review. Builds stay offline; unverified feedback retains its generic follow-up label. The static failure pages and dialog use the same derived report data, with browser checks comparing every field and paragraph in both languages.
 
 ## Price estimates
 
@@ -119,10 +130,12 @@ Check deployment with `gh run list --workflow pages.yml`, then `node tests/brows
 - `content/`: original SVGs, share URLs, imported run snapshots, and explicit no-artwork reports.
 - `scripts/gallery.py`: import, validation, static build, and local server.
 - `scripts/pricing.py`: official-only matching, source-pinned usage checks, and conservative estimates.
+- `scripts/reporting.py` / `content/reporting.json`: shared outcome reports and source-pinned feedback reviews.
 - `src/i18n.js`: shared Simplified Chinese translations and browser-language selection.
 - `src/failure.html` / `src/failure.js`: standalone bilingual no-artwork pages.
 - `src/`: page template, interactions, styles, and logo assets.
 - `tests/test_gallery.py`: offline import, corpus, and logo smoke check.
 - `tests/test_pricing.py`: offline pricing and failure-path checks.
+- `tests/test_reporting.py`: common report fields, source-bound XML classification, unknown values, and safe bilingual rendering.
 - `tests/browser-smoke.mjs`: optional real-browser language, playback, and interaction check.
 - `dist/`: generated site; ignored by Git.

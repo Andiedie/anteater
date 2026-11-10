@@ -135,6 +135,10 @@ html:lang(en) .case-copy:lang(zh), html:lang(zh) .case-copy:lang(en) { display: 
 .case-facts dt { color: var(--muted); font-size: 12px; }
 .case-facts dd { font: 12px/1.7 var(--mono); overflow-wrap: anywhere; }
 .case-limitation { color: var(--muted); font-size: 12px; }
+.run-report .report-notes { margin: 18px 0; }
+.metric-section .run-report { font-size: 13px; line-height: 1.8; }
+.metric-section .report-summary { font-size: 14px; }
+.metric-section .case-facts { margin: 12px 0; }
 .case-references { margin-top: 26px; color: var(--muted); font-size: 12px; }
 .case-references summary { cursor: pointer; padding-block: 10px; }
 .case-references .source-links { margin-top: 5px; }

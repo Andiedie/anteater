@@ -19,6 +19,7 @@ from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 
 import pricing
+import reporting
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
@@ -430,13 +431,16 @@ def version_assets(page):
     return page
 
 
-def failure_html(run, related):
+def failure_html(run, related, reviews=None):
     failure = run["failure"]
+    if reviews is None:
+        review_path = CONTENT / 'reporting.json'
+        reviews = json.loads(review_path.read_text()) if review_path.exists() else {}
+    report = reporting.describe(run, reviews)
     copies = []
     for lang in ("en", "zh"):
-        facts = ''.join(f'<div><dt>{escape(fact["label"][lang])}</dt><dd>{escape(str(fact["value"]))}</dd></div>' for fact in failure["facts"])
         price = run.get('price', {})
-        facts += f'<div><dt>{"价格估算 · USD" if lang == "zh" else "Cost estimate · USD"}</dt><dd>{format_price(price.get("amount_usd"), lang)}</dd></div>'
+        price_fact = {'label': reporting.text('Cost estimate · USD', '价格估算 · USD'), 'value': format_price(price.get('amount_usd'), lang)}
         price_notes = ''
         if price.get('source'):
             labels = ('输入', '输出', '缓存读取', '缓存写入') if lang == 'zh' else ('Input', 'Output', 'Cache read', 'Cache write')
@@ -447,10 +451,7 @@ def failure_html(run, related):
   <p><a href="{escape(price['source_url'], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(price['source'])} ↗</a> · {escape(price['checked_at'])}</p>
   <dl class="metric-list">{rates}</dl><p>{'美元 / 百万 token；不代表实际账单。' if lang == 'zh' else 'USD / 1M tokens; not an actual bill.'}</p></details>'''
         copies.append(f'''<div class="case-copy" lang="{lang}">
-  <p class="case-summary">{escape(failure['summary'][lang])}</p>
-  {f'<dl class="case-facts">{facts}</dl>' if facts else ''}
-  <p>{escape(failure['explanation'][lang])}</p>
-  <p class="case-limitation">{escape(failure['limitation'][lang])}</p>
+  {reporting.render_html(report, lang, [price_fact])}
   {price_notes}
 </div>''')
     references = ''.join(f'<a href="{escape(reference["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(reference["label"])} ↗</a>' for reference in failure["references"])
@@ -471,8 +472,11 @@ def failure_html(run, related):
 def build():
     runs = load_catalog()
     snapshot = json.loads(PRICES.read_text()) if PRICES.exists() else {}
+    review_path = CONTENT / 'reporting.json'
+    reviews = json.loads(review_path.read_text()) if review_path.exists() else {}
     for run in runs:
         run["price"] = pricing.display_price(run, snapshot)
+        run['report'] = reporting.describe(run, reviews)
         run.pop("providers", None)  # Invocation channels are not part of the public gallery.
         if 'source' in run:
             run['source']['snapshot_url'] = snapshot_url(run['source'])
@@ -513,7 +517,7 @@ def build():
         if run.get("outcome") == "no_artwork":
             case = dist / "cases" / run["slug"]
             case.mkdir(parents=True)
-            (case / "index.html").write_text(failure_html(run, by_slug.get(run["failure"].get("related_slug"))))
+            (case / "index.html").write_text(failure_html(run, by_slug.get(run["failure"].get("related_slug")), reviews))
         else:
             shutil.copy2(CONTENT / run["slug"] / "artwork.svg", dist / "artwork" / (run["slug"] + ".svg"))
         if run.get('source', {}).get('kind') == 'local':

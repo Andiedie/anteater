@@ -311,7 +311,10 @@ def check():
                     assert run['response_model_ids'] == ['deepseek-v4-flash']
         for run in public:
             assert 'providers' not in run
+            affected = run.get('outcome') == 'no_artwork' or run.get('follow_up_count') or run.get('metrics', {}).get('errors') or run.get('metrics', {}).get('tool_errors')
+            assert bool(run.get('report')) == bool(affected), f'Missing shared report for {run["slug"]}'
             if run.get('outcome') == 'no_artwork':
+                assert [fact['label'] for fact in run['report']['facts']] == gallery.reporting.FAILURE_LABELS
                 assert 'metrics' not in run and run['price']['basis'] in ('official', 'unknown')
                 gallery.check_source(gallery.CONTENT / run['slug'], run)
                 case = gallery.ROOT / 'dist/cases' / run['slug'] / 'index.html'
@@ -330,7 +333,12 @@ def check():
                 unsafe = deepcopy(run)
                 unsafe['failure']['summary']['en'] = '<script>alert(1)</script>'
                 assert '&lt;script&gt;' in gallery.failure_html(unsafe, related)
-                unsafe['price']['rates_per_million']['input'] = '<script>bad quote</script>'
+                # Keep the escaping fixture independent of real quote coverage.
+                unsafe['price'].update(source='Escaping test', source_url='https://example.com/pricing',
+                                       checked_at='2026-11-05', rates_per_million={
+                                           **unsafe['price'].get('rates_per_million', {}),
+                                           'input': '<script>bad quote</script>',
+                                       })
                 assert '$&lt;script&gt;bad quote&lt;/script&gt;' in gallery.failure_html(unsafe, related)
                 assert run['source']['share_url'] in case_html and gallery.snapshot_url(run['source']) in case_html
                 if run['slug'] in legacy_failures:

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-10T12:47:08.246307+00:00",
+  "runs": {
+    "claude-fable-5.1-medium": {
+      "source": {
+        "gist_id": "93b9e47dd1a6de79fa0117ac46aff880",
+        "gist_revision": "bc0222e28baf0bced5150382694d1cd7ede4c0a0"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "claude-opus-5.5-max": {
+      "source": {
+        "gist_id": "25e20bf0a32444c126119d632925be8a",
+        "gist_revision": "4c517c2ea0cbb424a92b8cf46672278f5e3ae5e4"
+      },
+      "follow_up_count": 0,
+      "xml_feedback_count": 0,
+      "request_count": 1,
+      "tool_calls": 0
+    },
+    "claude-sonnet-5.5-max": {
+      "source": {
+        "gist_id": "4ab8c9bf53add4d1b089e9e9b1cee336",
+        "gist_revision": "6f61781872600e346b5fae24ab32729a36436a8e"
+      },
+      "follow_up_count": 0,
+      "xml_feedback_count": 0,
+      "request_count": 1,
+      "tool_calls": 0
+    },
+    "gemini-3.8-flash-high": {
+      "source": {
+        "gist_id": "cc43914ac054fac753fcce044e2895f4",
+        "gist_revision": "02bcddb40494275d67eb8ce613e4c017733c819e"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-3.8-flash-low": {
+      "source": {
+        "gist_id": "749ebba4b101e0dd7ffa699147158109",
+        "gist_revision": "8296dd44c6f38fbbaec682b46cb65a291e91a7ae"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-3.8-flash-medium": {
+      "source": {
+        "gist_id": "eb75153a340ea4ffd3fc5a369bcefe75",
+        "gist_revision": "94bc9b849d3909e72aecc42fe017a673c1b5bde0"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-4-argon-low": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "5f28a4b1c96dc01b48b8877d0261a008390480411b9bac6290a538f13fd0d93b",
+        "export_sha256": "e042182efe5e9218ef2bd081f0eb7d30b82753731b44609b2a55e784d5c0fdac"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-4-argon-medium": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "6c2657c6103aafdc9c2c9595a02a61ddd8fe282ce18b487d296ff8ecf1b76a0b",
+        "export_sha256": "a883524d58d08085f2152d1cf6dad71c9de0f781c3ecbfb232f890aecf503be0"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "hy4-high": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "606145d3f345df2d8c28ce2614091c3f5a8be6605c8965982f27b458b7435598",
+        "export_sha256": "61736e0628ee4f95aba95a6414574ed5262add44d97eeb61fa59f4c5c8b2f7fc"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "hy4-preview-high": {
+      "source": {
+        "gist_id": "f0d2e516165dc773b8d1ef7262f23d25",
+        "gist_revision": "203672839dd5d4d65bdf8cd890d1ff6aa3970d80"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1,
+      "notes": [
+        {
+          "en": "This historical run used the browser's XML error text as feedback.",
+          "zh": "这条历史记录使用浏览器返回的 XML 报错原文作为反馈。"
+        }
+      ]
+    },
+    "mimo-v2.5-off": {
+      "source": {
+        "gist_id": "5e94e4de3616ac5f72be6b3e4763ae76",
+        "gist_revision": "4c9bd7fac7dda99442f850ca9e111d06b6fda887"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1,
+      "notes": [
+        {
+          "en": "The XML diagnostic concerned an undeclared xlink namespace.",
+          "zh": "本次 XML 诊断反馈针对未声明的 xlink 命名空间。"
+        }
+      ]
+    },
+    "minimax-m3.1-flash-medium": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "737c411090752651146557966e923021430c01edc74ba1a74c38edd4e538df5a",
+        "export_sha256": "edd2c601913cad87638257797f2f21449a7702321f5e28b44810987327ea3457"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "qwen3.8-max-0902-high": {
+      "source": {
+        "gist_id": "2a62bf005f4c8a245dffc621d6b7d297",
+        "gist_revision": "5c2b80029c6d583d98210fc5ff3e327a09cb5b2d"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "qwen3.8-max-0902-xhigh": {
+      "source": {
+        "gist_id": "f656526cafff4d0d2a17f26fc543e765",
+        "gist_revision": "5019c22818123c429025a7202973feadb80906c6"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    }
+  }
+}

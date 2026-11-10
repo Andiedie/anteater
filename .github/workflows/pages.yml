@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tests/test_pricing.py
+      - run: python3 tests/test_reporting.py
       - run: python3 tests/test_gallery.py
       - run: python3 scripts/gallery.py build
       - uses: actions/configure-pages@v5

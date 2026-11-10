@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "slug": "claude-fable-5.2-xhigh",
+  "name": "Claude Fable 5.2",
+  "vendor": "Anthropic",
+  "date": "2026-11-10",
+  "model_ids": [
+    "remote/v-api/claude-fable-5-2"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "output_budget_per_request": 64000,
+  "outcome": "no_artwork",
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/claude-fable-5.2-xhigh.html",
+    "snapshot_url": "./sessions/claude-fable-5.2-xhigh.json",
+    "session_sha256": "f2548ccb2487fbb49c72e763d317464e5618dc43bec9d6220704fa1375387dec",
+    "export_sha256": "9f1eaa226e70799e14cbebe4e0b0bee4ef9e00428a7086624a6edf2f9a16f979",
+    "session_id": "01a1c564-9e55-724d-8013-437f8618fc76",
+    "imported_at": "2026-11-10T12:30:09.591456+00:00"
+  },
+  "failure": {
+    "status": "Output truncated",
+    "summary": {
+      "en": "Two fresh attempts exhausted the output budget while thinking and delivered no SVG.",
+      "zh": "两次全新测试均在思考阶段耗尽输出预算，未交付 SVG。"
+    },
+    "explanation": {
+      "en": "The earlier interrupted request was discarded. Two independent fresh sessions with the same model, xhigh setting, prompt, tools, and 64,000-token request budget then each ended with stopReason=length. Each reported 64,000 output tokens, all classified as reasoning, with no tool calls or SVG. This page attaches the second, selected confirmation session.",
+      "zh": "先前的连接中断请求已弃用。随后两个独立全新会话使用相同模型、xhigh 档位、提示词、工具及每请求 64,000 token 预算，均以 stopReason=length 结束；每次均报告 64,000 输出 token，全部计为思考，无工具调用或 SVG。本页附上第二次、最终选定的确认会话。"
+    },
+    "limitation": {
+      "en": "This reproduces output-budget exhaustion under these test conditions, not an internal infinite loop or a general inability to draw. The selected session, the earlier budget attempt, and the discarded network attempt have separate evidence and accounting; their usage is not merged into one run. Reasoning is already included in output. No tester abort or automatic SDK retry occurred, and actual channel charges remain unverified.",
+      "zh": "这表明在上述测试条件下可复现输出预算耗尽，不能认定内部无限循环或普遍绘图能力不足。选定会话、前一次预算耗尽测试及已弃用的网络故障各自保留证据和账目，不将用量合并成一条成绩。思考已包含在输出中；没有测试人员中止或 SDK 自动重试，渠道实际扣费仍未核实。"
+    },
+    "facts": [
+      {
+        "label": {
+          "en": "Independent attempts with the same outcome",
+          "zh": "同样结果的独立测试次数"
+        },
+        "value": "2"
+      },
+      {
+        "label": {
+          "en": "Requests / tool calls (selected attempt)",
+          "zh": "请求 / 工具调用（选定测试）"
+        },
+        "value": "1 / 0"
+      },
+      {
+        "label": {
+          "en": "Termination",
+          "zh": "终止记录"
+        },
+        "value": "length"
+      },
+      {
+        "label": {
+          "en": "Output budget per request",
+          "zh": "单次请求输出预算"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "Reported output (selected attempt)",
+          "zh": "报告输出（选定测试）"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "Reasoning (included in output)",
+          "zh": "思考（已包含在输出中）"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "XML-feedback turns",
+          "zh": "XML 反馈轮数"
+        },
+        "value": "0"
+      }
+    ],
+    "references": [],
+    "related_slug": "claude-fable-5.2-high"
+  }
+}

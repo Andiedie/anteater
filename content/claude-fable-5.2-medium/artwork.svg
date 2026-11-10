@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <g id="bottle">
+      <rect x="-7" y="-12" width="14" height="30" rx="4" fill="#3a9d5d" stroke="#1f5c35" stroke-width="2"/>
+      <rect x="-3" y="-26" width="6" height="16" fill="#3a9d5d" stroke="#1f5c35" stroke-width="2"/>
+      <rect x="-4" y="-29" width="8" height="4" fill="#c9a23a"/>
+      <rect x="-7" y="-2" width="14" height="10" fill="#f4e9c8"/>
+    </g>
+  </defs>
+
+  <rect width="600" height="600" fill="#fdf3dc"/>
+  <ellipse cx="300" cy="545" rx="230" ry="14" fill="#e3d2ac"/>
+  <line x1="0" y1="540" x2="600" y2="540" stroke="#b79f6e" stroke-width="3"/>
+
+  <!-- whole rider rocks slightly -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 300 490;3 300 490;-3 300 490" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1"/>
+
+    <!-- wheel -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 300 490" to="360 300 490" dur="1.6s" repeatCount="indefinite"/>
+      <circle cx="300" cy="490" r="48" fill="none" stroke="#222" stroke-width="8"/>
+      <circle cx="300" cy="490" r="42" fill="none" stroke="#999" stroke-width="2"/>
+      <g stroke="#888" stroke-width="2">
+        <line x1="258" y1="490" x2="342" y2="490"/>
+        <line x1="300" y1="448" x2="300" y2="532"/>
+        <line x1="270" y1="460" x2="330" y2="520"/>
+        <line x1="330" y1="460" x2="270" y2="520"/>
+      </g>
+      <!-- cranks & pedals -->
+      <line x1="282" y1="490" x2="318" y2="490" stroke="#444" stroke-width="5"/>
+      <rect x="310" y="486" width="18" height="8" rx="2" fill="#d33"/>
+      <rect x="272" y="486" width="18" height="8" rx="2" fill="#d33"/>
+    </g>
+    <circle cx="300" cy="490" r="6" fill="#444"/>
+
+    <!-- frame & seat -->
+    <line x1="300" y1="490" x2="300" y2="392" stroke="#c0392b" stroke-width="7" stroke-linecap="round"/>
+    <path d="M272 388 Q300 376 328 388 L324 396 L276 396 Z" fill="#222"/>
+
+    <!-- legs (pedalling, synced with cranks: dur 1.6s) -->
+    <g stroke="#6b5a48" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path>
+        <animate attributeName="d" dur="1.6s" repeatCount="indefinite"
+          values="M290 385 L335 430 L318 490;M290 385 L325 445 L300 508;M290 385 L310 432 L282 490;M290 385 L330 420 L300 472;M290 385 L335 430 L318 490"/>
+      </path>
+      <path stroke="#57483a">
+        <animate attributeName="d" dur="1.6s" repeatCount="indefinite"
+          values="M290 385 L310 432 L282 490;M290 385 L330 420 L300 472;M290 385 L335 430 L318 490;M290 385 L325 445 L300 508;M290 385 L310 432 L282 490"/>
+      </path>
+    </g>
+
+    <!-- tail -->
+    <path d="M262 350 Q180 330 150 400 Q140 440 175 430 Q200 380 268 380 Z" fill="#57483a">
+      <animateTransform attributeName="transform" type="rotate" values="-6 262 365;8 262 365;-6 262 365" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- body -->
+    <ellipse cx="300" cy="335" rx="48" ry="62" fill="#8a7560"/>
+    <!-- anteater chest stripe -->
+    <path d="M262 300 Q300 330 345 300 L340 322 Q300 352 266 322 Z" fill="#2b241d"/>
+    <path d="M262 298 Q300 328 345 298" fill="none" stroke="#f0e6d2" stroke-width="4"/>
+
+    <!-- head with long snout -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-5 315 270;4 315 270;-5 315 270" dur="1.2s" repeatCount="indefinite"/>
+      <path d="M290 285 Q290 245 325 245 Q360 248 440 285 Q448 292 438 296 Q370 292 335 298 Q300 300 290 285 Z" fill="#8a7560" stroke="#57483a" stroke-width="2"/>
+      <ellipse cx="441" cy="290" rx="5" ry="4" fill="#2b241d"/>
+      <path d="M440 294 Q470 300 480 285" fill="none" stroke="#e0607a" stroke-width="3" stroke-linecap="round">
+        <animate attributeName="d" dur="0.8s" repeatCount="indefinite" values="M440 294 Q470 300 480 285;M440 294 Q465 305 478 310;M440 294 Q470 300 480 285"/>
+      </path>
+      <circle cx="338" cy="266" r="5" fill="#111"/>
+      <circle cx="340" cy="264" r="1.5" fill="#fff"/>
+      <ellipse cx="302" cy="248" rx="9" ry="13" fill="#57483a" transform="rotate(-20 302 248)"/>
+    </g>
+
+    <!-- arms: hands bob to throw/catch -->
+    <g stroke="#6b5a48" stroke-width="12" stroke-linecap="round" fill="none">
+      <path>
+        <animate attributeName="d" dur="0.8s" repeatCount="indefinite" values="M270 320 Q225 335 215 300;M270 320 Q225 325 215 280;M270 320 Q225 335 215 300"/>
+      </path>
+      <path>
+        <animate attributeName="d" dur="0.8s" begin="-0.4s" repeatCount="indefinite" values="M330 320 Q375 345 390 300;M330 320 Q375 335 390 280;M330 320 Q375 345 390 300"/>
+      </path>
+    </g>
+
+    <!-- juggled bottles: cascade arcs -->
+    <g>
+      <g>
+        <animateMotion dur="2.4s" repeatCount="indefinite" path="M215 285 Q290 -40 390 285 Q300 -40 215 285"/>
+        <use href="#bottle"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.9s" repeatCount="indefinite"/></use>
+      </g>
+      <g>
+        <animateMotion dur="2.4s" begin="-0.8s" repeatCount="indefinite" path="M215 285 Q290 -40 390 285 Q300 -40 215 285"/>
+        <use href="#bottle"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.9s" repeatCount="indefinite"/></use>
+      </g>
+      <g>
+        <animateMotion dur="2.4s" begin="-1.6s" repeatCount="indefinite" path="M215 285 Q290 -40 390 285 Q300 -40 215 285"/>
+        <use href="#bottle"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.9s" repeatCount="indefinite"/></use>
+      </g>
+    </g>
+  </g>
+</svg>

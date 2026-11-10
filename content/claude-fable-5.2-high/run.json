@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "slug": "claude-fable-5.2-high",
+  "name": "Claude Fable 5.2",
+  "vendor": "Anthropic",
+  "date": "2026-11-10T03:50:45.682Z",
+  "model_ids": [
+    "remote/v-api/claude-fable-5-2"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 390.238,
+    "request_seconds": 390.219,
+    "average_tps": 93.02,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 6,
+      "output": 36298,
+      "cacheRead": 0,
+      "cacheWrite": 39852,
+      "reasoning": 27232,
+      "totalTokens": 76156
+    },
+    "recorded_cost_usd": 1.850488,
+    "cost_usd": 1.850488
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/claude-fable-5.2-high.html",
+    "snapshot_url": "./sessions/claude-fable-5.2-high.json",
+    "session_sha256": "3416b65623ee33022d82de95cd23d1299ccd378f6b60f10937be850cd3fa6e18",
+    "export_sha256": "297970a809968a43806dcc77aea7570d8c37b7b6649b1d9ff056fb84ccae969e",
+    "session_id": "01a1c394-68b1-71c3-9e9e-13fffd20b46f",
+    "imported_at": "2026-11-10T11:47:17.400840+00:00",
+    "artwork_sha256": "46f70cd91e07159c812d1dfa596c487fd6af8c115405be5d9a27095d1079c09c"
+  }
+}

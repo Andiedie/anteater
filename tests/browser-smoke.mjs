@@ -116,6 +116,32 @@ async function smoke() {
   assert(document.querySelector('#summary-count').textContent === `${defaultRuns.length} models · ${catalog.length} runs`, 'list summary shows models and records only');
   assert([...document.querySelectorAll('.card [data-price-label]')].every(label => label.textContent === 'Cost estimate · USD'), 'one cost label for every model, including unavailable estimates');
   assert(catalog.every(run => ['official', 'unknown'].includes(run.price.basis)), 'all prices use the official snapshot without recorded or aggregator fallbacks');
+  const reportRuns = catalog.filter(run => run.report);
+  for (const lang of ['en', 'zh']) {
+    set('#language', lang);
+    for (const run of reportRuns) {
+      showRun(run.slug);
+      const report = document.querySelector('#detail-info .run-report');
+      assert(report && report.dataset.reportKind === run.report.kind, `shared report is rendered for ${run.slug} / ${lang}`);
+      const labels = [...report.querySelectorAll('.case-facts dt')].map(el => el.textContent);
+      const expected = run.report.facts.map(fact => fact.label[lang]);
+      if (run.outcome === 'no_artwork') expected.push(lang === 'zh' ? '价格估算 · USD' : 'Cost estimate · USD');
+      assert(JSON.stringify(labels) === JSON.stringify(expected), `consistent report fields for ${run.slug} / ${lang}`);
+      assert(report.querySelector('.report-summary').textContent === run.report.summary[lang], `shared summary for ${run.slug} / ${lang}`);
+      assert(!/Includes errors \/ retries|包含错误或重试/.test(document.querySelector('#detail-info').textContent), `error types are explicit for ${run.slug} / ${lang}`);
+      if (run.report.notes.length) assert(report.querySelector('.report-notes summary').textContent === (lang === 'zh' ? '补充说明' : 'Additional notes'), `special evidence stays in additional notes for ${run.slug} / ${lang}`);
+      if (run.outcome === 'no_artwork') {
+        const html = await (await fetch(`./cases/${run.slug}/`)).text();
+        const standalone = new DOMParser().parseFromString(html, 'text/html').querySelector(`.case-copy[lang="${lang}"] .run-report`);
+        const reportCopy = node => [...node.querySelectorAll('.report-summary,.case-facts dt,.case-facts dd,.report-explanation,.report-notes summary,.report-notes p,.case-limitation')].map(el => el.textContent.replace(/\s+/g, ' ').trim());
+        assert(standalone && JSON.stringify(reportCopy(standalone)) === JSON.stringify(reportCopy(report)), `standalone and inline reports agree for ${run.slug} / ${lang}`);
+      } else await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `reported artwork loads: ${run.slug} / ${lang}`);
+      document.querySelector('#detail-dialog [data-close]').click();
+      await waitFor(() => !document.querySelector('#detail-dialog').open, `report closes: ${run.slug} / ${lang}`);
+    }
+  }
+  set('#language', 'en');
+  document.querySelector('#clear-filters').click();
   for (const run of catalog.filter(run => run.source?.kind === 'local')) {
     showRun(run.slug);
     if (run.outcome !== 'no_artwork') await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `local artwork loads: ${run.slug}`);
@@ -290,7 +316,10 @@ async function smoke() {
   assert(!document.querySelector('#compare-tray').hidden && !document.querySelector('#open-compare').disabled, 'comparison tray');
   document.querySelector('#open-compare').click();
   await waitFor(() => document.querySelectorAll('#comparison-content iframe.loaded').length === 4, 'comparison artworks');
-  assert(document.querySelector('#compare-dialog').open && document.querySelectorAll('.compare-table tbody tr').length === 17, 'comparison metrics');
+  const comparisonRows = [...document.querySelectorAll('.compare-table tbody tr')];
+  assert(document.querySelector('#compare-dialog').open && comparisonRows.length === 17 - 1 + 3, 'comparison retains existing metrics and separates the three error/feedback fields');
+  const comparisonLabels = comparisonRows.map(row => row.querySelector('th').textContent);
+  assert(['Follow-up prompts', 'XML feedback rounds', 'Request errors', 'Tool errors'].every(label => comparisonLabels.includes(label)) && !comparisonLabels.includes('Errors recorded'), 'comparison uses the same explicit feedback and error labels as run notes');
   assert(document.querySelectorAll('.compare-table thead th').length === 5, 'four comparison value columns');
   assert([...document.querySelectorAll('#comparison-content iframe')].every(frame => [...frame.contentDocument.querySelectorAll('svg')].every(clock => !clock.animationsPaused())), 'comparison autoplays all SVG clocks');
   assert(!document.querySelector('#compare-dialog [data-motion],#compare-dialog [data-restart]'), 'comparison has no playback controls');
@@ -623,5 +652,5 @@ try {
   if (browser.exitCode === null && !launchError) {
     const exited = once(browser, 'exit'); browser.kill(); await exited;
   }
-  await rm(profile, {recursive: true, force: true});
+  await rm(profile, {recursive: true, force: true, maxRetries: 5, retryDelay: 100});
 }
