@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-carbon-high",
+  "name": "Gemini 4 Carbon",
+  "vendor": "Google",
+  "date": "2026-11-12",
+  "model_ids": [
+    "openrouter/google/gemini-4-carbon"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "output_budget_per_request": 64000,
+  "outcome": "no_artwork",
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-carbon-high.html",
+    "snapshot_url": "./sessions/gemini-4-carbon-high.json",
+    "session_sha256": "cac3431507e4ea67fc07dfef726bc6a78be73da50420e5246223e5fa9d5dd472",
+    "export_sha256": "4cec15b517b07ec2e4d7d03adc4f60f324cff46003abe3aaec0d80f0be09dc86",
+    "session_id": "01a1cb8b-a67a-763b-b014-133c429dd2e1",
+    "imported_at": "2026-11-11T17:13:52.432395+00:00"
+  },
+  "failure": {
+    "status": "Incomplete: stream interrupted",
+    "summary": {
+      "en": "The high test remains incomplete after ten attempts with stream interruptions or empty replies; no SVG was delivered.",
+      "zh": "high 档位累计十次尝试均因连接、流中断或空回复而未完成，未交付 SVG。"
+    },
+    "explanation": {
+      "en": "The retry limit of ten total attempts has been reached. The latest fresh session received HTTP 200 and ended with Network connection lost., without normal completion or complete usage. This page attaches the tenth session; the previous nine attempts remain separately preserved in the local audit. Attempts eight and nine returned an empty-reply error mentioning length, but no complete usage or independently verifiable budget-exhaustion evidence was received.",
+      "zh": "累计十次的重试上限已用尽。最后一个全新会话收到 HTTP 200 后以 Network connection lost. 结束，未获得正常终止或完整用量。本页附第十次会话，此前九次在本地审计中分别保留。第八、九次返回提及 length 的空回复错误，但缺少完整用量及可独立核验的预算耗尽证据。"
+    },
+    "limitation": {
+      "en": "This is an incomplete request record, not a completed model result or proof of stable output-budget exhaustion or an internal loop. Failed-stream zero usage fields do not establish free billing. The interruption cause and actual charges remain unknown. No tester abort or automatic SDK retry occurred; no eleventh attempt was started.",
+      "zh": "这是未完成的请求记录，不是完整模型成绩，也不证明稳定的输出预算耗尽或内部循环。失败流中的零用量字段不代表免费；原因和实际费用仍未知。没有测试人员中止或 SDK 自动重试，未启动第十一次。"
+    },
+    "facts": [
+      {
+        "label": {
+          "en": "Requests / tool calls (selected attempt)",
+          "zh": "请求 / 工具调用（选定尝试）"
+        },
+        "value": "1 / 0"
+      },
+      {
+        "label": {
+          "en": "Termination",
+          "zh": "终止记录"
+        },
+        "value": "error / Network connection lost."
+      },
+      {
+        "label": {
+          "en": "Output budget per request",
+          "zh": "单次请求输出预算"
+        },
+        "value": "64,000 tokens"
+      },
+      {
+        "label": {
+          "en": "XML-feedback turns",
+          "zh": "XML 反馈轮数"
+        },
+        "value": "0"
+      },
+      {
+        "label": {
+          "en": "Reported output",
+          "zh": "报告输出"
+        },
+        "value": null
+      },
+      {
+        "label": {
+          "en": "Incomplete attempts (retry limit reached)",
+          "zh": "未完成尝试次数（已达到上限）"
+        },
+        "value": "10 / 10"
+      },
+      {
+        "label": {
+          "en": "Recorded duration of the attached session",
+          "zh": "所附会话的记录时长"
+        },
+        "value": "636.427 s"
+      },
+      {
+        "label": {
+          "en": "Recorded provider-event gap before the error",
+          "zh": "报错前已记录 provider 事件的间隔"
+        },
+        "value": "300.055 s"
+      },
+      {
+        "label": {
+          "en": "Environment changes during retries",
+          "zh": "重试期间的环境变化"
+        },
+        "value": {
+          "en": "Magpie was observed changing from 0.1.3748 to 0.1.3784; this does not establish the cause of any outcome.",
+          "zh": "观察到 Magpie 从 0.1.3748 更新为 0.1.3784；此变化不能用于确定任何一次结果的原因。"
+        }
+      },
+      {
+        "label": {
+          "en": "Timing evidence boundary",
+          "zh": "时间证据边界"
+        },
+        "value": {
+          "en": "The gap uses parsed provider events; SSE comments or other bytes may still have arrived.",
+          "zh": "间隔仅依据已解析的 provider 事件，期间可能仍收到 SSE 注释或其他字节。"
+        }
+      }
+    ],
+    "references": [],
+    "related_slug": "gemini-4-carbon-medium"
+  }
+}

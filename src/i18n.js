@@ -14,6 +14,7 @@ const chinese = {
   'Choose 2–4 artworks': '选择 2–4 份作品', 'Reasoning level overview': '思考等级概览', 'Select': '选择',
   'Output budget / request (incl. reasoning)': '每请求输出预算（含思考）', '← Previous level': '← 上一等级', 'Next level →': '下一等级 →',
   'No SVG delivered': '未交付 SVG', 'Output truncated': '输出被截断',
+  'Incomplete: stream interrupted': '未完成：流中断',
   'Upstream rate limited': '上游限流', 'Harness failure': '执行器异常', 'Request failed': '请求失败', 'Response model ID': '响应模型 ID',
   'Read failure notes': '查看失败说明', 'Read failure notes for {model}, max reasoning': '查看 {model}，max 档位失败说明',
   'Skip to the test result': '跳到测试结果', '← Collection': '← 返回作品集', 'References': '参考资料',

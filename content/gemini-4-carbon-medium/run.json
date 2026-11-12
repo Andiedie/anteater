@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-carbon-medium",
+  "name": "Gemini 4 Carbon",
+  "vendor": "Google",
+  "date": "2026-11-11T07:46:05.725Z",
+  "model_ids": [
+    "openrouter/google/gemini-4-carbon"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "output_budget_per_request": 64000,
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 652.71,
+    "request_seconds": 652.552,
+    "average_tps": 94.73,
+    "tool_calls": 3,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 4,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 64183,
+      "output": 61817,
+      "cacheRead": 89810,
+      "cacheWrite": 0,
+      "reasoning": 28346,
+      "totalTokens": 215810
+    },
+    "recorded_cost_usd": 0.755517,
+    "cost_usd": 0.755517
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-carbon-medium.html",
+    "snapshot_url": "./sessions/gemini-4-carbon-medium.json",
+    "session_sha256": "d587a63c29569b35cd6d22a39501c6919aa8b9ca1dcccbbe84eb480dd4dbb82f",
+    "export_sha256": "61255355510d6672ad5451c4716bda433cc0623284af746763f66a311318fc01",
+    "session_id": "01a1c992-3915-726d-a2e6-eceec2414f28",
+    "imported_at": "2026-11-11T07:57:48.685577+00:00",
+    "artwork_sha256": "4a920a9bc21ce03a7197e455d4497b76105351006107c08f6a344ac8ec8dc2c2"
+  },
+  "response_model_ids": [
+    "openrouter/google/gemini-4-carbon"
+  ]
+}

@@ -137,9 +137,11 @@ def value_text(value, lang):
     return str(value[lang] if isinstance(value, dict) else value)
 
 
-def render_html(report, lang, extra_facts=()):
+def render_html(report, lang, extra_facts=(), extra_html=()):
     """Render the same bilingual report structure used by the gallery dialog."""
     facts = ''.join(f'<div><dt>{escape(fact["label"][lang])}</dt><dd>{escape(value_text(fact["value"], lang))}</dd></div>' for fact in (*report['facts'], *extra_facts))
+    # Only caller-rendered components belong here; record fields stay escaped above.
+    facts += ''.join(extra_html)
     notes = ''
     if report['notes']:
         paragraphs = ''.join(f'<p>{escape(note[lang])}</p>' for note in report['notes'])

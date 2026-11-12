@@ -1,4 +1,7 @@
 import Fuse from './assets/fuse/fuse.min.mjs';
+import {renderPrice, renderPriceAssumption, installPriceHints} from "./price-hints.js";
+
+installPriceHints();
 
 const runs = JSON.parse(document.querySelector('#catalog-data').textContent);
 const modelKey = run => JSON.stringify([run.vendor, run.name]);
@@ -54,6 +57,7 @@ const siblings = run => [...models.get(modelKey(run))].sort((a, b) => {
 const validComparison = slugs => slugs.length >= 2 && slugs.length <= 4 && new Set(slugs).size === slugs.length && slugs.every(slug => bySlug.has(slug) && bySlug.get(slug).outcome !== 'no_artwork');
 const cost = run => run.price?.amount_usd;
 const costText = run => (cost(run) == null ? '' : '≈') + money(cost(run));
+const costHtml = (run, options) => renderPrice(run.price, costText(run), locale(), undefined, options);
 const comparisonNote = 'Individual runs, not normalized benchmarks. Run time includes any follow-up waits; average TPS includes request latency and reasoning. Costs are estimates, not actual bills.';
 
 function notify(message) {
@@ -100,7 +104,8 @@ function updateCard(run) {
     card.querySelector('iframe').title = t('{model} animated SVG', {model: run.name});
     card.querySelector('[data-time]').textContent = time(run.metrics.duration_seconds);
     card.querySelector('[data-output]').textContent = number(run.metrics.tokens.output);
-    card.querySelector('[data-price]').textContent = costText(run);
+    card.querySelector('[data-price-label]').innerHTML = `<span data-i18n="Cost estimate · USD">${e(t('Cost estimate · USD'))}</span>${renderPriceAssumption(run.price, locale())}`;
+    card.querySelector('[data-price]').innerHTML = costHtml(run, {showAssumption: false});
   }
 }
 function switchCard(slug) {
@@ -239,6 +244,7 @@ function preview(run) {
 }
 function removeFrames(container) { for (const frame of container.querySelectorAll('iframe')) observer.unobserve(frame); container.replaceChildren(); }
 function metricRow(label, value, className = '') { return `<div class="${className}"><dt>${e(t(label))}</dt><dd>${e(value)}</dd></div>`; }
+function priceRow(run) { return `<div><dt>${e(t('Cost estimate · USD'))}</dt><dd>${costHtml(run)}</dd></div>`; }
 function sourceLinks(run) {
   return `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer" data-i18n="Pi conversation ↗">${e(t('Pi conversation ↗'))}</a><a href="./artwork/${e(run.slug)}.svg" download="${e(run.slug)}.svg" data-i18n="Download SVG ↓">${e(t('Download SVG ↓'))}</a>`;
 }
@@ -248,17 +254,16 @@ function priceDetails(run) {
   return `${price?.reason ? `<p>${e(t(reasons[price.reason] || reasons.not_found))}</p>` : ''}${price?.rate_note ? `<p>${e(price.rate_note[locale().startsWith('zh') ? 'zh' : 'en'])}</p>` : ''}${price?.source ? `<dl class="metric-list"><div><dt>${e(t('Price source'))}</dt><dd><a href="${e(price.source_url)}" target="_blank" rel="noopener noreferrer">${e(price.source)} ↗</a></dd></div>${metricRow('Catalog model', price.model_id)}${metricRow('Checked', date(price.checked_at))}${['input', 'output', 'cacheRead', 'cacheWrite'].map((key, index) => metricRow(['Input', 'Output', 'Cache read', price.cache_write_ttl_seconds === 300 ? 'Cache write (5 min)' : price.cache_write_ttl_seconds === 3600 ? 'Cache write (1 hour)' : 'Cache write'][index], price.rates_per_million[key] == null ? '—' : '$' + number(price.rates_per_million[key]))).join('')}</dl><p>${e(t('USD / 1M tokens'))}</p><p>${e(t('Standard API token rates; not an actual bill.'))}</p>` : ''}`;
 }
 function failurePreview(run) { return `<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title">${e(t('No SVG delivered'))}</span><span class="failure-status">${e(t(run.failure.status))}</span>`; }
-function reportBody(report, extraFacts = []) {
+function reportBody(report, priceHtml = '') {
   if (!report) return '';
   const lang = locale().startsWith('zh') ? 'zh' : 'en', text = value => value[lang];
   const value = item => item == null ? t('Not recorded') : typeof item === 'object' ? text(item) : item;
-  const facts = [...report.facts, ...extraFacts].map(fact => `<div><dt>${e(text(fact.label))}</dt><dd>${e(value(fact.value))}</dd></div>`).join('');
+  const facts = report.facts.map(fact => `<div><dt>${e(text(fact.label))}</dt><dd>${e(value(fact.value))}</dd></div>`).join('') + priceHtml;
   const notes = report.notes.length ? `<details class="metric-notes report-notes"><summary>${e(t('Additional notes'))}</summary>${report.notes.map(note => `<p>${e(text(note))}</p>`).join('')}</details>` : '';
   return `<div class="run-report" data-report-kind="${e(report.kind)}"><p class="case-summary report-summary">${e(text(report.summary))}</p><dl class="case-facts">${facts}</dl><p class="report-explanation">${e(text(report.explanation))}</p>${notes}<p class="case-limitation">${e(text(report.limitation))}</p></div>`;
 }
 function failureDetails(run) {
-  const priceFact = {label: {en: 'Cost estimate · USD', zh: '价格估算 · USD'}, value: costText(run)};
-  return `<div class="run-badges">${effortChips(run)}</div><div class="case-copy">${reportBody(run.report, [priceFact])}</div><details class="metric-notes price-notes"><summary>${e(t('Pricing details'))}</summary>${priceDetails(run)}</details><div class="source-links"><a href="./cases/${e(run.slug)}/">${e(t('Read failure notes'))} ↗</a>${run.source ? `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer">${e(t('Pi conversation ↗'))}</a><a href="${e(run.source.snapshot_url)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a>` : ''}</div>`;
+  return `<div class="run-badges">${effortChips(run)}</div><div class="case-copy">${reportBody(run.report, priceRow(run))}</div><details class="metric-notes price-notes"><summary>${e(t('Pricing details'))}</summary>${priceDetails(run)}</details><div class="source-links"><a href="./cases/${e(run.slug)}/">${e(t('Read failure notes'))} ↗</a>${run.source ? `<a href="${e(run.source.share_url)}" target="_blank" rel="noopener noreferrer">${e(t('Pi conversation ↗'))}</a><a href="${e(run.source.snapshot_url)}" target="_blank" rel="noopener noreferrer">${e(t('Source snapshot ↗'))}</a>` : ''}</div>`;
 }
 function runDetails(run) {
   if (run.outcome === 'no_artwork') return failureDetails(run);
@@ -266,7 +271,7 @@ function runDetails(run) {
   const lang = locale().startsWith('zh') ? 'zh' : 'en';
   const badges = effortChips(run) + (run.report?.badges || []).map(badge => `<span class="badge note">${e(badge.label[lang])}: ${e(number(badge.count))}</span>`).join('');
   return `<div class="run-badges">${badges}</div>
-    <dl class="metric-highlights">${metricRow('Total run time', time(m.duration_seconds))}${metricRow('Average output TPS', number(m.average_tps))}${metricRow('Tool calls', number(m.tool_calls))}${metricRow('Cost estimate · USD', costText(run))}</dl>
+    <dl class="metric-highlights">${metricRow('Total run time', time(m.duration_seconds))}${metricRow('Average output TPS', number(m.average_tps))}${metricRow('Tool calls', number(m.tool_calls))}${priceRow(run)}</dl>
     <section class="metric-section"><h3>${e(t('Tokens'))}</h3><dl class="metric-list">${metricRow('Input', number(tokens.input))}${metricRow('Output', number(tokens.output))}${metricRow('Reasoning', number(tokens.reasoning))}${metricRow('Cache read', number(tokens.cacheRead))}${metricRow('Cache write', number(tokens.cacheWrite))}${metricRow('Recorded total', number(tokens.totalTokens), 'token-total')}</dl></section>
     <section class="metric-section"><h3>${e(t('The run'))}</h3><dl class="metric-list">${metricRow('Tested', date(run.date) + ' · UTC')}${metricRow('Model ID', run.model_ids.join(', '))}${run.response_model_ids ? metricRow('Response model ID', run.response_model_ids.join(', ')) : ''}${metricRow('Request time', time(m.request_seconds))}${metricRow('Output budget / request (incl. reasoning)', number(run.output_budget_per_request))}${metricRow('Assistant turns', number(m.assistant_turns))}${metricRow('Tool breakdown', Object.entries(m.tool_breakdown).map(([tool, count]) => `${tool} × ${count}`).join(' · ') || t('No tool calls'))}${metricRow('Available tools', run.available_tools.join(' · ') || t('Not recorded'))}</dl></section>
     ${run.report ? `<section class="metric-section"><h3>${e(t('Run notes'))}</h3>${reportBody(run.report)}</section>` : ''}
@@ -287,7 +292,7 @@ function renderLevels(run) {
   summary.dataset.i18n = enough ? 'Compare levels' : 'Reasoning level overview'; summary.textContent = t(summary.dataset.i18n);
   document.querySelector('.level-actions').hidden = !enough;
   document.querySelector('#detail-levels').innerHTML = group.map(item => `<button type="button" class="level-link" data-level-run="${e(item.slug)}" aria-pressed="${item.slug === run.slug}" aria-label="${e(t('View {model}, {level} reasoning', {model: item.name, level: levels(item)}))}">${effortChips(item)}</button>`).join('');
-  document.querySelector('#level-summary').innerHTML = `<caption class="sr-only">${e(t('Choose 2–4 artworks'))}</caption><thead><tr>${['Select', 'Reasoning', 'Time', 'Output tokens', 'Cost estimate · USD', 'Output budget / request (incl. reasoning)'].map(label => `<th scope="col">${e(t(label))}</th>`).join('')}</tr></thead><tbody>${group.map(item => `<tr><td><input type="checkbox" data-level-compare="${e(item.slug)}" aria-label="${e(t('Compare {model}, {level} reasoning', {model: item.name, level: levels(item)}))}" ${levelSelection.has(item.slug) ? 'checked' : ''} ${item.outcome === 'no_artwork' || !enough ? 'disabled' : ''}></td><th scope="row"><button type="button" class="level-link" data-level-run="${e(item.slug)}">${effortChips(item)}</button></th><td>${e(item.metrics ? time(item.metrics.duration_seconds) : '—')}</td><td>${e(number(item.metrics?.tokens.output))}</td><td>${e(costText(item))}</td><td>${e(number(item.output_budget_per_request))}</td></tr>`).join('')}</tbody>`;
+  document.querySelector('#level-summary').innerHTML = `<caption class="sr-only">${e(t('Choose 2–4 artworks'))}</caption><thead><tr>${['Select', 'Reasoning', 'Time', 'Output tokens', 'Cost estimate · USD', 'Output budget / request (incl. reasoning)'].map(label => `<th scope="col">${e(t(label))}</th>`).join('')}</tr></thead><tbody>${group.map(item => `<tr><td><input type="checkbox" data-level-compare="${e(item.slug)}" aria-label="${e(t('Compare {model}, {level} reasoning', {model: item.name, level: levels(item)}))}" ${levelSelection.has(item.slug) ? 'checked' : ''} ${item.outcome === 'no_artwork' || !enough ? 'disabled' : ''}></td><th scope="row"><button type="button" class="level-link" data-level-run="${e(item.slug)}">${effortChips(item)}</button></th><td>${e(item.metrics ? time(item.metrics.duration_seconds) : '—')}</td><td>${e(number(item.metrics?.tokens.output))}</td><td>${costHtml(item)}</td><td>${e(number(item.output_budget_per_request))}</td></tr>`).join('')}</tbody>`;
   syncLevelSelection();
 }
 function showDetail(slug) {
@@ -357,7 +362,7 @@ function toggleSelection(slug, checked) {
 }
 function comparisonTable(pair) {
   const rows = [['Model maker', run => run.vendor], ['Reasoning', levels], ['Output budget / request (incl. reasoning)', run => number(run.output_budget_per_request)], ['Total run time', run => time(run.metrics.duration_seconds)], ['Request time', run => time(run.metrics.request_seconds)], ['Avg. output TPS', run => number(run.metrics.average_tps)], ['Cost estimate · USD', costText], ['Tool calls', run => number(run.metrics.tool_calls)], ['Assistant turns', run => number(run.metrics.assistant_turns)], ['Follow-up prompts', run => number(run.follow_up_count)], ['XML feedback rounds', run => number(run.follow_up_count === 0 ? 0 : run.report?.counts.xml_feedback)], ['Request errors', run => number(run.metrics.errors)], ['Tool errors', run => number(run.metrics.tool_errors)], ['Input tokens', run => number(run.metrics.tokens.input)], ['Output tokens', run => number(run.metrics.tokens.output)], ['Reasoning tokens', run => number(run.metrics.tokens.reasoning)], ['Cache read tokens', run => number(run.metrics.tokens.cacheRead)], ['Cache write tokens', run => number(run.metrics.tokens.cacheWrite)], ['Recorded total tokens', run => number(run.metrics.tokens.totalTokens)]];
-  return `<table class="compare-table"><caption class="sr-only">${e(t('Performance metrics comparison'))}</caption><thead><tr><th scope="col">${e(t('Run details'))}</th>${pair.map(run => `<th scope="col">${e(run.name)} · ${e(levels(run))}</th>`).join('')}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${e(t(label))}</th>${pair.map(run => `<td>${e(value(run))}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  return `<table class="compare-table"><caption class="sr-only">${e(t('Performance metrics comparison'))}</caption><thead><tr><th scope="col">${e(t('Run details'))}</th>${pair.map(run => `<th scope="col">${e(run.name)} · ${e(levels(run))}</th>`).join('')}</tr></thead><tbody>${rows.map(([label, value]) => `<tr><th scope="row">${e(t(label))}</th>${pair.map(run => `<td>${label === 'Cost estimate · USD' ? costHtml(run) : e(value(run))}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 }
 function showComparison(slugs) {
   if (!validComparison(slugs)) return;

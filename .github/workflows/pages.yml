@@ -23,6 +23,9 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tests/test_pricing.py
+      - run: python3 tests/test_price_conditions.py
+      - run: python3 tests/test_historical_pricing.py
+      - run: python3 tests/test_cache_assumptions.py
       - run: python3 tests/test_reporting.py
       - run: python3 tests/test_gallery.py
       - run: python3 scripts/gallery.py build

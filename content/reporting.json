@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-10T12:47:08.246307+00:00",
+  "checked_at": "2026-11-11T07:43:25.549541+00:00",
   "runs": {
     "claude-fable-5.1-medium": {
       "source": {
@@ -130,6 +130,15 @@
       "source": {
         "gist_id": "f656526cafff4d0d2a17f26fc543e765",
         "gist_revision": "5019c22818123c429025a7202973feadb80906c6"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-4-carbon-low": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "b838e86a9c6de6621478d0aba4b7f77ab8a15d2ffd74b6b51ee6c3d77eab63e2",
+        "export_sha256": "c3ccbd9ae9a6b50f38571c680edb05871f821c6e066e034405036009cc68aae5"
       },
       "follow_up_count": 1,
       "xml_feedback_count": 1

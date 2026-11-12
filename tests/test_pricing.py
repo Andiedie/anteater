@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-05'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-11'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -140,6 +140,35 @@ def check():
     assert pricing.find_price({'model_ids': ['tencent/hy4-flash'], 'vendor': 'Tencent'}, actual) is None
     assert pricing.find_price({'model_ids': ['tencent/hy4-preview'], 'vendor': 'Tencent'}, actual)['rates_per_million']['input'] == .834
     assert pricing.estimate(cache_write, hy4)[1] == 'missing_cache_price'
+    fable = actual['models']['claude-fable-5-2']
+    assert fable['rates_per_million'] == {'input': 8, 'output': 40, 'cacheRead': .2, 'cacheWrite': 10, 'reasoning': None}
+    assert fable['cache_write_ttl_seconds'] == 300
+    for level, expected in [('low', .1645652), ('medium', .1740554), ('high', 1.850488),
+                            ('xhigh', 2.579522), ('max', 2.65253)]:
+        recorded = json.loads((content / f'claude-fable-5.2-{level}' / 'run.json').read_text())
+        assert pricing.display_price(recorded, actual)['amount_usd'] == expected
+        candidate = deepcopy(recorded)
+        candidate['source']['session_sha256'] = 'changed'
+        assert pricing.display_price(candidate, actual)['reason'] == 'source_changed'
+    carbon = actual['models']['gemini-4-carbon']
+    assert carbon['rates_per_million'] == {'input': 2, 'output': 10, 'cacheRead': .1, 'cacheWrite': None, 'reasoning': None}
+    for level, expected in [('low', .193564), ('medium', .755517)]:
+        recorded = json.loads((content / f'gemini-4-carbon-{level}' / 'run.json').read_text())
+        quoted = pricing.display_price(recorded, actual)
+        assert quoted['amount_usd'] == expected and quoted['conditions']
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    interrupted = json.loads((content / 'gemini-4-carbon-high' / 'run.json').read_text())
+    assert 'metrics' not in interrupted and interrupted['failure']['status'] == 'Incomplete: stream interrupted'
+    unknown = pricing.display_price(interrupted, actual)
+    assert unknown['amount_usd'] is None and unknown['reason'] == 'missing_usage' and unknown['conditions'] == []
+    missing_svg_estimates = []
+    for path in sorted(content.glob('*/run.json')):
+        recorded = json.loads(path.read_text())
+        if recorded.get('outcome') != 'no_artwork' and pricing.display_price(recorded, actual)['amount_usd'] is None:
+            missing_svg_estimates.append(recorded['slug'])
+    assert not missing_svg_estimates, f'Every delivered SVG needs a reviewed current or historical estimate: {missing_svg_estimates}'
     identifiers = set()
     for model_id, quote in actual['models'].items():
         assert quote['source_kind'] == 'official' and quote['source_url'].startswith('https://')

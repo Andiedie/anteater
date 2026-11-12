@@ -6,6 +6,7 @@ import base64
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_UP
 from hashlib import sha256
 from html import escape
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -395,6 +396,56 @@ def format_price(amount, lang='en'):
     return f'≈${amount:.3f}' if amount >= 0.001 else f'≈${amount:.4f}'
 
 
+def price_assumption_html(price, lang='en'):
+    if price.get('amount_usd') is None or price.get('estimate_kind') != 'conditional_assumption':
+        return ''
+    label = price.get('assumption_label', {})
+    text = label.get(lang, label.get('en', '')) if isinstance(label, dict) else label
+    return f'<span class="price-assumption">{escape(text)}</span>' if text else ''
+
+
+def price_html(price, lang='en', hint_id='price-hint', *, show_assumption=True):
+    """Render reviewed price conditions without trusting source text as markup."""
+    amount = price.get('amount_usd')
+    value = f'<span data-price-value>{escape(format_price(amount, lang))}</span>'
+    conditions = price.get('conditions', [])
+    assumption = price_assumption_html(price, lang) if show_assumption else ''
+    def wrap(markup):
+        return f'<span class="price-with-assumption">{markup}{assumption}</span>' if assumption else markup
+    if amount is None or not conditions:
+        return wrap(f'<span class="price-estimate">{value}</span>')
+    labels = {'heading': ('Conditional price estimate', '条件价格估算'),
+              'current': ('Current estimate', '当前估算'),
+              'unpublished': ('Not announced; cannot estimate', '未公布，无法估算'),
+              'unknown': ('Unknown', '未知'),
+              'note': ('All amounts estimate the same record’s usage under the stated pricing conditions; they are not actual charges.', '以下金额均按同一条记录的用量，在对应计价条件下估算，不代表实际扣费。')}
+    label = lambda key: labels[key][lang == 'zh']
+    local = lambda text: text.get(lang, text.get('en', '')) if isinstance(text, dict) else str(text)
+
+    def precise(number):
+        rounded = Decimal(str(number)).quantize(Decimal('0.00000001'), rounding=ROUND_HALF_UP)
+        whole, fraction = f'{rounded:,.8f}'.split('.')
+        return f'≈${whole}.{fraction.rstrip("0").ljust(3, "0")} USD'
+
+    content = [f'<span class="price-tooltip-heading">{escape(label("heading"))}</span>',
+               f'<span class="price-tooltip-current">{escape(label("current"))}: {escape(precise(amount))}</span>',
+               f'<span class="price-tooltip-note">{escape(label("note"))}</span>']
+    for condition in conditions:
+        content.append(f'<span class="price-tooltip-condition"><strong>{escape(local(condition["label"]))}</strong>')
+        content.append(f'<span class="price-tooltip-description">{escape(local(condition["description"]))}</span>')
+        for alternative in condition.get('alternatives', []):
+            other = alternative.get('amount_usd')
+            text = precise(other) if other is not None else label('unpublished' if alternative.get('reason') == 'not_announced' else 'unknown')
+            content.append(f'<span class="price-tooltip-alternative"><strong>{escape(local(alternative["label"]))}</strong><span>{escape(text)}</span>')
+            if alternative.get('description'):
+                content.append(f'<span class="price-tooltip-description">{escape(local(alternative["description"]))}</span>')
+            content.append('</span>')
+        content.append('</span>')
+    identity = escape(hint_id, quote=True)
+    button = f'<button type="button" class="price-warning" data-price-hint="{identity}" aria-label="{escape(label("heading"), quote=True)}" aria-describedby="{identity}" aria-expanded="false"><span aria-hidden="true">!</span></button>'
+    return wrap(f'<span class="price-estimate">{value}{button}<span id="{identity}" class="price-tooltip" role="tooltip" popover="manual">{"".join(content)}</span></span>')
+
+
 def card_html(group):
     run = next((item for item in group if item.get('outcome') != 'no_artwork'), group[0])
     slug, name = escape(run['slug'], quote=True), escape(run['name'])
@@ -403,7 +454,8 @@ def card_html(group):
     links = ''.join(f'''<button type="button" class="level-link" data-card-run="{escape(item['slug'], quote=True)}" aria-pressed="{'true' if item['slug'] == run['slug'] else 'false'}" aria-label="View {name}, {escape(' → '.join(item['reasoning']))} reasoning">{''.join(f'<span class="effort" data-level="{escape(level, quote=True)}">{escape(level)}</span>' for level in item['reasoning'])}</button>''' for item in ordered)
     failed = run.get('outcome') == 'no_artwork'
     metrics = run.get('metrics', {})
-    price = format_price(run.get('price', {}).get('amount_usd'))
+    price = price_html(run.get('price', {}), 'en', f'card-{run["slug"]}-price', show_assumption=False)
+    assumption = price_assumption_html(run.get('price', {}))
     price_label = 'Cost estimate · USD'
     art = f'''<iframe class="artwork-frame" data-src="./artwork/{slug}.svg" title="{name} animated SVG" sandbox="allow-same-origin" tabindex="-1" aria-hidden="true"></iframe><span class="preview-loading" aria-hidden="true" data-i18n="Loading artwork">Loading artwork</span>''' if not failed else f'<span class="failure-symbol" aria-hidden="true">∅</span><span class="failure-title" data-i18n="No SVG delivered">No SVG delivered</span><span class="failure-status" data-i18n="{escape(run["failure"]["status"], quote=True)}">{escape(run["failure"]["status"])}</span>'
     enough = sum(item.get('outcome') != 'no_artwork' for item in group) >= 2
@@ -416,17 +468,25 @@ def card_html(group):
     <div class="card-bottom"><dl class="card-stats"{' hidden' if failed else ''}>
       <div><dt data-i18n="Time">Time</dt><dd data-time>{format_time(metrics.get('duration_seconds', 0)) if not failed else '—'}</dd></div>
       <div><dt data-i18n="Output tokens">Output tokens</dt><dd data-output>{metrics.get('tokens', {}).get('output', '—') if not failed else '—'}</dd></div>
-      <div><dt data-price-label data-i18n="{price_label}">{price_label}</dt><dd data-price>{price if not failed else '—'}</dd></div>
+      <div><dt data-price-label><span data-i18n="{price_label}">{price_label}</span>{assumption}</dt><dd data-price>{price if not failed else '—'}</dd></div>
     </dl><label class="compare-check"{' hidden' if failed else ''}><input type="checkbox" data-compare="{slug}" aria-label="Compare {name}, {escape(' → '.join(run['reasoning']))} reasoning"{' disabled' if failed else ''}><span data-i18n="Add to compare">Add to compare</span></label></div>
     <button class="text-button model-compare" data-compare-model="{key}"{' disabled hidden' if not enough else ''} data-i18n="Compare levels">Compare levels</button>
   </div>
 </article>'''
 
 
+def asset_version(filename):
+    data = (ROOT / 'src' / filename).read_bytes()
+    if filename in ('gallery.js', 'failure.js'):
+        dependency = digest((ROOT / 'src/price-hints.js').read_bytes())[:12]
+        data = data.replace(b'./price-hints.js"', f'./price-hints.js?v={dependency}"'.encode())
+    return digest(data)[:12]
+
+
 def version_assets(page):
     # New content gets a new URL so warm browsers cannot mix old UI assets with new HTML.
-    for filename in ("i18n.js", "gallery.js", "failure.js", "styles.css"):
-        version = digest((ROOT / "src" / filename).read_bytes())[:12]
+    for filename in ("i18n.js", "gallery.js", "failure.js", "price-hints.js", "styles.css"):
+        version = asset_version(filename)
         page = page.replace(f'./{filename}"', f'./{filename}?v={version}"')
     return page
 
@@ -440,7 +500,9 @@ def failure_html(run, related, reviews=None):
     copies = []
     for lang in ("en", "zh"):
         price = run.get('price', {})
-        price_fact = {'label': reporting.text('Cost estimate · USD', '价格估算 · USD'), 'value': format_price(price.get('amount_usd'), lang)}
+        price_label = '价格估算 · USD' if lang == 'zh' else 'Cost estimate · USD'
+        price_id = f'case-{run["slug"]}-price-{lang}'
+        price_fact = f'<div><dt>{price_label}</dt><dd>{price_html(price, lang, price_id)}</dd></div>'
         price_notes = ''
         if price.get('source'):
             labels = ('输入', '输出', '缓存读取', '缓存写入') if lang == 'zh' else ('Input', 'Output', 'Cache read', 'Cache write')
@@ -451,7 +513,7 @@ def failure_html(run, related, reviews=None):
   <p><a href="{escape(price['source_url'], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(price['source'])} ↗</a> · {escape(price['checked_at'])}</p>
   <dl class="metric-list">{rates}</dl><p>{'美元 / 百万 token；不代表实际账单。' if lang == 'zh' else 'USD / 1M tokens; not an actual bill.'}</p></details>'''
         copies.append(f'''<div class="case-copy" lang="{lang}">
-  {reporting.render_html(report, lang, [price_fact])}
+  {reporting.render_html(report, lang, extra_html=[price_fact])}
   {price_notes}
 </div>''')
     references = ''.join(f'<a href="{escape(reference["url"], quote=True)}" target="_blank" rel="noopener noreferrer">{escape(reference["label"])} ↗</a>' for reference in failure["references"])
@@ -504,8 +566,8 @@ def build():
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
     (dist / "index.html").write_text(version_assets(template))
-    for filename in ("i18n.js", "gallery.js", "failure.js", "styles.css"):
-        shutil.copy2(ROOT / "src" / filename, dist / filename)
+    for filename in ("i18n.js", "gallery.js", "failure.js", "price-hints.js", "styles.css"):
+        (dist / filename).write_text(version_assets((ROOT / "src" / filename).read_text()))
     shutil.copytree(ROOT / "src/assets", dist / "assets", dirs_exist_ok=True)
     shutil.rmtree(dist / "artwork", ignore_errors=True)
     (dist / "artwork").mkdir()

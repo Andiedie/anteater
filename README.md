@@ -17,6 +17,8 @@ Python 3.10+ is the only build dependency. The frontend uses native HTML, CSS, a
 
 ```sh
 python3 tests/test_reporting.py
+python3 tests/test_pricing.py
+python3 tests/test_price_conditions.py
 python3 tests/test_gallery.py
 python3 scripts/gallery.py serve
 ```
@@ -76,6 +78,8 @@ For approved publication, commit each run's source files together. `run.json` pi
 
 Only sufficiently evidenced, reproducible model failures under fixed test conditions, such as output-budget exhaustion, become final no-artwork gallery records. Transient request, network, channel, authentication, and harness failures remain in the attempt audit; rerun the affected model/level in a fresh directory and session within the user's authorized test scope. Do not finalize an interrupted request as a model result or claim repeated reproduction from a single observation. Preserve all discarded attempts and their billing evidence.
 
+When the tester explicitly requests a record of an unresolved interruption, label it **Incomplete: stream interrupted**, preserve the attempt history, and keep it distinct from a completed model failure. The Carbon high page records ten incomplete attempts, reaching the authorized total retry limit, and attaches the tenth session. The observed outcomes are stream interruptions or empty replies; it has no invented SVG, success metrics, complete usage, or charge estimate. This local record does not establish output-budget exhaustion or a model capability failure.
+
 Final no-artwork records stay searchable and their level buttons remain available. Selecting one in the list shows **No SVG delivered** and its specific reason (such as **Output truncated**) in the preview, without fabricated artwork or success metrics. Level buttons show only the reasoning level, both on cards and inside details. Opening the preview reveals the evidence inline; **Read failure notes** opens the standalone bilingual page at `cases/<slug>/`. Failures cannot enter artwork comparisons, and unavailable comparison actions are hidden on list cards. A standalone page links to another delivered level of the same model when one exists. Placeholder surfaces use theme colors independently of the light artwork stage; authored SVGs are never recolored. Builds add content hashes to CSS/JS URLs on both gallery and case pages, so a refreshed page cannot reuse stale UI assets. Browser checks cover direct failure links and switching from delivered artwork into a failure in both themes.
 
 A failure directory contains `run.json`, with `outcome: "no_artwork"` and a `failure` object: English/Chinese `summary`, `explanation`, and `limitation`, labeled `facts`, HTTPS `references`, and an optional `related_slug` pointing to delivered artwork of the same model. A published session can be attached with `share.txt` and a `source` containing its `share_url`, `gist_id`, and pinned `gist_revision`; the page links to both the conversation and snapshot. Local-only reports instead attach matching `session.html` / `session.json` files with `source.kind: "local"`, canonical local URLs, their SHA-256 hashes, and the session ID. Classify output exhaustion, invalid XML, upstream errors, and harness failures separately in the audit; historical records retain their actual evidence, while new final gallery entries follow the admission rule above. `date` is the **report date**, not an invented request timestamp. The importer leaves these entries intact. Builds never invent success metrics for them. A price estimate can be calculated from separately reviewed, complete token usage pinned to the source snapshot; output-only evidence is insufficient. If the same test later delivers an SVG, add it and `share.txt`, then import to replace the failure entry with a checked session snapshot.
@@ -106,16 +110,27 @@ Delivered SVGs with interventions use the same report layout under **Run notes**
 ```sh
 python3 scripts/gallery.py prices   # Read-only, offline coverage report; does not refresh quotes
 python3 tests/test_pricing.py
+python3 tests/test_price_conditions.py
+python3 tests/test_historical_pricing.py
+python3 tests/test_cache_assumptions.py
 python3 scripts/gallery.py build
 ```
 
 `content/pricing.json` is the reviewed **official API price snapshot** (schema 2). All models share its `as_of` date, so comparisons do not mix historical SDK estimates with current prices. `models` stores manufacturer links, explicit model-ID aliases, USD token rates and applicable conditions. Matching requires the exact ID and maker; retired versions are not silently priced as their replacements. Builds never fetch prices or modify source metrics. The previous models.dev/OpenRouter/LiteLLM refresh path has been removed.
 
+Every delivered SVG needs a computable, reviewed estimate. For a retired model, use its own archived official tariff covering the recorded date. A profile's `historical_rates` stores the manufacturer's dated quote and audited coverage; the estimator selects exactly one matching period and shows **Historical official rates** beside the amount. The shared `as_of` remains the review date, while the historical tariff period is displayed separately. Replacement model prices, SDK cost fields, and unpublished cached-token rates cannot substitute for this evidence.
+
 Use standard global API prices where published, otherwise the documented overseas/Singapore USD tariff. Vendor-specific deployment labels (such as Alibaba's `Global`) do not automatically replace an explicitly reviewed region/deployment tariff; changing that selection requires a separate review. Public introductory rates and permanent reductions valid on the snapshot date apply; Batch, Flex, priority, contributor, subscriptions and private/channel discounts do not. These are token-cost estimates, excluding storage and tool/search surcharges, not actual bills. **Pricing details** is collapsed by default and contains the source, date, rates and conditions; cards, details, comparisons and failure reports all use the same **Cost estimate · USD** label.
 
-Input and cache usage are separate; thinking is already part of output. Cache writes with TTL-dependent pricing require a reviewed TTL. `runs` holds source-pinned TTL reviews and complete usage for the two local truncated attempts, not per-run copies of model prices. A changed source invalidates that review. Aggregate usage beyond a price tier, missing cache prices/types, mixed-model records and incomplete usage remain unpriced. DeepSeek off-peak rates are used only if the entire recorded interval is provably outside weekday peak windows; ambiguous peak/holiday conditions are not guessed.
+Input and cache usage are separate; thinking is already part of output. Cache writes with TTL-dependent pricing require a reviewed TTL. `runs` holds source-pinned TTL reviews and complete usage for reviewed no-artwork records, not per-run copies of model prices. A changed source invalidates that review. Aggregate usage beyond a price tier, missing cache prices/types, mixed-model records and incomplete usage remain unpriced. DeepSeek off-peak rates are used only if the entire recorded interval is provably outside weekday peak windows; ambiguous peak/holiday conditions are not guessed.
 
-To update pricing, review manufacturer pages and billing conditions for **all models** at one new date, edit the snapshot, then run the commands above and browser checks. Do not advance `as_of` or copy an aggregator/SDK quote without reviewing its official source. Keep unresolved entries explicit. The [2026-11-05 price audit](docs/research/official-prices-20261105.md) lists the rechecked primary sources, Hy4's official name and promotional rates, and remaining coverage gaps. Publication of local-only sessions still requires separate approval.
+A source-pinned conditional scenario may expose a missing historical cache mode without claiming to resolve it. The six reviewed Qwen records explicitly display **Assumes implicit cache** beside the price label and show the explicit-cache scenario in the condition hint. Both use the same recorded quantities and zero recorded writes; the original cache-creation quantity is not independently established. The historical mode remains unknown, and the scenarios are not actual-invoice bounds. Any source or token change invalidates this assumption; another run of the same model does not inherit it. See the [Qwen cache audit](docs/research/qwen-cache-estimates-20261112.md).
+
+An applicable time-of-day or promotional price adds a **!** button beside every computable estimate, including historical records. Hover, keyboard focus, or touch opens its conditions and the estimate for the **same recorded usage** at other verified rates. Unpublished later rates show **Not announced; cannot estimate**. Conditions that do not affect the record's usage add no marker; a temporary cache-write discount, for example, does not affect a record with zero cache writes. Permanent price reductions are not temporary promotions. The same component appears on cards, details, level overviews, comparisons, and any priced no-artwork page. Escape dismisses its tooltip while keeping an enclosing dialog open.
+
+With the preview running, also run `node tests/browser-smoke.mjs http://127.0.0.1:8765 --prices-en` and `--prices-zh` for every applicable historical condition. Each locale uses a fresh Chrome process so rapid automated history navigation does not hit Chromium's navigation flood protection.
+
+To update pricing, review manufacturer pages and billing conditions for **all models** at one new date, edit the snapshot, then run the commands above and browser checks. Do not advance `as_of` or copy an aggregator/SDK quote without reviewing its official source. Keep unresolved entries explicit. The [2026-11-11 price audit](docs/research/official-prices-20261111.md) records the full source review, Carbon/Fable 5.2 rates and cache evidence, and same-usage alternatives for conditional prices. The [2026-11-05 audit](docs/research/official-prices-20261105.md) remains a historical snapshot. Publication of local-only sessions still requires separate approval.
 
 ## GitHub Pages
 
@@ -136,6 +151,9 @@ Check deployment with `gh run list --workflow pages.yml`, then `node tests/brows
 - `src/`: page template, interactions, styles, and logo assets.
 - `tests/test_gallery.py`: offline import, corpus, and logo smoke check.
 - `tests/test_pricing.py`: offline pricing and failure-path checks.
+- `tests/test_price_conditions.py`: same-usage alternatives, inapplicable conditions, unknown rates, source changes, and safe static price hints.
+- `tests/test_historical_pricing.py`: exact retired-model quotes, covered dates, official provenance, and historical-price warnings.
+- `tests/test_cache_assumptions.py`: source/token-bound conditional cache scenarios, visible assumptions, missing historical mode, and fail-closed validation.
 - `tests/test_reporting.py`: common report fields, source-bound XML classification, unknown values, and safe bilingual rendering.
 - `tests/browser-smoke.mjs`: optional real-browser language, playback, and interaction check.
 - `dist/`: generated site; ignored by Git.

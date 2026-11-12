@@ -26,6 +26,172 @@ async function pixelChanges(before, after) {
   return changed;
 }
 
+function priceLayoutIssues() {
+  const issues=[],center=node=>{const r=node.getBoundingClientRect();return r.y+r.height/2;};
+  for(const label of document.querySelectorAll('.price-assumption')) {
+    if(!label.getClientRects().length) continue;
+    const rect=label.getBoundingClientRect(),parent=label.parentElement.getBoundingClientRect();
+    if(rect.width>parent.width+1||label.scrollWidth>label.clientWidth+1) issues.push({kind:'assumption-overflow',text:label.textContent});
+    if(label.closest('.price-estimate,.price-tooltip,[hidden],[aria-hidden="true"]')) issues.push({kind:'assumption-placement',text:label.textContent});
+  }
+  for(const button of document.querySelectorAll('.price-warning')) {
+    if(!button.getClientRects().length) continue;
+    const value=button.closest('.price-estimate').querySelector('[data-price-value]');
+    const delta=Math.abs(center(button)-center(value));
+    if(delta>=.5) issues.push({kind:'price-marker',delta,amount:value.textContent});
+  }
+  for(const stats of document.querySelectorAll('.card:not([hidden]) .card-stats:not([hidden])')) {
+    const values=[...stats.querySelectorAll('dd')];
+    const centers=values.map(node=>center(node.querySelector('[data-price-value]')||node));
+    if(Math.max(...centers)-Math.min(...centers)>=.5) issues.push({kind:'metric-row',slug:stats.closest('.card').dataset.slug,centers});
+  }
+  return issues;
+}
+
+async function priceConditionSmoke(language) {
+  const checks = [];
+  const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
+  const waitFor = async (predicate, name) => { const start=performance.now();while(!predicate()){if(performance.now()-start>10000)throw Error(name);await new Promise(r=>setTimeout(r,30));} };
+  await waitFor(() => document.querySelector('.card iframe.loaded'), 'price gallery ready');
+  const catalog=JSON.parse(document.querySelector('#catalog-data').textContent);
+  const key=run=>JSON.stringify([run.vendor,run.name]);
+  const groups=[...new Set(catalog.map(key))].map(model=>catalog.filter(run=>key(run)===model));
+  const defaultRuns=groups.map(group=>group.find(run=>run.outcome!=='no_artwork')||group[0]);
+  const cardFor=name=>[...document.querySelectorAll('.card')].find(card=>JSON.parse(card.dataset.model)[1]===name);
+  const set=(selector,value)=>{const node=document.querySelector(selector);node.value=value;node.dispatchEvent(new Event('change',{bubbles:true}));};
+  const showRun=slug=>{const card=cardFor(catalog.find(run=>run.slug===slug).name);card.querySelector('[data-card-run="'+slug+'"]').click();card.querySelector('.preview').click();};
+  const assertAssumption = (surface, run, lang, name, live = true) => {
+    const labels = [...surface.querySelectorAll('.price-assumption')];
+    const expected = run.price.amount_usd != null && run.price.estimate_kind === 'conditional_assumption';
+    assert(labels.length === Number(expected), `${name} labels only conditional assumptions: ${run.slug} / ${lang}`);
+    if (expected) {
+      const label = labels[0];
+      assert(label.textContent === run.price.assumption_label[lang] && !label.closest('.price-tooltip,[hidden],[aria-hidden="true"]') && (!live || label.checkVisibility()), `${name} visibly discloses the cache assumption: ${run.slug} / ${lang}`);
+    }
+  };
+  const staticPage = new DOMParser().parseFromString(await (await fetch('./')).text(), 'text/html');
+  for (const run of defaultRuns.filter(run => run.outcome !== 'no_artwork')) {
+    const original = staticPage.querySelector(`[data-slug="${run.slug}"] .card-stats`);
+    assertAssumption(original, run, 'en', 'initial static card', false);
+  }
+  for (const run of defaultRuns.filter(run => run.price.conditions?.length)) {
+    const card = cardFor(run.name);
+    card.querySelector(`[data-card-run="${run.slug}"]`).click();
+    const original = staticPage.querySelector(`[data-slug="${run.slug}"] .price-tooltip`);
+    assert(original && original.textContent === card.querySelector('.price-tooltip').textContent, `static and dynamic price conditions agree: ${run.slug}`);
+  }
+  const conditionalRuns = catalog.filter(run => run.price.amount_usd != null && run.price.conditions?.length);
+  assert(conditionalRuns.some(run => run.price.model_id === 'deepseek-flash'), 'historical DeepSeek off-peak estimates are included');
+  for (const lang of [language]) {
+    set('#language', lang);
+    for (const run of defaultRuns.filter(run => run.outcome !== 'no_artwork')) {
+      const card = cardFor(run.name);
+      card.querySelector(`[data-card-run="${run.slug}"]`).click();
+      assertAssumption(card.querySelector('.card-stats'), run, lang, 'language-switched card');
+    }
+    for (const run of conditionalRuns) {
+      const card = cardFor(run.name);
+      card.querySelector(`[data-card-run="${run.slug}"]`).click();
+      assert(Boolean(card.querySelector('[data-price] .price-warning')), `card price has a conditional marker: ${run.slug} / ${lang}`);
+      assertAssumption(card.querySelector('.card-stats'), run, lang, 'level-switched card');
+      assert(!card.querySelector('[data-price] .price-assumption'), `card value row stays free of assumption text: ${run.slug} / ${lang}`);
+      const center = node => { const r=node.getBoundingClientRect();return r.y+r.height/2; };
+      const priceValue=card.querySelector('[data-price-value]'),priceButton=card.querySelector('[data-price] .price-warning');
+      assert(Math.abs(center(priceValue)-center(priceButton))<.5, `card price marker is vertically centered: ${run.slug} / ${lang}`);
+      assert([...card.querySelectorAll('.card-stats dd')].every(node=>Math.abs(center(node)-center(priceValue))<.5), `all card metric values share the same row center: ${run.slug} / ${lang}`);
+      showRun(run.slug);
+      const warning = document.querySelector('#detail-info .price-warning');
+      const tooltip = document.getElementById(warning.dataset.priceHint);
+      assertAssumption(warning.closest('dd'), run, lang, 'detail price');
+      assert(Math.abs(center(warning)-center(warning.closest('.price-estimate').querySelector('[data-price-value]')))<.5, `detail price marker is vertically centered: ${run.slug} / ${lang}`);
+      warning.focus();
+      assert(warning.getAttribute('aria-expanded') === 'true' && tooltip.matches(':popover-open') && warning.getAttribute('aria-describedby') === tooltip.id, `keyboard exposes the described price conditions: ${run.slug} / ${lang}`);
+      const precise = value => new Intl.NumberFormat(lang === 'zh' ? 'zh-CN' : 'en-US', {minimumFractionDigits:3,maximumFractionDigits:8}).format(value);
+      assert(tooltip.textContent.includes(precise(run.price.amount_usd)) && run.price.conditions.every(condition => tooltip.textContent.includes(condition.label[lang]) && tooltip.textContent.includes(condition.description[lang]) && condition.alternatives.every(alternative => tooltip.textContent.includes(alternative.label[lang]) && tooltip.textContent.includes(alternative.amount_usd == null ? (lang === 'zh' ? '未公布，无法估算' : 'Not announced; cannot estimate') : precise(alternative.amount_usd)))), `same-usage alternatives and unavailable rates are shown: ${run.slug} / ${lang}`);
+      const overview = document.querySelector(`#level-summary [data-level-run="${run.slug}"]`).closest('tr');
+      assert(Boolean(overview.querySelector('.price-warning')), `level overview price has a conditional marker: ${run.slug} / ${lang}`);
+      warning.dispatchEvent(new KeyboardEvent('keydown', {key:'Escape',bubbles:true,cancelable:true}));
+      assert(!tooltip.matches(':popover-open') && document.querySelector('#detail-dialog').open, `Escape dismisses price conditions and keeps the detail open: ${run.slug} / ${lang}`);
+      document.querySelector('#level-overview').open=true;
+      const overviewButton=overview.querySelector('.price-warning');
+      assertAssumption(overviewButton.closest('td'), run, lang, 'expanded level overview');
+      assert(Math.abs(center(overviewButton)-center(overviewButton.closest('.price-estimate').querySelector('[data-price-value]')))<.5, `overview price marker is vertically centered: ${run.slug} / ${lang}`);
+      document.querySelector('#detail-dialog [data-close]').click();
+      await waitFor(() => !document.querySelector('#detail-dialog').open, `conditional detail closes: ${run.slug} / ${lang}`);
+      const ordinarySibling = catalog.find(item => key(item) === key(run) && item.outcome !== 'no_artwork' && item.price.estimate_kind !== 'conditional_assumption');
+      if (run.price.estimate_kind === 'conditional_assumption' && ordinarySibling) {
+        card.querySelector(`[data-card-run="${ordinarySibling.slug}"]`).click();
+        assertAssumption(card.querySelector('.card-stats'), ordinarySibling, lang, 'switch back to ordinary level');
+      }
+    }
+    const assumedRuns = conditionalRuns.filter(run => run.price.estimate_kind === 'conditional_assumption' && run.outcome !== 'no_artwork');
+    assert(assumedRuns.length > 0, 'cache-assumption estimates are included');
+    const ordinary = catalog.find(run => run.outcome !== 'no_artwork' && run.price.amount_usd != null && run.price.estimate_kind !== 'conditional_assumption');
+    for (let index = 0; index < assumedRuns.length; index += 3) {
+      document.querySelector('#clear-selection').click();
+      const pair = [...assumedRuns.slice(index, index + 3), ordinary];
+      for (const run of pair) {
+        const card = cardFor(run.name);
+        card.querySelector(`[data-card-run="${run.slug}"]`).click();
+        const box = card.querySelector('[data-compare]');
+        box.checked = true; box.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+      document.querySelector('#open-compare').click();
+      const cells = [...document.querySelectorAll('.compare-table tr')].find(row => row.querySelector('[data-price-value]')).querySelectorAll('td');
+      pair.forEach((run, column) => assertAssumption(cells[column], run, lang, 'comparison price'));
+      document.querySelector('#compare-dialog [data-close]').click();
+      await waitFor(() => !document.querySelector('#compare-dialog').open, 'assumption comparison closes');
+    }
+    document.querySelector('#clear-selection').click();
+  }
+  set('#language', 'en');
+  for (const run of catalog.filter(run => run.price.amount_usd == null)) {
+    showRun(run.slug);
+    assert(!document.querySelector('#detail-info .price-warning'), `unknown estimate has no conditional marker: ${run.slug}`);
+    assert(!document.querySelector('#detail-info .price-assumption'), `unknown estimate has no assumption label: ${run.slug}`);
+    document.querySelector('#detail-dialog [data-close]').click();
+    await waitFor(() => !document.querySelector('#detail-dialog').open, `unknown-price detail closes: ${run.slug}`);
+  }
+  assert(new Set([...document.querySelectorAll('.price-tooltip')].map(node => node.id)).size === document.querySelectorAll('.price-tooltip').length, 'all price tooltip IDs are unique');
+  document.querySelector('#clear-filters').click();
+  const openHint = async selector => {
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    const button = document.querySelector(selector);
+    button.focus();
+    await waitFor(() => button.getAttribute('aria-expanded') === 'true' && document.querySelector('.price-tooltip:popover-open'), 'cleanup fixture opens its price hint');
+    return button;
+  };
+  const cleaned = async (button, name) => {
+    await waitFor(() => button.getAttribute('aria-expanded') === 'false' && !document.querySelector('.price-tooltip:popover-open'), name);
+    assert(true, name);
+  };
+  const hy4 = cardFor('Hy4');
+  hy4.querySelector('[data-card-run="hy4-high"]').click();
+  const marker = '[data-slug="hy4-high"] [data-price] .price-warning';
+  let previous = await openHint(marker);
+  set('#language', language === 'zh' ? 'en' : 'zh');
+  await cleaned(previous, 'language replacement clears the old price hint and expanded state');
+  previous = await openHint(marker);
+  hy4.querySelector('[data-card-run="hy4-off"]').click();
+  await cleaned(previous, 'level replacement clears the removed price hint and expanded state');
+  hy4.querySelector('[data-card-run="hy4-high"]').click();
+  previous = await openHint(marker);
+  const search = document.querySelector('#search');
+  search.value = 'no-matching-model-for-price-cleanup';
+  search.dispatchEvent(new Event('input', {bubbles:true}));
+  await waitFor(() => hy4.hidden, 'cleanup fixture hides the filtered card');
+  await cleaned(previous, 'filtering out the card clears its price hint and expanded state');
+  document.querySelector('#clear-filters').click();
+  showRun('hy4-high');
+  previous = await openHint('#detail-info .price-warning');
+  document.querySelector('#detail-dialog [data-close]').click();
+  await waitFor(() => !document.querySelector('#detail-dialog').open, 'cleanup fixture closes the detail');
+  await cleaned(previous, 'closing the detail clears its price hint and expanded state');
+  set('#language', language);
+  document.querySelector('#clear-filters').click();
+  return checks;
+}
+
 async function smoke() {
   const checks = [];
   const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
@@ -64,7 +230,7 @@ async function smoke() {
   for (const level of ['off', 'high']) {
     const run = catalog.find(run => run.slug === 'hy4-' + level);
     hy4.querySelector('[data-card-run="'+run.slug+'"]').click();
-    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-05' && hy4.querySelector('[data-price]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
+    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-11' && hy4.querySelector('[data-price-value]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
     assert(run.price.rates_per_million.input === .417 && run.price.rates_per_million.output === 1.2505 && run.price.rates_per_million.cacheRead === .021 && run.price.rate_note.en.includes('2026-12-31 23:59:59'), `Hy4 ${level} retains the discount deadline and cached-input quote`);
   }
   const terra = cardFor('GPT-6.1 Terra'), terraLevels = ['low','medium','high','xhigh','max'];
@@ -114,7 +280,8 @@ async function smoke() {
   assert(document.querySelectorAll('.failure-card').length === defaultRuns.filter(run => run.outcome === 'no_artwork').length, 'failed levels do not duplicate model cards or replace default artwork');
   assert(failures.every(run => document.querySelector(`[data-card-run="${run.slug}"]`)) && !document.querySelector('.card .level-status'), 'all result levels remain reachable without failure badges in the list');
   assert(document.querySelector('#summary-count').textContent === `${defaultRuns.length} models · ${catalog.length} runs`, 'list summary shows models and records only');
-  assert([...document.querySelectorAll('.card [data-price-label]')].every(label => label.textContent === 'Cost estimate · USD'), 'one cost label for every model, including unavailable estimates');
+  const costLabels = [...document.querySelectorAll('.card [data-price-label]')];
+  assert(costLabels.length === defaultRuns.length && costLabels.every(label => label.querySelectorAll(':scope > [data-i18n="Cost estimate · USD"]').length === 1 && label.querySelector(':scope > [data-i18n="Cost estimate · USD"]').textContent === 'Cost estimate · USD'), 'one cost label for every model, including unavailable estimates');
   assert(catalog.every(run => ['official', 'unknown'].includes(run.price.basis)), 'all prices use the official snapshot without recorded or aggregator fallbacks');
   const reportRuns = catalog.filter(run => run.report);
   for (const lang of ['en', 'zh']) {
@@ -438,6 +605,15 @@ try {
     }
     throw new Error('Reloaded gallery did not initialize');
   };
+  const priceLocale = process.argv[3]?.match(/^--prices-(en|zh)$/)?.[1];
+  if (priceLocale) {
+    const userAgent=await evaluate('navigator.userAgent');
+    await send('Emulation.setUserAgentOverride',{userAgent,acceptLanguage:'en-US,en'});
+    await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+    await reload(process.argv[2] || 'http://localhost:8765');
+    const checks=await evaluate(`(${priceConditionSmoke.toString()})(${JSON.stringify(priceLocale)})`);
+    console.log(`PASS · real Chrome · ${checks.length} price-condition checks / ${priceLocale}`);
+  } else {
   const userAgent = await evaluate('navigator.userAgent');
   await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'en-US,en'});
   await send('Emulation.setDeviceMetricsOverride', {width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false});
@@ -488,6 +664,85 @@ try {
   if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,50));return document.querySelector('.card iframe.loaded').contentDocument.documentElement.animationsPaused()})()`)) throw new Error('Mouse leave did not pause artwork');
   const checks = await evaluate(`(${smoke.toString()})()`);
   checks.push('light and dark truncated-placeholder text contrast', 'light and dark list failure placeholder contrast', 'real pointer opens failure details in both themes');
+  await reload(process.argv[2] || 'http://localhost:8765');
+  await evaluate(`document.querySelector('#language').value='en';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
+  const priceSlug = await evaluate(`JSON.parse(document.querySelector('#catalog-data').textContent).find(run=>run.price.model_id==='deepseek-flash'&&run.reasoning.includes('high')).slug`);
+  const assumptionSlug = await evaluate(`JSON.parse(document.querySelector('#catalog-data').textContent).find(run=>run.price.estimate_kind==='conditional_assumption').slug`);
+  const pricePoint = async selector => evaluate(`(async()=>{const button=document.querySelector(${JSON.stringify(selector)});button.scrollIntoView({block:'center',inline:'center',behavior:'instant'});await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));const rect=button.getBoundingClientRect();return {x:rect.x+rect.width/2,y:rect.y+rect.height/2}})()`);
+  const tooltipFits = `(()=>{const tip=document.querySelector('.price-tooltip:popover-open');if(!tip)return false;const r=tip.getBoundingClientRect();return r.left>=11&&r.right<=innerWidth-11&&r.top>=11&&r.bottom<=innerHeight-11&&tip.textContent.includes('Peak')})()`;
+  await evaluate(`document.querySelector('[data-card-run="'+${JSON.stringify(priceSlug)}+'"]').click()`);
+  const priceSelector = `[data-slug="${priceSlug}"] [data-price] .price-warning`;
+  await send('Input.dispatchMouseEvent', {type:'mouseMoved',...await pricePoint(priceSelector)});
+  if (!await evaluate(tooltipFits)) throw Error('Real mouse hover did not show the DeepSeek peak-rate alternative inside the viewport');
+  const tipPoint = await evaluate(`(()=>{const r=document.querySelector('.price-tooltip:popover-open').getBoundingClientRect();return {x:r.x+20,y:r.y+40}})()`);
+  await send('Input.dispatchMouseEvent', {type:'mouseMoved',...tipPoint});
+  await delay(240);
+  if (!await evaluate(`Boolean(document.querySelector('.price-tooltip:popover-open'))`)) throw Error('Price tooltip disappears while the pointer is reading it');
+  await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:1,y:1});
+  await delay(240);
+  if (!await evaluate(`(async()=>{const start=performance.now();while(document.querySelector('.price-tooltip:popover-open')){if(performance.now()-start>1500)return false;await new Promise(r=>setTimeout(r,30));}return true})()`)) throw Error('Unpinned price tooltip does not close after the pointer leaves: '+JSON.stringify(await evaluate(`({focus:document.activeElement.outerHTML.slice(0,300),open:[...document.querySelectorAll('.price-tooltip:popover-open')].map(t=>t.id)})`)));
+  checks.push('real mouse hover shows DeepSeek alternatives', 'price tooltip remains readable under the pointer', 'pointer leave closes the unpinned tooltip');
+  await send('Emulation.setDeviceMetricsOverride',{width:390,height:1000,deviceScaleFactor:1,mobile:true});
+  await send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});
+  const priceTouch = await pricePoint(priceSelector);
+  await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[priceTouch]});
+  await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  if (!await evaluate(tooltipFits) || !await evaluate(`!document.querySelector('dialog[open]')&&!new URLSearchParams(location.search).has('run')`)) throw Error('Touching the price marker fails to show its alternative or opens a performance');
+  await send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[priceTouch]});
+  await send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  if (!await evaluate(`!document.querySelector('.price-tooltip:popover-open')`)) throw Error('Second touch does not dismiss price conditions');
+  checks.push('touch opens price conditions without navigation at 390px', 'second touch dismisses price conditions');
+  await send('Emulation.setTouchEmulationEnabled',{enabled:false});
+  const pricedUrl = new URL(process.argv[2] || 'http://localhost:8765');pricedUrl.searchParams.set('run',priceSlug);
+  await reload(pricedUrl.href);
+  await evaluate(`document.querySelector('#detail-info .price-warning').focus()`);
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  if (!await evaluate(`document.querySelector('#detail-dialog').open&&!document.querySelector('.price-tooltip:popover-open')`)) throw Error('Escape on price conditions closes the enclosing performance');
+  await evaluate(`document.querySelector('#level-overview').open=true`);
+  const tablePrice = `#level-summary [data-level-run="${priceSlug}"]`;
+  await evaluate(`document.querySelector(${JSON.stringify(tablePrice)}).closest('tr').querySelector('.price-warning').dataset.priceTest='overview'`);
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',...await pricePoint('[data-price-test="overview"]')});
+  if (!await evaluate(tooltipFits)) throw Error('Level-table price tooltip is clipped by the horizontally scrolling overview');
+  checks.push('real Escape keeps the performance open', 'overview price tooltip escapes horizontal clipping');
+  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+  const pricedCompare = new URL(process.argv[2] || 'http://localhost:8765');pricedCompare.searchParams.set('compare',priceSlug+',hy4-high,'+assumptionSlug);
+  await reload(pricedCompare.href);
+  if (!await evaluate(`document.querySelectorAll('.compare-table .price-warning').length===3&&document.querySelectorAll('.compare-table .price-assumption').length===1`)) throw Error('Comparison prices omit their conditions or cache assumption');
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',...await pricePoint('.compare-table .price-warning')});
+  if (!await evaluate(tooltipFits)) throw Error('Comparison price conditions are clipped or missing');
+  await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});
+  if (!await evaluate(`document.querySelector('#compare-dialog').open&&!document.querySelector('.price-tooltip:popover-open')`)) throw Error('Price Escape closes the enclosing comparison');
+  checks.push('comparison prices include time, promotion and cache conditions', 'comparison tooltip is visible in the top layer', 'Escape keeps the comparison open');
+  for(const choice of ['en','zh']) for(const scheme of ['light','dark']) for(const width of [320,390,768,1440]) {
+    await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:scheme}]});
+    await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<600});
+    await send('Emulation.setTouchEmulationEnabled',{enabled:width<600,maxTouchPoints:1});
+    await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
+    const issues=await evaluate(`(${priceLayoutIssues.toString()})()`);
+    if(issues.length) throw Error(`${choice} / ${scheme} comparison price layout at ${width}px: ${JSON.stringify(issues)}`);
+    if(!await evaluate(`document.querySelector('.compare-table .price-assumption').checkVisibility()&&document.querySelector('#compare-dialog').scrollWidth<=document.querySelector('#compare-dialog').clientWidth`)) throw Error('Cache-assumption comparison label is hidden or overflows');
+    checks.push(`${choice} / ${scheme} comparison assumption and price markers fit at ${width}px`);
+  }
+  const assumedDetail = new URL(process.argv[2] || 'http://localhost:8765');assumedDetail.searchParams.set('run',assumptionSlug);
+  await reload(assumedDetail.href);
+  await evaluate(`document.querySelector('#level-overview').open=true`);
+  for(const choice of ['en','zh']) for(const scheme of ['light','dark']) for(const width of [320,390,768,1440]) {
+    await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:scheme}]});
+    await send('Emulation.setDeviceMetricsOverride',{width,height:1000,deviceScaleFactor:1,mobile:width<600});
+    await send('Emulation.setTouchEmulationEnabled',{enabled:width<600,maxTouchPoints:1});
+    await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#level-overview').open=true`);
+    const issues=await evaluate(`(${priceLayoutIssues.toString()})()`);
+    if(issues.length) throw Error(`${choice} / ${scheme} assumption detail layout at ${width}px: ${JSON.stringify(issues)}`);
+    if(!await evaluate(`document.querySelector('#detail-info .price-assumption').checkVisibility()&&document.querySelector('#level-summary .price-assumption').checkVisibility()&&document.querySelector('#detail-dialog').scrollWidth<=document.querySelector('#detail-dialog').clientWidth`)) throw Error('Cache-assumption detail or level table label is hidden or overflows');
+    const accessibility=await send('Accessibility.getFullAXTree');
+    const label=choice==='zh'?'假定隐式缓存':'Assumes implicit cache';
+    if(!accessibility.nodes.some(node=>!node.ignored&&node.name?.value===label)) throw Error('Visible cache assumption is missing from the accessibility tree');
+    checks.push(`${choice} / ${scheme} detail and overview assumptions are accessible and fit at ${width}px`);
+  }
+  await send('Emulation.setTouchEmulationEnabled',{enabled:false});
+  await reload(process.argv[2] || 'http://localhost:8765');
   await evaluate(`document.querySelector('#language').value='auto';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
   await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'zh-CN,zh,en'});
   // A forced iframe navigation in the failure fixture creates child history entries.
@@ -495,15 +750,23 @@ try {
   await reload(process.argv[2] || 'http://localhost:8765');
   if (!await evaluate(`document.documentElement.lang==='zh-CN'&&document.querySelector('#language').value==='auto'&&document.querySelector('#search').placeholder==='搜索模型…'`)) throw new Error('Browser Chinese was not selected automatically');
   checks.push('paused road pixel stability with moving-road positive control', 'real hover playback', 'mouseleave pause', 'automatic browser Chinese');
-  for (const choice of ['zh', 'en']) {
-    await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
-    for (const width of [320,390,768,1024,1440,1920]) {
-      await send('Emulation.setDeviceMetricsOverride', {width, height: 1000, deviceScaleFactor: 1, mobile: width < 600});
-      const okay = await evaluate(`document.documentElement.scrollWidth<=innerWidth&&[...document.querySelectorAll('.card')].every(card=>card.scrollWidth<=card.clientWidth)`);
-      if (!okay) throw new Error(`${choice} layout overflows at ${width}px`);
+  for (const scheme of ['light','dark']) {
+    await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-color-scheme',value:scheme}]});
+    for (const choice of ['zh', 'en']) {
+      await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}))`);
+      for (const width of [320,390,768,1024,1440,1920]) {
+        await send('Emulation.setDeviceMetricsOverride', {width, height: 1000, deviceScaleFactor: 1, mobile: width < 600});
+        const okay = await evaluate(`document.documentElement.scrollWidth<=innerWidth&&[...document.querySelectorAll('.card')].every(card=>card.scrollWidth<=card.clientWidth)`);
+        if (!okay) throw new Error(`${scheme} / ${choice} layout overflows at ${width}px`);
+        const priceIssues=await evaluate(`(${priceLayoutIssues.toString()})()`);
+        if(priceIssues.length) throw Error(`${scheme} / ${choice} price layout at ${width}px: ${JSON.stringify(priceIssues)}`);
+        const assumptionIssues=await evaluate(`(()=>{const issues=[];for(const run of JSON.parse(document.querySelector('#catalog-data').textContent).filter(run=>run.price.estimate_kind==='conditional_assumption')){const button=document.querySelector('[data-card-run="'+run.slug+'"]');button.click();const card=button.closest('.card'),label=card.querySelector('[data-price-label] .price-assumption');if(!label?.checkVisibility()||label.textContent!==run.price.assumption_label['${choice}']||card.scrollWidth>card.clientWidth)issues.push({kind:'assumption-card',slug:run.slug});issues.push(...(${priceLayoutIssues.toString()})())}return issues})()`);
+        if(assumptionIssues.length) throw Error(`${scheme} / ${choice} assumption card layout at ${width}px: ${JSON.stringify(assumptionIssues)}`);
+        checks.push(`${scheme} / ${choice} price markers and metric rows align at ${width}px`);
+      }
     }
   }
-  checks.push('Chinese and English layouts at six widths');
+  checks.push('Chinese and English layouts in both themes at six widths');
   for (const choice of ['zh','en']) for (const width of [320,390,768,1440]) {
     await send('Emulation.setDeviceMetricsOverride', {width,height:1000,deviceScaleFactor:1,mobile:width<600});
     await evaluate(`document.querySelector('#language').value='${choice}';document.querySelector('#language').dispatchEvent(new Event('change',{bubbles:true}));for(const slug of ['gpt-6.1-sol-max','gpt-6.1-sol-xhigh','hy3-high','grok-4.7-xhigh']){const filter=document.querySelector('#reasoning');filter.value=slug.split('-').at(-1);filter.dispatchEvent(new Event('change',{bubbles:true}));const box=document.querySelector('[data-compare="'+slug+'"]');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}))}`);
@@ -541,10 +804,11 @@ try {
   if (!await evaluate(`(async()=>{const start=performance.now();while(!document.querySelector('#detail-preview iframe.loaded')){if(performance.now()-start>5000)throw Error('Touch detail failed');await new Promise(r=>setTimeout(r,30))}return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused())})()`)) throw new Error('Touch detail did not autoplay');
   if (!await evaluate(`!document.querySelector('#detail-dialog [data-motion],#detail-dialog [data-restart]')`)) throw new Error('Touch detail has playback controls');
   checks.push('persisted manual language', 'touch detail autoplay without controls');
+  const waitForMotion = paused => evaluate(`(async()=>{const start=performance.now();while(performance.now()-start<5000){const frame=document.querySelector('#detail-preview iframe'),clocks=[...frame.contentDocument.querySelectorAll('svg')];if(clocks.length&&matchMedia('(prefers-reduced-motion: reduce)').matches===${paused}&&frame.dataset.playing===String(${!paused})&&clocks.every(clock=>clock.animationsPaused()===${paused}))return true;await new Promise(r=>setTimeout(r,30))}return false})()`);
   await send('Emulation.setEmulatedMedia', {features:[{name:'prefers-reduced-motion',value:'reduce'}]});
-  if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,150));return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>clock.animationsPaused())})()`)) throw Error('Reduced-motion preference was ignored');
+  if (!await waitForMotion(true)) throw Error('Reduced-motion preference was ignored');
   await send('Emulation.setEmulatedMedia', {features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
-  if (!await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,150));return [...document.querySelector('#detail-preview iframe').contentDocument.querySelectorAll('svg')].every(clock=>!clock.animationsPaused())})()`)) throw Error('Detail did not resume when reduced motion was disabled');
+  if (!await waitForMotion(false)) throw Error('Detail did not resume when reduced motion was disabled');
   checks.push('autoplay respects reduced-motion preference changes');
   await reload(process.argv[2] || 'http://localhost:8765');
   await evaluate(`(()=>{const c=[...document.querySelectorAll('.card')].find(c=>JSON.parse(c.dataset.model)[1]==='GPT-6.1 Sol');c.querySelector('[data-compare-model]').click()})()`);
@@ -647,6 +911,7 @@ try {
     await writeFile(join(process.env.UI_SCREENSHOT_DIR,'levels-mobile.png'),Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
   }
   console.log(`PASS · real Chrome · ${checks.length} interaction / locale / hover / layout checks`);
+  }
 } finally {
   socket?.close();
   if (browser.exitCode === null && !launchError) {

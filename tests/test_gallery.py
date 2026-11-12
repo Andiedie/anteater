@@ -18,7 +18,7 @@ def check():
         try:
             gallery.ROOT = Path(temp)
             (gallery.ROOT / 'src').mkdir()
-            assets = ('styles.css', 'gallery.js', 'i18n.js', 'failure.js')
+            assets = ('styles.css', 'gallery.js', 'i18n.js', 'failure.js', 'price-hints.js')
             for filename in assets:
                 (gallery.ROOT / 'src' / filename).write_text('first version')
             page = ' '.join(f'"./{filename}"' for filename in assets)
@@ -27,6 +27,16 @@ def check():
             (gallery.ROOT / 'src/styles.css').write_text('new theme rules')
             after = gallery.version_assets(page)
             assert after != before and after.split()[1:] == before.split()[1:]
+            for entry in ('gallery.js', 'failure.js'):
+                (gallery.ROOT / 'src' / entry).write_text('import {installPriceHints} from "./price-hints.js";')
+            before_dependency = gallery.version_assets(page)
+            (gallery.ROOT / 'src/price-hints.js').write_text('updated price hint behavior')
+            after_dependency = gallery.version_assets(page)
+            for entry in ('gallery.js', 'failure.js'):
+                index = assets.index(entry)
+                assert after_dependency.split()[index] != before_dependency.split()[index], f'A cached {entry} must not pin the previous price-hint module'
+                generated = gallery.version_assets((gallery.ROOT / 'src' / entry).read_text()).encode()
+                assert f'./{entry}?v={gallery.digest(generated)[:12]}"' in after_dependency, 'Entry URLs must hash their generated dependency imports'
         finally:
             gallery.ROOT = root
 
@@ -213,7 +223,10 @@ def check():
             original = gallery.CONTENT
             try:
                 gallery.CONTENT = Path(directory)
-                shutil.copytree(original / catalog[0]["slug"], gallery.CONTENT / catalog[0]["slug"])
+                # This fixture tests ignored pending folders, so copy a self-contained artwork.
+                # The newest record may be an incomplete case with a required related_slug.
+                fixture = next(run for run in catalog if run.get('outcome') != 'no_artwork')
+                shutil.copytree(original / fixture['slug'], gallery.CONTENT / fixture['slug'])
                 (gallery.CONTENT / "pending").mkdir()
                 (gallery.CONTENT / "pending/.DS_Store").touch()
                 assert len(gallery.load_catalog()) == 1
@@ -355,18 +368,18 @@ def check():
             assert run['price']['basis'] in ('official', 'unknown')
             assert run['price']['amount_usd'] is None or run['price']['amount_usd'] >= 0
             if run['price']['amount_usd'] is not None:
-                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-11-05'
+                assert run['price']['basis'] == 'official' and run['price']['checked_at'] == '2026-11-11'
         assert 'i18n.js' in page and 'id="language"' in page
         assert 'motion-toggle' not in page and 'Play all animations' not in page
         assert all(control not in page for control in ('data-motion', 'data-restart', 'preview-controls'))
         assert 'preview-action' not in page and 'View performance' not in page
         assert 'id="follow-up"' not in page and 'name="followup"' not in page
         for filename in ('styles.css', 'i18n.js', 'gallery.js'):
-            assert f'./{filename}?v={gallery.digest((gallery.ROOT / "src" / filename).read_bytes())[:12]}"' in page
+            assert f'./{filename}?v={gallery.digest((gallery.ROOT / "dist" / filename).read_bytes())[:12]}"' in page
         for failure in failures:
             case_page = (gallery.ROOT / 'dist/cases' / failure['slug'] / 'index.html').read_text()
             for filename in ('styles.css', 'i18n.js', 'failure.js'):
-                assert f'./{filename}?v={gallery.digest((gallery.ROOT / "src" / filename).read_bytes())[:12]}"' in case_page
+                assert f'./{filename}?v={gallery.digest((gallery.ROOT / "dist" / filename).read_bytes())[:12]}"' in case_page
         assert 'value="relevance"' in page
         fuse = gallery.ROOT / 'src/assets/fuse/fuse.min.mjs'
         assert gallery.digest(fuse.read_bytes()) == '5ab524d12492bb233568e9600046e1aaa9623d36ebe689589144f7dc9b1da6f7'

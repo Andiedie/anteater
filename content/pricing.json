@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-05",
+  "as_of": "2026-11-11",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -61,7 +61,29 @@
       "rate_note": {
         "en": "Standard global rates, prompts ≤272K. Sol 5.6 promotional rates apply until November 30, 2026.",
         "zh": "标准全球价格，单次输入不超过 272K；5.6 Sol 优惠持续至 2026-11-30。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Promotional price",
+            "zh": "优惠价"
+          },
+          "description": {
+            "en": "Promotional rates through November 30, 2026. The reviewed official sources do not publish the later rate.",
+            "zh": "优惠价截至 2026-11-30；本次已核验官方来源未公布优惠结束后的单价。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "After the promotion",
+                "zh": "优惠结束后"
+              },
+              "rates_per_million": null
+            }
+          ]
+        }
+      ]
     },
     "gpt-6-luna": {
       "vendor": "OpenAI",
@@ -247,7 +269,7 @@
       "vendor": "Google",
       "source_kind": "official",
       "source": "Google",
-      "source_url": "https://ai.google.dev/gemini-api/docs/pricing?authuser=6",
+      "source_url": "https://aistudio.google.com/docs/pricing",
       "aliases": [
         "gemini-3.8-flash-high"
       ],
@@ -261,13 +283,41 @@
       "rate_note": {
         "en": "Standard introductory rates through December 31, 2026; cache storage is excluded.",
         "zh": "标准发布优惠价截至 2026-12-31；不含缓存存储费。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Introductory price",
+            "zh": "首发优惠价"
+          },
+          "description": {
+            "en": "This estimate uses Standard introductory token rates through 2026-12-31; the alternative reprices the same usage at the announced later rates.",
+            "zh": "本次估算采用截至 2026-12-31 的标准首发优惠费率；另一金额按已公布的后续费率重算同一用量。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "From 2027-01-01",
+                "zh": "2027-01-01 起"
+              },
+              "rates_per_million": {
+                "cacheWrite": null,
+                "reasoning": null,
+                "input": 1.5,
+                "output": 7.5,
+                "cacheRead": 0.15
+              }
+            }
+          ]
+        }
+      ]
     },
     "gemini-4-argon": {
       "vendor": "Google",
       "source_kind": "official",
       "source": "Google",
-      "source_url": "https://ai.google.dev/gemini-api/docs/latest-model#pricing",
+      "source_url": "https://aistudio.google.com/docs/pricing",
       "aliases": [],
       "rates_per_million": {
         "input": 2,
@@ -279,7 +329,35 @@
       "rate_note": {
         "en": "Standard introductory rates through November 30, 2026. Output includes thinking.",
         "zh": "标准发布优惠价截至 2026-11-30；输出包含思考 token。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Introductory price",
+            "zh": "首发优惠价"
+          },
+          "description": {
+            "en": "This estimate uses Standard introductory token rates through 2026-11-30; the alternative reprices the same usage at the announced later rates.",
+            "zh": "本次估算采用截至 2026-11-30 的标准首发优惠费率；另一金额按已公布的后续费率重算同一用量。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "From 2026-12-01",
+                "zh": "2026-12-01 起"
+              },
+              "rates_per_million": {
+                "cacheWrite": null,
+                "reasoning": null,
+                "input": 4.0,
+                "output": 20.0,
+                "cacheRead": 0.2
+              }
+            }
+          ]
+        }
+      ]
     },
     "grok-4.6": {
       "vendor": "xAI",
@@ -371,7 +449,35 @@
       "rate_note": {
         "en": "Current Flash API off-peak rates; the entire recorded run must fall outside weekday UTC 01:00–04:00 / 06:00–10:00.",
         "zh": "当前 Flash API 谷时价；仅在整段记录均不涉及工作日 UTC 01:00–04:00 / 06:00–10:00 时使用。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "off_peak",
+          "label": {
+            "en": "Off-peak price",
+            "zh": "谷时价"
+          },
+          "description": {
+            "en": "The recorded interval is entirely off-peak. Peak hours are weekdays UTC 01:00–04:00 and 06:00–10:00, excluding Chinese public holidays. The alternative applies peak rates to the same usage.",
+            "zh": "本次记录区间均属谷时。峰时为工作日 UTC 01:00–04:00、06:00–10:00，中国公共假日除外；另一金额按峰时费率重算同一用量。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "At peak-hour rates",
+                "zh": "按峰时价"
+              },
+              "rates_per_million": {
+                "input": 0.3,
+                "output": 1.2,
+                "cacheRead": 0.006,
+                "cacheWrite": null,
+                "reasoning": null
+              }
+            }
+          ]
+        }
+      ]
     },
     "deepseek-v4-flash": {
       "vendor": "DeepSeek",
@@ -390,7 +496,57 @@
       "rate_note": {
         "en": "The recorded 0731 model is retired. Its former ID now routes to 1017; do not substitute that model’s price.",
         "zh": "记录中的 0731 版本已退役，旧 ID 现路由至 1017；不冒用新版本价格。"
-      }
+      },
+      "historical_rates": [
+        {
+          "valid_from": "2026-08-17",
+          "valid_until": "2026-09-08",
+          "source_kind": "official",
+          "source": "DeepSeek · DeepSeek-V4-Flash-0731 historical USD tariff",
+          "source_url": "https://web.archive.org/web/20260829155750id_/https://api-docs.deepseek.com/quick_start/pricing/?article_id=article_1779470751466_8",
+          "rates_per_million": {
+            "input": 0.22,
+            "output": 0.66,
+            "cacheRead": 0.007,
+            "cacheWrite": null,
+            "reasoning": null
+          },
+          "off_peak_only": true,
+          "off_peak_weekdays_only": false,
+          "rate_note": {
+            "en": "Historical V4-Flash-0731 USD rates, effective 2026-08-16 16:00 UTC. Coverage uses complete UTC days and excludes the September 10 replacement date and its preceding day because the exact switch time is unpublished. Early sources list daily peak windows; the August 29 archive says weekdays. Only intervals outside both rules are admitted. Independent cache-write pricing is unknown.",
+            "zh": "V4-Flash-0731 历史美元费率于 2026-08-16 16:00 UTC 生效；仅覆盖完整 UTC 日期。9 月 10 日替换的精确时刻未公布，保守排除替换日及前一日。早期来源列每日峰时，8 月 29 日存档改列工作日；仅接纳两种规则均为谷时的区间。独立缓存写入价未知。"
+          },
+          "conditions": [
+            {
+              "kind": "off_peak",
+              "label": {
+                "en": "Historical off-peak price",
+                "zh": "历史谷时价"
+              },
+              "description": {
+                "en": "The entire run is outside daily UTC 01:00–04:00 / 06:00–10:00, satisfying both the early daily and later weekday rules. The alternative uses the same recorded usage at the published historical peak rates.",
+                "zh": "整段运行均避开每日 UTC 01:00–04:00 / 06:00–10:00，同时满足早期每日和后来工作日规则；替代金额按同一记录用量及已公布的历史峰时费率重算。"
+              },
+              "alternatives": [
+                {
+                  "label": {
+                    "en": "Historical peak rates",
+                    "zh": "历史峰时费率"
+                  },
+                  "rates_per_million": {
+                    "input": 0.44,
+                    "output": 1.32,
+                    "cacheRead": 0.014,
+                    "cacheWrite": null,
+                    "reasoning": null
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     "mimo-v2.6-pro": {
       "vendor": "Xiaomi",
@@ -410,7 +566,32 @@
       "rate_note": {
         "en": "Overseas real-time API rates.",
         "zh": "海外实时 API 价格。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Cache writes temporarily free",
+            "zh": "缓存写入限时免费"
+          },
+          "description": {
+            "en": "This record includes cache writes currently priced at zero. The reviewed official source does not publish an end date or a later write price.",
+            "zh": "本条记录包含按当前限时免费条件计价的缓存写入；已核验官方来源未公布截止日期或恢复收费后的写入单价。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "After free cache writes end",
+                "zh": "写入免费结束后"
+              },
+              "rates_per_million": null
+            }
+          ],
+          "applies_to": [
+            "cacheWrite"
+          ]
+        }
+      ]
     },
     "mimo-v2.6-flash": {
       "vendor": "Xiaomi",
@@ -430,7 +611,32 @@
       "rate_note": {
         "en": "Overseas real-time API rates.",
         "zh": "海外实时 API 价格。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Cache writes temporarily free",
+            "zh": "缓存写入限时免费"
+          },
+          "description": {
+            "en": "This record includes cache writes currently priced at zero. The reviewed official source does not publish an end date or a later write price.",
+            "zh": "本条记录包含按当前限时免费条件计价的缓存写入；已核验官方来源未公布截止日期或恢复收费后的写入单价。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "After free cache writes end",
+                "zh": "写入免费结束后"
+              },
+              "rates_per_million": null
+            }
+          ],
+          "applies_to": [
+            "cacheWrite"
+          ]
+        }
+      ]
     },
     "mimo-v2.5-pro": {
       "vendor": "Xiaomi",
@@ -451,7 +657,27 @@
       "rate_note": {
         "en": "Retired October 21, 2026; no current first-party quote.",
         "zh": "已于 2026-10-21 退役，没有当前官方报价。"
-      }
+      },
+      "historical_rates": [
+        {
+          "valid_from": "2026-05-28",
+          "valid_until": "2026-10-13",
+          "source_kind": "official",
+          "source": "Xiaomi · MiMo-V2.5-Pro historical USD tariff",
+          "source_url": "https://mimo.mi.com/docs/en-US/news/latest/v2.5-price-update",
+          "rates_per_million": {
+            "input": 0.435,
+            "output": 0.87,
+            "cacheRead": 0.0036,
+            "cacheWrite": null,
+            "reasoning": null
+          },
+          "rate_note": {
+            "en": "Permanent historical USD API reduction, with no input-length tiers. The announcement gives 2026-05-27 00:00 UTC+8; its USD image gives May 26 18:00 PDT. Replacement is listed as October 14 10:00 UTC+8 in the table and 18:00 in the note. Coverage includes only full UTC days shared by both readings, ending before replacement rather than ID retirement on October 21. Historical cache-write pricing remains unknown; V2.6 free writes are not applied.",
+            "zh": "历史美元 API 永久降价，不再按输入长度分档。公告生效时间为 2026-05-27 00:00 UTC+8，美元图为 5 月 26 日 18:00 PDT；替换表列 10 月 14 日 10:00 UTC+8，注释列 18:00。仅覆盖两种解释共同支持的完整 UTC 日期，在系统替换前结束，不延至 10 月 21 日 ID 退役。历史缓存写入价仍未知，不套用 V2.6 免费写入。"
+          }
+        }
+      ]
     },
     "mimo-v2.5": {
       "vendor": "Xiaomi",
@@ -472,7 +698,27 @@
       "rate_note": {
         "en": "Retired October 21, 2026; no current first-party quote.",
         "zh": "已于 2026-10-21 退役，没有当前官方报价。"
-      }
+      },
+      "historical_rates": [
+        {
+          "valid_from": "2026-05-28",
+          "valid_until": "2026-10-13",
+          "source_kind": "official",
+          "source": "Xiaomi · MiMo-V2.5 historical USD tariff",
+          "source_url": "https://mimo.mi.com/docs/en-US/news/latest/v2.5-price-update",
+          "rates_per_million": {
+            "input": 0.14,
+            "output": 0.28,
+            "cacheRead": 0.0028,
+            "cacheWrite": null,
+            "reasoning": null
+          },
+          "rate_note": {
+            "en": "Permanent historical USD API reduction, with no input-length tiers. The announcement gives 2026-05-27 00:00 UTC+8; its USD image gives May 26 18:00 PDT. Replacement is listed as October 14 10:00 UTC+8 in the table and 18:00 in the note. Coverage includes only full UTC days shared by both readings, ending before replacement rather than ID retirement on October 21. Historical cache-write pricing remains unknown; V2.6 free writes are not applied.",
+            "zh": "历史美元 API 永久降价，不再按输入长度分档。公告生效时间为 2026-05-27 00:00 UTC+8，美元图为 5 月 26 日 18:00 PDT；替换表列 10 月 14 日 10:00 UTC+8，注释列 18:00。仅覆盖两种解释共同支持的完整 UTC 日期，在系统替换前结束，不延至 10 月 21 日 ID 退役。历史缓存写入价仍未知，不套用 V2.6 免费写入。"
+          }
+        }
+      ]
     },
     "hy3": {
       "vendor": "Tencent",
@@ -512,7 +758,35 @@
       "rate_note": {
         "en": "Singapore API rates in USD, including the public 50% discount through 2026-12-31 23:59:59 Beijing time. Output includes reasoning; no separate cache-write rate is published. Not the Preview tariff.",
         "zh": "新加坡 API 美元价格，已包含截至北京时间 2026-12-31 23:59:59 的公开五折优惠。输出已含思考，未公布独立缓存写入价；不适用于 Preview。"
-      }
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Public 50% discount",
+            "zh": "公开五折优惠"
+          },
+          "description": {
+            "en": "50% of the Singapore list price through 2026-12-31 23:59:59 Beijing time; the alternative uses the undiscounted list price.",
+            "zh": "截至北京时间 2026-12-31 23:59:59 按新加坡刊例价五折；另一金额按未打折刊例价计算。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "Without the discount",
+                "zh": "按原刊例价"
+              },
+              "rates_per_million": {
+                "input": 0.834,
+                "output": 2.501,
+                "cacheRead": 0.042,
+                "cacheWrite": null,
+                "reasoning": null
+              }
+            }
+          ]
+        }
+      ]
     },
     "hy4-preview": {
       "vendor": "Tencent",
@@ -538,7 +812,7 @@
       "vendor": "Alibaba",
       "source_kind": "official",
       "source": "Alibaba",
-      "source_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+      "source_url": "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-max",
       "aliases": [
         "qwen/qwen3.8-max-0902"
       ],
@@ -550,15 +824,33 @@
         "reasoning": null
       },
       "rate_note": {
-        "en": "Singapore international rates. Cached usage remains unresolved: Max requires console pricing; 27B needs the explicit/implicit cache type.",
-        "zh": "新加坡国际价格；缓存命中价格尚无法确认：Max 需控制台报价，27B 需明确显式或隐式缓存类型。"
+        "en": "Singapore International manufacturer list rates for this exact model. Cache rates require a source-bound, explicitly labelled assumption; historical cache mode remains unverified.",
+        "zh": "此精确型号的新加坡 International 原厂刊例价。缓存单价须由来源绑定并明确标注的假设选取；历史缓存模式仍未核实。"
+      },
+      "region": "Singapore",
+      "deployment_scope": "International",
+      "cache_rate_options": {
+        "implicit": {
+          "input": "2",
+          "output": "6",
+          "cacheRead": "0.25",
+          "cacheWrite": null,
+          "reasoning": null
+        },
+        "explicit": {
+          "input": "2",
+          "output": "6",
+          "cacheRead": "0.17",
+          "cacheWrite": "2.5",
+          "reasoning": null
+        }
       }
     },
     "qwen3.8-27b": {
       "vendor": "Alibaba",
       "source_kind": "official",
       "source": "Alibaba",
-      "source_url": "https://www.alibabacloud.com/help/en/model-studio/model-pricing",
+      "source_url": "https://www.alibabacloud.com/help/en/model-studio/qwen3-8-27b",
       "aliases": [
         "qwen/qwen3.8-27b"
       ],
@@ -570,8 +862,26 @@
         "reasoning": null
       },
       "rate_note": {
-        "en": "Singapore international rates. Cached usage remains unresolved: Max requires console pricing; 27B needs the explicit/implicit cache type.",
-        "zh": "新加坡国际价格；缓存命中价格尚无法确认：Max 需控制台报价，27B 需明确显式或隐式缓存类型。"
+        "en": "Singapore International manufacturer list rates for this exact model. Cache rates require a source-bound, explicitly labelled assumption; historical cache mode remains unverified.",
+        "zh": "此精确型号的新加坡 International 原厂刊例价。缓存单价须由来源绑定并明确标注的假设选取；历史缓存模式仍未核实。"
+      },
+      "region": "Singapore",
+      "deployment_scope": "International",
+      "cache_rate_options": {
+        "implicit": {
+          "input": "0.5",
+          "output": "3",
+          "cacheRead": "0.1",
+          "cacheWrite": null,
+          "reasoning": null
+        },
+        "explicit": {
+          "input": "0.5",
+          "output": "3",
+          "cacheRead": "0.05",
+          "cacheWrite": "0.625",
+          "reasoning": null
+        }
       }
     },
     "muse-spark-1.3": {
@@ -673,9 +983,426 @@
         "en": "Standard API rates, prompts ≤512K; the permanent price reduction is already included.",
         "zh": "标准 API 价格，单次输入不超过 512K；已采用永久降价后的公示单价。"
       }
+    },
+    "claude-fable-5-2": {
+      "vendor": "Anthropic",
+      "source_kind": "official",
+      "source": "Anthropic",
+      "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "aliases": [
+        "remote/v-api/claude-fable-5-2"
+      ],
+      "rates_per_million": {
+        "input": 8.0,
+        "output": 40.0,
+        "cacheRead": 0.2,
+        "cacheWrite": 10.0,
+        "reasoning": null
+      },
+      "cache_write_ttl_seconds": 300,
+      "input_threshold": null,
+      "rate_note": {
+        "en": "Standard global rates; cache-write quote is for 5 minutes. Output includes reasoning.",
+        "zh": "标准全球价格，缓存写入单价对应 5 分钟；输出包含思考。"
+      }
+    },
+    "gemini-4-carbon": {
+      "vendor": "Google",
+      "source_kind": "official",
+      "source": "Google",
+      "source_url": "https://aistudio.google.com/docs/pricing",
+      "aliases": [
+        "openrouter/google/gemini-4-carbon"
+      ],
+      "rates_per_million": {
+        "cacheWrite": null,
+        "reasoning": null,
+        "input": 2.0,
+        "output": 10.0,
+        "cacheRead": 0.1
+      },
+      "rate_note": {
+        "en": "Standard introductory rates through November 30, 2026. Output includes thinking; implicit caching only.",
+        "zh": "标准首发优惠价截至 2026-11-30；输出包含思考，仅支持隐式缓存。"
+      },
+      "conditions": [
+        {
+          "kind": "promotion",
+          "label": {
+            "en": "Introductory price",
+            "zh": "首发优惠价"
+          },
+          "description": {
+            "en": "This estimate uses Standard introductory token rates through 2026-11-30; the alternative reprices the same usage at the announced later rates.",
+            "zh": "本次估算采用截至 2026-11-30 的标准首发优惠费率；另一金额按已公布的后续费率重算同一用量。"
+          },
+          "alternatives": [
+            {
+              "label": {
+                "en": "From 2026-12-01",
+                "zh": "2026-12-01 起"
+              },
+              "rates_per_million": {
+                "cacheWrite": null,
+                "reasoning": null,
+                "input": 4.0,
+                "output": 20.0,
+                "cacheRead": 0.2
+              }
+            }
+          ]
+        }
+      ]
     }
   },
   "runs": {
+    "qwen3.8-27b-low": {
+      "source": {
+        "gist_id": "1baeb0c85119cd90b29b4a5bfdafb8b8",
+        "gist_revision": "8b5963be42caee0819c13a87260d67ad7ebdc99f",
+        "session_id": "01a0f87b-469b-7071-abe1-8d72443c67be",
+        "artwork_sha256": "fd47b32f09e0521e78f1d207d3ac48a163a6176df68fdb05916f77d974137c9b"
+      },
+      "model_id": "qwen3.8-27b",
+      "reviewed_tokens": {
+        "input": 11818,
+        "output": 9104,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "cache_rates_unused": true
+    },
+    "qwen3.8-27b-medium": {
+      "source": {
+        "gist_id": "bdb2a5e9988089a56caed267366ade8e",
+        "gist_revision": "07cfca8f42214e83b8e0c61308d46dda61ba8096",
+        "session_id": "01a0f87d-fc95-7167-ad56-7ddffec215a3",
+        "artwork_sha256": "384399018978b86adafc8e85410da0abf55b25375b242e984cab4d722fb6d0e7"
+      },
+      "model_id": "qwen3.8-27b",
+      "reviewed_tokens": {
+        "input": 6264,
+        "output": 3555,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "cache_rates_unused": true
+    },
+    "qwen3.8-27b-xhigh": {
+      "source": {
+        "gist_id": "79a0bea0b9dd73d09addf13cc3ecabee",
+        "gist_revision": "29963058ee7ffcd2e1ebc74140f189393ebbe39e",
+        "session_id": "01a0f87f-22bb-7735-9be6-aa033bb4f635",
+        "artwork_sha256": "8932da525f7dd07e2d5538c39cebc22d22c2a474290a998e2cbe1f587278ee13"
+      },
+      "model_id": "qwen3.8-27b",
+      "reviewed_tokens": {
+        "input": 58683,
+        "output": 55953,
+        "cacheRead": 0,
+        "cacheWrite": 0
+      },
+      "cache_rates_unused": true
+    },
+    "qwen3.8-max-0902-high": {
+      "source": {
+        "gist_id": "2a62bf005f4c8a245dffc621d6b7d297",
+        "gist_revision": "5c2b80029c6d583d98210fc5ff3e327a09cb5b2d",
+        "session_id": "01a0fa68-1b0b-7389-86ae-92df59774e3e",
+        "artwork_sha256": "a2809a9dac398d7d49b08ccfe272ab84fc8846cd34ab32d2e67057cea24960c9"
+      },
+      "model_id": "qwen3.8-max-0902",
+      "reviewed_tokens": {
+        "input": 111931,
+        "output": 89739,
+        "cacheRead": 703744,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "qwen3.8-27b-off": {
+      "source": {
+        "gist_id": "95b07dd2b398da3f6faccd9bf0520a2b",
+        "gist_revision": "639352cfa031d0a9d2c2f50f9ee68e1df45f578d",
+        "session_id": "01a0f879-63e8-75f1-b6ad-4fa8177edb9d",
+        "artwork_sha256": "6518a05a6219311e21c661eef52d004792123691e33a2005364af172ba64ce79"
+      },
+      "model_id": "qwen3.8-27b",
+      "reviewed_tokens": {
+        "input": 15497,
+        "output": 6993,
+        "cacheRead": 6656,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "qwen3.8-max-0902-xhigh": {
+      "source": {
+        "gist_id": "f656526cafff4d0d2a17f26fc543e765",
+        "gist_revision": "5019c22818123c429025a7202973feadb80906c6",
+        "session_id": "01a0f864-397c-736e-8ee5-35d05bb79c0c",
+        "artwork_sha256": "62b24f96867b0563047999dec8ed46e7ea4d1897ca3b023754df0c0ac54fb794"
+      },
+      "model_id": "qwen3.8-max-0902",
+      "reviewed_tokens": {
+        "input": 78088,
+        "output": 57501,
+        "cacheRead": 503808,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "qwen3.8-max-0902-medium": {
+      "source": {
+        "gist_id": "81fdc626a2bb0e1752216f16a11d78ee",
+        "gist_revision": "88c0c3f389e0e51072287f6abafbab588b6bb667",
+        "session_id": "01a0f846-dc5a-74c4-8134-d52bca642cb1",
+        "artwork_sha256": "2faab7d6fc153b864781666b344d7f6fd98a05cb2c8cc6d348b8c000d58d7a4f"
+      },
+      "model_id": "qwen3.8-max-0902",
+      "reviewed_tokens": {
+        "input": 7416,
+        "output": 5838,
+        "cacheRead": 7552,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "qwen3.8-max-0902-low": {
+      "source": {
+        "gist_id": "0e54f71c0a5c9855bac57adc923da69a",
+        "gist_revision": "b21b884c2ae3a2b9aabced157b8308210e7f3766",
+        "session_id": "01a0f845-aa33-7029-bde8-8ed78bcc3111",
+        "artwork_sha256": "db9fb60ea9708d34232438510dc7fbc211907a4dc345f40189cded854667ea3f"
+      },
+      "model_id": "qwen3.8-max-0902",
+      "reviewed_tokens": {
+        "input": 4090,
+        "output": 3407,
+        "cacheRead": 2048,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "qwen3.8-max-0902-minimal": {
+      "source": {
+        "gist_id": "58e7fe6bb5c6f21aa491b6988cf8d617",
+        "gist_revision": "4ed04ead6a455e624306649c55ead57654a303f2",
+        "session_id": "01a0f844-3cee-7406-b406-76f09c3b5356",
+        "artwork_sha256": "763e275237d442612f500cceaf42a077461926072893830c62acf7d83ed829ff"
+      },
+      "model_id": "qwen3.8-max-0902",
+      "reviewed_tokens": {
+        "input": 5814,
+        "output": 4089,
+        "cacheRead": 1024,
+        "cacheWrite": 0
+      },
+      "historical_cache_mode": null,
+      "estimate_assumptions": {
+        "cache_mode": "implicit"
+      },
+      "assumption_label": {
+        "en": "Assumes implicit cache",
+        "zh": "假定隐式缓存"
+      },
+      "condition": {
+        "kind": "cache_mode_assumption",
+        "label": {
+          "zh": "缓存模式假设",
+          "en": "Cache mode assumption"
+        },
+        "description": {
+          "en": "Estimated at Singapore International manufacturer rates, assuming all recorded cache reads use implicit caching. Historical cache mode is unverified. Writes are calculated as the recorded zero; original creation usage is not independently verified. The explicit alternative reprices the same recorded usage; these scenarios do not bound the actual invoice.",
+          "zh": "按新加坡 International 原厂价，并假定记录的缓存读取全部按隐式缓存计费。历史缓存模式未核实；写入按原记录 0 计算，原始创建量未独立证明。显式替代项仅对同一记录用量换价；替代情景不构成实际账单区间。"
+        },
+        "alternatives": [
+          {
+            "id": "explicit_same_recorded_usage",
+            "cache_mode": "explicit",
+            "label": {
+              "zh": "若按显式缓存（同一记录用量）",
+              "en": "Explicit caching, same recorded usage"
+            }
+          }
+        ]
+      }
+    },
+    "mimo-v2.5-pro-off": {
+      "source": {
+        "gist_id": "b484e9d0aa799e6924b613a3d84e1635",
+        "gist_revision": "66bb98819f8b4b8c04d439ee56c7203e50b95213",
+        "session_id": "01a0f841-07ac-7191-a097-715966bc13c2"
+      }
+    },
+    "mimo-v2.5-off": {
+      "source": {
+        "gist_id": "5e94e4de3616ac5f72be6b3e4763ae76",
+        "gist_revision": "4c9bd7fac7dda99442f850ca9e111d06b6fda887",
+        "session_id": "01a0f83d-61c7-75d3-a025-4efdf1833731"
+      }
+    },
+    "mimo-v2.5-pro-high": {
+      "source": {
+        "gist_id": "cc082ba8fdc8f5f1b9b1c92f8542ae16",
+        "gist_revision": "392d21cbf9646dbe422eca8cd89da021a2e01765",
+        "session_id": "01a0ce85-75c1-72e3-a337-53eb93a86b32"
+      }
+    },
+    "mimo-v2.5-high": {
+      "source": {
+        "gist_id": "2d5763aae707c6fa61c5eb2f91945bc3",
+        "gist_revision": "fa7d7386e61fc01b24ec5502c56fbb2c80e6de30",
+        "session_id": "01a0ce84-11e7-74c5-b979-ff186a88a33d"
+      }
+    },
+    "deepseek-v4-flash-0731-max": {
+      "source": {
+        "gist_id": "22d8f2a1b9a4affba61e7ab27498d6e7",
+        "gist_revision": "bc81ed48dadb91a915bbb9db31d428aa3101629a",
+        "session_id": "01a04db8-0635-72cc-8239-9230af7c3513"
+      }
+    },
     "claude-haiku-5-5-high": {
       "source": {
         "session_sha256": "8667159bcd9fba7550cd6a027bd8d347be08b3c33d4848405ac84319a35e1e8c"
@@ -726,6 +1453,62 @@
         "cacheWrite": 1094,
         "reasoning": 32000,
         "totalTokens": 34095
+      }
+    },
+    "claude-fable-5.2-low": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "593b6c227075e7c6ee7cc35a37adf7858f63a0f5e0669bcbeffc510737947dd5",
+        "export_sha256": "df7ac40adcd9057346087de1756271fa880ac06fcadff8879d135419bcc70b49"
+      },
+      "cache_write_ttl_seconds": 300
+    },
+    "claude-fable-5.2-medium": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "fd8d83003f764479c7012724440037ca09173a5f12c104ccac84d3edf0c94025",
+        "export_sha256": "c5913cecfc7662390a5681ab65cecfebb3bd940bdbf3999194842baeb391ddcc"
+      },
+      "cache_write_ttl_seconds": 300
+    },
+    "claude-fable-5.2-high": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "3416b65623ee33022d82de95cd23d1299ccd378f6b60f10937be850cd3fa6e18",
+        "export_sha256": "297970a809968a43806dcc77aea7570d8c37b7b6649b1d9ff056fb84ccae969e"
+      },
+      "cache_write_ttl_seconds": 300
+    },
+    "claude-fable-5.2-xhigh": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "f2548ccb2487fbb49c72e763d317464e5618dc43bec9d6220704fa1375387dec",
+        "export_sha256": "9f1eaa226e70799e14cbebe4e0b0bee4ef9e00428a7086624a6edf2f9a16f979"
+      },
+      "cache_write_ttl_seconds": 300,
+      "tokens": {
+        "input": 4,
+        "output": 64000,
+        "cacheRead": 0,
+        "cacheWrite": 1949,
+        "reasoning": 64000,
+        "totalTokens": 65953
+      }
+    },
+    "claude-fable-5.2-max": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "2fb2ad22a718ddb822411e5710ae39a40ab07c29ed313a712ff8ca4f055ca3e2",
+        "export_sha256": "e0622a6e2fd14e971e6c928a5d7d545f06b4bfb4a2bce082b95ee723c812d5e3"
+      },
+      "cache_write_ttl_seconds": 300,
+      "tokens": {
+        "input": 3500,
+        "output": 64000,
+        "cacheRead": 0,
+        "cacheWrite": 6453,
+        "reasoning": 64000,
+        "totalTokens": 73953
       }
     }
   }
