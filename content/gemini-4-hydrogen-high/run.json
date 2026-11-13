@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-hydrogen-high",
+  "name": "Gemini 4 Hydrogen",
+  "vendor": "Google",
+  "date": "2026-11-13T11:46:34.332Z",
+  "model_ids": [
+    "openrouter/google/gemini-4-hydrogen"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 185.637,
+    "request_seconds": 184.976,
+    "average_tps": 143.29,
+    "tool_calls": 4,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 2,
+      "write": 1
+    },
+    "assistant_turns": 5,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 41987,
+      "output": 26505,
+      "cacheRead": 87546,
+      "cacheWrite": 0,
+      "reasoning": 11350,
+      "totalTokens": 156038
+    },
+    "recorded_cost_usd": 0.26833395,
+    "cost_usd": 0.26833395
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-hydrogen-high.html",
+    "snapshot_url": "./sessions/gemini-4-hydrogen-high.json",
+    "session_sha256": "2152d792144aa4b8ad4539ab975b78b8f2092745bcfdb1da0f4851dbff74f600",
+    "export_sha256": "c4209c91acf4e80c96c823f763a7cf8f3a4bcf18b55174b716f0ece14840aceb",
+    "session_id": "01a1d4bb-1ac7-706b-992f-826ba8ce6012",
+    "imported_at": "2026-11-13T11:49:40.922212+00:00",
+    "artwork_sha256": "9e0f73e085cd000914beb9a925abbf72f851e79612a6b9cb4043e3e81c20663d"
+  },
+  "response_model_ids": [
+    "openrouter/google/gemini-4-hydrogen"
+  ]
+}

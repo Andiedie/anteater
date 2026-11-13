@@ -189,7 +189,7 @@ class CacheAssumptionTests(unittest.TestCase):
         self.assertNotIn('/Users/', json.dumps(result))
 
     def test_snapshot_keeps_base_cache_rates_unknown_and_only_six_bound_reviews(self):
-        self.assertEqual(self.snapshot['as_of'], '2026-11-11')
+        self.assertEqual(self.snapshot['as_of'], '2026-11-13')
         reviewed = {slug for slug, review in self.snapshot['runs'].items() if 'estimate_assumptions' in review}
         self.assertEqual(reviewed, set(EXPECTED))
         for model_id in ('qwen3.8-max-0902', 'qwen3.8-27b'):

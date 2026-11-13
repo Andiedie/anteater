@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-11'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-13'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -150,6 +150,34 @@ def check():
         candidate = deepcopy(recorded)
         candidate['source']['session_sha256'] = 'changed'
         assert pricing.display_price(candidate, actual)['reason'] == 'source_changed'
+    hydrogen = actual['models']['gemini-4-hydrogen']
+    assert hydrogen['rates_per_million'] == {'input': 1.5, 'output': 7.5, 'cacheRead': .075, 'cacheWrite': None, 'reasoning': None}
+    assert hydrogen['input_threshold'] is None and hydrogen['conditions'] == []
+    for level, expected in [('low', .0454545), ('medium', .10962), ('high', .26833395)]:
+        recorded = json.loads((content / f'gemini-4-hydrogen-{level}' / 'run.json').read_text())
+        assert 'output_budget_per_request' not in recorded
+        quoted = pricing.display_price(recorded, actual)
+        assert quoted['amount_usd'] == expected and quoted['conditions'] == []
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    truncated = json.loads((content / 'gemini-4-hydrogen-xhigh' / 'run.json').read_text())
+    assert 'metrics' not in truncated and 'output_budget_per_request' not in truncated
+    assert truncated['failure']['status'] == 'Output truncated'
+    quoted = pricing.display_price(truncated, actual)
+    assert quoted['amount_usd'] == .4932765 and quoted['basis'] == 'official'
+    assert actual['runs'][truncated['slug']]['tokens'] == {
+        'input': 1171, 'output': 65536, 'cacheRead': 0, 'cacheWrite': 0,
+        'reasoning': 54201, 'totalTokens': 66707}
+    changed_source = deepcopy(truncated)
+    changed_source['source']['session_sha256'] = 'changed'
+    assert pricing.display_price(changed_source, actual)['reason'] == 'source_changed'
+    unreviewed = deepcopy(actual)
+    del unreviewed['runs'][truncated['slug']]
+    assert pricing.display_price(truncated, unreviewed)['reason'] == 'missing_usage'
+    incomplete = deepcopy(actual)
+    del incomplete['runs'][truncated['slug']]['tokens']['input']
+    assert pricing.display_price(truncated, incomplete)['reason'] == 'missing_usage'
     carbon = actual['models']['gemini-4-carbon']
     assert carbon['rates_per_million'] == {'input': 2, 'output': 10, 'cacheRead': .1, 'cacheWrite': None, 'reasoning': None}
     for level, expected in [('low', .193564), ('medium', .755517)]:
@@ -159,10 +187,11 @@ def check():
         candidate = deepcopy(recorded)
         candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
         assert pricing.display_price(candidate, actual)['amount_usd'] == expected
-    interrupted = json.loads((content / 'gemini-4-carbon-high' / 'run.json').read_text())
-    assert 'metrics' not in interrupted and interrupted['failure']['status'] == 'Incomplete: stream interrupted'
-    unknown = pricing.display_price(interrupted, actual)
-    assert unknown['amount_usd'] is None and unknown['reason'] == 'missing_usage' and unknown['conditions'] == []
+    completed = json.loads((content / 'gemini-4-carbon-high' / 'run.json').read_text())
+    assert completed.get('outcome') != 'no_artwork' and 'output_budget_per_request' not in completed
+    assert completed['follow_up_count'] == 1 and completed['metrics']['assistant_turns'] == 12
+    quoted = pricing.display_price(completed, actual)
+    assert quoted['amount_usd'] == 1.3761022 and quoted['basis'] == 'official' and quoted['conditions']
     missing_svg_estimates = []
     for path in sorted(content.glob('*/run.json')):
         recorded = json.loads(path.read_text())

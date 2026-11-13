@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#fff8e7" />
+      <stop offset="100%" stop-color="#f3dfc1" />
+    </radialGradient>
+
+    <!-- Bottle gradients -->
+    <linearGradient id="greenBottle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2e8b57" />
+      <stop offset="40%" stop-color="#48c774" />
+      <stop offset="100%" stop-color="#1e5c3a" />
+    </linearGradient>
+    <linearGradient id="amberBottle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b85d19" />
+      <stop offset="40%" stop-color="#f59f3d" />
+      <stop offset="100%" stop-color="#8a410b" />
+    </linearGradient>
+    <linearGradient id="blueBottle" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#20639b" />
+      <stop offset="40%" stop-color="#4ea8de" />
+      <stop offset="100%" stop-color="#144066" />
+    </linearGradient>
+
+    <!-- Reusable bottle shape centered at (0,0) -->
+    <g id="bottleShape">
+      <!-- Body -->
+      <path d="M -9,20 L -9,-2 C -9,-8 -4,-11 -4,-16 L -4,-26 L 4,-26 L 4,-16 C 4,-11 9,-8 9,-2 L 9,20 C 9,23 6,25 0,25 C -6,25 -9,23 -9,20 Z" stroke="#222" stroke-width="1.5" />
+      <!-- Cork / Cap -->
+      <rect x="-4.5" y="-30" width="9" height="5" rx="1.5" fill="#d4a373" stroke="#222" stroke-width="1.2" />
+      <!-- Label -->
+      <rect x="-7.5" y="1" width="15" height="12" rx="1.5" fill="#fffdf7" opacity="0.9" />
+      <line x1="-4.5" y1="5" x2="4.5" y2="5" stroke="#888" stroke-width="1.2" />
+      <line x1="-4.5" y1="9" x2="2.5" y2="9" stroke="#888" stroke-width="1.2" />
+      <!-- Glass highlight -->
+      <path d="M -5.5,18 L -5.5,-1 C -5.5,-5 -2.5,-8 -2.5,-13" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.55" />
+    </g>
+
+    <!-- Juggling arc path -->
+    <path id="jugglePath" d="M 335,205 C 335,65 445,65 445,205 C 445,230 415,235 390,215 C 365,235 335,230 335,205 Z" />
+  </defs>
+
+  <!-- Stage Background -->
+  <rect width="600" height="500" fill="url(#bgGrad)" />
+
+  <!-- Ground -->
+  <line x1="60" y1="428" x2="540" y2="428" stroke="#c9b18c" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Ground Shadow -->
+  <ellipse cx="300" cy="428" rx="70" ry="10" fill="#000000" opacity="0.12">
+    <animate attributeName="rx" values="70;62;70" dur="1.2s" repeatCount="indefinite" />
+  </ellipse>
+
+  <!-- Unicycle & Anteater Group (gentle balance bob) -->
+  <g id="performer">
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0,0; 0,-4; 0,0; 0,-3; 0,0"
+      dur="1.2s"
+      repeatCount="indefinite" />
+
+    <!-- Unicycle Wheel -->
+    <g id="wheel" transform="translate(300, 360)">
+      <!-- Rotating Spokes -->
+      <g>
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from="0"
+          to="360"
+          dur="1.2s"
+          repeatCount="indefinite" />
+        <line x1="0" y1="-58" x2="0" y2="58" stroke="#999" stroke-width="2" />
+        <line x1="-58" y1="0" x2="58" y2="0" stroke="#999" stroke-width="2" />
+        <line x1="-41" y1="-41" x2="41" y2="41" stroke="#999" stroke-width="2" />
+        <line x1="-41" y1="41" x2="41" y2="-41" stroke="#999" stroke-width="2" />
+        <!-- Crank & Pedals -->
+        <line x1="-22" y1="0" x2="22" y2="0" stroke="#555" stroke-width="4" stroke-linecap="round" />
+        <rect x="-28" y="-4" width="12" height="7" rx="2" fill="#333" />
+        <rect x="16" y="-4" width="12" height="7" rx="2" fill="#333" />
+      </g>
+      <!-- Tire & Rim -->
+      <circle cx="0" cy="0" r="62" fill="none" stroke="#2b2b2b" stroke-width="10" />
+      <circle cx="0" cy="0" r="56" fill="none" stroke="#d0d0d0" stroke-width="3" />
+      <!-- Hub -->
+      <circle cx="0" cy="0" r="8" fill="#555" stroke="#222" stroke-width="2" />
+    </g>
+
+    <!-- Unicycle Fork & Seat Post -->
+    <path d="M 300,360 L 300,295 L 300,265" fill="none" stroke="#c0392b" stroke-width="7" stroke-linecap="round" />
+    <circle cx="300" cy="360" r="5" fill="#c0392b" />
+    <!-- Saddle -->
+    <path d="M 278,265 Q 300,256 322,265 Q 318,274 300,273 Q 282,274 278,265 Z" fill="#3d2b1f" stroke="#222" stroke-width="1.5" />
+
+    <!-- Anteater Back Leg (pedaling) -->
+    <path d="M 292,258 Q 275,305 282,350" fill="none" stroke="#5c4e46" stroke-width="14" stroke-linecap="round">
+      <animate attributeName="d"
+        values="M 292,258 Q 275,305 282,350; M 292,258 Q 285,310 318,362; M 292,258 Q 275,305 282,350"
+        dur="1.2s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Anteater Bushy Tail -->
+    <path d="M 275,245 C 230,245 190,285 165,260 C 150,245 165,215 195,220 C 225,225 250,232 275,232 Z" fill="#4a3f39" stroke="#222" stroke-width="2">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        values="-3 275 240; 4 275 240; -3 275 240"
+        dur="1.6s"
+        repeatCount="indefinite" />
+    </path>
+
+    <!-- Anteater Torso -->
+    <path d="M 272,255 C 268,215 280,170 308,162 C 330,156 340,178 334,215 C 328,248 310,262 290,262 Z" fill="#6d5d53" stroke="#222" stroke-width="2" />
+
+    <!-- Classic Giant Anteater Black & White Shoulder Stripe -->
+    <path d="M 276,228 C 288,205 305,182 325,174 L 331,188 C 312,196 296,216 284,240 Z" fill="#1e1e1e" />
+    <path d="M 275,223 C 287,200 304,177 323,169" fill="none" stroke="#f2ede4" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Anteater Front Leg (pedaling) -->
+    <path d="M 304,258 Q 325,305 318,362" fill="none" stroke="#6d5d53" stroke-width="15" stroke-linecap="round">
+      <animate attributeName="d"
+        values="M 304,258 Q 325,305 318,362; M 304,258 Q 290,305 282,350; M 304,258 Q 325,305 318,362"
+        dur="1.2s" repeatCount="indefinite" />
+    </path>
+
+    <!-- Anteater Head & Long Snout -->
+    <g id="head">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        values="-2 315 168; 2 315 168; -2 315 168"
+        dur="1.2s"
+        repeatCount="indefinite" />
+      <!-- Ear -->
+      <ellipse cx="305" cy="148" rx="7" ry="10" fill="#5c4e46" stroke="#222" stroke-width="1.8" />
+      <!-- Head & Snout -->
+      <path d="M 302,168 C 302,148 320,144 334,150 C 355,158 386,170 404,178 C 409,180 408,187 402,188 C 380,188 352,182 326,182 C 312,182 302,178 302,168 Z" fill="#6d5d53" stroke="#222" stroke-width="2" />
+      <!-- Nose tip -->
+      <circle cx="405" cy="183" r="3.5" fill="#1e1e1e" />
+      <!-- Eye -->
+      <circle cx="326" cy="159" r="3" fill="#111" />
+      <circle cx="327" cy="158" r="1" fill="#fff" />
+    </g>
+
+    <!-- Anteater Juggling Arms -->
+    <!-- Left Arm -->
+    <path d="M 310,190 Q 322,212 336,205" fill="none" stroke="#5c4e46" stroke-width="11" stroke-linecap="round">
+      <animate attributeName="d"
+        values="M 310,190 Q 322,212 336,205; M 310,190 Q 324,204 338,196; M 310,190 Q 322,212 336,205"
+        dur="0.8s" repeatCount="indefinite" />
+    </path>
+    <!-- Right Arm -->
+    <path d="M 326,192 Q 380,215 442,205" fill="none" stroke="#6d5d53" stroke-width="11" stroke-linecap="round">
+      <animate attributeName="d"
+        values="M 326,192 Q 380,215 442,205; M 326,192 Q 380,222 444,212; M 326,192 Q 380,215 442,205"
+        dur="0.8s" begin="-0.4s" repeatCount="indefinite" />
+    </path>
+  </g>
+
+  <!-- Juggling Bottles -->
+  <!-- Bottle 1: Green -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="0s">
+      <mpath href="#jugglePath" />
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s" repeatCount="indefinite" />
+      <use href="#bottleShape" fill="url(#greenBottle)" />
+    </g>
+  </g>
+
+  <!-- Bottle 2: Amber -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="-0.8s">
+      <mpath href="#jugglePath" />
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.1s" repeatCount="indefinite" />
+      <use href="#bottleShape" fill="url(#amberBottle)" />
+    </g>
+  </g>
+
+  <!-- Bottle 3: Blue -->
+  <g>
+    <animateMotion dur="2.4s" repeatCount="indefinite" begin="-1.6s">
+      <mpath href="#jugglePath" />
+    </animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.3s" repeatCount="indefinite" />
+      <use href="#bottleShape" fill="url(#blueBottle)" />
+    </g>
+  </g>
+</svg>

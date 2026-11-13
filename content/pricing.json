@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-11",
+  "as_of": "2026-11-13",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -1006,6 +1006,30 @@
         "zh": "标准全球价格，缓存写入单价对应 5 分钟；输出包含思考。"
       }
     },
+    "gemini-4-hydrogen": {
+      "vendor": "Google",
+      "source_kind": "official",
+      "source": "Google",
+      "source_url": "https://aistudio.google.com/docs/pricing?auto_signin=false#gemini-4-hydrogen",
+      "aliases": [
+        "google/gemini-4-hydrogen",
+        "openrouter/google/gemini-4-hydrogen"
+      ],
+      "rates_per_million": {
+        "input": 1.5,
+        "output": 7.5,
+        "cacheRead": 0.075,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "input_threshold": null,
+      "cache_write_ttl_seconds": null,
+      "rate_note": {
+        "en": "Standard paid-tier USD token rates, flat across the full 1M unified context window; no introductory-price period is published in the reviewed sources. Output includes thinking. Cache reads use implicit caching only (4,096-token minimum); explicit caching is unsupported, so no explicit cache-write rate or TTL applies. Implicit-cache retention TTL is not published. Search/tool and storage charges are excluded.",
+        "zh": "Standard 付费层美元 token 费率，整个 1M 统一上下文窗口不按长度分档；本次核验来源未列首发优惠期。输出包含思考。缓存读取仅适用隐式缓存（最低 4,096 token）；不支持显式缓存，显式缓存写入费率及 TTL 不适用；未公布隐式缓存保留 TTL。不含搜索、工具及存储费用。"
+      },
+      "conditions": []
+    },
     "gemini-4-carbon": {
       "vendor": "Google",
       "source_kind": "official",
@@ -1509,6 +1533,29 @@
         "cacheWrite": 6453,
         "reasoning": 64000,
         "totalTokens": 73953
+      }
+    },
+    "gemini-4-hydrogen-xhigh": {
+      "source": {
+        "kind": "local",
+        "session_id": "01a1d4e1-9ea7-72d9-9941-e0dd3be1f31a",
+        "session_sha256": "1f8144fb339d10de4834f6b7a0ea38c4101e1931d7919f69d10580f091bd48c3",
+        "export_sha256": "14091d10fa86b9ad5881efbc6ae9444f5304ccd512857e543f088e7c59de5fc8"
+      },
+      "tokens": {
+        "input": 1171,
+        "output": 65536,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 54201,
+        "totalTokens": 66707
+      },
+      "usage_evidence": {
+        "kind": "provider_generation_receipt_with_gateway_session_binding",
+        "generation_id": "gen-1794572919-HCuTr7u7SxVALGj7BLS9",
+        "receipt_sha256": "cae35fc15d33e627d1e9e05139bc8641bbede8d13cb3470080e63ab9375ae960",
+        "native_finish_reason": "MAX_TOKENS",
+        "note": "Native usage was hidden from the SDK error result; preserve its original zero placeholders. Charges are recorded separately from official manufacturer estimates."
       }
     }
   }

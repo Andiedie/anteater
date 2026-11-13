@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-11T07:43:25.549541+00:00",
+  "checked_at": "2026-11-13T12:13:27.720505+00:00",
   "runs": {
     "claude-fable-5.1-medium": {
       "source": {
@@ -139,6 +139,15 @@
         "kind": "local",
         "session_sha256": "b838e86a9c6de6621478d0aba4b7f77ab8a15d2ffd74b6b51ee6c3d77eab63e2",
         "export_sha256": "c3ccbd9ae9a6b50f38571c680edb05871f821c6e066e034405036009cc68aae5"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "gemini-4-carbon-high": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "bdca1be65914ebfdc411338ca554a42b3b545bbad80ff242dc36e7f25a26184a",
+        "export_sha256": "3d3d4403eecbd1467043fdb5113cd924ce3c655baea237465e45f09cfc5924ef"
       },
       "follow_up_count": 1,
       "xml_feedback_count": 1

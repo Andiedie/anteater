@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-hydrogen-xhigh",
+  "name": "Gemini 4 Hydrogen",
+  "vendor": "Google",
+  "date": "2026-11-13",
+  "model_ids": [
+    "openrouter/google/gemini-4-hydrogen"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "outcome": "no_artwork",
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-hydrogen-xhigh.html",
+    "snapshot_url": "./sessions/gemini-4-hydrogen-xhigh.json",
+    "session_sha256": "1f8144fb339d10de4834f6b7a0ea38c4101e1931d7919f69d10580f091bd48c3",
+    "export_sha256": "14091d10fa86b9ad5881efbc6ae9444f5304ccd512857e543f088e7c59de5fc8",
+    "session_id": "01a1d4e1-9ea7-72d9-9941-e0dd3be1f31a",
+    "imported_at": "2026-11-13T12:42:13.245747+00:00"
+  },
+  "failure": {
+    "status": "Output truncated",
+    "summary": {
+      "en": "Three fresh attempts exhausted the channel default output limit before delivering a complete SVG.",
+      "zh": "三次全新测试均在交付完整 SVG 前耗尽渠道默认输出上限。"
+    },
+    "explanation": {
+      "en": "All three requests omitted tester-selected output ceilings and thinking budgets. Provider generation receipts independently confirm 65,536 native completion tokens and MAX_TOKENS for each, with no cancellation. The selected third attempt reports 54,201 reasoning tokens within its 65,536 output tokens, one request and no tool calls. The native Pi export records error because the gateway rewrote the provider terminal event; its zero usage is an error placeholder. Receipts and gateway usage supply the separately verified quantities without modifying that export.",
+      "zh": "三次请求均未传测试人员设置的输出上限或思考预算。逐笔 generation 账单独立确认每次原生输出均为 65,536 token、终止为 MAX_TOKENS，且未被取消。选定的第三次输出含 54,201 思考 token，共 1 次请求、0 次工具调用。网关改写了上游终止事件，因此 Pi 原始导出记录为 error，用量零值为错误占位；完整数量来自另行核验的账单及网关用量，未改写原始会话。"
+    },
+    "limitation": {
+      "en": "65,536 is the effective default of this request path, not a proved absolute model maximum. The endpoint catalog advertises a higher continuation limit; no explicit larger budget or long-decode continuation was requested. Following the tester's decision, confirmed output exhaustion is recorded and further retries are stopped. Each attempt was charged $0.4932765, totaling $1.4798295 for these three no-budget attempts; the displayed official estimate covers only the selected attempt. The earlier tester-capped 64,000-token batch is separate. The third capture preserves the gateway error and [DONE]; an SDK cleanup AbortError after them does not override the provider receipt's uncancelled MAX_TOKENS. Missing upstream raw bytes are not reconstructed.",
+      "zh": "65,536 是本次请求路径的有效默认上限，不是已经证明的模型绝对上限；端点目录支持更高的续写上限，但本次未指定更大预算或启动 long decode。按测试者的决定，确认输出耗尽后即记录并停止补跑。每次渠道实扣 $0.4932765，三次无人工预算尝试合计 $1.4798295；页面原厂估价仅对应选定测试，较早的人为 64,000 token 批次单独保留。第三次已保存网关 error 和 [DONE]；随后 SDK 清理产生的 AbortError 不改变账单确认的“未取消、MAX_TOKENS”。缺失的原始上游字节不予补造。"
+    },
+    "facts": [
+      {
+        "label": {
+          "en": "Requests / tool calls (selected attempt)",
+          "zh": "请求 / 工具调用（选定测试）"
+        },
+        "value": "1 / 0"
+      },
+      {
+        "label": {
+          "en": "Termination",
+          "zh": "终止记录"
+        },
+        "value": "length / MAX_TOKENS (provider receipt); Pi error"
+      },
+      {
+        "label": {
+          "en": "Output budget per request",
+          "zh": "单次请求输出预算"
+        },
+        "value": {
+          "en": "Not set by tester; ceiling fields omitted",
+          "zh": "测试人员未设置；请求未传上限字段"
+        }
+      },
+      {
+        "label": {
+          "en": "XML-feedback turns",
+          "zh": "XML 反馈轮数"
+        },
+        "value": "0"
+      },
+      {
+        "label": {
+          "en": "Reported output (selected attempt)",
+          "zh": "报告输出（选定测试）"
+        },
+        "value": "65,536 tokens"
+      },
+      {
+        "label": {
+          "en": "Effective channel default output limit",
+          "zh": "渠道有效默认输出上限"
+        },
+        "value": "65,536 tokens"
+      },
+      {
+        "label": {
+          "en": "Reported reasoning (selected attempt)",
+          "zh": "报告思考（选定测试）"
+        },
+        "value": "54,201 tokens"
+      },
+      {
+        "label": {
+          "en": "Independent attempts with confirmed exhaustion",
+          "zh": "确认输出耗尽的独立测试次数"
+        },
+        "value": "3"
+      },
+      {
+        "label": {
+          "en": "Selected attempt channel charge",
+          "zh": "选定测试渠道实扣"
+        },
+        "value": "$0.4932765"
+      },
+      {
+        "label": {
+          "en": "Three no-budget attempts channel charges",
+          "zh": "三次无人工预算尝试渠道实扣合计"
+        },
+        "value": "$1.4798295"
+      }
+    ],
+    "references": [
+      {
+        "url": "https://openrouter.ai/docs/cookbook/evaluate-and-optimize/model-migrations/gemini-4",
+        "label": "Gemini 4 default budget and continuation protocol"
+      },
+      {
+        "url": "https://openrouter.ai/google/gemini-4-hydrogen",
+        "label": "Hydrogen model and long-decode capabilities"
+      },
+      {
+        "url": "https://github.com/yetone/magpie/blob/f9ad4122bb40c7223509ad77cf5377f4809abc7a/internal/gateway/gateway.go#L7765",
+        "label": "Pinned gateway terminal transformation"
+      }
+    ],
+    "related_slug": "gemini-4-hydrogen-high"
+  }
+}

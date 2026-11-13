@@ -230,7 +230,7 @@ async function smoke() {
   for (const level of ['off', 'high']) {
     const run = catalog.find(run => run.slug === 'hy4-' + level);
     hy4.querySelector('[data-card-run="'+run.slug+'"]').click();
-    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-11' && hy4.querySelector('[data-price-value]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
+    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-13' && hy4.querySelector('[data-price-value]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
     assert(run.price.rates_per_million.input === .417 && run.price.rates_per_million.output === 1.2505 && run.price.rates_per_million.cacheRead === .021 && run.price.rate_note.en.includes('2026-12-31 23:59:59'), `Hy4 ${level} retains the discount deadline and cached-input quote`);
   }
   const terra = cardFor('GPT-6.1 Terra'), terraLevels = ['low','medium','high','xhigh','max'];
