@@ -1,0 +1,258 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A cartoon giant anteater pedals a red unicycle across a sunny meadow, juggling three spinning bottles in a cascade while its bushy tail sways and its tongue flicks.</desc>
+
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9e7f5"/>
+      <stop offset="1" stop-color="#fdf1dc"/>
+    </linearGradient>
+    <linearGradient id="headGrad" x1="440" y1="255" x2="556" y2="188" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#93826f"/>
+      <stop offset="1" stop-color="#574739"/>
+    </linearGradient>
+
+    <clipPath id="bodyClip">
+      <path d="M 320 300 C 318 258 355 240 395 242 C 440 244 465 265 468 295 C 470 330 445 352 400 355 C 355 357 322 338 320 300 Z"/>
+    </clipPath>
+
+    <!-- Bottle shape, glass tinted via currentColor -->
+    <g id="bottleShape">
+      <path d="M -4 -21 L 4 -21 L 4 -13 C 10 -9 10 -5 10 -1 L 10 16 C 10 21 6 22 0 22 C -6 22 -10 21 -10 16 L -10 -1 C -10 -5 -10 -9 -4 -13 Z"
+            fill="currentColor" fill-opacity="0.92" stroke="#000000" stroke-opacity="0.15" stroke-width="1"/>
+      <rect x="-10" y="4" width="20" height="9" fill="#f6eedd" opacity="0.95"/>
+      <circle cx="0" cy="8.5" r="2.4" fill="currentColor"/>
+      <path d="M -6 -6 L -6 14" stroke="#ffffff" stroke-opacity="0.45" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="-5.5" y="-27" width="11" height="7" rx="2" fill="#e8c15a" stroke="#b98f2e" stroke-width="1"/>
+    </g>
+
+    <g id="tuft" fill="none" stroke="#5d8a4a" stroke-width="2.5" stroke-linecap="round">
+      <path d="M 0 0 q -3 -8 -6 -10"/>
+      <path d="M 0 0 q 0 -10 1 -12"/>
+      <path d="M 0 0 q 4 -7 7 -9"/>
+    </g>
+    <g id="flower">
+      <path d="M 0 0 L 0 -12" stroke="#5d8a4a" stroke-width="2"/>
+      <circle cx="0" cy="-15" r="4.5" fill="#e8798a"/>
+      <circle cx="0" cy="-15" r="2" fill="#ffd66b"/>
+    </g>
+  </defs>
+
+  <!-- ======== BACKGROUND ======== -->
+  <rect width="800" height="600" fill="url(#skyGrad)"/>
+
+  <!-- Sun with slowly rotating rays -->
+  <g transform="translate(108 92)">
+    <g stroke="#f4b942" stroke-width="4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="30s" repeatCount="indefinite"/>
+      <line x1="0" y1="-38" x2="0" y2="-50"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(45)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(90)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(135)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(180)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(225)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(270)"/>
+      <line x1="0" y1="-38" x2="0" y2="-50" transform="rotate(315)"/>
+    </g>
+    <circle r="30" fill="#ffd66b" stroke="#f4b942" stroke-width="3"/>
+    <circle r="22" fill="#ffe28f"/>
+  </g>
+
+  <!-- Drifting clouds (seamless wrap) -->
+  <g fill="#ffffff" opacity="0.85">
+    <animateTransform attributeName="transform" type="translate" values="0 0; -1000 0" dur="45s" repeatCount="indefinite"/>
+    <g>
+      <ellipse cx="250" cy="80" rx="34" ry="16"/><ellipse cx="222" cy="88" rx="22" ry="12"/><ellipse cx="280" cy="88" rx="24" ry="12"/>
+      <ellipse cx="620" cy="125" rx="28" ry="13"/><ellipse cx="596" cy="132" rx="18" ry="10"/><ellipse cx="646" cy="132" rx="20" ry="10"/>
+    </g>
+    <g transform="translate(1000 0)">
+      <ellipse cx="250" cy="80" rx="34" ry="16"/><ellipse cx="222" cy="88" rx="22" ry="12"/><ellipse cx="280" cy="88" rx="24" ry="12"/>
+      <ellipse cx="620" cy="125" rx="28" ry="13"/><ellipse cx="596" cy="132" rx="18" ry="10"/><ellipse cx="646" cy="132" rx="20" ry="10"/>
+    </g>
+  </g>
+
+  <!-- Hills -->
+  <ellipse cx="170" cy="585" rx="280" ry="85" fill="#b3d494"/>
+  <ellipse cx="640" cy="590" rx="320" ry="95" fill="#a5cb86"/>
+
+  <!-- Ground -->
+  <rect x="0" y="530" width="800" height="70" fill="#8fbf6f"/>
+  <line x1="0" y1="530" x2="800" y2="530" stroke="#6d9c52" stroke-width="3"/>
+  <!-- Scrolling lane dashes (speed matched to wheel: ~377 px/s) -->
+  <path d="M -60 549 H 860" stroke="#6d9c52" stroke-width="3" stroke-opacity="0.6" stroke-dasharray="40 80">
+    <animate attributeName="stroke-dashoffset" from="0" to="120" dur="0.32s" repeatCount="indefinite"/>
+  </path>
+  <!-- Scrolling grass, flowers, pebbles (seamless wrap) -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; -800 0" dur="2.12s" repeatCount="indefinite"/>
+    <g id="groundItems">
+      <use href="#tuft" x="60" y="552"/><use href="#tuft" x="230" y="556"/>
+      <use href="#flower" x="320" y="554"/><use href="#tuft" x="420" y="550"/>
+      <ellipse cx="500" cy="556" rx="6" ry="3" fill="#b9b3a8"/>
+      <use href="#tuft" x="610" y="555"/><use href="#flower" x="690" y="553"/><use href="#tuft" x="760" y="551"/>
+    </g>
+    <use href="#groundItems" x="800"/>
+  </g>
+
+  <!-- Shadow -->
+  <ellipse cx="400" cy="533" rx="90" ry="9" fill="#000000" opacity="0.12">
+    <animate attributeName="rx" values="88;95;88" dur="1s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </ellipse>
+
+  <!-- Speed lines -->
+  <g transform="translate(258 316)">
+    <g stroke="#9fb6c4" stroke-width="4" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="translate" values="0 0; -34 0" dur="0.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0" dur="0.5s" repeatCount="indefinite"/>
+      <path d="M 0 0 H -30"/><path d="M 10 28 H -16"/><path d="M 4 56 H -26"/>
+    </g>
+  </g>
+
+  <!-- ======== RIDER (gentle balance wobble around wheel contact) ======== -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-1.2 400 528; 1.2 400 528; -1.2 400 528" dur="3.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+
+    <!-- Far arm (behind body), tossing wiggle -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 432 278; 5 432 278; 0 432 278" dur="0.6s" begin="-0.3s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+      <path d="M 432 278 Q 414 244 416 210" fill="none" stroke="#6b5b4d" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="416" cy="207" r="7" fill="#6b5b4d"/>
+      <g fill="none" stroke="#efe6d4" stroke-width="2" stroke-linecap="round">
+        <path d="M 410 202 q -2 -6 0 -9"/><path d="M 416 200 q 0 -7 2 -9"/><path d="M 422 202 q 2 -5 4 -8"/>
+      </g>
+    </g>
+
+    <!-- Bushy tail, swaying -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-3 340 315; 4 340 315; -3 340 315" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+      <path d="M 340 318 C 295 335 245 325 212 290 C 186 260 180 218 196 186 C 202 206 214 218 224 222 C 218 198 224 176 240 162 C 244 182 254 194 262 198 C 262 176 272 160 288 152 C 288 172 296 186 306 194 C 312 176 324 166 338 164 C 334 182 336 202 344 218 C 356 244 356 288 340 318 Z" fill="#4a3b30"/>
+      <path d="M 300 300 C 260 290 235 265 225 235" fill="none" stroke="#6b5b4d" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+      <path d="M 320 270 C 300 250 292 225 296 200" fill="none" stroke="#6b5b4d" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    </g>
+
+    <!-- Far leg, pedaling (opposite phase) -->
+    <path fill="none" stroke="#6b5b4d" stroke-width="13" stroke-linecap="round" d="M 392 348 Q 420 412 372 468">
+      <animate attributeName="d" dur="1s" repeatCount="indefinite" calcMode="linear" keyTimes="0;0.25;0.5;0.75;1"
+        values="M 392 348 Q 420 412 372 468;
+                M 392 348 Q 440 396 400 440;
+                M 392 348 Q 442 408 428 468;
+                M 392 348 Q 436 422 400 496;
+                M 392 348 Q 420 412 372 468"/>
+    </path>
+
+    <!-- ======== UNICYCLE ======== -->
+    <g transform="translate(400 468)">
+      <circle r="60" fill="none" stroke="#2e2a26" stroke-width="9"/>
+      <circle r="51" fill="none" stroke="#c9c2b4" stroke-width="3"/>
+      <!-- Spinning spokes + valve -->
+      <g stroke="#8f897e" stroke-width="2.5">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1s" repeatCount="indefinite"/>
+        <line x1="-51" y1="0" x2="51" y2="0"/>
+        <line x1="-51" y1="0" x2="51" y2="0" transform="rotate(60)"/>
+        <line x1="-51" y1="0" x2="51" y2="0" transform="rotate(120)"/>
+        <circle cx="0" cy="-51" r="3" fill="#c0392b" stroke="none"/>
+      </g>
+      <circle r="7" fill="#c0392b" stroke="#7d241a" stroke-width="2"/>
+    </g>
+    <!-- Frame, fork, seat -->
+    <path d="M 400 418 L 388 466 M 400 418 L 412 466" stroke="#c0392b" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <rect x="396" y="360" width="8" height="58" fill="#c0392b"/>
+    <circle cx="400" cy="418" r="5" fill="#c0392b"/>
+    <rect x="372" y="352" width="56" height="11" rx="5" fill="#3a3a3a"/>
+    <!-- Cranks + pedals (pedals counter-rotate to stay level) -->
+    <g transform="translate(400 468)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1s" repeatCount="indefinite"/>
+        <line x1="0" y1="0" x2="28" y2="0" stroke="#555555" stroke-width="5" stroke-linecap="round"/>
+        <line x1="0" y1="0" x2="-28" y2="0" stroke="#555555" stroke-width="5" stroke-linecap="round"/>
+        <g transform="translate(28 0)">
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1s" repeatCount="indefinite"/>
+            <rect x="-11" y="-3.5" width="22" height="7" rx="2" fill="#333333"/>
+          </g>
+        </g>
+        <g transform="translate(-28 0)">
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1s" repeatCount="indefinite"/>
+            <rect x="-11" y="-3.5" width="22" height="7" rx="2" fill="#333333"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- ======== ANTEATER BODY ======== -->
+    <path d="M 320 300 C 318 258 355 240 395 242 C 440 244 465 265 468 295 C 470 330 445 352 400 355 C 355 357 322 338 320 300 Z" fill="#93826f"/>
+    <g clip-path="url(#bodyClip)">
+      <ellipse cx="398" cy="332" rx="46" ry="20" fill="#a89680" opacity="0.8"/>
+      <!-- Giant-anteater shoulder band: cream edges + black stripe -->
+      <path d="M 462 362 L 378 238" stroke="#f2ead8" stroke-width="46" fill="none"/>
+      <path d="M 462 362 L 378 238" stroke="#2e241c" stroke-width="30" fill="none"/>
+      <g stroke="#7d6c5a" stroke-width="2" stroke-linecap="round" opacity="0.6">
+        <path d="M 336 280 q 8 6 6 14"/><path d="M 348 310 q 8 4 8 12"/>
+      </g>
+    </g>
+
+    <!-- Head with long snout, nodding -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 450 252; 2.5 450 252; 0 450 252" dur="1s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+      <ellipse cx="438" cy="228" rx="6" ry="8" fill="#6b5b4d" transform="rotate(-25 438 228)"/>
+      <ellipse cx="438" cy="228" rx="3" ry="4.5" fill="#4a3b30" transform="rotate(-25 438 228)"/>
+      <path d="M 438 234 C 468 220 505 202 550 186 C 556 184 559 190 554 194 C 514 214 482 242 454 268 C 442 260 434 246 438 234 Z" fill="url(#headGrad)"/>
+      <circle cx="553" cy="190" r="3.5" fill="#2e241c"/>
+      <circle cx="464" cy="242" r="3.5" fill="#2e241c"/>
+      <circle cx="465.5" cy="240.5" r="1.2" fill="#ffffff"/>
+      <!-- Tongue flick from snout tip -->
+      <g transform="translate(555 188)">
+        <g>
+          <animateTransform attributeName="transform" type="scale" values="0.05;0.05;1;1;0.05" keyTimes="0;0.68;0.76;0.86;1" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.68;0.76;0.86;1" dur="4s" repeatCount="indefinite"/>
+          <path d="M 0 0 Q 12 -6 22 -16" fill="none" stroke="#e8798a" stroke-width="3" stroke-linecap="round"/>
+          <path d="M 22 -16 l 5 -1 M 22 -16 l 1 -5" fill="none" stroke="#e8798a" stroke-width="2" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Near leg, pedaling -->
+    <path fill="none" stroke="#93826f" stroke-width="14" stroke-linecap="round" d="M 402 348 Q 442 408 428 468">
+      <animate attributeName="d" dur="1s" repeatCount="indefinite" calcMode="linear" keyTimes="0;0.25;0.5;0.75;1"
+        values="M 402 348 Q 442 408 428 468;
+                M 402 348 Q 436 422 400 496;
+                M 402 348 Q 420 412 372 468;
+                M 402 348 Q 440 396 400 440;
+                M 402 348 Q 442 408 428 468"/>
+    </path>
+
+    <!-- Near arm, tossing wiggle -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0 446 282; -5 446 282; 0 446 282" dur="0.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+      <path d="M 446 282 Q 482 252 493 210" fill="none" stroke="#93826f" stroke-width="13" stroke-linecap="round"/>
+      <circle cx="494" cy="207" r="7.5" fill="#93826f"/>
+      <g fill="none" stroke="#efe6d4" stroke-width="2" stroke-linecap="round">
+        <path d="M 488 202 q -2 -6 0 -9"/><path d="M 494 200 q 0 -7 2 -9"/><path d="M 500 202 q 2 -5 4 -8"/>
+      </g>
+    </g>
+
+    <!-- ======== JUGGLING BOTTLES (3-bottle cascade, one spin per throw) ======== -->
+    <g>
+      <animateMotion dur="1.8s" begin="0s" repeatCount="indefinite" path="M 495 200 Q 442 -12 415 200 Q 468 -12 495 200"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 -2" to="360 0 -2" dur="0.9s" begin="0s" repeatCount="indefinite"/>
+        <use href="#bottleShape" color="#4a9d5f"/>
+      </g>
+    </g>
+    <g>
+      <animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite" path="M 495 200 Q 442 -12 415 200 Q 468 -12 495 200"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 -2" to="360 0 -2" dur="0.9s" begin="-0.3s" repeatCount="indefinite"/>
+        <use href="#bottleShape" color="#d98e2b"/>
+      </g>
+    </g>
+    <g>
+      <animateMotion dur="1.8s" begin="-1.2s" repeatCount="indefinite" path="M 495 200 Q 442 -12 415 200 Q 468 -12 495 200"/>
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 0 -2" to="360 0 -2" dur="0.9s" begin="-0.6s" repeatCount="indefinite"/>
+        <use href="#bottleShape" color="#4a90d9"/>
+      </g>
+    </g>
+  </g>
+</svg>

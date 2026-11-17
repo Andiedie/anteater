@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "slug": "qwen4-max-high",
+  "name": "Qwen4 Max",
+  "vendor": "Alibaba",
+  "date": "2026-11-17T02:56:28.816Z",
+  "model_ids": [
+    "openrouter/qwen/qwen4-max"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 126.005,
+    "request_seconds": 125.922,
+    "average_tps": 52.05,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 7728,
+      "output": 6554,
+      "cacheRead": 1280,
+      "cacheWrite": 0,
+      "reasoning": 2373,
+      "totalTokens": 15562
+    },
+    "recorded_cost_usd": 0.03912195,
+    "cost_usd": 0.03912195
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/qwen4-max-high.html",
+    "snapshot_url": "./sessions/qwen4-max-high.json",
+    "session_sha256": "ccdd4964bf763090f7108697c45197f06acc93d61c0e3b5b75d0440b9b0db35b",
+    "export_sha256": "5a9e14182abf20c8d2b58a06e7ce6321c3a67fcf8536be870febc833a8642d9c",
+    "session_id": "01a1e76f-3a84-73b4-9e13-562391e37b4c",
+    "imported_at": "2026-11-17T02:59:00.828069+00:00",
+    "artwork_sha256": "79bb2bd2c1c54396d6109360a94a5f8607ebb761e61832035b34caca5e3ef00b"
+  },
+  "response_model_ids": [
+    "openrouter/qwen/qwen4-max"
+  ]
+}

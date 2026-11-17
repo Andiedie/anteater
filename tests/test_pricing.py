@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-13'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-17'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -137,7 +137,35 @@ def check():
     for identifier in ('hy4', 'tencent/hy4'):
         assert pricing.find_price({'model_ids': [identifier], 'vendor': 'Tencent'}, actual)['model_id'] == 'hy4'
     assert pricing.find_price({'model_ids': ['tencent/hy4'], 'vendor': 'Other'}, actual) is None
-    assert pricing.find_price({'model_ids': ['tencent/hy4-flash'], 'vendor': 'Tencent'}, actual) is None
+    flash = actual['models']['hy4-flash']
+    assert flash['rates_per_million'] == {'input': .035, 'output': .1405, 'cacheRead': .0015, 'cacheWrite': None, 'reasoning': None}
+    assert flash['source_url'] == 'https://www.tencentcloud.com/document/product/1300/78937'
+    assert pricing.find_price({'model_ids': ['tencent/hy4-flash'], 'vendor': 'Tencent'}, actual)['model_id'] == 'hy4-flash'
+    assert pricing.find_price({'model_ids': ['tencent/hy4-flash-unreviewed'], 'vendor': 'Tencent'}, actual) is None
+    assert pricing.estimate(cache_write, flash)[1] == 'missing_cache_price'
+    for level, expected in [('off', .0008309335), ('low', .0007750355), ('high', .001671042)]:
+        recorded = json.loads((content / f'hy4-flash-{level}' / 'run.json').read_text())
+        quoted = pricing.display_price(recorded, actual)
+        assert quoted['amount_usd'] == expected and quoted['basis'] == 'official'
+        assert '2026-11-30 12:00:00' in quoted['conditions'][0]['description']['zh']
+        assert quoted['conditions'][0]['alternatives'][0]['amount_usd'] == expected * 2
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+    qwen4 = actual['models']['qwen4-max']
+    assert qwen4['region'] == 'Singapore' and qwen4['deployment_scope'] == 'International'
+    assert qwen4['rates_per_million'] == {'input': 1.5, 'output': 4.5, 'cacheRead': .075, 'cacheWrite': 1.875, 'reasoning': None}
+    assert qwen4['cache_write_ttl_seconds'] == 300
+    assert pricing.estimate(cache_write, qwen4)[1] == 'cache_write_duration'
+    assert pricing.estimate(cache_write, qwen4, 300) == (.0001875, None)
+    for level, expected in [('off', .0285495), ('low', .0432825), ('high', .041181), ('xhigh', .1428564)]:
+        recorded = json.loads((content / f'qwen4-max-{level}' / 'run.json').read_text())
+        quoted = pricing.display_price(recorded, actual)
+        assert quoted['amount_usd'] == expected and quoted['basis'] == 'official'
+        assert not quoted.get('assumption_label') and not quoted['conditions']
+        candidate = deepcopy(recorded)
+        candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+        assert pricing.display_price(candidate, actual)['amount_usd'] == expected
     assert pricing.find_price({'model_ids': ['tencent/hy4-preview'], 'vendor': 'Tencent'}, actual)['rates_per_million']['input'] == .834
     assert pricing.estimate(cache_write, hy4)[1] == 'missing_cache_price'
     fable = actual['models']['claude-fable-5-2']

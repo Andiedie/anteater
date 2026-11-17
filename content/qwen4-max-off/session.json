@@ -1,0 +1,372 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a1e76f-3855-763a-a68f-5c61654fbdd5",
+    "timestamp": "2026-11-17T02:56:28.246Z",
+    "cwd": "/Users/andie/.local/share/anteater/runs/hy4flash-qwen4max-20261117-105500/qwen4-max/runs/off/attempt-01/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "d81c2e76",
+      "parentId": null,
+      "timestamp": "2026-11-17T02:56:28.247Z",
+      "provider": "magpie",
+      "modelId": "openrouter/qwen/qwen4-max"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "aa05359a",
+      "parentId": "d81c2e76",
+      "timestamp": "2026-11-17T02:56:28.247Z",
+      "thinkingLevel": "off"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "openrouter/qwen/qwen4-max",
+        "level": "off",
+        "outputBudgetPolicy": "No tester-selected output or reasoning token budget; omit all ceiling fields in serialized HTTP request.",
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "retries": false,
+        "providerRetries": 0,
+        "compaction": false,
+        "cacheWarming": false,
+        "publicationApproved": false,
+        "invocation": "Pi 1.5.2 SDK; original prompt; isolated agent and session directories"
+      },
+      "id": "a7b07c25",
+      "parentId": "aa05359a",
+      "timestamp": "2026-11-17T02:56:28.255Z"
+    },
+    {
+      "type": "message",
+      "id": "0b9a64fc",
+      "parentId": "a7b07c25",
+      "timestamp": "2026-11-17T02:56:28.267Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/.local/share/anteater/runs/hy4flash-qwen4max-20261117-105500/qwen4-max/runs/off/attempt-01/work\n</cwd>"
+        },
+        "timestamp": 1794884188261,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "b43c409d",
+      "parentId": "0b9a64fc",
+      "timestamp": "2026-11-17T02:56:28.267Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1794884188261
+      }
+    },
+    {
+      "type": "message",
+      "id": "fb0c0396",
+      "parentId": "b43c409d",
+      "timestamp": "2026-11-17T02:57:34.630Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "toolCall",
+            "id": "call_1abc25d4f49d4445ae8e0475",
+            "name": "write",
+            "arguments": {
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 520\" width=\"640\" height=\"520\" role=\"img\" aria-label=\"An anteater riding a unicycle while juggling three bottles\">\n  <title>Anteater Unicycle Juggler</title>\n\n  <!-- Background -->\n  <rect width=\"640\" height=\"520\" fill=\"#fdf3e3\"/>\n  <circle cx=\"548\" cy=\"78\" r=\"34\" fill=\"#ffd166\"/>\n  <g fill=\"#ffffff\" opacity=\"0.85\">\n    <ellipse cx=\"120\" cy=\"80\" rx=\"42\" ry=\"16\"/>\n    <ellipse cx=\"155\" cy=\"70\" rx=\"30\" ry=\"13\"/>\n    <ellipse cx=\"430\" cy=\"120\" rx=\"36\" ry=\"13\"/>\n  </g>\n\n  <!-- Ground -->\n  <rect y=\"440\" width=\"640\" height=\"80\" fill=\"#e9d8b8\"/>\n  <line x1=\"0\" y1=\"440\" x2=\"640\" y2=\"440\" stroke=\"#c9b48a\" stroke-width=\"4\"/>\n\n  <!-- Shadow (pulses with the bob) -->\n  <ellipse cx=\"320\" cy=\"446\" rx=\"95\" ry=\"10\" fill=\"#00000022\">\n    <animate attributeName=\"rx\" values=\"95;82;95\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n  </ellipse>\n\n  <!-- ===== UNICYCLE (stays on ground) ===== -->\n  <g>\n    <!-- Wheel -->\n    <g>\n      <circle cx=\"320\" cy=\"380\" r=\"60\" fill=\"none\" stroke=\"#333\" stroke-width=\"10\"/>\n      <circle cx=\"320\" cy=\"380\" r=\"52\" fill=\"none\" stroke=\"#888\" stroke-width=\"3\"/>\n      <!-- Spokes spin -->\n      <g stroke=\"#666\" stroke-width=\"4\">\n        <line x1=\"320\" y1=\"326\" x2=\"320\" y2=\"434\"/>\n        <line x1=\"266\" y1=\"380\" x2=\"374\" y2=\"380\"/>\n        <line x1=\"282\" y1=\"342\" x2=\"358\" y2=\"418\"/>\n        <line x1=\"358\" y1=\"342\" x2=\"282\" y2=\"418\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 320 380\" to=\"360 320 380\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n      </g>\n      <circle cx=\"320\" cy=\"380\" r=\"9\" fill=\"#333\"/>\n    </g>\n\n    <!-- Fork + seat post -->\n    <path d=\"M 296 350 L 320 380 L 344 350\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n    <line x1=\"320\" y1=\"380\" x2=\"320\" y2=\"292\" stroke=\"#c0392b\" stroke-width=\"8\"/>\n    <!-- Seat -->\n    <path d=\"M 292 292 Q 320 278 348 292 L 344 300 L 296 300 Z\" fill=\"#5b3a29\"/>\n\n    <!-- Pedals + cranks rotating around hub -->\n    <g>\n      <line x1=\"320\" y1=\"380\" x2=\"320\" y2=\"348\" stroke=\"#333\" stroke-width=\"6\"/>\n      <line x1=\"320\" y1=\"380\" x2=\"320\" y2=\"412\" stroke=\"#333\" stroke-width=\"6\"/>\n      <rect x=\"304\" y=\"342\" width=\"32\" height=\"9\" rx=\"3\" fill=\"#222\"/>\n      <rect x=\"304\" y=\"409\" width=\"32\" height=\"9\" rx=\"3\" fill=\"#222\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 320 380\" to=\"360 320 380\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n    </g>\n  </g>\n\n  <!-- ===== ANTEATER + JUGGLING (whole rider bobs gently) ===== -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0 0; 0 -6; 0 0\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n\n    <!-- Bushy tail, swishing -->\n    <g>\n      <path d=\"M 268 268 Q 200 250 178 300 Q 160 345 205 352 Q 190 320 218 300 Q 240 285 272 292 Z\" fill=\"#6d5843\"/>\n      <path d=\"M 262 276 Q 215 268 200 305\" fill=\"none\" stroke=\"#8a7358\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-6 270 280; 8 270 280; -6 270 280\" dur=\"2.4s\" repeatCount=\"indefinite\"/>\n    </g>\n\n    <!-- Legs pedaling (simple alternating pump) -->\n    <g stroke=\"#7a6248\" stroke-width=\"14\" stroke-linecap=\"round\" fill=\"none\">\n      <path d=\"M 300 285 Q 296 320 312 348\">\n        <animate attributeName=\"d\" values=\"M 300 285 Q 296 320 312 348; M 300 285 Q 288 330 316 410; M 300 285 Q 296 320 312 348\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n      </path>\n      <path d=\"M 336 285 Q 344 330 326 410\">\n        <animate attributeName=\"d\" values=\"M 336 285 Q 344 330 326 410; M 336 285 Q 342 320 328 348; M 336 285 Q 344 330 326 410\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n      </path>\n    </g>\n\n    <!-- Body: classic anteater hump with diagonal band -->\n    <path d=\"M 262 290 Q 258 218 316 208 Q 372 200 388 246 Q 396 276 372 292 Q 316 306 262 290 Z\" fill=\"#8a7358\"/>\n    <path d=\"M 286 214 Q 330 206 356 226 L 322 296 Q 296 296 276 288 Z\" fill=\"#2f2a26\"/>\n    <path d=\"M 292 216 Q 330 210 350 226 L 344 240 Q 316 222 296 228 Z\" fill=\"#f4ede1\"/>\n\n    <!-- Head + long snout, nodding slightly -->\n    <g>\n      <path d=\"M 366 232 Q 396 210 416 224 Q 470 246 508 268 Q 512 274 506 278 Q 462 268 414 258 Q 388 254 372 252 Z\" fill=\"#8a7358\"/>\n      <path d=\"M 470 254 Q 492 262 508 268 Q 512 274 506 278 Q 488 274 468 268 Z\" fill=\"#4a3b2c\"/>\n      <circle cx=\"398\" cy=\"234\" r=\"5\" fill=\"#221a12\"/>\n      <circle cx=\"400\" cy=\"232\" r=\"1.6\" fill=\"#fff\"/>\n      <!-- Ear -->\n      <path d=\"M 372 216 Q 376 200 388 208 Q 390 218 380 222 Z\" fill=\"#6d5843\"/>\n      <!-- Tongue flick! -->\n      <path d=\"M 508 272 q 14 2 22 -4\" fill=\"none\" stroke=\"#e26d6d\" stroke-width=\"3\" stroke-linecap=\"round\">\n        <animate attributeName=\"opacity\" values=\"0;0;1;1;0\" keyTimes=\"0;0.55;0.65;0.85;1\" dur=\"3s\" repeatCount=\"indefinite\"/>\n      </path>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"0 372 244; 3 372 244; 0 372 244\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n    </g>\n\n    <!-- Arms raised for juggling -->\n    <g stroke=\"#7a6248\" stroke-width=\"12\" stroke-linecap=\"round\" fill=\"none\">\n      <path d=\"M 300 236 Q 272 210 262 182\">\n        <animate attributeName=\"d\" values=\"M 300 236 Q 272 210 262 182; M 300 236 Q 270 216 258 190; M 300 236 Q 272 210 262 182\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n      </path>\n      <path d=\"M 352 232 Q 380 206 392 178\">\n        <animate attributeName=\"d\" values=\"M 352 232 Q 380 206 392 178; M 352 232 Q 384 212 396 186; M 352 232 Q 380 206 392 178\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n      </path>\n    </g>\n    <!-- Paws -->\n    <circle cx=\"262\" cy=\"182\" r=\"9\" fill=\"#5b4a36\">\n      <animate attributeName=\"cy\" values=\"182;190;182\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"cx\" values=\"262;258;262\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n    </circle>\n    <circle cx=\"392\" cy=\"178\" r=\"9\" fill=\"#5b4a36\">\n      <animate attributeName=\"cy\" values=\"178;186;178\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"cx\" values=\"392;396;392\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n    </circle>\n\n    <!-- ===== JUGGLING BOTTLES: 3-bottle cascade ===== -->\n    <!-- Each bottle follows the same figure-loop path, offset by 0.6s -->\n    <defs>\n      <g id=\"bottle\">\n        <rect x=\"-9\" y=\"-14\" width=\"18\" height=\"30\" rx=\"6\" fill=\"#3fa66a\" stroke=\"#2c7a4b\" stroke-width=\"2\"/>\n        <rect x=\"-4\" y=\"-26\" width=\"8\" height=\"14\" rx=\"3\" fill=\"#3fa66a\" stroke=\"#2c7a4b\" stroke-width=\"2\"/>\n        <rect x=\"-5\" y=\"-30\" width=\"10\" height=\"5\" rx=\"2\" fill=\"#d4a017\"/>\n        <rect x=\"-6\" y=\"-6\" width=\"12\" height=\"12\" rx=\"2\" fill=\"#f4ede1\"/>\n      </g>\n    </defs>\n\n    <g>\n      <use href=\"#bottle\">\n        <animateMotion dur=\"1.8s\" repeatCount=\"indefinite\" rotate=\"auto\"\n          path=\"M 262 168 C 250 60, 390 60, 392 164 C 394 190, 340 190, 328 168 C 316 60, 250 60, 262 168 Z\"/>\n      </use>\n      <use href=\"#bottle\">\n        <animateMotion dur=\"1.8s\" begin=\"-0.6s\" repeatCount=\"indefinite\" rotate=\"auto\"\n          path=\"M 262 168 C 250 60, 390 60, 392 164 C 394 190, 340 190, 328 168 C 316 60, 250 60, 262 168 Z\"/>\n      </use>\n      <use href=\"#bottle\">\n        <animateMotion dur=\"1.8s\" begin=\"-1.2s\" repeatCount=\"indefinite\" rotate=\"auto\"\n          path=\"M 262 168 C 250 60, 390 60, 392 164 C 394 190, 340 190, 328 168 C 316 60, 250 60, 262 168 Z\"/>\n      </use>\n    </g>\n  </g>\n\n  <!-- Motion sparkles near wheel -->\n  <g stroke=\"#c9b48a\" stroke-width=\"3\" stroke-linecap=\"round\">\n    <line x1=\"230\" y1=\"420\" x2=\"210\" y2=\"420\">\n      <animate attributeName=\"opacity\" values=\"1;0;1\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n    </line>\n    <line x1=\"238\" y1=\"432\" x2=\"212\" y2=\"432\">\n      <animate attributeName=\"opacity\" values=\"0;1;0\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n    </line>\n  </g>\n</svg>",
+              "path": "anteater-unicycle-juggler.svg"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/qwen/qwen4-max",
+        "usage": {
+          "input": 1329,
+          "output": 3947,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 5276,
+          "cost": {
+            "input": 0.0018938250000000002,
+            "output": 0.016873425,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.018767250000000003,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794884188445,
+        "responseId": "gen-1794884189-YR2LTwsKXp4EacTx3GBE",
+        "rawStopReason": "tool_calls",
+        "durationMs": 66185,
+        "thinkingLevel": "off"
+      }
+    },
+    {
+      "type": "message",
+      "id": "3b5d7bfe",
+      "parentId": "fb0c0396",
+      "timestamp": "2026-11-17T02:57:34.635Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_1abc25d4f49d4445ae8e0475",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to anteater-unicycle-juggler.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794884254635
+      }
+    },
+    {
+      "type": "message",
+      "id": "113a86fd",
+      "parentId": "3b5d7bfe",
+      "timestamp": "2026-11-17T02:57:41.508Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "Created **`anteater-unicycle-juggler.svg`** — a fully self-contained animated SVG (SMIL, no JS needed). Open it in any browser to see:\n\n- 🎡 **Spinning unicycle wheel** with rotating spokes and pedaling cranks/pedals\n- 🦫 **Anteater rider** with the classic humped back, diagonal black-and-white band, long snout, bushy swishing tail, and an occasional tongue flick\n- 🦵 Legs pumping in sync with the pedals, arms bobbing as they toss\n- 🍾 **Three green bottles** juggling in a proper cascade pattern (figure-loop `animateMotion` paths offset by 0.6s each)\n- Gentle whole-body bob, pulsing ground shadow, and speed lines for extra life\n\nAll animations loop indefinitely and are synced to a 1.2s pedal cycle."
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/qwen/qwen4-max",
+        "usage": {
+          "input": 5299,
+          "output": 188,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 5487,
+          "cost": {
+            "input": 0.007551075000000001,
+            "output": 0.0008037000000000001,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.008354775000000002,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1794884254636,
+        "responseId": "gen-1794884255-E9SgAobUonlu4019XSTt",
+        "rawStopReason": "stop",
+        "durationMs": 6871,
+        "thinkingLevel": "off"
+      }
+    }
+  ],
+  "leafId": "113a86fd",
+  "systemPrompt": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>\n\n<cwd>\n/Users/andie/.local/share/anteater/runs/hy4flash-qwen4max-20261117-105500/qwen4-max/runs/off/attempt-01/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}

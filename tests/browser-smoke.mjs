@@ -5,6 +5,53 @@ import { once } from 'node:events';
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const localEvidenceRange = process.argv[3]?.match(/^--local-evidence=(\d+):(\d+)$/);
+const reportRange = process.argv[3]?.match(/^--reports-(en|zh)=(\d+):(\d+)$/);
+let localEvidenceChecks = 0;
+// Large evidence matrices use fresh Chrome processes so rapid history traversal
+// cannot exhaust the browser's navigation-flood allowance for the main suite.
+if (!process.argv[3]) {
+  const html = await (await fetch(process.argv[2] || 'http://localhost:8765')).text();
+  const catalog = JSON.parse(html.match(/<script type="application\/json" id="catalog-data">([\s\S]*?)<\/script>/)[1]);
+  const expected = catalog.filter(run => run.source?.kind === 'local').map(run => run.slug);
+  const verified = [];
+  for (let start = 0; start < expected.length; start += 20) {
+    const child = spawn(process.execPath, [fileURLToPath(import.meta.url), process.argv[2] || 'http://localhost:8765', `--local-evidence=${start}:20`], {stdio: ['ignore', 'pipe', 'pipe']});
+    let stdout = '', stderr = '';
+    child.stdout.on('data', chunk => { stdout += chunk; });
+    child.stderr.on('data', chunk => { stderr += chunk; });
+    const [code] = await once(child, 'close');
+    process.stdout.write(stdout); process.stderr.write(stderr);
+    if (code !== 0) throw new Error(`Local evidence batch ${start} failed with exit ${code}`);
+    const line = stdout.split('\n').find(line => line.startsWith('LOCAL_EVIDENCE '));
+    if (!line) throw new Error(`Local evidence batch ${start} did not report coverage`);
+    const result = JSON.parse(line.slice('LOCAL_EVIDENCE '.length));
+    if (JSON.stringify(result.slugs) !== JSON.stringify(expected.slice(start, start + 20)) || result.total !== expected.length || !Number.isInteger(result.checks) || result.checks <= 0) throw new Error(`Incomplete local evidence batch ${start}`);
+    verified.push(...result.slugs); localEvidenceChecks += result.checks;
+  }
+  if (JSON.stringify(verified) !== JSON.stringify(expected) || new Set(verified).size !== expected.length) throw new Error('Local evidence coverage is incomplete or duplicated');
+  const expectedReports = catalog.filter(run => run.report).map(run => run.slug);
+  for (const language of ['en', 'zh']) {
+    const verifiedReports = [];
+    for (let start = 0; start < expectedReports.length; start += 20) {
+      const child = spawn(process.execPath, [fileURLToPath(import.meta.url), process.argv[2] || 'http://localhost:8765', `--reports-${language}=${start}:20`], {stdio: ['ignore', 'pipe', 'pipe']});
+      let stdout = '', stderr = '';
+      child.stdout.on('data', chunk => { stdout += chunk; });
+      child.stderr.on('data', chunk => { stderr += chunk; });
+      const [code] = await once(child, 'close');
+      process.stdout.write(stdout); process.stderr.write(stderr);
+      if (code !== 0) throw new Error(`Report batch ${language}/${start} failed with exit ${code}`);
+      const line = stdout.split('\n').find(line => line.startsWith('REPORT_EVIDENCE '));
+      if (!line) throw new Error(`Report batch ${language}/${start} did not report coverage`);
+      const result = JSON.parse(line.slice('REPORT_EVIDENCE '.length));
+      if (JSON.stringify(result.slugs) !== JSON.stringify(expectedReports.slice(start, start + 20)) || result.total !== expectedReports.length || result.language !== language || !Number.isInteger(result.checks) || result.checks <= 0) throw new Error(`Incomplete report batch ${language}/${start}`);
+      verifiedReports.push(...result.slugs); localEvidenceChecks += result.checks;
+    }
+    if (JSON.stringify(verifiedReports) !== JSON.stringify(expectedReports) || new Set(verifiedReports).size !== expectedReports.length) throw new Error(`Report coverage is incomplete or duplicated: ${language}`);
+  }
+}
 
 const profile = await mkdtemp(join(tmpdir(), 'anteater-browser-'));
 const binary = process.env.CHROME_BIN || (process.platform === 'darwin'
@@ -192,6 +239,106 @@ async function priceConditionSmoke(language) {
   return checks;
 }
 
+async function localEvidenceSmoke(start, count) {
+  const checks = [];
+  const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
+  const waitFor = async (predicate, name) => {
+    const start = performance.now();
+    while (!predicate()) {
+      if (performance.now() - start > 30000) throw new Error(`Timed out: ${name}`);
+      await new Promise(resolve => setTimeout(resolve, 30));
+    }
+  };
+  await waitFor(() => document.querySelector('.card iframe.loaded'), 'initial artwork');
+  const catalog = JSON.parse(document.querySelector('#catalog-data').textContent);
+  const cardFor = name => [...document.querySelectorAll('.card')].find(card => JSON.parse(card.dataset.model)[1] === name);
+  const showRun = slug => {
+    const card = cardFor(catalog.find(run => run.slug === slug).name);
+    card.querySelector('[data-card-run="'+slug+'"]').click(); card.querySelector('.preview').click();
+  };
+  const set = (selector, value, event = 'change') => {
+    const node = document.querySelector(selector);
+    node.value = value; node.dispatchEvent(new Event(event, {bubbles: true}));
+  };
+  const localRuns = catalog.filter(run => run.source?.kind === 'local');
+  if (!Number.isInteger(start) || start < 0 || start >= localRuns.length || !Number.isInteger(count) || count <= 0 || count > 20) throw new Error('Invalid local evidence range');
+  const selected = localRuns.slice(start, start + count);
+  set('#language', 'en');
+  document.querySelector('#clear-filters').click();
+  for (const run of selected) {
+    showRun(run.slug);
+    if (run.outcome !== 'no_artwork') await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `local artwork loads: ${run.slug}`);
+    const links = [...document.querySelectorAll('#detail-info .source-links a')];
+    assert([run.source.share_url, run.source.snapshot_url].every(url => links.some(link => link.href === new URL(url, location.href).href)) && links.every(link => link.origin === location.origin), `local evidence links stay local: ${run.slug}`);
+    const snapshot = await (await fetch(run.source.snapshot_url)).json();
+    assert(snapshot.header.id === run.source.session_id, `local snapshot matches session: ${run.slug}`);
+    if (run.price?.basis === 'official') {
+      const info = document.querySelector('#detail-info');
+      assert(info.textContent.includes('Cost estimate · USD') && info.textContent.includes('≈$') && [...info.querySelectorAll('.price-notes a')].some(a => a.href === run.price.source_url), `official estimate and vendor source: ${run.slug}`);
+      assert(info.textContent.includes(run.price.rate_note.en), `official rate conditions: ${run.slug}`);
+      if (run.price.cache_write_ttl_seconds === 300) assert(info.textContent.includes('Cache write (5 min)'), 'resolved five-minute cache price');
+      set('#language', 'zh');
+      assert(info.textContent.includes('价格估算 · USD') && !info.textContent.includes('官方价格估算') && info.textContent.includes(run.price.rate_note.zh), `Chinese official estimate: ${run.slug}`);
+      set('#language', 'en');
+    }
+    if (run.response_model_ids) assert(document.querySelector('#detail-info').textContent.includes(run.response_model_ids.join(', ')), 'legacy response alias is distinct from the requested model ID');
+    if (run.outcome === 'no_artwork') assert(!document.querySelector('#detail-preview iframe,#detail-info [download],#detail-info .metric-highlights'), `local failure has no invented artwork or metrics: ${run.slug}`);
+    document.querySelector('#detail-dialog [data-close]').click();
+    await waitFor(() => !document.querySelector('#detail-dialog').open, `local record closes: ${run.slug}`);
+  }
+  return {checks: checks.length, slugs: selected.map(run => run.slug), total: localRuns.length};
+}
+
+async function reportSmoke(language, start, count) {
+  const checks = [];
+  const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
+  const waitFor = async (predicate, name) => {
+    const start = performance.now();
+    while (!predicate()) {
+      if (performance.now() - start > 30000) throw new Error(`Timed out: ${name}`);
+      await new Promise(resolve => setTimeout(resolve, 30));
+    }
+  };
+  await waitFor(() => document.querySelector('.card iframe.loaded'), 'initial artwork');
+  const catalog = JSON.parse(document.querySelector('#catalog-data').textContent);
+  const cardFor = name => [...document.querySelectorAll('.card')].find(card => JSON.parse(card.dataset.model)[1] === name);
+  const showRun = slug => {
+    const card = cardFor(catalog.find(run => run.slug === slug).name);
+    card.querySelector('[data-card-run="'+slug+'"]').click(); card.querySelector('.preview').click();
+  };
+  const set = (selector, value, event = 'change') => {
+    const node = document.querySelector(selector);
+    node.value = value; node.dispatchEvent(new Event(event, {bubbles: true}));
+  };
+  const reportRuns = catalog.filter(run => run.report);
+  if (!['en','zh'].includes(language) || !Number.isInteger(start) || start < 0 || start >= reportRuns.length || !Number.isInteger(count) || count <= 0 || count > 20) throw new Error('Invalid report range');
+  const selected = reportRuns.slice(start, start + count);
+  for (const lang of [language]) {
+    set('#language', lang);
+    for (const run of selected) {
+      showRun(run.slug);
+      const report = document.querySelector('#detail-info .run-report');
+      assert(report && report.dataset.reportKind === run.report.kind, `shared report is rendered for ${run.slug} / ${lang}`);
+      const labels = [...report.querySelectorAll('.case-facts dt')].map(el => el.textContent);
+      const expected = run.report.facts.map(fact => fact.label[lang]);
+      if (run.outcome === 'no_artwork') expected.push(lang === 'zh' ? '价格估算 · USD' : 'Cost estimate · USD');
+      assert(JSON.stringify(labels) === JSON.stringify(expected), `consistent report fields for ${run.slug} / ${lang}`);
+      assert(report.querySelector('.report-summary').textContent === run.report.summary[lang], `shared summary for ${run.slug} / ${lang}`);
+      assert(!/Includes errors \/ retries|包含错误或重试/.test(document.querySelector('#detail-info').textContent), `error types are explicit for ${run.slug} / ${lang}`);
+      if (run.report.notes.length) assert(report.querySelector('.report-notes summary').textContent === (lang === 'zh' ? '补充说明' : 'Additional notes'), `special evidence stays in additional notes for ${run.slug} / ${lang}`);
+      if (run.outcome === 'no_artwork') {
+        const html = await (await fetch(`./cases/${run.slug}/`)).text();
+        const standalone = new DOMParser().parseFromString(html, 'text/html').querySelector(`.case-copy[lang="${lang}"] .run-report`);
+        const reportCopy = node => [...node.querySelectorAll('.report-summary,.case-facts dt,.case-facts dd,.report-explanation,.report-notes summary,.report-notes p,.case-limitation')].map(el => el.textContent.replace(/\s+/g, ' ').trim());
+        assert(standalone && JSON.stringify(reportCopy(standalone)) === JSON.stringify(reportCopy(report)), `standalone and inline reports agree for ${run.slug} / ${lang}`);
+      } else await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `reported artwork loads: ${run.slug} / ${lang}`);
+      document.querySelector('#detail-dialog [data-close]').click();
+      await waitFor(() => !document.querySelector('#detail-dialog').open, `report closes: ${run.slug} / ${lang}`);
+    }
+  }
+  return {checks: checks.length, slugs: selected.map(run => run.slug), total: reportRuns.length, language};
+}
+
 async function smoke() {
   const checks = [];
   const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
@@ -230,7 +377,7 @@ async function smoke() {
   for (const level of ['off', 'high']) {
     const run = catalog.find(run => run.slug === 'hy4-' + level);
     hy4.querySelector('[data-card-run="'+run.slug+'"]').click();
-    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-13' && hy4.querySelector('[data-price-value]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
+    assert(run.price.basis === 'official' && run.price.checked_at === '2026-11-17' && hy4.querySelector('[data-price-value]').textContent === '≈$' + run.price.amount_usd.toFixed(3), `Hy4 ${level} displays its official estimate`);
     assert(run.price.rates_per_million.input === .417 && run.price.rates_per_million.output === 1.2505 && run.price.rates_per_million.cacheRead === .021 && run.price.rate_note.en.includes('2026-12-31 23:59:59'), `Hy4 ${level} retains the discount deadline and cached-input quote`);
   }
   const terra = cardFor('GPT-6.1 Terra'), terraLevels = ['low','medium','high','xhigh','max'];
@@ -283,53 +430,8 @@ async function smoke() {
   const costLabels = [...document.querySelectorAll('.card [data-price-label]')];
   assert(costLabels.length === defaultRuns.length && costLabels.every(label => label.querySelectorAll(':scope > [data-i18n="Cost estimate · USD"]').length === 1 && label.querySelector(':scope > [data-i18n="Cost estimate · USD"]').textContent === 'Cost estimate · USD'), 'one cost label for every model, including unavailable estimates');
   assert(catalog.every(run => ['official', 'unknown'].includes(run.price.basis)), 'all prices use the official snapshot without recorded or aggregator fallbacks');
-  const reportRuns = catalog.filter(run => run.report);
-  for (const lang of ['en', 'zh']) {
-    set('#language', lang);
-    for (const run of reportRuns) {
-      showRun(run.slug);
-      const report = document.querySelector('#detail-info .run-report');
-      assert(report && report.dataset.reportKind === run.report.kind, `shared report is rendered for ${run.slug} / ${lang}`);
-      const labels = [...report.querySelectorAll('.case-facts dt')].map(el => el.textContent);
-      const expected = run.report.facts.map(fact => fact.label[lang]);
-      if (run.outcome === 'no_artwork') expected.push(lang === 'zh' ? '价格估算 · USD' : 'Cost estimate · USD');
-      assert(JSON.stringify(labels) === JSON.stringify(expected), `consistent report fields for ${run.slug} / ${lang}`);
-      assert(report.querySelector('.report-summary').textContent === run.report.summary[lang], `shared summary for ${run.slug} / ${lang}`);
-      assert(!/Includes errors \/ retries|包含错误或重试/.test(document.querySelector('#detail-info').textContent), `error types are explicit for ${run.slug} / ${lang}`);
-      if (run.report.notes.length) assert(report.querySelector('.report-notes summary').textContent === (lang === 'zh' ? '补充说明' : 'Additional notes'), `special evidence stays in additional notes for ${run.slug} / ${lang}`);
-      if (run.outcome === 'no_artwork') {
-        const html = await (await fetch(`./cases/${run.slug}/`)).text();
-        const standalone = new DOMParser().parseFromString(html, 'text/html').querySelector(`.case-copy[lang="${lang}"] .run-report`);
-        const reportCopy = node => [...node.querySelectorAll('.report-summary,.case-facts dt,.case-facts dd,.report-explanation,.report-notes summary,.report-notes p,.case-limitation')].map(el => el.textContent.replace(/\s+/g, ' ').trim());
-        assert(standalone && JSON.stringify(reportCopy(standalone)) === JSON.stringify(reportCopy(report)), `standalone and inline reports agree for ${run.slug} / ${lang}`);
-      } else await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `reported artwork loads: ${run.slug} / ${lang}`);
-      document.querySelector('#detail-dialog [data-close]').click();
-      await waitFor(() => !document.querySelector('#detail-dialog').open, `report closes: ${run.slug} / ${lang}`);
-    }
-  }
   set('#language', 'en');
   document.querySelector('#clear-filters').click();
-  for (const run of catalog.filter(run => run.source?.kind === 'local')) {
-    showRun(run.slug);
-    if (run.outcome !== 'no_artwork') await waitFor(() => document.querySelector('#detail-preview iframe.loaded'), `local artwork loads: ${run.slug}`);
-    const links = [...document.querySelectorAll('#detail-info .source-links a')];
-    assert([run.source.share_url, run.source.snapshot_url].every(url => links.some(link => link.href === new URL(url, location.href).href)) && links.every(link => link.origin === location.origin), `local evidence links stay local: ${run.slug}`);
-    const snapshot = await (await fetch(run.source.snapshot_url)).json();
-    assert(snapshot.header.id === run.source.session_id, `local snapshot matches session: ${run.slug}`);
-    if (run.price?.basis === 'official') {
-      const info = document.querySelector('#detail-info');
-      assert(info.textContent.includes('Cost estimate · USD') && info.textContent.includes('≈$') && [...info.querySelectorAll('.price-notes a')].some(a => a.href === run.price.source_url), `official estimate and vendor source: ${run.slug}`);
-      assert(info.textContent.includes(run.price.rate_note.en), `official rate conditions: ${run.slug}`);
-      if (run.price.cache_write_ttl_seconds === 300) assert(info.textContent.includes('Cache write (5 min)'), 'resolved five-minute cache price');
-      set('#language', 'zh');
-      assert(info.textContent.includes('价格估算 · USD') && !info.textContent.includes('官方价格估算') && info.textContent.includes(run.price.rate_note.zh), `Chinese official estimate: ${run.slug}`);
-      set('#language', 'en');
-    }
-    if (run.response_model_ids) assert(document.querySelector('#detail-info').textContent.includes(run.response_model_ids.join(', ')), 'legacy response alias is distinct from the requested model ID');
-    if (run.outcome === 'no_artwork') assert(!document.querySelector('#detail-preview iframe,#detail-info [download],#detail-info .metric-highlights'), `local failure has no invented artwork or metrics: ${run.slug}`);
-    document.querySelector('#detail-dialog [data-close]').click();
-    await waitFor(() => !document.querySelector('#detail-dialog').open, `local record closes: ${run.slug}`);
-  }
   const unpriced = catalog.find(run => run.price.amount_usd == null && run.metrics?.cost_usd > 0);
   if (unpriced) {
     showRun(unpriced.slug);
@@ -606,7 +708,23 @@ try {
     throw new Error('Reloaded gallery did not initialize');
   };
   const priceLocale = process.argv[3]?.match(/^--prices-(en|zh)$/)?.[1];
-  if (priceLocale) {
+  if (reportRange) {
+    const userAgent = await evaluate('navigator.userAgent');
+    await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'en-US,en'});
+    await send('Emulation.setDeviceMetricsOverride', {width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+    await reload(process.argv[2] || 'http://localhost:8765');
+    const result = await evaluate(`(${reportSmoke.toString()})(${JSON.stringify(reportRange[1])},${Number(reportRange[2])},${Number(reportRange[3])})`);
+    console.log('REPORT_EVIDENCE ' + JSON.stringify(result));
+    console.log(`PASS · real Chrome · ${result.checks} report checks / ${result.language}`);
+  } else if (localEvidenceRange) {
+    const userAgent = await evaluate('navigator.userAgent');
+    await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'en-US,en'});
+    await send('Emulation.setDeviceMetricsOverride', {width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+    await reload(process.argv[2] || 'http://localhost:8765');
+    const result = await evaluate(`(${localEvidenceSmoke.toString()})(${Number(localEvidenceRange[1])},${Number(localEvidenceRange[2])})`);
+    console.log('LOCAL_EVIDENCE ' + JSON.stringify(result));
+    console.log(`PASS · real Chrome · ${result.checks} local evidence checks`);
+  } else if (priceLocale) {
     const userAgent=await evaluate('navigator.userAgent');
     await send('Emulation.setUserAgentOverride',{userAgent,acceptLanguage:'en-US,en'});
     await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
@@ -910,7 +1028,7 @@ try {
     await delay(200);
     await writeFile(join(process.env.UI_SCREENSHOT_DIR,'levels-mobile.png'),Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
   }
-  console.log(`PASS · real Chrome · ${checks.length} interaction / locale / hover / layout checks`);
+  console.log(`PASS · real Chrome · ${checks.length + localEvidenceChecks} interaction / locale / hover / layout checks`);
   }
 } finally {
   socket?.close();

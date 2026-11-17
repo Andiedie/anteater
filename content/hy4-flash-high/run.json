@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "slug": "hy4-flash-high",
+  "name": "Hy4 flash",
+  "vendor": "Tencent",
+  "date": "2026-11-17T02:56:28.144Z",
+  "model_ids": [
+    "openrouter/tencent/hy4-flash"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 50.748,
+    "request_seconds": 50.502,
+    "average_tps": 181.97,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "edit": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 10381,
+      "output": 9190,
+      "cacheRead": 11008,
+      "cacheWrite": 0,
+      "reasoning": 4260,
+      "totalTokens": 30579
+    },
+    "recorded_cost_usd": 0.001671042,
+    "cost_usd": 0.001671042
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/hy4-flash-high.html",
+    "snapshot_url": "./sessions/hy4-flash-high.json",
+    "session_sha256": "e278d6f8401e1cff72ebd19a2236da4ad2a034ddc5614fee60f55273f5276111",
+    "export_sha256": "4925c73c6cd335bc8d0ab46ad6dfad09815a8de2499963b7b54ea2e0d353a298",
+    "session_id": "01a1e76f-37e3-72d8-8fbb-fe50d1cfef97",
+    "imported_at": "2026-11-17T02:57:54.878714+00:00",
+    "artwork_sha256": "34aba1893d33368551ff45a2eb58b6801cd6ed0819ba2377b73304bfd71f7e64"
+  },
+  "response_model_ids": [
+    "openrouter/tencent/hy4-flash"
+  ]
+}
