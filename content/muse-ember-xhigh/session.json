@@ -1,0 +1,456 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a1e84a-cada-74ef-8ae7-955443525983",
+    "timestamp": "2026-11-17T06:56:18.139Z",
+    "cwd": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "be8e870a",
+      "parentId": null,
+      "timestamp": "2026-11-17T06:56:18.145Z",
+      "provider": "magpie",
+      "modelId": "openrouter/meta/muse-ember"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "7e96b4ab",
+      "parentId": "be8e870a",
+      "timestamp": "2026-11-17T06:56:18.145Z",
+      "thinkingLevel": "xhigh"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "openrouter/meta/muse-ember",
+        "level": "xhigh",
+        "outputBudgetPolicy": "No tester-selected output or reasoning token budget; omit all ceiling fields in serialized HTTP request.",
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "retries": false,
+        "providerRetries": 0,
+        "compaction": false,
+        "cacheWarming": false,
+        "publicationApproved": false,
+        "invocation": "Pi 1.5.2 SDK; original prompt; isolated agent and session directories"
+      },
+      "id": "d1a53b6f",
+      "parentId": "7e96b4ab",
+      "timestamp": "2026-11-17T06:56:18.155Z"
+    },
+    {
+      "type": "message",
+      "id": "f59c6598",
+      "parentId": "d1a53b6f",
+      "timestamp": "2026-11-17T06:56:18.158Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work\n</cwd>"
+        },
+        "timestamp": 1794898578157,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "a3c50bbf",
+      "parentId": "f59c6598",
+      "timestamp": "2026-11-17T06:56:18.158Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1794898578157
+      }
+    },
+    {
+      "type": "message",
+      "id": "c10a121e",
+      "parentId": "a3c50bbf",
+      "timestamp": "2026-11-17T06:56:19.798Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgFQCst2R9hQl-r2wXJtfIc4HWYhiMPJev2i4L5lDCOJHvRLMj25_pMwdoPbqTTS5elXihYxTiZQ6WlqSh5LSqjYo6k6XBbexd2cu3H1P3dznG8rb62jTHmGyzZU1zFx0ahOuK0vJzlDva6r-_GHhn2p_aathtZMBbB95OCI76y_toE_hxrlp6-H0fKr7o2uVgy1sIuoqoR5cpdzrk2yUpu-JBrV0lYIAoxyPs_Vgphd9oLRpr2vKxY5HFPBGE6N3jcHZRHvTqzlGxzdo4pLiw-hTXborpZgk4okOClCniDgOHzkrJJCl8-tQpDpzs7JSicJ4N6hWsg220jDSEWSvdBhE5IPsuEIh71kJlrba_hG9oKCOB2DF6ZJWNZshBdPojCjs9Vjhs42qq65eAsG41RwZS5T2VHdII4ZmWTKyk5Oa6PiyurQrjc2IKa3Gyto3gEgGCh_JHUxhNxFqkTZO2I9U1u93_I4eE-92lC-BjMN8L-XNu0cnLB7IA5a0CmZb7mlptNtKCWkwKaQfTKTgAMIuKauqZkknExtv42vFs13pTyuokLRSgIMS1imxPfKckjJyKZ6SCliPoBoPGNtmQVV16zc9-5tC0OCDdx1A-CbT7IjnIfyCHBz3hd0UPLNqDGeQu_Lvkclwd2p8NriKgTm9GLaNCybzgXfByu4BYppPmEKedf3VYmfnqc6pkT9YbVA9eDvO0-PTFIUVaEgW3nYJ79DcqnCvwNR-TPg0DrZVi91FDoV4S7b4D2MsoXJYFEQ_g7wx4oyoeJwyeo0miDl0SVz3pLCfA0TliStjzxN6uqbTaXc5DW-4OorWPqgjqg6iFF6xv3sHd2jNWb_kC8aTGu3y_bE5PdJ3gKVyYHkhP8S4jqxJbPJ2FjhQQoWuE7NHIyRbDGBzH7xSoqbJ_picDcUCTJG6esTKMkG2wykvtz_FLsJGTZTobSWvbSqJmDRZ3XCF1nsOBrOdlYJYiP1WFydSeYUZir-Qe0T5mu8-nNUJVZdD6Z5XomsPQ39y91dvbilGsZzWuVreu5VI-2wnr-xpy8z4L2CU6SLc1yMxy9-EWmZo5h3TYwy711xzyCAu6KazvDfqjZmxZLWC7ZMFIB4l-Ian-tAYWfBcdcVHxfdR9g5ehG2LR06elyQO4IlPhXDbt33yPTIPOX8_yoAIQMiv1PqzXFKWPrWhHQAqY87ju-0UMrAQPV4c15386SWiExx4vZmoHhGVSuQ5Rzfv4ONkIQ-8_5ovWC0FGaY4afS9hB8Isyb_3FdYck6urboBQQ1GOSXrO4IAc3yUGw0R0Jogkteb_3lZ3POb7K7JhmK5Jd3doGjwJVk2_rN68E48qi4BNbKRKkB9pem4tJoArfsbXbdCUMQgkWFjBwCi5d3oR8W05uM3bnecwwOppELOk_7kUV6cw.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLWVtYmVyLTIwMjYxMTA5fG1ldGEifQ\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa932da3e01d07364d64:rs_01a1e84ad0097209bf4d1a42207d4ca7\",\"index\":0}]"
+          },
+          {
+            "type": "text",
+            "text": "Drawing your unicycle-riding, bottle-juggling anteater — animated SVG coming up."
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84ad04f742ca795b2cc2f53445b",
+            "name": "read",
+            "arguments": {
+              "path": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-ember",
+        "usage": {
+          "input": 1557,
+          "output": 127,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 19,
+          "totalTokens": 1684,
+          "cost": {
+            "input": 0.00015570000000000002,
+            "output": 6.35e-05,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.00021920000000000002,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898578316,
+        "responseId": "gen-1794898578-nyDiua0p1iAo3KZg2qS8",
+        "rawStopReason": "tool_calls",
+        "durationMs": 1482,
+        "thinkingLevel": "xhigh"
+      }
+    },
+    {
+      "type": "message",
+      "id": "7396c7ac",
+      "parentId": "c10a121e",
+      "timestamp": "2026-11-17T06:56:19.804Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84ad04f742ca795b2cc2f53445b",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "EISDIR: illegal operation on a directory, read"
+          }
+        ],
+        "details": {},
+        "isError": true,
+        "durationMs": 3,
+        "timestamp": 1794898579804
+      }
+    },
+    {
+      "type": "message",
+      "id": "3d3fe696",
+      "parentId": "7396c7ac",
+      "timestamp": "2026-11-17T06:56:37.656Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Designing a self-contained animated SVG with CSS/SMIL for an anteater on a unicycle juggling bottles, including parallax background and character motion.Defining SVG coordinate groups and joint pivots for the pedaling legs and seated torso.Adding SMIL animateMotion paths and nested rotate transforms for juggling bottles and synchronized limb motion.Defining CSS keyframes and transform origins for leg swing, bobbing, tail wag, and background parallax.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Designing a self-contained animated SVG with CSS/SMIL for an anteater on a unicycle juggling bottles, including parallax background and character motion.Defining SVG coordinate groups and joint pivots for the pedaling legs and seated torso.Adding SMIL animateMotion paths and nested rotate transforms for juggling bottles and synchronized limb motion.Defining CSS keyframes and transform origins for leg swing, bobbing, tail wag, and background parallax.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgFujMSyPLfZRmRYbA44mJxqYjp4w2NH9tHwsYBGjw6V6i9NfnW1oc79cToasIefWLt0LQuYHwLNuSmMQ9ZmnpZAKeL-s5i5FoPSfZBHJDIsgt70M8JuojZb7zAIQfWC6JS8joeVhnNFiLc4rIIqqdry-sQ4n-xP2-03ffufRHrTfOSRbbOAPHULlMsZOjZcMa6jqhauDN12X3LV4KHLYpbnVz3myLNVNH0qXCQWEwOQlt52ffZkYyT02UKW9ssv2iyB4XAjBkl6qxj3r2swmAUwBCQ0QAOafNXjHtJUOWDe46D2fzyAknkQu3P-T0gYGize4QSUHSrEF0HCSrrsdI0mxUao6gUeHlbHIDeZ5hy_MEF5VHKd0XrJC4OI2OzstMkX3rvo29LOtKY5PL2kt34-czH2tpBLq-Y9e6DrmuNafVzx9EdjJPqwwIVlj1AjmQVm5kwKfD2azu179DxISH1RC5cti_W-CgTqBuiud-ll1bcXrEGYImf9oNFSNwmpOYUbl-D3lmRqBxg-leXF5e9TZr-I4n8TXLyzormlITCKpWfrAb6o2hRq_wYi9l7WTMEDMd4tLTxVwDhljjIffIZSlPG-D50hliwdxuPCXS8pnDPKVityxXV3sFP3Wh_G2ur74IaSYlSTHj8r4IgisuxDoJ7c-bx9Vj0lKVm1LO_ng9O9VnMeGxdSRuXWf3v7xkXveTbGx5c8HnJgCOZraQhTO_Hu61eHVTCldlzTr8eYiCRLhqyAiwq7dfQpshrfLTfos7SrCY-vPC-sU39CI710i9EGx7pe0FdsZ6G632N53mk_R8ma9vkEV8b1ChXnhUIdl9DmUF9aNUmXAVBQkelAY46TnKr2lTt0vrfmdya_BX0h4rf7ueIhGQcCtGdSFgW8pJ1G5pSIVF2WoGUGWlpMrW1QCmoLdHufZhXtRxSz9MN4eXFUk01RQF6uUOYXrrrcUVtAGtUt_EUAXjt19OpVhazaXvy1XAJfyEct5fal0vz-allFhOrshuk9sLIDvsV5VkJr6sNRo5vg53Li9diqHyhAPp17262IaV98bxNTYFLa7loQxgROluK3OG_1Jo_iPM3P7E8ovjJLgsl921VwJqNdKDqItx-dSDwuoYDaj0IXD6i96Ulw7FJr_5HR4aN0U5-wfK7XaPYFLdsNa3resf8TEdgHFlOBU50bMzIb7Ku0OAx9y_sTI2rDJZLkZVJ0Jmz15ZtrDa0fSdSDNDBsiWR26vCLJMvmi917IIvueD_O_36UwWn4_ibw6s37uHCM_tCud4DbPwv_YuF3pW6Q0CwWnVT9kBKj3yTXa3-p3wf23MEBQQtTSL-aydsKv_O7P_nY-mm4LfyLRgrZ-iDTRcpQVBu9qHPdD4Cz_oEhsDog390NGc1ffe7uYA1ZodX0nclszoC1wyG8cpYFGva14Yb8dBsvmxXUoT5mZmYcku0r7AeIV839qqXOP5x4F1V1NZW8n7wRl3RNK_RepWWey1YS8yWinNFNtNvk_s1zo42KbZsxBFh0ykwJZyI3PQ3dgHw-NYLnCHvQ_ZawPP2JWoiBY-EiojepciyCQiCE_hX22BGQQWjzbPC0IKLq_WsoJywHGE0t_GgYVtkCfahvT6MZcdPyZmwqUzpBZc99SwrHBCzRVjyjRcKrqOhxrs6r_DtXEM73qwSt-To4m5X0elwv4TSI2df1nyp9v7bXAFAWSYnBRW-qy7HGiRza6ktwAQnlYFNbV17QIr5k2-d97FkpfrjjkFfj0se96gz5ZWfr4hbZCdRRwavef79dxtsad6aWOAo4Q98eO6E5v3Wf5NjP940M4T_io2K7KNoDHqUQ8OreZlULzIuhKjGZ5qBSHhyI_DtTW0VmJOfLpkLpRGqD-CuZSfJG2ElkW5ePOCy_KkWh9qAZhV08Xm8gqzeoX-u9zggILznsWl9zQTDsFRBHB7B1-H8v_pDQX6C2SOULSUxeUytHqq8vbjQDwNOMMIcLrEF7Zi2KOoDcIzJ9qTpeaYwxdWo_FC7lrwBCB7hKBEDjcrzCX1l5Yre5LkhStLh3nKhKmxaNwPFj9Nh9b3TRSOSR3X7-ne4BN-ocRplx6_d3Fgrn529EVWVyADySgWLNNDdLjGMWa7rSNPe-_S_dGi3QGvp5aKV4lEJoUBUWId-O5yUpt8ojdi9R6G2b0S1JU4G6eq7T9KCRI6uaXtUmDu6zsc0_EEx3LyMnrsiemisYcK-yuTigYj2HRtxJgEmnBy9VT1gLbA5v5rf-1aOY2yd0P26yAe-Lc2fpSJvOan6IFj4hzqxvK7r27oxOLk0LfW9NGqeeuqORi7efybAdGqEGkkHr3D0bJPTxSwBO-dWn3jz9-Fb22tgPYkUa2TyGNL7uhfDlsrZ-uozKimzpzIefAJ-w_7ClrNbl3grfEUYRhHAWU6FM_5TUowyQ9unqYLW-axFulu2BYIiwUSCRK4yIpkn66SN3YXzakYt1l4gRfNvV6X9xpsFeBTGoNAo88UyvlJ0HNyHULo0qZ-AofGIDyHAWGDy45WvvTtpZpmH4SRr5mjVn3v-3BFJYs0c6d4qmXKXag48KVr8mxNnRfh8VjPvbYS7EH8Xtu7DzZldtuQr5gcb7YTidb2yy2fXkrCFoFUzklQNduKnQ2et1FLacn2bZdysMEUXzdeK4CAAjPmGnA3UA2sneJ9O9Caa_DmGdRwLo5dgbQtkcIfSlRfX7zdF1xujH2cPaLlwaT-Vlmnz4kX48e_xmgHGjATfFvtiKBkCptnJmLbOtRozLa_v58IjLt2CXO34ZUz9XGrYkS75xqY6eTmGkmZeGzf60I6GJER3p2Z-8adh50FSJJKc0-uKNxtmC_p7_3lU5kNOpKfG1m3WSSQeWb7fHcYUYe1hkpZgMisL5CWHFNCZNnEq0MqiWZZ_YT4n3y7iTqDL12Wkq8DNByfrE2l-DTRkzYRjX9j1xj9nY5ElpJh9liV3BnAojGq9MJmvbqXdITbWtRDMhJCblSxwOQNKBxaiLWZJpopEmSipTB8pdblc-TAUJ-CQhaT9MUi5RQ3sTwNAmFH1fCAZhyXvo62RK514WWO-seYzhmZliNtPGYUGTM8M6fm3PmDa1XpF78wj7I7eFg7AAo_T3cvr6J8JE4gU-ip3iGjbjAHw6odsh_38zNoWyIJ6rIHWbgI9NXnhCcdyCMhhsN3b7NXDuko_bbEc07ffWVYJeH1r_Rn_aFRyznpt50JazetABeLBJubyk5SE-d81eQIvOxeud4xmFLETwNah4HPAtYb08oZMZKea5skfkONbv16M6CV0-MXccGohSUJh0rZLJJRmNxiYPzV8kW0l6KjEvBdO-5gn23K59xjOkmPhVwcZnbb2kfsVcuo1hlRzQdUNqxltYEZYoyVw6Y4oayDHc_X8gYoG9mUjx5rLjj15nujw09axKcNbTJwxn7bY54PkUPNO1od-Q39xfeRNCDigkbrR072-IBHaHIpwh9m-s1O838BWXXzUNEgEyh9Ny2PswgKm6XyoaaIOYpBlmE91hLieOBaja-ao03wwDarQnuBjQvkJPLkKV0kFCI3tMWhZIi_a4IAyKhjhvMBDrfpEPG1Pxqw5o-n5NvqWQACL_SCTmH8jZZ3esJ3U2LmOGhpk_L4tETxFem226pMtET-ETegniPiLxg_tfUAnX40VtMy3hd_OaahWOA2deDjIGg6pBlZWbXvrLHDJaPVq3vqBe8bU82ISxA3CYnDIgty2KPVTUDvYPYW_y_P8j9ur8YuoPBeobQqhX6RjEf5qL5EtP0qUEfUg3IkDxCq44VmrNuKNeKLrNgGgABUFTQDUyBlr33G2DCJxgKA2o9HXUNUD7eUNjok2KczJ2EnVyYr2KV2DK0YsnoiVhZPCbM1J6Cn2ebRWLNDR-EdDd2Dl5nQg0YKIKNSrvCyb7OQ905SEwk5uTWh4rrGfiLK12QOoCnVLd1vAixJ1aelLPHbYvUKUur_cc0YndvjskjWfzVFH5x1-1ARvEvOH0KkHErSMLYVz0JaRWA2gb0yCnJCXPjAHVlf014xGobmj5H2wfyBk4jBTTV_P6c3iVe7F0eB_Rx545AGCOVE7GT9oOyoEx0CszdCV5k1ugVOVHKyVhzBtm40-0oDcj72IAoM9kDE8AqpFnXfZdCh2Qc7NTIUyYX-2GG9xDqkmXgeBx91qIRApUMltogVEYa7h7Ytmo3ln7NyWrT5rkmZAd9el0JBO-1dCStueTN1LHeVQH9RMst6lsYxMvIR2kCTN7fwbZ6qc7fpU3YirYt9FRWA3W5XHAzAGCKOKHCC80kxCA9WLG3Kl3ImeVYtG8_RkFo6hzvIKcpA2jfNULhPlr3oeA270ocAxnJOk5cnUOB9ra37HoCPSTsO35fn6sgX3UFnehhubYOp6oP4BGVzuJdwlmUZ6oHR3eughoeM3P24CCLMwFzSSu76mKouharRJOInmg-0KolAwqEaprybOOf4QHNW9wu5_KgaUB30-Mc-rv9XfXboZ5t0-DJBXIcL7SuR9O8f6OO8IeVNFqre62DuxHtt51C64JzBdCozTr6LgEK4e5fbOjXb8KYnp2MBIHA1kMqF2e_3L9db1qM--Q43SY1w0dm7E6safxIeGrF8AT085EqeQm7Obt__TrpuJKaeizIZNOdE5ZnXF0qGoWS3GSwrEYxqHjSRcY9qBXCN4gqsINqhH8D10wM0GOqs0u5VHgThmy9T0ZLBUsg9UJVagFj3Pn8BDitj5fkEkC6W2ZzX_T74aETKztOwT3X96C6rglNCnwPsgoS3F4I1g7zrjRGtPq0r2BMDUStxijswYo_OocvHQI1qXEHTF1AnX7pxkEGaUHsa7p_WuJ4_m_M_DTewVZvDbsT7_oJIEvYL7IyZqIzIdrg17-MLX6EhMwlO-ot3cv0Vn38LN9mGF6JwkoVJqZgXPsJu6zgpkyTS2cUVdrYr-u1fd0YOIvatukLeMi2QKFYM8bYo2hpp6owhnlscZ97UcU-EZhRzRwvqkilhDOCHquatIyEhBGQBhgBuMVMnnF5BLiqRwHTsR2pkH6GWJeE5GIO9Dxs_y_iN0W8Ja8gV2DbOYaC5Xm-UtH-fZDQZbE96cKYFA-NQMtXterLjumeydkC940goDZfY7jozW0OHmpjhd9q3nWDe77pcdNBCazNsIsPngFjUilJXwPYZpeRoiGeLw58SKItRXa_ZanQwMhjukANGcBXyLkAaOoTxwGqCx3mQ4UiU1S1HW9M7sfAhld58MTUnzu6YRcojP5_3GOyYTLdW8DlSEF7hNC1N5GTtTrHNL1j0sVLbrRnbVhWHwCxyosG1Pr9giPMHgsO1t7whk9GgwiRx3OF1obyuB-HsWmN0HUpo8S18QtRxfOamp1MB_LuASvu3UZDnhKifzXxZkLkONHlemaM-cqA5vBmwV0U1nVh5fRKamh5BE-GpB2WSy0jfbT5-pP22so7yCbgeUfVHek06SGOzcE1dEv8yQkTIO9tA-ASjCUO9UpXRVkPgIp9G4vJH1UncCde_Sn816vjCvV1qQJdvr2HkGajPIt2-ZWjuwhtUYDJbAOeaqxopTuxvoTgc18vdUWiqhurf1oFDRMaXgdp1dmGyEb-pccRL71qnzH_M5ufqMdvJ-ePp95eTpGK3dbml0AkfdeDV_U6BmEXZmjqIn1CxjCPl0o_rawya-JKwcKYyaawEZ3hzMM4hpHi53FPTeN7JXjz6U7Q7a9fwz7BdhKVVb_-NYuZ_aqpFMCwLW0lg4UmiEYYMb6hxIoXIOZ3RWNbjQeh8hz7sVN6rnSQa6P_uVBL5PVMlWNII_dc0euwcqMZhPVU9xxT8fKcqtO7r50WocFL2n5Lupfsoi8pdSndY6ZWXWqmbsIynFILEdc-sENk_QUf1M9kxLBGZjiOftzaQE5twe2qTwh2UBxbBcRntLEL4PoHOpQ3330yGyuKFKjhvOiUFYEEdG-xsc0-b6sMxSVAr-kUMdO2xc5Wca-obBm87eU4LukRnFTxhbmJeOXgvlEHnHNof6kbsCXPs5Krnhr99vHsaUdxEv0Mm-U-TIHN5iyCNDDC4YwMNMjpbHykWTy5iiUZpaxFBHMjtZ2YcdFAPRBLcG57bKKg_A8QRhYRvcwPV4e5ykihD74TnJx_gJKdUla6znKpCdTuy7RD-MpOqMsN5iz_7hil-sD4BlKZjpMz4CbRt5bpt8xNTVVkwf5-dt9V_OzHaSLju1gPIvJtHMheRDMwLgw2yIzddCZBcaxJjqbNW9qnraHD7tnS4j9bobx2qkXUn0eCxrPodzO79KVQZBNTK3VlVpO3aHgKQHeHPXNHcqa918Apzjbdu92NOtFlYOaviXQp1BoVhm3-G85LylrrsyW7lEFZl0d79xs8p44xfhU1H7_O9ScN-42dKnQXX6GJrmuL_DmF72E7yB8y0nisTRNFb0claGpB95xF7DWtAzhUuKUuBY7X8dScSd0CuWpJQyHX2fxC5Hf5uyLC9gPCZzZUjbCqCV6x8XHIMm_Ryl7OZ_wj69YJ5tLrEMiGebXFeYgSCPlssv-4Kxf57rpvGPssqelkangqGxlz6maa-dfd08ypQCPNprFhTdWN3YvdHIZc4gfRrJWeAkaRMafnA_7B2-dPClFJIk07LZlTZpacQvYes147_OVOd7aes9RPs6UWTzt9Eo6wfzMc9MRmV73AkyowCd25iN9dTdoZVDIA4hBjDoX07yC3oMpMwNnWjypKXE-4lzbmCEA02nnsnXmGhlDrCEbjP1kIVHjmYZI2lQ8Wkehuih8g5Cl6DXNHCl8gkVJERYJ_I7SJ0UOAZL_FZlv-fiIaKxocy_9HFCp7j0E2hWsVo19d8OvOD_PleUlGx0IUI8HT3WcqOtRvsj6NlllmLDkab5G7ppo0cjyHwGBTXy48QodCeN01uDGg9Cp6LELLKWoNSRlK4ws5OamYNVTH77AMEWRQcx271DILqFQLEb83D_XPseghmZgjASvWQlD7WmrmmFEbNwQKT-wGY9WkePscoVMSlwjVacKbug_AMFD21ysLUK26av_mzeqVdZgbxAyNgjA1jCkynDjUxC36RBfWyelpvq3PiymKfVe_f9YdA9MdlIIZqOXNXiOtjNiWJUnXdPu38VXygCDoO6brSI9fhQXpgc0k9_5dkqC9y7_dQ0lNU2iRzpRH6zVJcAzOjyJPctVzKdkDMR-HVmL2V5VAqxOIVKE-Vn1e2O1RcjvspzqI_dw4HIsX7qrV1B42OOfW5GMvxAPz0c65iMe28HVB7OvKtzzILeGShQfV3-WFZj7fdl-LhVNQSrai6FOOpHqSczl7TNk3VHDHSaSPMwR6ufVX5dT1AbhG6deo6CvOCDhFdAfkE9qmJJqqhcxZRxc_nvsyaDHIbkb9C8J99zxYLNoD1sPXmCIB2f_DSc3emVrChRakYw_Zw4ckQEhGdkAW-1v4IN620VoGTBt-f6eys4Ogy5gFLxexSXvWWYsS5aCHkAB1UjeRRKUXdHQ-apVIcK5EPeG1-3SY5W0kX15NbGNgcsnjelCWU6RZxdryStHJGtRvVQB7B5ZTz_VB9vAMs0t2nJf5bbzuq2a7u-KBrl0KnBKUOm8eKwezcHqfV3W3QQZOsMVhtiHyApaArB0s6IPQ1573fzrndHs2easWSl4Njg5WVvTVbIMtwU98cC3nTKZlcJdJa2FrIvnDCaS5qwr8lg6RGAlvIY23lr3P6vRt7UAqzADTIjUkDp5y8oJHraycbJzYkdUpGETrGHQWn8Xp8SA5rl7pHy-2T7p_xPdxP0sID2nIR4N2x1zRQEmKnipzQC0mtNclV3BPpY1fYvR3Fs7LIhH7BV6AEGiPPwk0XNCwhJr8765ANKxQ_xWbMW7rXiFBhYkEpxZut8ZYJGBNK_asiOB-1pxFA_p7O0J4BWlD7QdkGWiMCPLIfbeu8y6Nt_Iow6YXaUPBJvIlao5TD0Fc2qKJHG9iYPDBdD_U-nvS6hB93Mge1OLfON7aleMe1xIQMbK8dfkzB_EG6_PZSYOqA8tA2W8mWuzi_s7Y4Ja2qtCjl-r6naWNDZSFxRxx5k1mij_mQyB3vouOfwiUr9_ISWOkbPK4-zCLcs7kMX7YIFbCbJWmkxrDbj0N5UjPw3rUR6qonDzstQreuU_D0fa9VX8YOgIgb-8A6jIB3D8sgHUkHRJmv6EJ_aMHjJW6t0WaI5M550pFhEgx3LJTMI68Ni5GeotA55jyeiZi1-BqG_QjeIhAUveCa54TwFhHgQA75LIO-g_wLH1jW-B00zS5Kd7pFf3c3Ck7h8SvxkNEqYcDMjzVqDYci6ZYOS_cESK8N1tKt2XsnkeHuYUUaABIUzP1sVyv7bZTNZXk6m7-AhKV11_WeOq2Q2kbzQokp5UkkrFKpXqn2u1V_1HDFB5ocCltkqPvknr3u1LjlF-UDbrZcJWROB9y1ZCTwqWQ1wCqjvu6_s1i2eENNQS_0ulXSBw2jQr2PZrxvgyJLTKjpxGeg3ws_mGrqdpccM48mv0934P4hZXJLXor3MmB2NiBvhm8r62gvQzcJ8BkL-lkzV7gEcikxFFxJEpeiIOAgDOgPdZo0RAMV9Cs1Zrno91Ot49Eae4WxMaR1G-yu___6ZmB3QcYNSa5qqO3pe3ST0W5PFDxQiFBn_hjVUSzFqgjwLsA6KFMFw6mFLX29CURYMHvdQpOkDT5V9VeBQZDvTAb1BhOdAiexfPqMZzLP2zs6LaaRIl286iEfVAnlDiSfBIH7XofgIfSpHITLbYwWZxSYDQftlsSziAMeQbK2_XMH7uNG0DpO1TDx0OUKi0J8RznoCpe2iPEqW53w2wlVaUiHoqK495EdUDDRwsIdHaaErS1poygyHn0yCJVHLL4dddO6PRStcjhcttfmYEGsl-AnS_BI1ep1E8osL0MTxn-CtXLzvrJuvfzDVYBOBOl-fHc3Z6uDBWOv4E7Ecth6tOMnzpogghc_wHZ9tAIb_jpM0pcsHgqY9TdCQVxmQ925nKKefd-QybO3VBRzN3QXfYO_xAgReErZkEHry8ub6eM7wZ6fZHqug4s4tzBfP4imNoKTgS32WFlFU1Qq6G2HcYpvFyCTGDooVq0s0kAMa7AV9ChTv4jp-N8ThhEtDa4zFbO81XUo7MPWeIgRwHApn1rDWcozflspZ-GHzYA2VO9ZH7LG9dCgEcnWu8T75GLqDDoEEwOeXjUIogaKUFCvvg_qG5v9zyp5si4o1oXK1YQdxAd6HswlDzCgCdHKmVXNGpbzLbEccflQQ5pL9ysX-b9a5TXXGpZhdVKIf0LJ9JpNB1E8oznLIA9jLHGm7KbpMvuzpw2RB00YDwK1fGdTqYZDY5xQIUyTr33lba8vOGjQFW1XCZFocXcPrv0NesxZkp-uWCqk7aThN6MaLDdG36n1m5J_zYNTwTqk0xjSqI9UxeOVcmRYwD-wcQhIj6KZHflEwKm17IH93cC--Oc127amJwcYDc8TUUWoO7KMgEvH9pgxwnQNGMi3vkUn_-idDkzmxiCr0HxyUeJOArIrG2UMPfRS2YVaqHrj_iD5ZFvLTjN12grP8AJ3-fzeY5TFFTtgKmB0rvmvl7EkjYx9RFRdLrHG0gA9OK4YYoGkRu6zTiczocqQ0l9lAvB5k3V6J_MLar-416viWk-eUlfKNnlMXTC8LcIpgIHxx70S_F49SOLUNuwRDvt8_3C9qAZYMcpoTc9E0-GbLdnrWIyvaaTbjQLBM4VWlgrvbkXWwFv9aaWTb_8P8eAAurEmANlw9K6HWkFAKc1utuJtkii-BiQK3lkkfzGwBZuA3c3rq94TodX6dLoP3oSB-YXcP6dI58t7PhMkIQEJzuV3lJj9YNwcq5eGZcD1RyMCmuQWnNUSkF-Q0z2X7hC0oJPc_xWDVrEJrbDB-tRXj1-gGIIxh7Y4TnB2WpPGCxF7oj4yv9-3jUBhOS12FeIiGsJQy6Pd0HsZ7WN2BimSOAIqK51TyUG7gPzjdYEN03mDkWVXdBiUqa4BOFlpJsVJ-UiY0mkA3T5Pea45k5c7-pSXLDpMAV5kyQYLD2f5q6SJwe8hsovNIZQtgjhy2os4WBFx5JCp-cDFX46iOu3fauYpd0cpaLKSIvEUsFSQ4lteGzAxToosgvgdWvDbZ6UeMa59BZKjqDSpODQcXOiBJkF5I0zVupysphW7tZvq9sOPKTOv1Tal4B2xw2oGPgYwOrb8LVmfEqmaREAaHYuCGTgdcseWqbkBsRjflw4PVWmbYnzU612ys4qPcd4UbViD-Kz02XNrdeRe1qaolXdRJb-O4xmtYMGCen7sBK6CvMXmvgu5rROobOGNwm7TghPWSpDgapzY_jQ8eX8KXPvrmw_8eiVJqQXMIaKiYhkMSN6WwyZdihHFt4WvE9aHP854eWV2WIkOlF1QJ0jXP1-3ysCyrhcWneLvI920lFKcbbc_C01ntTnEafKxwx1hUt5XRJrzX8evEm6YAQ5Ww-Tu7basvbi6ST6rkbUuwgG7LNoPb1otjA78gI8K1oChs86-9TbbWNIg9DGDurQerOQ0ShWZez82qnY1VNZlwu1Gv9Nfoknexu7VF5tVHp1AfdktJ-0_1Nzr94Lbqg-e0rgLYdPGLmEXFGSPh4DW5tOh1hvaYT9nnjMaj6KyQQkZENykvmM8PKzOuz18tmMyEc4yc8y7bsHYcavGj5ESx9-NOiECKqKwfithTtn54sZ7JNMq5_0FlBz1fDOwoGwO4GU4JdQTyn3egn48OeXSRFtjHmepmRhcyPj1iffoNYt1ltjrk8nDvWP7K569aAytE91v61rACu9vsv2bM-e8JWhf68rLaybLUHwO45SIPyrzxvletUStnR5ZraP99pyDhHxrlsmFg2QCqfOPW12XXMQ9rq6Tok0iei8ryNowa1vcL0Un09rmjmhIPCxfBzVO6ua0A_kMfaiLryv_VCF73npqEHvs9c4CW8AiJ_m0bBOQV4jAwkwQF7BifacZPALyRH8aNbcSKcvR0JD3SyhXkTskBHhGP9oS7sJkykt3GITsZqm1C-0fLkbLiMKDbKq5tY_xsgyqh_tWv9xEYRp-l4NUvuaNXZs5mKjm9lzZBxKLu_MZMaBWlVs_5tDbYiJuk_k2FKl6i90Xrly2vJi6DMUwdfpdDKRskcqbSll8oZ8Y5e7-hXS-xPvOSDyYHBbTuagrIlBS2FVvXq0IyKU_iffOFlF7wA_EPLyRTDtR61DJSLth1JJIWn8IbThPehnjN8F9U03r4SAhGoH_I1B-smaUT7AqHnha8Q0PYrDJoXjB0c4H2bNEuuYwuXuRocGWLh3z9T0p0n6yfeMxIlE9avMbLlAeCV5_P6vvBYxP9huTxUjGl-z4kmAIYBp9lL6fI7rf3IgE4Umc0MY-oMnTx9yZCUPMulvOkerB_Kw0u9xxpbnmbZXaxe8tuFMCK2_N84Jhfex9QXu1GVCxtZpEblURd2DhFZFI7cwTwiwOoH37UNryCoD2-sz5oODK79ZM-mmD5WNVOj3N4msTlWi0ceKDJmq_0JG7kBPmcwD39VS4dw0ZposZRDKOGb0dEz0VAae9pq41wV9g_hbJ7XpbjXC6IgAluui8RgVeTJR8OPBi1NoerHfzPRZ_UOZ4tR-bmtKF74NanB9zMvbbX2V7uJ3MIhSfVmEXrYzRxtDcmWUg1s0rmiECJdNo7EB86rkPjJF3SzfhQk1TZlxxU885I14KM1GOanGTsCWGl_oMDmIzmP_--fFqHuFDg0mi6PbGI9gXzwEjlpCn816AKSDssWdngrU1E7PKkBS-WpZkSPrDKfZBG_C0ELnTgX8Fdv7dMtLnsNsuQ57wf9HVG79dn5pis_J4cHPw68vfCrzwsssEBMEyokVH4RM4zcJ0QgbN4O2U-ZuaMF9qf3bd9FrfQ4dLGeEW-XvgilysVx8t0QsCE5obWaMn72jwSP4v_XAvMD8lwXe0p_62cosU6JcbR71CQQ8ZTL-Ik_dnm4qTQr4Rl_A-peSvF6WmG0wapJk0Byxp3mI7syO62_3G3ifiL3kcWpS4_3Uk_r1ez5V1MAqw9PGmS4uyZn4S4z3c6eciFFYr_CPUOYITOQoIkwmA2oSakQNuTWWd3t2Jr5jU7YsI8l2eYzQU98-lL-nkp0kx1GQ9Hdd9kJDaZYqRzqG07xg66APiFJ5J1d40GqbkW6jRkVFMw9Tf7Hpl4XlNp20fEjc7HP8NI2ZT8GLltH-kwADjKJf7Oq-VgepDOc9EERHb72RQK70eGhO64rUt_E--Z_WtBEcK6MeNX-fzYakQ5GORNWFu6_jJNV9d_9rWTl7xmiurXwDVa-g8WLB5wwFDTQxTFICp1vxuVlbHN38wyqKceMP_5w7Y5hFWvKHvQRbZyyd58ebLnHvgCs1ughLjVA_KOyL3sy04mUTBdYittpIIdxuuFqwDS4T3Vi2vqAqHHd4mrTLKzBQApJtNA_DE7AVJZXA4aTQKyNj0re4jbFRUpY5yedyRjTp-SRbugT-uiaJ76FzXlcKUVyHYBDw7MndOgvRPF8lfiD7y1gW6ZTUnTlji6T14Qn0hyJ0psJsVX3yUcRtM6P5t3M3vCyx9VxzpLUz1EAEtjbS1hWExcYFPgB3ABPU-3DBPhE8P982gEMoBB2-SOVVkStoOXCsM3AuXhvmxCSnbGfmIjxgGUXCXVfRIjBDeoeP-QIr4509btZhvSa2KH-BlckibotiZTMNUShLtbOu_Y-Ibx4mlX_dd0s8wqRz1Juu377AfGMRBA5eB54EzL6SiISif1F_Pk7p5PME6bjjSDPJmypta4cKX-eQ_Mj1pvLIatwdHusXMDvZiHSUun42vYYLDpQP6472dHsMEZeDp5wYCLVodnx1WG-foQYE9kkroSX5gI8dVn6X3pdPsK6HRPGdeZEJ16MuNgQOCfWpvsG34bHTLMgSaN2wo3hodIHioDSM47Wu_M6pv2ePUe5imCaHM-JBUUiOjxuMSsXXJPBvzLbbmWah2ZDkZ-VvQQ9hwqGiokOavYLCP5a0kfayF4668UXmYVdWTWglz4CYFUzdk2ErWOuB2l5HyCJepdnkdv7oQ3_i7gEpOjaUBThfr4qXP16rNwwaeBum3i4dOWE-qgWcMBXpPx7CsQ_Lq3huZD9SOAJ2pqAbzTNulONzMceK0knk60yYpwptZOataKwNjjpoiVgt0aEFOsU07urq6-LNjiMQg6CV2oEwqD8zlm3OPSASx_SegDuXySJvIyo7_E1BRT81URlyxQLVXkzKOBt24uiXYGRtYU8ujSz_6mmpKzk4Jo0j_Tzh2gxjtNvo1zWvg5w04m-nW6pS4OvCqRq97f48ciPis4aOIrLo_aC3Tk_-b4cQEGWIDXRlYBFYlb595Urt9lxrHeOCYYNbutqmrbKJ7P2zkMyE1ms85tat8ergiqRzwfaiYksPnBxTwoCTgb-yZFAB7GUdEi3UBnPa2LLy5P2wXyTgjuzV68zae7qFDt23qXsoLiM3RNoPdHrhrbLnzqrWshl2OCyyUlPByvg1oT64HjwOdAwQ0HqnmYSJIU5AHyvUKkkRGwjzi7rBGwuGVfR-ynP6aYM6XQ7vtikXx9V2QH978FAG5ZQw86y4itJ6aW0SwOWHcWKGwLhYj_zOwh2SQ3_XQ-ycXjXTOFU5YnRG6ltC_5LGWvHJ5TV5hHDTp3NarDMEgXAfe2sjnCVDH1Q3CLeA7hQfjOjwdysuXzi-SqPISPMxSYKDJCVJXWSw7dSlsZqGlN-8WfnJTz96pB4RxUXv9qjnJM752lqtBzt4DCtbzXH8PWUrOfsIKd-ODI3njOoS0U2VCP8Kcm-3oDU8fBTlXSopGaavcWclCH9MReRoWTxLP9ZzmAkDV-vn_FbGf45_fzlbiL21gjm2fCWh7mawrLYsxyuwYzdAv0joILfShyrBg2lzsfyxI4ysPWibfNMXxR2g-yXjMBiOkrsFbScmdAMxM1ueCi_YvYI9MHpeJDpoyVIyXBETK9O5nYr_1UXJyHeZ7KGqLgndGeHxrh401nuagJwUQXSbfsE2AFLWgHK4GgvP0mPKXW3aC6qKdOYUk9PJtbejjvpimN7iGY8AosNRd13GQCJhg00XLFDwlD4mYIFjhOXdzL-3gBQ0DGYQL1SSGsJGc8DOTvf1PHxJS115xFEjWPp9713sX-860tQePJM9LFYPmd9KPibnXxoiMNJtoinOPkcVIfS1sWgH3YPb9dQgDmFcOtuh4C3HgGorzsPiCCrOAKhO7Wxlf4byxYvKxVZ3pkbZYK9JStTdNBiVc8QKN1Ct57ov_2fkdsfRr0Hp_hcd4vvG1eb-xb7V1Kyk2IvoW2NYOeQUm30yZKQRBtOO_Ukn7pWsu0PdxU8ubgOXpTqfua0m2sFwZhLTAMOWA6u7M2UWonqaZGarwajeKhaTXKOF_mBMRxABuJukq-_mrK-xGRAKbvibMn0-dRtZoAdK4kUDr4NCB7K266oWVJxJZyYE1ZY_L8Y9hagIvN1fVep0rgp7kNXOWRusrYxE1vNMTOlOsKroo0bTDr3Fiu20QDTbkHOfo7eFrIqpWxifELGfT9pcR1HtCujYD6kMI-JObS9P_7qHQTc5L6yow6Qjj1obBaIX3LGlf4WyayDNy79zTYk_-BQB3xRenyOSGVu-m4keDalKT-H2tmiaNG2tU1Guud4u-sJpiXY2ufRbNl9JTFmjbAqQQ-MI4ONyCfZfPmuHUZVLH-VEaQ8CgSnuyR_5MXZhpQSuBvHZ8MwdmJ0lsSfND1gcNb5WOwokd_6KVysFT-3KGtG5Bhc6J8VwKr00wCF2lsmoeCj86FjXCHRxyMbc9p2FwGGt3GRFe7HzjO_545FTKcvxMyhuOUOqwhL5i1Ydl_CLD6vJtNZ4xsrXiBRnvb2lWw_9ivnftLjNhl_ZPeu5KeoxjjaP_8Rr1AfJE2tLCcujmN07_adPA8e4m6cO0VgCJIkV89JqUHtvL8eaBuvPWRVGxbB0iWpnxugUGuti3PVp0n11dhdAab_y4YYKY3bXyltyLWC6GE9Dcys3HeZ3JjkBKMMEL7PIb6oGfGhGamF2uFUO5YmYBsCsqrH6WJMTa0VyBM0m2GdNfu83mJ9AbJDpM7Lt_FsjFv0T3ZEewV-BJzD6B-j-s7gD5SgEZet7BEOS8_3tA43f831YWa_7R4VlJTz6dEUJV4SjlCym5pVvpNLfWSz0_KpE86sUCUETlj6juzlt8oJJL-mJsNaqluuwE8RCTvfZpsWBDSCDMsgevF2JN9Mv19bEepg4ih9e-qi-uSn1YVAvDkNhdG4_VpNhiVylIy1wz1PTOTUPxStCX44Zju97V2h6Y5gGHT5Or8CwFIlfTlJs0_VQRCuvD1WkaOpojq8wFwXmNiFLtlry94VfqkaBKQB8ToDTB8XSQsYHSV46_miWg0tLhFpvdGdSq36pz1_R0lN2fb3KQ_sgYFNxsYQbdaJr7TkjA7_WOoDhmDNQTH3EVAhZnN00-xlb8JpzlN7Hd6Ag-LuvHznM-Zn4SRVIc74jlPv0TStD3LigzLkCKQBz87U9stIa67ytpboNR4D59r1DrihdzsVsS2-x7BA7eMcVIuKyiK1S0raoUvlh62HE39eM2YNNxkGbXQHxhZzXB20krYH2AVHGWw_PLvsT8_rX9ikDipldLg4NAq-two7pi1JNA2GPXbjzBXeuUWttApIUlAIGTh7gKBdUr4QEPx-H_ulImQlbIJJFBZmw1Y1g5DMxn14XwbamnsVgQX9lFs4BIoxxzJYC96jJQIUaDArgBvJ-PCxdiyEFfhZkvMjiQrPSNHKEgIsK__B8_ZPcplJEoaGU1pNmMADCqFlwFl0cyO9DE5nKI-JRHQBMmagC02Q9-cRJ1SayWszdRiZlg5hhbmZ0QBoyU7E5WSzl_m0fwO4dcGB_lTTMeE27mW5Gdm1YIIjODhUe7n9HyyDn3esgwha_b7FENzkwkCWGkgEYC8ZHa7IThcTQ0MWmOEC5svT5cdAYOq5RKCtmPQws15sXH69t1fH-AD4FYtx1HPeC_rgnsGChLTH54iy7HnKaQvq5mhJ5IU1aKsDKdiNTvcuAoNUXazdkF7NWYUw-sCKW2tGFsXPHowPbU99kFNAEsXmAlDSltIyVm83qvvz6rk0EYK_XhDCqaEKomgNpMy8NtiloG0mgr9KSWin_EUR3Oe6iwPIDx3olFj2WL6Y9Y8fg5J2lKf3ME77m50NrjsJzNuCXFLKRWaiXLD6ntJOQMx55c1DSqzmJwiG-QN2Z90EdmkyMgbKhkOny0LO890aaMGrvhJwh3r-tMworyUnS4BOnFSasfroO6DRYlYmRZW3nnKsLN0uQXwHn2T5WIZfq8tT1oo2iczaSVX6NAocL3-ezOU-ZKgHLgL-QipKXwWtyzLiezetPg-lpF3ztd-hqnqfd_ZabW6dCvOhrslhW-HXhjw3VMPaFdlSymW5MYDwQ5UY6dK4iPmwSldb3gPFAl9IIEnlut81c7vyebcLeXlVt8oong1xTPOw3yK8GnW8RbvtV0WyqiOxg2qWT13MSq4Vjn9C6wgfQ0M0RPxftd6pV4GPBrWszceYVq9oI4PHVRnAAol7d9t-yTl90c9mg-kFy5kUGqOKdUyyHh_519WozeZyXTfCc_YMDBOoVLupC6Bc8ICCVE0eR28UDKPJCKmXXA9lIQEN0BblP-dkVY2jW5Zrd8uqVmcJ9wkrvmR5YvxCivNCPJEtjTjN-XDYIsLMJVzpTj_PnKPYZVPzZmRxTCfeZCzAHl7Pj8KQ12zScNCiOd7Url0OZbR-nAXR5up081-GxO4gmJLfBTHJxVKyd-kf_ryMMOOMZrE-q5W4SGyDD3ziJGhuAi7XocCRDa1p_w9qXsMLAGddzVqKrNH9zzGxM_1XrXDr618jDUn-Jt9W0XOYNkrnp5TrZM-Vc8atftxZ1INuXb5Dvfv-1rX0fSrI_AAx24kmY-7sDWDJlhTyCi5_1f95bEa2qNCOaUc9O03x_ksViLcojkyGlujDKzEn-fUr3mHvm9QIsZS6QkKXrHj4xPyrxwZsS9bw6TDT-mT4uWKi-D9wdHxo9x9TO3sVyE-rJ2TWL1Vof04pXg1t7UnJVFzqREJluHQvJwd3ymTxZBCnLV3MOzUHwTcYsUDNAXKTDuvZu2i1lg5BcwICeLjidy_hnNo0w1-VNsd6jNXTA--UBMWxQGbRY67UL7r_UTmimlBRYCl0Nx30pVo5qRSUS2ka6pdzM57GHVv_fz1LQAdkaQqmQLShe461zHo5HVnZMoRO6XnZRxkpJ_3xt_6RJdhjQbyY2ydiYfkTENc8C2Ki_Bn4rjh_2FIClwWaqVltQhBfg9RYuC6vcn_Zn4e5XIkNeMprjOEFtim1nwVX6f_ZcoZzS3Zkx5glZ4vv9dZSdS2Bj0O3hVW1yBp5TZujDzQtay4_dsQoOwGCdGgCgDTInEsurwbSwrXD2AOhwtD40hvc2vgjRElcwaGLstrcOlf1i3y58F_XEUirv2Z2kFOrTZSj3a9k7iEbNqjBamH6wnq67JAskyLFOzMbPztwfWDKLGPhoKqSKKmbhDxhphAM4W9IfKD-R24iYgPEaGYs59jMGBhxWxJlW6jd5SG58l4OSO5NXovOf3pU8K5mqNLIeK2ZQbwKtylnfDeHeUEJpi8R-hj0FwmwAJiTlgpu3o58ZQMXCF-8WtalDr_uVcHCBHuRJcljERgrns_OBzWWPEs5WsdmgtWwpjtUk8fmBiWYVsXaz8lRz1pMI8Kpxc3gw7FG-_h1sGffSPD6kjH2bqa7JS6innSv7P_mo_Yo7jhVcUemuxMcTTnEVbVwUsaXE4xuqEkEwdVSno1hvw_WXzOeXCY28-LJRuBQiBXCDx1r1QPX-99poyG3fDDkZFsGQzEIorMVFvM5kpQhVrKYj7MhGsgSf9ZO0tC0e4mAWkpxEfCQSgs4wLpMq7bA3xHcmruT1VF5q6d1yatpBz85zoIxrOODhJtMNuRu8OBjRXWqZNqVw2NZHX--kYLb6GJg0jxHnS2VKeozHpfgybN6g4IywrY6qbL0moytF8d6xqmjssyG9UXNd_q8ppf-38bBMDrOuifpo7Y9oZfsstjvB1_cQPzJtErBekcj2le47Q5NxSLUFNHNyGsf74dtfSgMDgsIHKupYxPo99YBmHGo0XKC7NgPWqG_ZUtEsy_lJs_7ExgB0iYkiDvzx7Z_krSmE5yblw7ztd0pXdxOPGwM7fDFphEHRU7tI7EV3yAuMqVl7T0OO7jzvqvrKGifXPQTwVJ_k6YRBKwErl90yBoD-kdYEUmWwsEw9jq3vQUW0bsXl0NscJ6ofggnqeigaFDq7eu4FG0Xr3lmCDzsBPjCyTptCWHkwOPXDYlEF71Gn2_l3v2tfBLOkVmihhr5xP6gSZSgaRhMzg9yPq5Z9uvCWnpNq-PWJi6TBqDSiHCVjGetCC0dN2f8q3cRpCrDSh0Yuju-cYcGuFMMNHuNMGUvlEn525KUfhUdxdcbLbMb_Y3PnD8g4CG3UfJ6O0USr0XidTXO-Z8Xu8bN2kxfei8Asp0uIHeOIa2eMNhSpsvEVed3-vGZGlcTKHAloG5Me93WEtzonxW9S2WtjGW6qqlcglpYxwQfdE5ILSVWOuBpZxJ8ipxt7icNWlSKEZPxWMJYuw3hImj97Wy8nIZG4iU82Zhgi7HENW0-RVoUQtolW9iHzGkglC79GXEBxYDmEv1fT0O7apqWlCi98RmEIbSLWltWkud5e6kPBRkO3UY6CTG3GL1WE-84SZUPiTtUf7qNtL6BrnVQX7hxdl_2MCKgpYvY2YHGjteAwt_7N6bjAcZ0wjNywwy1RDD8KasUMzS2oZbjyVmUF2KKMgP60-IkrGjZfJZXL7orrKbzBUSpmVD9gyE--sDFEKPta79THKjlXikTjd_Im1RHqjGCl0k6W65fZe9Am5EJf4a1Ebxse7xW9mgBCnUgwgBRcgm-nFMKyXx570ANjLZHE8rAzxogs_sKCJySC6Gh1zt87RXvRc0nY9nHdpS3lPMH8u9LdRKXufpmms0aWHq9SHKLqmF-fK1D2S3cIA2iLGMld8I4Hf8FtEqBKKhihNIKnkNzqSeCzsB2ZStWgddDEmk-SwGK5xg_lUrI5s5FXM827Nku9ngYojHhmZ-OKBCJsPeM13cbKmoC34rI_IO1R-HfbG4tMK-fj2gS2saUh3LQUHzMTYSt3YuBE_ZZtTjHXB7t0Q2JrCchd0sQYiQ8WAWOSlRf_6sEIkXWJ26L6jflOm2fkvpqzEZPxGyWzGBNZLf2u_XGO-HqvW__X0LKNxTivls7a4AydeHQlvLtzg2wrOBZdC9eFExQoigGBEN4SQNZq41kDkeGb6VC32hfQ62eTqpQM_5f1ko9DAax5x1By8B0pNOEZ_h2uUnhDoZOwUZKYmQpJamaww3Oo6-8wRw3pcWnVYkLNJON0EwvFPrL0CmBy9lF90RFFvR7sY-UhiZ195tM6zYHqalsR2XQ0mDpXiAq0yqKdmGhHAL8ZRZX4C2zzs5EhTnKeDdiRgWsud1j0UFF2u40w1OYCiWN-50x5ItD01hOGBkmdAEk8qwCy0j_Pe6jt7HT_aO-IdH5cIOBNRSDGrrGv6tnudz6_WRtPtnB9fpo0O8sx3cRJ0-tS87sAqgr6jCBrkN0EhYIJhT2o1ITlJmPyftWmaL0GNhQt1abJKPSDCjQkdXvneLW_NmRXDAB9EzlPkcavS0VVH7kp0do7niyui7guFcqxVeUtmqFSUytJ5j2iN3Iv1NNEWRISDvRuyBb1rIxBvpsZ5R5LoTrrPHef8VVUB1m9MAJFGE-9T3-bS1uFbRNIe4xnMTNBCK0yHEsu_xNYD55IY3PBnQfcYNAGQpM4GLZnGOp14NR0ytj380idPeVDJxzEjcWmz1TNuqTvyEPfNEd4XqlXz1wV8HpgF-lN1zuzz4TJzyujfRQrTFJsDHf3YgKx8tliAH-J9tpTxeVVHJR9j4stZZpT4qpceUQpOTyYQC4skpUMA1V2Xv6ZTq5LVyRjnV1XoDA6tlv53y0W8BI4NpbUbogjioTKkQZ2N1tjq2TA6oP7dNJs_gx4V-b3_fgVM9RtySofvqfj5rBpHYtwv1o_fgnpUiEAY5qAGBTjfa0JlqXHbaPN4P0iNSBdO5fj4KMzgjyo1ngaoRH4u3CBPpGOv1U3cpLhJ6tRhc6F3Qf9C6y_Noc8WMdFLdNERmIa_LSyaBJVTqqc7rU_AxgvRr5PndySeJA0WdtoL-YyZB3T3tUw4kA_zMenVykcxTd9KK3uWrsUlrbN4Zgwf3vHKBfEvn60yol9mK-uXvazJRZriAKPrS9EL635ffXSOyyDmmV7Vj2iMWVPDe9sqpotciYYOdorjRfbPSuNmNlYbsuX21Iw9UDNVS1G8-8vgFZztD2tR8dfPNXxMcIrLvh8kr9f4yGXUkjY8M3AetLBv447I-VZ2DWQg-TrXDANYth4740N2h1xVyKsXplGJQhxTY-E5M9L6ci-HpdRKDDYyXjvUv3d18b4cXBsD8y0BlIU6cB6_VSVSE0bcvGWKvMd7i2OgGt6Q5UYChqNxRAuD3NLDWp-UZ-PVxKoDnTdHNaWmTVn2f2yiNrFEPmd31nz_27Dj8nERVJRhrHsa7ErknHnXce-HP-wAgL3VxhUlAZU69pS32OZc6wKKKowmo_HWyIUilrjvOdpmQ4auTnkEVLvhzaeH2lO3-ce-14b1bSgfULJ_6YvNo77s-vsk4fl4pu7bKA3uSlPSni7JDPoJjMrEDi-FFlljKDVDuPxiBSukSBkMprHeRzlvVccAD1VGCkemolEXutYTvl7WlivvdsbawXf1Ti94fO54kXLPhMJW2fNbOzALRZlsxVwOcMi5_rOLX1YLfLYFnIXLmhY2_oT814dBc7nkXJZK-a5YjT-iYmJuHY7xkG8wFm0ezsXEd2rCaMn7qnrTppW8vw01xytEqW2TaL9GhkTV3JYqDFolmBk7JwfIPzGXxjrAiw2xv-zMj4_2Nz4Why6AhaRdaYet2iH5fH-xKv1zA_ylfdJqpzUUu_xMFP7F-gXcFC_Gv0hVq3j2BOoQ6BYlTtLrO5mfChbLbE-GnQxjpFmIU355f3_T4uBmemqtpjiU41ikMazKe07zvlyC0_bRxV35HGi1BAMTgEj3oQZr71YcrJ0iX2ESmG8eQj2itTDBqgqlM9QAU6vzbTKFxuiG9A0_zOAzgpmgFmyMWyZiUVebqtYqbCthWkIx1p3oJvXaIUfW1IRs3IOHndMq6dQM6mKK2Sdd8G9cjqMVA0f39WrzNTSSVt4pysSkTBbhkhtRm42WqmvRYaoBHI1vNQLGKyraMLbthtT8OlotWSnFoDuKcKQZxqs_jw4YQGzJbhdpBEsXuEvo7n6bZCcruorhnL_HjSLVMnIDHMB3f0GNY21mHNmRY5G5JHGCtOqk91COAyE64Nb8TBwET3jFd4Q1NLHmQpmIqi0O3ofnPL_TJYbMgfQsgeFQTVAI4vhJYbqppDgRZ08nSQz9djXKLxShc5jH0ST9rDbaJDpS5fYe9eYAxauykEwlyXZjz7CPgp569oSfmEeJWOO4SATCrEbGuT6BJ2k5KwUJu8psIYY4TYuX7I21uOjZugZ5F1rh91eKEtNOv8jdweDiFP61uR45iDzJ0IeaFuFsU77CoG22IMp56JAqTOuBv69z_vXUYpHU48bLw-BWdimkAWVrdM_jxDPRM5xdExQ0Q_78BTxVobW4R8EfITfziiDnLUPJORv-ik3ZFgI-MK5x9hSeF3IRXKyTndH_ZdKh_RKHxZXEeLF_XrDih5GSMl5FKADFL2o64LUw.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLWVtYmVyLTIwMjYxMTA5fG1ldGEifQ\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa95b5ac95fd619242c8:rs_01a1e84ad83171cb8885923f1a5df50f\",\"index\":1}]"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84af600744e9772d0c42bcd4199",
+            "name": "write",
+            "arguments": {
+              "path": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work/anteater.svg",
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 800\" width=\"1200\" height=\"800\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">Anteater riding a unicycle while juggling bottles</title>\n  <desc id=\"desc\">Animated SVG: a giant anteater with a long snout and bushy tail pedals a red unicycle and juggles three glass bottles against a moving circus landscape.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#6EC6F5\"/>\n      <stop offset=\".55\" stop-color=\"#BDEBFF\"/>\n      <stop offset=\"1\" stop-color=\"#FFF3C4\"/>\n    </linearGradient>\n    <linearGradient id=\"ground\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#F7D98B\"/>\n      <stop offset=\"1\" stop-color=\"#E8B95A\"/>\n    </linearGradient>\n    <linearGradient id=\"fur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#D9BC8A\"/>\n      <stop offset=\"1\" stop-color=\"#A9825A\"/>\n    </linearGradient>\n    <linearGradient id=\"tailGrad\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#C9A86F\"/>\n      <stop offset=\"1\" stop-color=\"#7A5A38\"/>\n    </linearGradient>\n    <radialGradient id=\"sunGrad\"><stop offset=\"0\" stop-color=\"#FFF7A8\"/><stop offset=\"1\" stop-color=\"#FFD93B\"/></radialGradient>\n\n    <!-- Bottle symbol, centred at 0,0 -->\n    <g id=\"bottle\">\n      <path d=\"M-16,-28 L-16,-8 Q-16,-2 -12,2 L-12,30 Q-12,36 -6,36 L6,36 Q12,36 12,30 L12,2 Q16,-2 16,-8 L16,-28 Z\" fill=\"inherit\" stroke=\"#21403A\" stroke-width=\"2.5\"/>\n      <rect x=\"-7\" y=\"-38\" width=\"14\" height=\"12\" rx=\"3\" fill=\"#D94F3D\" stroke=\"#21403A\" stroke-width=\"2\"/>\n      <rect x=\"-8\" y=\"4\" width=\"5\" height=\"26\" rx=\"2.5\" fill=\"white\" opacity=\".45\"/>\n      <rect x=\"-13\" y=\"12\" width=\"26\" height=\"14\" rx=\"2\" fill=\"white\" opacity=\".82\"/>\n      <circle cx=\"0\" cy=\"19\" r=\"4\" fill=\"#21403A\" opacity=\".75\"/>\n    </g>\n\n    <g id=\"tree\">\n      <rect x=\"-7\" y=\"0\" width=\"14\" height=\"62\" rx=\"6\" fill=\"#8B5A2B\"/>\n      <circle cx=\"0\" cy=\"-28\" r=\"42\" fill=\"#3FA34D\"/>\n      <circle cx=\"-32\" cy=\"-8\" r=\"30\" fill=\"#57B96A\"/>\n      <circle cx=\"32\" cy=\"-8\" r=\"30\" fill=\"#2E8B3A\"/>\n      <circle cx=\"-12\" cy=\"-34\" r=\"6\" fill=\"#FF6B6B\"/><circle cx=\"16\" cy=\"-20\" r=\"5\" fill=\"#FFD93B\"/>\n    </g>\n\n    <g id=\"cloud\">\n      <ellipse cx=\"0\" cy=\"0\" rx=\"62\" ry=\"28\" fill=\"white\"/>\n      <ellipse cx=\"-38\" cy=\"8\" rx=\"42\" ry=\"20\" fill=\"white\"/>\n      <ellipse cx=\"42\" cy=\"8\" rx=\"46\" ry=\"22\" fill=\"white\"/>\n      <ellipse cx=\"4\" cy=\"-20\" rx=\"38\" ry=\"22\" fill=\"white\"/>\n    </g>\n  </defs>\n\n  <style>\n    .wheel-spin{animation:spin 1.05s linear infinite;transform-box:view-box;transform-origin:600px 540px}\n    .crank-spin{animation:spin 1.05s linear infinite;transform-box:view-box;transform-origin:600px 540px}\n    .bob{animation:bob .525s ease-in-out infinite}\n    .tail{animation:tail 1.05s ease-in-out infinite;transform-box:view-box;transform-origin:510px 405px}\n    .head{animation:headbob 1.05s ease-in-out infinite;transform-box:view-box;transform-origin:715px 275px}\n    .leg-near{animation:pedal 1.05s ease-in-out infinite;transform-box:view-box;transform-origin:622px 438px}\n    .leg-far{animation:pedal 1.05s ease-in-out infinite reverse;transform-box:view-box;transform-origin:585px 438px}\n    .paw-l{animation:pawl 1.2s ease-in-out infinite;transform-box:view-box;transform-origin:625px 215px}\n    .paw-r{animation:pawr 1.2s ease-in-out infinite;transform-box:view-box;transform-origin:745px 215px}\n    .blink{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}\n    .tongue{animation:tongue 1.4s ease-in-out infinite;transform-box:view-box;transform-origin:848px 302px}\n    .ear{animation:ear 2.1s ease-in-out infinite;transform-box:view-box;transform-origin:702px 218px}\n    .sun-rays{animation:spin 24s linear infinite;transform-box:view-box;transform-origin:150px 125px}\n    .shadow{animation:shadow .525s ease-in-out infinite;transform-box:fill-box;transform-origin:center}\n    .sparkle{animation:sparkle 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}\n    .cloud1{animation:drift 26s linear infinite}\n    .cloud2{animation:drift 38s linear infinite;animation-delay:-18s}\n    .cloud3{animation:drift 31s linear infinite;animation-delay:-9s}\n    @keyframes spin{to{transform:rotate(360deg)}}\n    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}\n    @keyframes tail{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(10deg)}}\n    @keyframes headbob{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(2deg) translateY(-4px)}}\n    @keyframes pedal{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(28deg)}}\n    @keyframes pawl{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(12px) rotate(5deg)}}\n    @keyframes pawr{0%,100%{transform:translateY(12px) rotate(5deg)}50%{transform:translateY(0) rotate(-4deg)}}\n    @keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}\n    @keyframes tongue{0%,55%,100%{transform:scaleX(.25) rotate(0deg)}70%,85%{transform:scaleX(1) rotate(3deg)}}\n    @keyframes ear{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-12deg)}}\n    @keyframes shadow{0%,100%{transform:scaleX(1);opacity:.28}50%{transform:scaleX(.84);opacity:.18}}\n    @keyframes sparkle{0%,100%{transform:scale(.5) rotate(0deg);opacity:.2}50%{transform:scale(1.25) rotate(45deg);opacity:1}}\n    @keyframes drift{from{transform:translateX(1350px)}to{transform:translateX(-250px)}}\n  </style>\n\n  <!-- SKY / SUN -->\n  <rect width=\"1200\" height=\"800\" fill=\"url(#sky)\"/>\n  <g class=\"sun-rays\" stroke=\"#FFD93B\" stroke-width=\"8\" stroke-linecap=\"round\" opacity=\".85\">\n    <line x1=\"150\" y1=\"28\" x2=\"150\" y2=\"58\"/><line x1=\"150\" y1=\"192\" x2=\"150\" y2=\"222\"/>\n    <line x1=\"53\" y1=\"125\" x2=\"83\" y2=\"125\"/><line x1=\"217\" y1=\"125\" x2=\"247\" y2=\"125\"/>\n    <line x1=\"82\" y1=\"57\" x2=\"103\" y2=\"78\"/><line x1=\"197\" y1=\"172\" x2=\"218\" y2=\"193\"/>\n    <line x1=\"218\" y1=\"57\" x2=\"197\" y2=\"78\"/><line x1=\"103\" y1=\"172\" x2=\"82\" y2=\"193\"/>\n  </g>\n  <circle cx=\"150\" cy=\"125\" r=\"62\" fill=\"url(#sunGrad)\" stroke=\"#F5B301\" stroke-width=\"5\"/>\n  <g opacity=\".95\"><use href=\"#cloud\" class=\"cloud1\" y=\"95\"/><use href=\"#cloud\" class=\"cloud2\" y=\"175\" transform=\"scale(.7)\"/><use href=\"#cloud\" class=\"cloud3\" y=\"60\" transform=\"scale(.85)\"/></g>\n\n  <!-- DISTANT HILLS (slow scroll) -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"translate\" from=\"0 0\" to=\"-1200 0\" dur=\"14s\" repeatCount=\"indefinite\"/>\n    <g fill=\"#8ED081\">\n      <path d=\"M-100,620 Q180,430 460,620 Z\"/><path d=\"M350,620 Q650,440 950,620 Z\"/><path d=\"M800,620 Q1100,450 1400,620 Z\"/>\n      <path d=\"M1100,620 Q1400,430 1700,620 Z\"/><path d=\"M1550,620 Q1850,440 2150,620 Z\"/><path d=\"M2000,620 Q2300,450 2600,620 Z\"/>\n    </g>\n  </g>\n\n  <!-- TREES (medium scroll, duplicated for loop) -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"translate\" from=\"0 0\" to=\"-1200 0\" dur=\"7s\" repeatCount=\"indefinite\"/>\n    <g transform=\"translate(0,0)\">\n      <use href=\"#tree\" x=\"120\" y=\"575\"/><use href=\"#tree\" x=\"430\" y=\"590\" transform=\"scale(.8) translate(100,140)\"/>\n      <use href=\"#tree\" x=\"760\" y=\"570\"/><use href=\"#tree\" x=\"1030\" y=\"592\" transform=\"scale(.75) translate(340,190)\"/>\n    </g>\n    <g transform=\"translate(1200,0)\">\n      <use href=\"#tree\" x=\"120\" y=\"575\"/><use href=\"#tree\" x=\"430\" y=\"590\" transform=\"scale(.8) translate(100,140)\"/>\n      <use href=\"#tree\" x=\"760\" y=\"570\"/><use href=\"#tree\" x=\"1030\" y=\"592\" transform=\"scale(.75) translate(340,190)\"/>\n    </g>\n  </g>\n\n  <!-- GROUND / ROAD -->\n  <rect y=\"615\" width=\"1200\" height=\"185\" fill=\"url(#ground)\"/>\n  <rect y=\"615\" width=\"1200\" height=\"16\" fill=\"#C68B3A\"/>\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"translate\" from=\"0 0\" to=\"-240 0\" dur=\".55s\" repeatCount=\"indefinite\"/>\n    <g fill=\"#FFF8D6\">\n      <rect x=\"20\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/><rect x=\"260\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/><rect x=\"500\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/>\n      <rect x=\"740\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/><rect x=\"980\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/><rect x=\"1220\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/>\n      <rect x=\"1460\" y=\"688\" width=\"130\" height=\"14\" rx=\"7\"/>\n    </g>\n  </g>\n  <g fill=\"#D9A447\" opacity=\".7\"><circle cx=\"180\" cy=\"650\" r=\"6\"/><circle cx=\"540\" cy=\"740\" r=\"8\"/><circle cx=\"920\" cy=\"655\" r=\"5\"/><circle cx=\"1120\" cy=\"750\" r=\"7\"/></g>\n\n  <!-- Speed lines -->\n  <g stroke=\"white\" stroke-width=\"7\" stroke-linecap=\"round\" opacity=\".75\">\n    <line x1=\"85\" y1=\"300\" x2=\"205\" y2=\"300\"><animate attributeName=\"x1\" values=\"85;20;85\" dur=\".5s\" repeatCount=\"indefinite\"/><animate attributeName=\"x2\" values=\"205;110;205\" dur=\".5s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"55\" y1=\"390\" x2=\"155\" y2=\"390\"><animate attributeName=\"x1\" values=\"55;5;55\" dur=\".6s\" repeatCount=\"indefinite\"/><animate attributeName=\"x2\" values=\"155;80;155\" dur=\".6s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"95\" y1=\"480\" x2=\"185\" y2=\"480\"><animate attributeName=\"x1\" values=\"95;35;95\" dur=\".45s\" repeatCount=\"indefinite\"/><animate attributeName=\"x2\" values=\"185;105;185\" dur=\".45s\" repeatCount=\"indefinite\"/></line>\n  </g>\n\n  <!-- Ground shadow -->\n  <ellipse class=\"shadow\" cx=\"600\" cy=\"660\" rx=\"175\" ry=\"20\" fill=\"#7A4A12\"/>\n\n  <!-- ===== UNICYCLE + ANTEATER (bobbing group) ===== -->\n  <g class=\"bob\">\n    <!-- Unicycle wheel -->\n    <g>\n      <circle cx=\"600\" cy=\"540\" r=\"112\" fill=\"none\" stroke=\"#222\" stroke-width=\"24\"/>\n      <circle cx=\"600\" cy=\"540\" r=\"112\" fill=\"none\" stroke=\"#444\" stroke-width=\"6\" stroke-dasharray=\"10 14\"/>\n      <circle cx=\"600\" cy=\"540\" r=\"88\" fill=\"none\" stroke=\"#E9EEF2\" stroke-width=\"8\"/>\n      <g class=\"wheel-spin\" stroke=\"#B9C4CC\" stroke-width=\"6\" stroke-linecap=\"round\">\n        <line x1=\"600\" y1=\"540\" x2=\"600\" y2=\"458\"/><line x1=\"600\" y1=\"540\" x2=\"600\" y2=\"622\"/>\n        <line x1=\"600\" y1=\"540\" x2=\"518\" y2=\"540\"/><line x1=\"600\" y1=\"540\" x2=\"682\" y2=\"540\"/>\n        <line x1=\"600\" y1=\"540\" x2=\"542\" y2=\"482\"/><line x1=\"600\" y1=\"540\" x2=\"658\" y2=\"598\"/>\n        <line x1=\"600\" y1=\"540\" x2=\"658\" y2=\"482\"/><line x1=\"600\" y1=\"540\" x2=\"542\" y2=\"598\"/>\n      </g>\n      <circle cx=\"600\" cy=\"540\" r=\"20\" fill=\"#D94F3D\" stroke=\"#8F2418\" stroke-width=\"4\"/>\n      <circle cx=\"600\" cy=\"540\" r=\"7\" fill=\"#333\"/>\n      <!-- Crank + pedals -->\n      <g class=\"crank-spin\" stroke=\"#333\" stroke-width=\"9\" stroke-linecap=\"round\">\n        <line x1=\"600\" y1=\"540\" x2=\"600\" y2=\"500\"/><line x1=\"600\" y1=\"540\" x2=\"600\" y2=\"580\"/>\n      </g>\n      <g class=\"crank-spin\">\n        <rect x=\"578\" y=\"492\" width=\"44\" height=\"12\" rx=\"6\" fill=\"#222\"/><rect x=\"578\" y=\"576\" width=\"44\" height=\"12\" rx=\"6\" fill=\"#222\"/>\n      </g>\n    </g>\n\n    <!-- Frame + seat -->\n    <line x1=\"600\" y1=\"540\" x2=\"578\" y2=\"385\" stroke=\"#D94F3D\" stroke-width=\"11\" stroke-linecap=\"round\"/>\n    <line x1=\"600\" y1=\"540\" x2=\"622\" y2=\"385\" stroke=\"#B73727\" stroke-width=\"11\" stroke-linecap=\"round\"/>\n    <rect x=\"545\" y=\"362\" width=\"110\" height=\"26\" rx=\"13\" fill=\"#222\"/>\n    <rect x=\"558\" y=\"352\" width=\"84\" height=\"18\" rx=\"9\" fill=\"#333\"/>\n\n    <!-- Far leg (behind body) -->\n    <g class=\"leg-far\">\n      <path d=\"M585,438 Q565,490 568,528\" fill=\"none\" stroke=\"#7A5A38\" stroke-width=\"26\" stroke-linecap=\"round\"/>\n      <ellipse cx=\"570\" cy=\"534\" rx=\"26\" ry=\"12\" fill=\"#5D4326\"/>\n    </g>\n\n    <!-- Bushy tail -->\n    <g class=\"tail\">\n      <path d=\"M515,330 Q400,315 355,400 Q330,470 385,515 Q340,490 350,430 Q365,340 470,300 Q540,290 560,340 Q545,390 515,395 Z\" fill=\"url(#tailGrad)\" stroke=\"#5D4326\" stroke-width=\"4\"/>\n      <path d=\"M480,345 Q415,360 395,420 M475,380 Q420,420 430,470 M500,340 Q455,400 470,470\" fill=\"none\" stroke=\"#5D4326\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".55\"/>\n    </g>\n\n    <!-- Body -->\n    <g>\n      <ellipse cx=\"590\" cy=\"335\" rx=\"152\" ry=\"88\" fill=\"url(#fur)\" stroke=\"#6B4E2E\" stroke-width=\"4\" transform=\"rotate(-12 590 335)\"/>\n      <!-- Giant anteater black sash with white edges -->\n      <path d=\"M520,268 Q590,300 660,390 L620,415 Q545,330 485,295 Z\" fill=\"#3B2C20\" transform=\"rotate(-8 580 340)\"/>\n      <path d=\"M512,262 L486,292 M652,384 L624,420\" stroke=\"white\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n      <path d=\"M470,380 Q560,420 650,385\" fill=\"none\" stroke=\"#8B6F4E\" stroke-width=\"5\" opacity=\".5\"/>\n    </g>\n\n    <!-- Near leg -->\n    <g class=\"leg-near\">\n      <path d=\"M622,438 Q645,490 638,530\" fill=\"none\" stroke=\"#A9825A\" stroke-width=\"28\" stroke-linecap=\"round\"/>\n      <ellipse cx=\"644\" cy=\"536\" rx=\"28\" ry=\"13\" fill=\"#6B4E2E\"/>\n      <path d=\"M660,540 l14,4 M660,532 l14,-2\" stroke=\"#333\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n    </g>\n\n    <!-- Juggling arms (behind bottles, paws at 625/745,215) -->\n    <g class=\"paw-l\">\n      <path d=\"M655,325 Q625,270 625,225\" fill=\"none\" stroke=\"#8B6F4E\" stroke-width=\"24\" stroke-linecap=\"round\"/>\n      <ellipse cx=\"625\" cy=\"212\" rx=\"24\" ry=\"16\" fill=\"#D9BC8A\" stroke=\"#6B4E2E\" stroke-width=\"3\"/>\n      <path d=\"M608,200 l-8,-12 M622,198 l-2,-14 M636,200 l6,-12\" stroke=\"#EEE\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n    </g>\n    <g class=\"paw-r\">\n      <path d=\"M685,315 Q735,265 745,225\" fill=\"none\" stroke=\"#A9825A\" stroke-width=\"24\" stroke-linecap=\"round\"/>\n      <ellipse cx=\"745\" cy=\"212\" rx=\"24\" ry=\"16\" fill=\"#D9BC8A\" stroke=\"#6B4E2E\" stroke-width=\"3\"/>\n      <path d=\"M728,200 l-8,-12 M742,198 l-2,-14 M756,200 l6,-12\" stroke=\"#EEE\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n    </g>\n\n    <!-- Head + long snout -->\n    <g class=\"head\">\n      <g class=\"ear\"><circle cx=\"702\" cy=\"218\" r=\"20\" fill=\"#A9825A\" stroke=\"#6B4E2E\" stroke-width=\"3\"/><circle cx=\"702\" cy=\"218\" r=\"9\" fill=\"#5D4326\"/></g>\n      <ellipse cx=\"715\" cy=\"272\" rx=\"58\" ry=\"50\" fill=\"#D9BC8A\" stroke=\"#6B4E2E\" stroke-width=\"4\"/>\n      <!-- snout -->\n      <path d=\"M745,242 Q830,255 858,298 Q862,310 848,314 Q815,322 748,305 Q730,275 745,242 Z\" fill=\"#C9A86F\" stroke=\"#6B4E2E\" stroke-width=\"4\"/>\n      <ellipse cx=\"851\" cy=\"304\" rx=\"11\" ry=\"9\" fill=\"#222\"/>\n      <!-- tongue flicking out of snout tip -->\n      <g class=\"tongue\"><path d=\"M855,306 Q895,302 922,310 Q895,318 855,314 Z\" fill=\"#FF7A9E\" stroke=\"#D94F6A\" stroke-width=\"2.5\"/></g>\n      <!-- eye -->\n      <g class=\"blink\"><circle cx=\"722\" cy=\"262\" r=\"13\" fill=\"white\" stroke=\"#333\" stroke-width=\"2\"/><circle cx=\"725\" cy=\"264\" r=\"7\" fill=\"#222\"/><circle cx=\"728\" cy=\"260\" r=\"2.5\" fill=\"white\"/></g>\n      <path d=\"M700,244 Q722,236 742,246\" fill=\"none\" stroke=\"#6B4E2E\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n      <circle cx=\"700\" cy=\"292\" r=\"10\" fill=\"#FF9AA8\" opacity=\".6\"/>\n      <path d=\"M735,300 Q748,308 760,302\" fill=\"none\" stroke=\"#333\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n      <!-- hair tuft -->\n      <path d=\"M690,225 Q700,200 718,222 Q730,202 738,228\" fill=\"none\" stroke=\"#6B4E2E\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n    </g>\n\n    <!-- Circus bowtie -->\n    <g transform=\"translate(678,318)\"><path d=\"M0,0 L-26,-14 L-26,14 Z M0,0 L26,-14 L26,14 Z\" fill=\"#E63946\" stroke=\"#9E1B2E\" stroke-width=\"2\"/><circle r=\"8\" fill=\"#FFD93B\" stroke=\"#9E1B2E\" stroke-width=\"2\"/></g>\n\n    <!-- Sparkles at juggling apexes -->\n    <g fill=\"#FFD93B\" stroke=\"#F5B301\" stroke-width=\"1.5\">\n      <path class=\"sparkle\" d=\"M685,28 l5,14 14,5 -14,5 -5,14 -5,-14 -14,-5 14,-5 Z\"/>\n      <path class=\"sparkle\" style=\"animation-delay:.6s\" d=\"M685,52 l4,11 11,4 -11,4 -4,11 -4,-11 -11,-4 11,-4 Z\"/>\n    </g>\n  </g>\n\n  <!-- ===== JUGGLING BOTTLES (above hands) =====\n       Each bottle loops: left paw -> high arc -> right paw -> high arc -> left paw -->\n  <g>\n    <g color=\"#2ECC71\">\n      <animateMotion dur=\"2.4s\" repeatCount=\"indefinite\" path=\"M625,215 Q685,25 745,215 Q685,25 625,215\"/>\n      <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"2.4s\" repeatCount=\"indefinite\"/><use href=\"#bottle\" fill=\"#2ECC71\"/></g>\n    </g>\n    <g color=\"#3498DB\">\n      <animateMotion dur=\"2.4s\" begin=\"0.8s\" repeatCount=\"indefinite\" path=\"M625,215 Q685,25 745,215 Q685,25 625,215\"/>\n      <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"2.4s\" repeatCount=\"indefinite\"/><use href=\"#bottle\" fill=\"#3498DB\"/></g>\n    </g>\n    <g color=\"#F39C12\">\n      <animateMotion dur=\"2.4s\" begin=\"1.6s\" repeatCount=\"indefinite\" path=\"M625,215 Q685,25 745,215 Q685,25 625,215\"/>\n      <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"2.4s\" repeatCount=\"indefinite\"/><use href=\"#bottle\" fill=\"#F39C12\"/></g>\n    </g>\n  </g>\n\n  <!-- Caption -->\n  <g font-family=\"Comic Sans MS, 'Chalkboard SE', cursive, sans-serif\" text-anchor=\"middle\">\n    <rect x=\"335\" y=\"718\" width=\"530\" height=\"56\" rx=\"28\" fill=\"white\" opacity=\".88\" stroke=\"#D94F3D\" stroke-width=\"3\"/>\n    <text x=\"600\" y=\"756\" font-size=\"30\" font-weight=\"bold\" fill=\"#7A2E1F\">🎪 The Amazing Juggling Anteater! 🎪</text>\n  </g>\n</svg>\n"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-ember",
+        "usage": {
+          "input": 191,
+          "output": 9121,
+          "cacheRead": 1524,
+          "cacheWrite": 0,
+          "reasoning": 2835,
+          "totalTokens": 10836,
+          "cost": {
+            "input": 1.91e-05,
+            "output": 0.0045604999999999995,
+            "cacheRead": 6.096000000000001e-06,
+            "cacheWrite": 0,
+            "total": 0.004585695999999999,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898579806,
+        "responseId": "gen-1794898579-oD5C7sMVeMsFT609IGrq",
+        "rawStopReason": "tool_calls",
+        "durationMs": 17849,
+        "thinkingLevel": "xhigh"
+      }
+    },
+    {
+      "type": "message",
+      "id": "d86965c8",
+      "parentId": "3d3fe696",
+      "timestamp": "2026-11-17T06:56:37.659Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84af600744e9772d0c42bcd4199",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to /Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work/anteater.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794898597659
+      }
+    },
+    {
+      "type": "message",
+      "id": "26873a27",
+      "parentId": "d86965c8",
+      "timestamp": "2026-11-17T06:56:39.958Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgGkvI2jr4RjO2VO9wCtzXB5yF2fC-8Ekos8C_UdHepqPOdWkUls10WIh_2cNxE5vINqidvPsgnsBsIjKbZNsf7_v9HGdfQFQCWjFq29tiLnRq148TVV7P831V_Bm6GOjHAD8w-w0gNeiZgjEn-F4qMqTAhoRhJaGCVVtbQ_kKt9WvWNl7-bdLPWxFEnSQF48fL9LqHZw4XkK87dBz2BxadwTfXRt-AaIPwlG53Pe3OkaOq3FRn5GXqdJkDeC1df2J1C1H5zpePAfZlhx4Nncz5M7AkYH_DfnIt-eZMWDvEEEeNg3dSqUf-mgj8rNDFK3D9IDHcCvExy5SBnXw2aUMtNR6XP1c9ym6joPrDifNUqV1BGy9oCi7IbUbA6CV4nuIh46apE9TJ8Z8wXjMeOmonemYSc-LN7q1zbRTNN2jAEZ9UGXy-30rL4FNByV6XHpE6dMigonT4b4ELPVkRbSBBB1jVRzVVdx5MT7rmivl6FTbaqFtAJTXfHefWxrvmLs-rIsU43O92Dlg6dducb_YLbu5wXUuaQ9jkKypAJHoHq4wIUr1j-r0fJ-NV6KGytzWej4_FEko5jIUVo7p-ejcgzl7lQJldryJ6OpcHHn6qUBDDD59fpvjBjQioCgAXBktAoFHhXzBdKqx2mgkOP90Bknr87F3tH-D_VE8nGD-ADaKFZnuAYk_kEZZ0cPOvHAGZrasEkLnG1N_p6PUmUxM7Lwav0QishKn3C7fyKhZCl6jeey9SNQrAiqaGbjDG54y54i5kSh1W-XidoMqV9smZ2w1ktG52_uvQ5BS68xPeECH7XeaPIYByraYX9PBpjbOJNWShpNb-qElwdgWoTF8vKkRm9YtQ0Qiq6NB8xGaZwWGwbholOihLP7I9EX-D6LPENlkTmi9tLjX1tMpsQU0XKXo2pKzioy4fTGOyibvhGAEqjfT7nBuemOu7V4KCtpVL1EpAXgWJJsr4OO5YktgUI0xCCgtdCLHjJ4iMgnAXyjX1BjXBegBoq3_MCOt5JWz7t9hHHAoNx14G8uD960An9QvqotKUsRfWLcDDzh7iatiKp0wHFvDN0Fx-APW-v1lpYCYdtm90sOTw83VhQrIoRbnTtg4e8hipIneCRTaPAAgEhK2obLIZ903G2w0PuGggsscF4Xg1YPVzPCIbv3PYhvNNmMmKaLak8b-iYolLuXHA9_j3K47gQmzIhGCyr81zZAtgI6dW8NQifDJ7hY_3FE8NJEXX4gY-otkhYCdM7XLPVlCk-mrbqFzEPdJCQMONix3voWvoGSgJ7ium5bZFA3OfuEds3stst-jAwKaRFbpSbxOJbWnJ5rhi-I018Pc3NknRl8LluSgw5v7VU9JSEa-ItrIhkAhNQWeVKV5xZ4RYRoTPMQDEWIHQp2r-C6NxN1zet49winQ.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLWVtYmVyLTIwMjYxMTA5fG1ldGEifQ\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfaa76f7d55e599a144b9:rs_01a1e84b1d88726bad0234eda7142092\",\"index\":0}]"
+          },
+          {
+            "type": "text",
+            "text": "Created animated SVG at `anteater.svg` in the work directory:\n\n**Scene:** A giant anteater (tan/brown fur, black sash, long tapered snout, bushy wagging tail, blinking eye, and flicking pink tongue) rides a red unicycle while juggling 3 bottles.\n\n**Animations (CSS + SMIL, self-contained):**\n- **Unicycle:** Spinning spoked wheel & synchronized crank/pedals, bobbing rider, pedaling legs pivoting at the hips, pulsing ground shadow\n- **Juggling:** 3 colored bottles (green/blue/orange) looping left-paw → high arc → right-paw → high arc via `animateMotion`, tumbling 360°, with bobbing clawed paws and sparkles at apexes\n- **Character:** Tail wag, head-bob, ear wiggle, 4s eye-blink, tongue flick, red circus bowtie\n- **World:** Rotating sun, drifting clouds, slow-scrolling hills, medium-scrolling trees (duplicated for seamless loop), fast-scrolling road dashes, and speed lines\n\nOpen `anteater.svg` in any browser to see it animate — no external assets required."
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-ember",
+        "usage": {
+          "input": 9151,
+          "output": 263,
+          "cacheRead": 1652,
+          "cacheWrite": 0,
+          "reasoning": 3,
+          "totalTokens": 11066,
+          "cost": {
+            "input": 0.0009151000000000001,
+            "output": 0.0001315,
+            "cacheRead": 6.608e-06,
+            "cacheWrite": 0,
+            "total": 0.001053208,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1794898597661,
+        "responseId": "gen-1794898598-BaDdZnrFV3UzZzbDvr8B",
+        "rawStopReason": "stop",
+        "durationMs": 2296,
+        "thinkingLevel": "xhigh"
+      }
+    }
+  ],
+  "leafId": "26873a27",
+  "systemPrompt": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>\n\n<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-ember/runs/xhigh/attempt-01/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}

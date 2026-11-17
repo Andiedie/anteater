@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A smiling anteater pedals a red unicycle and juggles three colorful bottles under a sunny sky.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ed8ff"/>
+      <stop offset=".65" stop-color="#dff7ff"/>
+      <stop offset="1" stop-color="#fff3c4"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b08968"/>
+      <stop offset="1" stop-color="#7f5539"/>
+    </linearGradient>
+    <radialGradient id="wheel" cx=".5" cy=".5" r=".5">
+      <stop offset=".72" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".92" stop-color="#222"/>
+      <stop offset="1" stop-color="#111"/>
+    </radialGradient>
+    <g id="bottle">
+      <path d="M-10 18 L-7 -12 L-4 -18 L-4 -30 L4 -30 L4 -18 L7 -12 L10 18 Q0 24 -10 18Z"/>
+      <rect x="-5" y="-38" width="10" height="9" rx="2" fill="#5b3a1e"/>
+      <path d="M-7 -4 Q0 2 7 -4 L8 12 Q0 17 -8 12Z" fill="#fff" opacity=".55"/>
+    </g>
+    <g id="cloud">
+      <ellipse cx="0" cy="0" rx="52" ry="24" fill="#fff"/>
+      <ellipse cx="-32" cy="8" rx="34" ry="18" fill="#fff"/>
+      <ellipse cx="34" cy="8" rx="38" ry="19" fill="#fff"/>
+    </g>
+  </defs>
+
+  <rect width="900" height="620" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <g transform="translate(790 82)">
+    <circle r="42" fill="#ffd93d"/>
+    <g stroke="#ffb703" stroke-width="6" stroke-linecap="round">
+      <path d="M0-58V-72M0 58V72M-58 0H-72M58 0H72M-42-42L-52-52M42-42L52-52M-42 42L-52 52M42 42L52 52"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+    </g>
+  </g>
+
+  <g opacity=".9">
+    <use href="#cloud" transform="translate(130 90)"><animateTransform attributeName="transform" type="translate" values="130 90; 180 90; 130 90" dur="9s" repeatCount="indefinite"/></use>
+    <use href="#cloud" transform="translate(620 120) scale(.7)"><animateTransform attributeName="transform" type="translate" values="620 120; 570 120; 620 120" dur="11s" repeatCount="indefinite" additive="sum"/></use>
+  </g>
+
+  <!-- Ground / moving dashes -->
+  <rect y="505" width="900" height="115" fill="#7bc96f"/>
+  <rect y="505" width="900" height="10" fill="#57a773"/>
+  <g stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-dasharray="42 58" opacity=".8">
+    <line x1="-100" y1="565" x2="1000" y2="565">
+      <animate attributeName="stroke-dashoffset" from="0" to="100" dur="0.7s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Whole rider bobs -->
+  <g>
+    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -7; 0 0" dur="0.7s" repeatCount="indefinite"/>
+
+    <!-- Juggling bottles: offset phases on same oval path -->
+    <g transform="translate(450 205)">
+      <g><animateMotion dur="1.8s" repeatCount="indefinite" path="M -150 55 Q -150 -95 0 -105 Q 150 -95 150 55 Q 75 95 0 55 Q -75 95 -150 55Z"/>
+        <g fill="#e63946"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.8s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+      <g><animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite" path="M -150 55 Q -150 -95 0 -105 Q 150 -95 150 55 Q 75 95 0 55 Q -75 95 -150 55Z"/>
+        <g fill="#2a9d8f"><animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.5s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+      <g><animateMotion dur="1.8s" begin="-1.2s" repeatCount="indefinite" path="M -150 55 Q -150 -95 0 -105 Q 150 -95 150 55 Q 75 95 0 55 Q -75 95 -150 55Z"/>
+        <g fill="#4361ee"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="2.1s" repeatCount="indefinite"/><use href="#bottle"/></g></g>
+    </g>
+
+    <!-- Tail -->
+    <path d="M545 355 Q650 320 665 250 Q690 330 610 385 Q570 405 545 385Z" fill="url(#fur)" stroke="#5f4128" stroke-width="5">
+      <animateTransform attributeName="transform" type="rotate" values="-3 545 370; 5 545 370; -3 545 370" dur="1.4s" repeatCount="indefinite"/>
+    </path>
+
+    <!-- Unicycle -->
+    <g transform="translate(450 455)">
+      <circle r="78" fill="url(#wheel)" stroke="#222" stroke-width="10"/>
+      <g stroke="#adb5bd" stroke-width="5" stroke-linecap="round">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.9s" repeatCount="indefinite"/>
+        <path d="M0 0V-70M0 0L61 35M0 0L-61 35M0 0V70M0 0L-61-35M0 0L61-35"/>
+        <!-- pedals -->
+        <circle cx="0" cy="-34" r="7" fill="#495057"/><circle cx="0" cy="34" r="7" fill="#495057"/>
+        <path d="M-18-34H18M-18 34H18" stroke="#222" stroke-width="8"/>
+      </g>
+      <circle r="14" fill="#e63946" stroke="#7f1d1d" stroke-width="4"/>
+      <path d="M0-12 L0-105" stroke="#343a40" stroke-width="9" stroke-linecap="round"/>
+      <ellipse cx="0" cy="-112" rx="38" ry="12" fill="#222"/>
+    </g>
+
+    <!-- Legs pedalling (simple rotating offsets) -->
+    <g stroke="#6f4e37" stroke-width="20" stroke-linecap="round" fill="none">
+      <path d="M425 385 Q405 420 432 448"><animate attributeName="d" values="M425 385 Q405 420 432 448; M425 385 Q450 415 468 430; M425 385 Q405 420 432 448" dur="0.9s" repeatCount="indefinite"/></path>
+      <path d="M480 385 Q505 415 468 488"><animate attributeName="d" values="M480 385 Q505 415 468 488; M480 385 Q455 420 432 490; M480 385 Q505 415 468 488" dur="0.9s" repeatCount="indefinite"/></path>
+    </g>
+
+    <!-- Body -->
+    <ellipse cx="450" cy="335" rx="105" ry="72" fill="url(#fur)" stroke="#5f4128" stroke-width="5" transform="rotate(-8 450 335)"/>
+    <path d="M375 300 Q450 355 535 315 Q500 385 410 375 Q370 350 375 300Z" fill="#ddb892" opacity=".9"/>
+    <!-- vest -->
+    <path d="M390 285 Q450 315 515 282 L530 330 Q455 365 375 335Z" fill="#e63946"/>
+    <circle cx="450" cy="322" r="6" fill="#ffd93d"/>
+
+    <!-- Arms juggling -->
+    <g stroke="#7f5539" stroke-width="19" stroke-linecap="round" fill="none">
+      <path d="M375 320 Q315 285 300 250"><animate attributeName="d" values="M375 320 Q315 285 300 250; M375 320 Q310 300 295 265; M375 320 Q315 285 300 250" dur="0.6s" repeatCount="indefinite"/></path>
+      <path d="M525 315 Q585 280 602 248"><animate attributeName="d" values="M525 315 Q585 280 602 248; M525 315 Q590 295 605 263; M525 315 Q585 280 602 248" dur="0.6s" begin="-0.3s" repeatCount="indefinite"/></path>
+    </g>
+
+    <!-- Head + long snout -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-2 390 260; 2 390 260; -2 390 260" dur="1.4s" repeatCount="indefinite"/>
+      <ellipse cx="385" cy="255" rx="62" ry="52" fill="url(#fur)" stroke="#5f4128" stroke-width="5"/>
+      <!-- ear -->
+      <ellipse cx="420" cy="212" rx="16" ry="24" fill="#7f5539" transform="rotate(20 420 212)"/>
+      <ellipse cx="421" cy="214" rx="7" ry="13" fill="#ddb892" transform="rotate(20 421 214)"/>
+      <!-- snout -->
+      <path d="M335 265 Q245 285 205 305 Q195 312 208 320 Q260 325 340 295Z" fill="#ddb892" stroke="#5f4128" stroke-width="5" stroke-linejoin="round"/>
+      <ellipse cx="208" cy="312" rx="10" ry="7" fill="#3d2b1f"/>
+      <!-- tongue tasting air -->
+      <path d="M200 315 Q165 320 150 305" fill="none" stroke="#ef476f" stroke-width="5" stroke-linecap="round">
+        <animate attributeName="d" values="M200 315 Q165 320 150 305; M200 315 Q170 325 158 330; M200 315 Q165 320 150 305" dur="0.8s" repeatCount="indefinite"/>
+      </path>
+      <!-- eye + smile -->
+      <circle cx="365" cy="245" r="8" fill="#222"><animate attributeName="ry" values="8;8;1;8" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="368" cy="242" r="2.5" fill="#fff"/>
+      <path d="M330 282 Q350 292 368 282" fill="none" stroke="#3d2b1f" stroke-width="4" stroke-linecap="round"/>
+      <!-- party hat -->
+      <path d="M385 205 L410 145 L440 200Z" fill="#7209b7" stroke="#3a0ca3" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="411" cy="142" r="11" fill="#ffd93d"/>
+    </g>
+  </g>
+
+  <text x="450" y="600" text-anchor="middle" font-family="Verdana, sans-serif" font-size="22" font-weight="bold" fill="#1d3557">The Amazing Juggling Anteater!</text>
+</svg>

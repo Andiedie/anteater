@@ -1,0 +1,468 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-17",
+  "models": [
+    {
+      "vendor": "Alibaba",
+      "name": "Qwen3.8 27B",
+      "release_date": "2026-08-14",
+      "source_url": "https://github.com/QwenLM/Qwen3.8/blob/main/README.md",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official Qwen3.8 repository News names Qwen3.8-27B specifically on August 14; do not use the August 12 2.4T/Max family release.",
+        "zh": "官方 Qwen3.8 仓库 News 明确将 Qwen3.8-27B 标为 8 月 14 日，不采用 8 月 12 日 2.4T/Max 的家族日期。"
+      }
+    },
+    {
+      "vendor": "Alibaba",
+      "name": "Qwen3.8 Max 0902",
+      "release_date": "2026-09-02",
+      "source_url": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Exact 0902 snapshot appears under September 2 in official release logs. September 5 10:00 UTC+08 is the generic qwen3.8-max alias upgrade, not initial snapshot availability; official notice allows explicitly calling 0902 beforehand.",
+        "zh": "官方发布日志 9 月 2 日明确列出 0902 快照。9 月 5 日 10:00 UTC+08 是通用 qwen3.8-max 别名切换时间，不是该快照首次可用日；官方通知说明此前即可显式调用 0902。"
+      }
+    },
+    {
+      "vendor": "Alibaba",
+      "name": "Qwen4 Max",
+      "release_date": "2026-11-16",
+      "source_url": "https://qwen.ai/blog?id=qwen4-max",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Formal Qwen4-Max: current official article date and two official release logs agree on November 16. November 11 is the separately named Qwen4-Max-Preview. Embedded legacy HTML metadata says August 3 and is rejected as conflicting with the current article and release logs.",
+        "zh": "Qwen4-Max 正式版：当前官方文章日期及两份官方发布日志均为 11 月 16 日。11 月 11 日属于另一个明确命名的 Qwen4-Max-Preview。嵌入旧 HTML 元数据写 8 月 3 日，与当前文章和发布日志冲突，未采纳。"
+      }
+    },
+    {
+      "vendor": "Anthropic",
+      "name": "Claude Fable 5.1",
+      "release_date": "2026-09-01",
+      "source_url": "https://platform.claude.com/docs/en/models/fable-5-1/overview",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. The announcement itself prints only September 2026; the model lifecycle page explicitly says Released September 1, 2026 and the dated changelog independently confirms the launch.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 公告本身只标 September 2026；模型生命周期页明确 Released September 1, 2026，且同日 changelog 确认上线，故可精确到日。"
+      }
+    },
+    {
+      "vendor": "Anthropic",
+      "name": "Claude Fable 5.2",
+      "release_date": "2026-11-09",
+      "source_url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. The worklist channel ID remote/v-api/claude-fable-5-2 is preserved exactly. Official sources identify upstream claude-fable-5-2; this research does not independently prove the channel’s runtime routing or deployment date.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 原样保留工作单渠道 ID remote/v-api/claude-fable-5-2。官方证据对应上游 claude-fable-5-2；本次不独立验证渠道运行时路由或渠道上架日。"
+      }
+    },
+    {
+      "vendor": "Anthropic",
+      "name": "Claude Haiku 5.5",
+      "release_date": "2026-10-07",
+      "source_url": "https://www.anthropic.com/claude-haiku-5-5",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。"
+      }
+    },
+    {
+      "vendor": "Anthropic",
+      "name": "Claude Opus 5.5",
+      "release_date": "2026-09-22",
+      "source_url": "https://www.anthropic.com/claude-opus-5-5",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。"
+      }
+    },
+    {
+      "vendor": "Anthropic",
+      "name": "Claude Sonnet 5.5",
+      "release_date": "2026-09-28",
+      "source_url": "https://www.anthropic.com/claude-sonnet-5-5",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。"
+      }
+    },
+    {
+      "vendor": "DeepSeek",
+      "name": "DeepSeek V4 Flash 0731",
+      "release_date": "2026-07-31",
+      "source_url": "https://api-docs.deepseek.com/updates",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official July 31 update explicitly names DeepSeek-V4-Flash-0731 and opens the official API in public beta. Distinct from April V4 Flash Preview. The legacy ID later routes elsewhere; its present routing does not change this historical batch.",
+        "zh": "官方 7 月 31 日更新明确写出 DeepSeek-V4-Flash-0731，并公开测试正式版 API；区别于 4 月 Preview。旧 ID 后续改路由，不改变这个历史批次日期。"
+      }
+    },
+    {
+      "vendor": "DeepSeek",
+      "name": "DeepSeek V4.1 Flash 0910",
+      "release_date": "2026-09-10",
+      "source_url": "https://api-docs.deepseek.com/updates",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official V4.1 Flash launch date. 0910 is the curated launch-era batch label, not an official pinned API ID or independently attested backend revision. The 04:00 UTC price-effective time is not asserted as the release instant.",
+        "zh": "采用 V4.1 Flash 官方首发日期。0910 是图库首发批次标签，不是官方固定 API ID，也不证明实际后端权重。04:00 UTC 为价格生效时刻，不充当模型发布时刻。"
+      }
+    },
+    {
+      "vendor": "DeepSeek",
+      "name": "DeepSeek V4.1 Flash 1017",
+      "release_date": "2026-10-17",
+      "source_url": "https://api-docs.deepseek.com/updates",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official dated changelog names the exact 1017 upgrade; no inference from the suffix.",
+        "zh": "官方日期分节明确标记 1017 版本升级，未凭后缀推算日期。"
+      }
+    },
+    {
+      "vendor": "Google",
+      "name": "Gemini 3.8 Flash",
+      "release_date": "2026-09-02",
+      "source_url": "https://blog.google/innovation-and-ai/models-and-research/Gemini-models/3-8-flash-and-3-8-flash-cyber",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Exact Flash model, excluding Flash Cyber and TTS. Manufacturer announcement and API GA both fall on September 2; RSS publication is 15:00 UTC.",
+        "zh": "精确到 Flash，排除 Flash Cyber 与 TTS。官方公告和 API GA 均为 9 月 2 日；RSS 文章发布时间为 UTC 15:00。"
+      }
+    },
+    {
+      "vendor": "Google",
+      "name": "Gemini 4 Argon",
+      "release_date": "2026-09-30",
+      "source_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "First public manufacturer announcement, with restricted Fairwind access. Broad public API/product GA was October 13. This candidate uses the first-public-announcement convention; it does not imply the public API checkpoint was available or identical to the unrestricted cyber variant on September 30.",
+        "zh": "采用厂商首次公开公告日，当时仅向 Fairwind 受信任防守方开放。公众 API/产品 GA 为 10 月 13 日。该候选不表示 9 月 30 日公众 API 检查点已经可用，也不证明其与无限制网络安全变体完全相同。"
+      }
+    },
+    {
+      "vendor": "Google",
+      "name": "Gemini 4 Carbon",
+      "release_date": "2026-10-28",
+      "source_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "First public manufacturer announcement, with limited Fairwind rollout planned that week. Broad public API/product GA was November 10. This candidate is the first announcement day, not an assertion of open API availability or checkpoint identity on October 28.",
+        "zh": "采用厂商首次公开公告日，当时说明本周开始有限 Fairwind 开放。公众 API/产品 GA 为 11 月 10 日。该候选不是 10 月 28 日开放 API 可用性或检查点一致性的断言。"
+      }
+    },
+    {
+      "vendor": "Google",
+      "name": "Gemini 4 Hydrogen",
+      "release_date": "2026-11-12",
+      "source_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official introduction and API GA on November 12. The article also contains Last updated November 16, 2026; that is not its first release. RSS publication is 18:00 UTC.",
+        "zh": "官方介绍和 API GA 均为 11 月 12 日。文中 Last updated November 16, 2026 是后续更新，不能替代首发日；RSS 文章发布时间 UTC 18:00。"
+      }
+    },
+    {
+      "vendor": "Meta",
+      "name": "Muse Ember",
+      "release_date": "2026-11-09",
+      "source_url": "https://research.meta.ai/blog/muse-ember",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Separate Meta launch article dated November 9 explicitly introduces Muse Ember and says available today as muse-ember-1.0. Published/modified metadata both 2026-11-09T00:00:00.000Z. Preserve the original worklist route openrouter/meta/muse-ember; the official native ID is recorded as an identity bridge, not a replacement. Endpoint suffix 20261109 was only a discovery lead.",
+        "zh": "独立Meta首发公告为11月9日，明确介绍Muse Ember并称当日以muse-ember-1.0可用；published/modified元数据同为2026-11-09T00:00:00.000Z。保留工作单openrouter/meta/muse-ember；官方原生ID只作身份对照，不替换源标识。endpoint后缀20261109仅作检索线索。"
+      }
+    },
+    {
+      "vendor": "Meta",
+      "name": "Muse Spark 1.3",
+      "release_date": "2026-09-02",
+      "source_url": "https://ai.meta.com/research/",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Separate exact-version Meta release article dated September 2 with “available today”; article published/modified metadata both 2026-09-02T00:00:00.000Z. Google partner page gives September 24 for its platform preview, a later channel-specific release. Endpoint suffix 20260902 was only a discovery lead.",
+        "zh": "独立的Meta精确版本公告为9月2日并称当日可用，published/modified元数据同为2026-09-02T00:00:00.000Z。Google合作伙伴页9月24日为其平台预览可用日期，晚于厂商首发。endpoint后缀20260902仅作检索线索。"
+      }
+    },
+    {
+      "vendor": "Meta",
+      "name": "Muse Wonder",
+      "release_date": "2026-10-12",
+      "source_url": "https://about.fb.com/news/2026/10/introducing-muse-wonder-models/",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Separate Meta launch article dated October 12 says Muse Wonder is available today on Model API and Muse Code. Wonder Full is a separately named sibling. Research article published/modified both 2026-10-12T00:00:00.000Z; Meta Newsroom also displays October 13 as an update. Original route openrouter/meta/muse-wonder is preserved. Endpoint suffix 20261012 was only a discovery lead.",
+        "zh": "独立Meta公告为10月12日，明确Muse Wonder当日通过Model API/Muse Code可用；Wonder Full为另一命名版本。研究公告published/modified同为2026-10-12T00:00:00.000Z；Meta新闻室另显示10月13日更新，不能覆盖首发。保留openrouter/meta/muse-wonder，endpoint后缀20261012仅作检索线索。"
+      }
+    },
+    {
+      "vendor": "MiniMax",
+      "name": "MiniMax M3",
+      "release_date": "2026-06-01",
+      "source_url": "https://www.minimax.io/blog/minimax-m3",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official article dated 2026-06-01 states “MiniMax M3 is officially released today”; official model changelog agrees. Native on/off are modes of this worklist entry, not M3.1 Flash. Weights and technical report were promised over the next ten days and do not determine first release. Timezone unspecified.",
+        "zh": "2026-06-01厂商公告明确“officially released today”，官方模型更新日志同日。工作单原生on/off为本项模式，与M3.1 Flash分开；权重及技术报告承诺随后十日发布，不作为首发日。未标时区。"
+      }
+    },
+    {
+      "vendor": "MiniMax",
+      "name": "MiniMax M3.1 Flash",
+      "release_date": "2026-10-19",
+      "source_url": "https://www.minimax.io/blog/minimax-m31f",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official dated rollout article and model changelog agree on October 19. Article says API/M Plan/Code available now and weights later. Anonymous Space Bunny testing is explicitly an early version and is excluded. Separate from MiniMax M3 native on/off. Timezone unspecified.",
+        "zh": "定日正式发布公告与模型更新日志均为10月19日；当日API/M Plan/Code可用，权重稍后。公告将Space Bunny匿名测试明确称作早期版本，不据此提前首发；与M3原生on/off分开。未标时区。"
+      }
+    },
+    {
+      "vendor": "Moonshot AI",
+      "name": "Kimi K3",
+      "release_date": "2026-07-16",
+      "source_url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official Code changelog explicitly dates Kimi K3 July 16, 2026; vendor blog index independently labels the K3 article 2026-07-16. Launch article says available today and weights by July 27, so weight publication is a later milestone. The changelog loosely calls the model open-sourced at launch; retain the launch article’s explicit staged availability. Timezone unspecified.",
+        "zh": "官方Code更新日志明确标注7月16日，研究博客目录同日；首发正文称当日可用、完整权重于7月27日前发布。日志笼统称released and open-sourced，与正文分阶段表述一并保留；不将权重时间当首发。页面未标时区。"
+      }
+    },
+    {
+      "vendor": "Moonshot AI",
+      "name": "Kimi K3.1 Pro",
+      "release_date": "2026-10-23",
+      "source_url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official Code changelog explicitly dates the K3.1 Pro release October 23, 2026. Chinese news page and research index show 2026-10-24; the news label is updated-on and English JSON-LD dateModified is 2026-10-24, not a verified first release. Full weights promised by November 4 are separate. Highspeed is separately named. No timezone is stated, so a timezone explanation for Oct 23/24 is not asserted.",
+        "zh": "官方Code日志明确K3.1 Pro于10月23日发布。中文新闻“更新于”及研究目录为10月24日，英文JSON-LD为dateModified 2026-10-24，不取更新日替代首发。11月4日前开放权重为另一里程碑；Highspeed单独命名。未标时区，不擅自将23/24日差异归因时区。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-5.6 Luna",
+      "release_date": "2026-06-26",
+      "source_url": "https://deploymentsafety.openai.com/gpt-5-6-preview",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. The dated preview card explicitly names Sol, Terra and Luna and describes today’s limited preview launch. June 26 is a public announcement with restricted access, not general availability; broad launch followed on July 9, 2026. Later price changes are not release dates.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 预览模型卡明确逐一列出 Sol、Terra、Luna，并说明当日启动有限预览。6 月 26 日是公开公告但仅限受信伙伴使用；2026-07-09 才正式广泛开放。后续价格更新不作为发布日期。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-5.6 Sol",
+      "release_date": "2026-06-26",
+      "source_url": "https://deploymentsafety.openai.com/gpt-5-6-preview",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. The dated preview card explicitly names Sol, Terra and Luna and describes today’s limited preview launch. June 26 is a public announcement with restricted access, not general availability; broad launch followed on July 9, 2026. Later price changes are not release dates.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 预览模型卡明确逐一列出 Sol、Terra、Luna，并说明当日启动有限预览。6 月 26 日是公开公告但仅限受信伙伴使用；2026-07-09 才正式广泛开放。后续价格更新不作为发布日期。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-5.6 Terra",
+      "release_date": "2026-06-26",
+      "source_url": "https://deploymentsafety.openai.com/gpt-5-6-preview",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. The dated preview card explicitly names Sol, Terra and Luna and describes today’s limited preview launch. June 26 is a public announcement with restricted access, not general availability; broad launch followed on July 9, 2026. Later price changes are not release dates.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 预览模型卡明确逐一列出 Sol、Terra、Luna，并说明当日启动有限预览。6 月 26 日是公开公告但仅限受信伙伴使用；2026-07-09 才正式广泛开放。后续价格更新不作为发布日期。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6 Astra",
+      "release_date": "2026-09-03",
+      "source_url": "https://deploymentsafety.openai.com/gpt-6-astra",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. Initial public announcement and limited rollout date; broad availability was described as following over the coming days. September 22/29 later updates concern other GPT-6 models.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 此日为首次公开公告及有限分阶段推出；广泛开放被描述为随后数日。9 月 22/29 日后续更新属于其他 GPT-6 型号。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6 Luna",
+      "release_date": "2026-09-22",
+      "source_url": "https://developers.openai.com/api/docs/changelog",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. September 22 is the exact-model API release entry and the dated addition of the matching system-card appendix whose text says Today. September 3 is Astra’s release; September 29 is an update about GPT-6.1 Sol.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 9 月 22 日同时有精确型号 API 发布记录及当日增补、写明 Today 的对应模型卡附录。9 月 3 日属于 Astra；9 月 29 日的文章更新指向 GPT-6.1 Sol。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6 Sol",
+      "release_date": "2026-09-22",
+      "source_url": "https://developers.openai.com/api/docs/changelog",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases. September 22 is the exact-model API release entry and the dated addition of the matching system-card appendix whose text says Today. September 3 is Astra’s release; September 29 is an update about GPT-6.1 Sol.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。 9 月 22 日同时有精确型号 API 发布记录及当日增补、写明 Today 的对应模型卡附录。9 月 3 日属于 Astra；9 月 29 日的文章更新指向 GPT-6.1 Sol。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6.1 Sol",
+      "release_date": "2026-09-29",
+      "source_url": "https://deploymentsafety.openai.com/gpt-6-1-sol",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6.1 Terra",
+      "release_date": "2026-10-26",
+      "source_url": "https://deploymentsafety.openai.com/gpt-6-1-terra",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official first public release/announcement for this exact named version. Publisher calendar day; no time-zone conversion. Reasoning effort levels do not define separate model releases.",
+        "zh": "采用该精确命名版本的官方首次公开发布/公告日；保留原厂日历日，不做时区换日。不同 reasoning effort 不另作模型版本发布日期。"
+      }
+    },
+    {
+      "vendor": "Tencent",
+      "name": "Hunyuan 3",
+      "release_date": "2026-07-06",
+      "source_url": "https://www.tencent.com/tencent-hunyuan-officially-releases-hy3-advancing-agent-capabilities-and-deeper-product-integration",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official Hy3 launch, distinct from Hy3 preview. Manufacturer article explicitly says July 6 and Tencent corporate newsroom agrees. CMS createdAt/publishedAt and English displayPublishTime differ; none replaces the explicit model launch day.",
+        "zh": "正式 Hy3，区别于 Hy3 preview。官方文章明确写 7 月 6 日，腾讯公司新闻稿同日印证。CMS createdAt/publishedAt、英文 displayPublishTime 有差异，均不替代明确的模型首发日。"
+      }
+    },
+    {
+      "vendor": "Tencent",
+      "name": "Hunyuan 4 Preview",
+      "release_date": "2026-08-28",
+      "source_url": "https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Exact Hy4 preview. Explicit article cover, public article timestamps and Tencent corporate release agree on August 28. Indexed list dates of August 27 are retained as a conflict; repository creation alone cannot establish public release.",
+        "zh": "精确到 Hy4 preview。正文封面日期、文章公开时间字段和腾讯公司新闻稿均支持 8 月 28 日。检索列表中的 8 月 27 日保留为差异，不能仅以仓库创建日认定公开首发。"
+      }
+    },
+    {
+      "vendor": "Tencent",
+      "name": "Hy4",
+      "release_date": "2026-11-04",
+      "source_url": "https://hunyuan.tencent.com/research/hy4",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Formal Hy4 release, excluding Hy4 preview and Hy4 flash. Explicit article day is November 4; title and opening sentence say the formal version is released.",
+        "zh": "Hy4 正式版，排除 preview 和 flash。文章明确日期为 11 月 4 日，标题与开头明确发布正式版。"
+      }
+    },
+    {
+      "vendor": "Tencent",
+      "name": "Hy4 flash",
+      "release_date": "2026-11-16",
+      "source_url": "https://hunyuan.tencent.com/research/hy4-flash",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Exact Hy4 flash release article, distinct from Hy4. Chinese cover date and API display date say November 16; API/public article is read-only evidence, with no inference calls.",
+        "zh": "精确到 Hy4 flash，区别于 Hy4 正式版。中文封面日期和接口展示日期均为 11 月 16 日；公开文章接口只用于读取证据，没有推理请求。"
+      }
+    },
+    {
+      "vendor": "Xiaomi",
+      "name": "MiMo V2.5",
+      "release_date": "2026-04-22",
+      "source_url": "https://mimo.xiaomi.com/mimo-v2-5",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "First named public manufacturer announcement: April 22, 2026, also explicitly displayed by the exact V2.5 launch page. The official X post is timestamped 2026-04-22T16:23:02Z (April 23, 00:23:02 at UTC+8). Chinese-calendar release logs say April 23. Preserve both calendars; this field uses the publisher’s English April 22 date.",
+        "zh": "采用原厂具名公开首发日，小米精确 V2.5 公告页明确显示2026年4月22日。官方X原始时间2026-04-22T16:23:02Z，即UTC+8的4月23日00:23:02；中文日历日志写4月23日。保留两种日历，本字段依英文原厂页面的4月22日。"
+      }
+    },
+    {
+      "vendor": "Xiaomi",
+      "name": "MiMo V2.5 Pro",
+      "release_date": "2026-04-22",
+      "source_url": "https://x.com/XiaomiMiMo/status/2046988157888209365",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Earliest official X announcement explicitly names MiMo-V2.5-Pro, with raw article:published_time 2026-04-22T16:23:02.000Z (= April 23, 00:23:02 UTC+8). Use the UTC announcement day. Official model release logs say April 23; the Pro research/open-source article displays April 27. Treat April 27 as a later release/open-weight article, not first public announcement. Do not use the Base or UltraSpeed variants.",
+        "zh": "最早官方X公告明确命名MiMo-V2.5-Pro，原始发布时间为2026-04-22T16:23:02.000Z（北京时间4月23日00:23:02）；采用UTC公告日。官方模型发布日志为4月23日；Pro研究/开源公告页为4月27日，视作后续发布/开源文章，不覆盖更早的官方公开公告。与Base、UltraSpeed变体分开。"
+      }
+    },
+    {
+      "vendor": "Xiaomi",
+      "name": "MiMo V2.6 Flash",
+      "release_date": "2026-09-22",
+      "source_url": "https://mimo.xiaomi.com/mimo-v2-6/article",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Dated official V2.6 announcement explicitly names Flash and Pro and says both are available today; official model release log agrees. Timezone unspecified. Excludes Pro-UltraSpeed and prior early-access runs.",
+        "zh": "定日V2.6官方公告分别命名Flash、Pro并称当日可用，模型发布日志一致；未标时区。排除Pro-UltraSpeed与此前抢先体验。"
+      }
+    },
+    {
+      "vendor": "Xiaomi",
+      "name": "MiMo V2.6 Pro",
+      "release_date": "2026-09-22",
+      "source_url": "https://mimo.xiaomi.com/mimo-v2-6/article",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Dated official V2.6 announcement explicitly names Pro and Flash and says both are available today; official model release log agrees. Timezone unspecified. This is Pro, not Pro-UltraSpeed.",
+        "zh": "定日V2.6官方公告分别命名Pro、Flash并称当日可用，模型发布日志一致；未标时区。本项为Pro，非Pro-UltraSpeed。"
+      }
+    },
+    {
+      "vendor": "Z.ai",
+      "name": "GLM-5.3",
+      "release_date": "2026-08-14",
+      "source_url": "https://z.ai/blog/glm-5.3",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "The launch article says 2026-08-14 and “Today we are releasing”; Chinese official article says 2026/08/14 06:00 (timezone unspecified), with ZCode/AutoClaw/Coding Plan available that day and API coming soon. Official developer release notes list 2026-08-18; retain that later listing as a conflict, not first public launch. Weights were promised two weeks later.",
+        "zh": "中英文厂商首发公告均为8月14日；中文页面显示2026/08/14 06:00（未标时区），即日起上线ZCode/AutoClaw/Coding Plan，API很快上线。官方开发者更新记录另列8月18日，保留为后续记录冲突；权重承诺两周后开放，不据此推迟首发。"
+      }
+    },
+    {
+      "vendor": "Z.ai",
+      "name": "GLM-5.3 Flash",
+      "release_date": "2026-08-26",
+      "source_url": "https://z.ai/blog/glm-5.3-flash",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Official dated launch, not the earlier anonymous ox-alpha test and not FlashX. Chinese article displays 2026/08/26 14:00 without timezone; English date and release notes agree.",
+        "zh": "英文发布公告、中文公告与更新记录均支持8月26日；排除此前匿名ox-alpha测试与FlashX。中文页面显示2026/08/26 14:00，未标时区。"
+      }
+    },
+    {
+      "vendor": "xAI",
+      "name": "Grok 4.6",
+      "release_date": "2026-08-12",
+      "source_url": "https://x.ai/news/grok-4-6",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Launch article and dated API changelog agree; article JSON-LD has datePublished/dateModified 2026-08-12T00:00:00Z. This is grok-4.6, separate from 4.7; reasoning settings share this named model release.",
+        "zh": "厂商公告与带日API更新日志一致，公告JSON-LD为2026-08-12T00:00:00Z。对应grok-4.6，与4.7分开；推理强度不另造日期。"
+      }
+    },
+    {
+      "vendor": "xAI",
+      "name": "Grok 4.7",
+      "release_date": "2026-09-21",
+      "source_url": "https://x.ai/news/grok-4-7",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Launch article and dated API changelog agree; article JSON-LD has datePublished/dateModified 2026-09-21T00:00:00Z. Do not confuse Fast access or 4.6 with this exact model.",
+        "zh": "厂商公告与带日API更新日志一致，公告JSON-LD为2026-09-21T00:00:00Z。与4.6及Fast访问方式分开处理。"
+      }
+    }
+  ]
+}

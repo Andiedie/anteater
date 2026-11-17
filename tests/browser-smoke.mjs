@@ -15,6 +15,18 @@ let localEvidenceChecks = 0;
 if (!process.argv[3]) {
   const html = await (await fetch(process.argv[2] || 'http://localhost:8765')).text();
   const catalog = JSON.parse(html.match(/<script type="application\/json" id="catalog-data">([\s\S]*?)<\/script>/)[1]);
+  const releaseChild = spawn(process.execPath, [fileURLToPath(import.meta.url), process.argv[2] || 'http://localhost:8765', '--releases'], {stdio:['ignore','pipe','pipe']});
+  let releaseStdout = '', releaseStderr = '';
+  releaseChild.stdout.on('data', chunk => { releaseStdout += chunk; });
+  releaseChild.stderr.on('data', chunk => { releaseStderr += chunk; });
+  const [releaseCode] = await once(releaseChild, 'close');
+  process.stdout.write(releaseStdout); process.stderr.write(releaseStderr);
+  if (releaseCode !== 0) throw Error(`Release sort checks failed with exit ${releaseCode}`);
+  const releaseLine = releaseStdout.split('\n').find(line => line.startsWith('RELEASE_SORT '));
+  const releaseResults = releaseLine && JSON.parse(releaseLine.slice('RELEASE_SORT '.length));
+  const modelCount = new Set(catalog.map(run => JSON.stringify([run.vendor,run.name]))).size;
+  if (!releaseResults || releaseResults.length !== 4 || new Set(releaseResults.map(result=>`${result.width}/${result.scheme}`)).size !== 4 || releaseResults.some(result=>result.models!==modelCount || result.runs!==catalog.length || !Number.isInteger(result.checks) || result.checks<=0)) throw Error('Incomplete release-sort layout coverage');
+  localEvidenceChecks += releaseResults.reduce((total,result)=>total+result.checks,0);
   const expected = catalog.filter(run => run.source?.kind === 'local').map(run => run.slug);
   const verified = [];
   for (let start = 0; start < expected.length; start += 20) {
@@ -339,6 +351,62 @@ async function reportSmoke(language, start, count) {
   return {checks: checks.length, slugs: selected.map(run => run.slug), total: reportRuns.length, language};
 }
 
+async function releaseSortSmoke() {
+  const checks = [], assert = (value, name) => { if (!value) throw Error(name); checks.push(name); };
+  const catalog = JSON.parse(document.querySelector('#catalog-data').textContent);
+  const key = run => JSON.stringify([run.vendor, run.name]);
+  const groups = [...new Set(catalog.map(key))].map(model => catalog.filter(run => key(run) === model));
+  const cards = () => [...document.querySelectorAll('.card:not([hidden])')];
+  const set = (selector, value, type = 'change') => { const node = document.querySelector(selector); node.value = value; node.dispatchEvent(new Event(type, {bubbles:true})); };
+  // The expected sequence comes from the complete catalog, with no model/date constants.
+  const scalar = (a, b) => { const aa=Array.from(a, c=>c.codePointAt(0)),bb=Array.from(b,c=>c.codePointAt(0));for(let i=0;i<Math.min(aa.length,bb.length);i++)if(aa[i]!==bb[i])return aa[i]-bb[i];return aa.length-bb.length; };
+  const expected = [...groups].sort((a, b) => scalar(b[0].model_release_date || '', a[0].model_release_date || '') || scalar(a[0].vendor,b[0].vendor) || scalar(a[0].name,b[0].name)).map(group => key(group[0]));
+  const ordered = () => { const actual=cards().map(card=>card.dataset.model);return actual.every((model,index)=>!index||expected.indexOf(actual[index-1])<expected.indexOf(model)); };
+  const staticPage = new DOMParser().parseFromString(await (await fetch('./')).text(), 'text/html');
+  assert(JSON.stringify([...staticPage.querySelectorAll('.card')].map(card=>card.dataset.model)) === JSON.stringify(expected), 'initial static cards cover every model in official release order');
+  assert(JSON.stringify(cards().map(card=>card.dataset.model)) === JSON.stringify(expected), 'dynamic initial order matches every static card');
+  for (const group of groups) {
+    assert(new Set(group.map(run=>run.model_release_date)).size===1 && group.every(run=>Object.hasOwn(run,'model_release_date') && run.model_release?.date_basis === (run.model_release_date ? 'official_release' : 'unknown')), `release identity is independent of run dates and reasoning: ${key(group[0])}`);
+    const latest = [...group].sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
+    const selected = latest.find(run=>run.outcome!=='no_artwork') || latest[0];
+    const card = cards().find(card=>card.dataset.model===key(group[0]));
+    assert(card.dataset.slug===selected.slug, `latest recorded artwork remains the default: ${key(group[0])}`);
+    for (const run of group) card.querySelector(`[data-card-run="${run.slug}"]`).click();
+    set('#sort','newest');
+    assert(ordered(), `level selection cannot change release ordering: ${key(group[0])}`);
+  }
+  for (const lang of ['zh','en']) {
+    set('#language',lang);
+    assert(ordered() && document.querySelector('#sort option[value="newest"]').textContent === (lang==='zh' ? '模型发布：从新到旧' : 'Model release: newest first'), `release label and order survive language switching: ${lang}`);
+  }
+  for (const maker of new Set(catalog.map(run=>run.vendor))) {
+    [...document.querySelectorAll('[data-vendor]')].find(button=>button.dataset.vendor===maker).click();
+    assert(cards().every(card=>JSON.parse(card.dataset.model)[0]===maker) && ordered(), `maker filter keeps release order: ${maker}`);
+  }
+  document.querySelector('#clear-filters').click();
+  for (const level of new Set(catalog.flatMap(run=>run.reasoning))) {
+    set('#reasoning',level);
+    assert(cards().length === groups.filter(group=>group.some(run=>run.reasoning.includes(level))).length && ordered(), `reasoning filter keeps release order: ${level}`);
+  }
+  document.querySelector('#clear-filters').click();
+  const query = groups.find(group=>group.length>1)?.[0].vendor || catalog[0].vendor;
+  set('#search',query,'input'); set('#sort','newest');
+  assert(cards().length>0 && ordered() && new URLSearchParams(location.search).get('sort')==='newest', 'explicit release ordering survives search and legacy sort=newest URL');
+  set('#sort','relevance'); set('#search','','input');
+  assert(document.querySelector('#sort').value==='newest' && cards().length===groups.length && ordered(), 'clearing relevance search restores release order');
+  set('#search',query,'input'); document.querySelector('#clear-filters').click();
+  assert(cards().length===groups.length && ordered(), 'clear filters restores complete release order');
+  for (const metric of ['cost','time','tokens','tps']) {
+    set('#sort',metric);
+    const values=cards().map(card=>catalog.find(run=>run.slug===card.dataset.slug)).map(run=>metric==='cost'?run.price?.amount_usd:metric==='tokens'?run.metrics?.tokens.totalTokens:run.metrics?.[metric==='time'?'duration_seconds':'average_tps']);
+    assert(values.every((value,index)=>!index || (value==null ? true : values[index-1]!=null && (metric==='tps'?values[index-1]>=value:values[index-1]<=value))), `manual ${metric} sort uses the currently displayed run, unknown last`);
+  }
+  set('#sort','newest');
+  assert(ordered(), 'metric sort returns to release order');
+  assert(document.documentElement.scrollWidth<=innerWidth, 'release sort control fits the viewport');
+  return {checks:checks.length,models:groups.length,runs:catalog.length,known:groups.filter(group=>group[0].model_release_date).length};
+}
+
 async function smoke() {
   const checks = [];
   const assert = (value, name) => { if (!value) throw new Error(name); checks.push(name); };
@@ -496,7 +564,8 @@ async function smoke() {
   assert(document.querySelector('#sort').value === 'cost' && prices.every((value, index) => !index || value >= prices[index - 1]), 'explicit cost sort survives fuzzy input');
   set('#sort', 'newest');
   set('#search', 'g pt6', 'input');
-  assert(document.querySelector('#sort').value === 'newest' && new URLSearchParams(location.search).get('sort') === 'newest' && visible().every((card, index, list) => !index || catalog.find(run => run.slug === list[index - 1].dataset.slug).date >= catalog.find(run => run.slug === card.dataset.slug).date), 'explicit newest sort survives fuzzy input');
+  const releaseRank = new Map(defaultRuns.map((run,index)=>[key(run),index]));
+  assert(document.querySelector('#sort').value === 'newest' && new URLSearchParams(location.search).get('sort') === 'newest' && visible().every((card, index, list) => !index || releaseRank.get(list[index-1].dataset.model)<releaseRank.get(card.dataset.model)), 'explicit model-release sort survives fuzzy input');
   const url = new URL(location.href);
   url.searchParams.set('q', 'gpt6'); history.replaceState(null, '', url); dispatchEvent(new PopStateEvent('popstate'));
   assert(document.querySelector('#search').value === 'gpt6' && gpt6.every(slug => visible().some(card => card.dataset.slug === slug)), 'compact search restored from URL');
@@ -708,7 +777,22 @@ try {
     throw new Error('Reloaded gallery did not initialize');
   };
   const priceLocale = process.argv[3]?.match(/^--prices-(en|zh)$/)?.[1];
-  if (reportRange) {
+  if (process.argv[3] === '--releases') {
+    const userAgent = await evaluate('navigator.userAgent');
+    await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage:'en-US,en'});
+    const results = [];
+    for (const width of [1440,390]) {
+      await send('Emulation.setDeviceMetricsOverride', {width,height:1000,deviceScaleFactor:1,mobile:width===390});
+      await send('Emulation.setTouchEmulationEnabled', {enabled:width===390});
+      for (const scheme of ['light','dark']) {
+        await send('Emulation.setEmulatedMedia', {features:[{name:'prefers-color-scheme',value:scheme}]});
+        await reload(process.argv[2] || 'http://localhost:8765');
+        results.push({width,scheme,...await evaluate(`(${releaseSortSmoke.toString()})()`)});
+      }
+    }
+    console.log('RELEASE_SORT ' + JSON.stringify(results));
+    console.log(`PASS · real Chrome · ${results.reduce((total,result)=>total+result.checks,0)} release-sort checks`);
+  } else if (reportRange) {
     const userAgent = await evaluate('navigator.userAgent');
     await send('Emulation.setUserAgentOverride', {userAgent, acceptLanguage: 'en-US,en'});
     await send('Emulation.setDeviceMetricsOverride', {width:1440,height:1000,deviceScaleFactor:1,mobile:false});

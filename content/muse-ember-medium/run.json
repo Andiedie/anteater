@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "slug": "muse-ember-medium",
+  "name": "Muse Ember",
+  "vendor": "Meta",
+  "date": "2026-11-17T06:56:17.788Z",
+  "model_ids": [
+    "openrouter/meta/muse-ember"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 15.686,
+    "request_seconds": 15.459,
+    "average_tps": 447.83,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 11209,
+      "output": 6923,
+      "cacheRead": 348,
+      "cacheWrite": 0,
+      "reasoning": 1064,
+      "totalTokens": 18480
+    },
+    "recorded_cost_usd": 0.004583792,
+    "cost_usd": 0.004583792
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/muse-ember-medium.html",
+    "snapshot_url": "./sessions/muse-ember-medium.json",
+    "session_sha256": "0c6bb3e557c5981bb2c27c381e68f3fd2f11bd12727b046f0f10043ac75bc345",
+    "export_sha256": "47f68fb907923492f0c4ee19191419b41eaea1e7946df9717d2c3e6958147872",
+    "session_id": "01a1e84a-c972-7445-bd6b-b69c9c919a62",
+    "imported_at": "2026-11-17T07:15:04.102134+00:00",
+    "artwork_sha256": "5ee7b5905d0e6abc092eaa327acbf01d38ef309fed58583f83945bb50d7f5886"
+  },
+  "response_model_ids": [
+    "openrouter/meta/muse-ember"
+  ]
+}

@@ -3,12 +3,12 @@
   "slug": "muse-spark-1.3-low",
   "name": "Muse Spark 1.3",
   "vendor": "Meta",
-  "date": "2026-10-02T02:23:14.720Z",
+  "date": "2026-11-17T06:56:18.951Z",
   "model_ids": [
-    "meta/muse-spark-1.3"
+    "openrouter/meta/muse-spark-1.3"
   ],
   "providers": [
-    "openrouter"
+    "magpie"
   ],
   "reasoning": [
     "low"
@@ -20,34 +20,38 @@
   ],
   "follow_up_count": 0,
   "metrics": {
-    "duration_seconds": 40.443,
-    "request_seconds": 40.405,
-    "average_tps": 77.64,
-    "tool_calls": 2,
+    "duration_seconds": 34.765,
+    "request_seconds": 34.667,
+    "average_tps": 108.92,
+    "tool_calls": 1,
     "tool_breakdown": {
-      "read": 1,
       "write": 1
     },
-    "assistant_turns": 3,
+    "assistant_turns": 2,
     "errors": 0,
-    "tool_errors": 1,
+    "tool_errors": 0,
     "tokens": {
-      "input": 7811,
-      "output": 3137,
-      "cacheRead": 467,
+      "input": 5287,
+      "output": 3776,
+      "cacheRead": 1634,
       "cacheWrite": 0,
-      "reasoning": 187,
-      "totalTokens": 11415
+      "reasoning": 566,
+      "totalTokens": 10697
     },
-    "recorded_cost_usd": 0.02316605,
-    "cost_usd": 0.02316605
+    "recorded_cost_usd": 0.02290185,
+    "cost_usd": 0.02290185
   },
   "source": {
-    "share_url": "https://pi.dev/session/#9fb7c33dd4b066b8ce44d105089d330f",
-    "gist_id": "9fb7c33dd4b066b8ce44d105089d330f",
-    "gist_revision": "ff6017756db5a1100d56c00cb52228b138b8ea67",
-    "session_id": "01a0fa6c-44bb-767b-972b-29e1dac75179",
-    "imported_at": "2026-10-02T16:16:45.383332+00:00",
-    "artwork_sha256": "2f383d35c11b6c8403f4eb35439f6ed76247a7b50f557ff33599ab96eec456b0"
-  }
+    "kind": "local",
+    "share_url": "./sessions/muse-spark-1.3-low.html",
+    "snapshot_url": "./sessions/muse-spark-1.3-low.json",
+    "session_sha256": "795a2944d1798203e04a9b01c7914c873bf6f7ecf58b1dc55ff7aa93d91a3232",
+    "export_sha256": "523e01285317df76a20e313717697d9b50cb117e68d00ae0fe792bfc444c3c70",
+    "session_id": "01a1e84a-cdf2-77f5-9ead-1bbe1c88e96b",
+    "imported_at": "2026-11-17T07:18:00.210376+00:00",
+    "artwork_sha256": "f59fe787174651d26729932880fae7919f109fb556eb3e86b37e82971803fa1c"
+  },
+  "response_model_ids": [
+    "openrouter/meta/muse-spark-1.3"
+  ]
 }

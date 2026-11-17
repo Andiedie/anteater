@@ -21,6 +21,7 @@ import xml.etree.ElementTree as ET
 
 import pricing
 import reporting
+import model_releases
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
@@ -372,7 +373,9 @@ def load_catalog():
             related = by_slug.get(run["failure"]["related_slug"])
             if not related or related.get("outcome") == "no_artwork" or related["name"] != run["name"] or related["vendor"] != run["vendor"]:
                 raise ValueError(f"{run['slug']}: related artwork must be the same model")
-    return sorted(runs, key=lambda run: run["date"], reverse=True)
+    model_releases.attach(runs, CONTENT / 'model-releases.json')
+    # Release dates order models. Test dates only choose the latest record inside a model.
+    return sorted(runs, key=lambda run: (*model_releases.sort_key(run), -timestamp(run['date']), run['slug']))
 
 
 def format_time(seconds):
@@ -559,7 +562,7 @@ def build():
         "CARDS": "\n".join(card_html(group) for group in models),
         "VENDORS": tabs, "COUNT": str(len(models)), "FAMILIES": str(len(vendors)),
         "CATALOG": json.dumps(runs, ensure_ascii=False, separators=(",", ":"), allow_nan=False).replace("<", "\\u003c"),
-        "UPDATED": datetime.fromisoformat(runs[0]["date"].replace("Z", "+00:00")).strftime("%B %Y"),
+        "UPDATED": datetime.fromisoformat(max(run['date'] for run in runs).replace("Z", "+00:00")).strftime("%B %Y"),
     }
     for key, value in values.items():
         template = template.replace("{{" + key + "}}", value)

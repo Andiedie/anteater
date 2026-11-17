@@ -220,6 +220,38 @@ def check():
     assert completed['follow_up_count'] == 1 and completed['metrics']['assistant_turns'] == 12
     quoted = pricing.display_price(completed, actual)
     assert quoted['amount_usd'] == 1.3761022 and quoted['basis'] == 'official' and quoted['conditions']
+    muse_levels = ('minimal', 'low', 'medium', 'high', 'xhigh', 'max')
+    muse_cases = {
+        'muse-ember': ((.1, .5, .004), (.002195664, .0033921, .004583792, .00372216, .005858104, .003982228)),
+        'muse-wonder': ((4, 20, .2), (.090796, .2169808, .3934968, .255772, .2544776, .4426736)),
+        'muse-spark-1.3': ((1.25, 4.25, .15), (.0184142, .02290185, .03235615, .0803309, .0720049, .05818675)),
+    }
+    for model, (rates, amounts) in muse_cases.items():
+        profile_id = model if model == 'muse-spark-1.3' else model + '-1.0'
+        profile = actual['models'].get(profile_id)
+        assert profile is not None, f'{model} needs its own reviewed official tariff'
+        assert profile['vendor'] == 'Meta' and profile['source_url'] == 'https://dev.meta.ai/docs/pricing-rate-limits'
+        assert tuple(profile['rates_per_million'][key] for key in ('input', 'output', 'cacheRead')) == rates
+        assert profile['rates_per_million']['cacheWrite'] is None
+        assert pricing.estimate(cache_write, profile)[1] == 'missing_cache_price'
+        for level, expected in zip(muse_levels, amounts):
+            recorded = json.loads((content / f'{model}-{level}' / 'run.json').read_text())
+            assert 'output_budget_per_request' not in recorded
+            quoted = pricing.display_price(recorded, actual)
+            assert quoted['basis'] == 'official' and quoted['amount_usd'] == expected, (model, level, quoted)
+            assert quoted['checked_at'] == '2026-11-17' and not quoted['conditions']
+            assert not quoted.get('assumption_label')
+            candidate = deepcopy(recorded)
+            candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)
+            assert pricing.display_price(candidate, actual)['amount_usd'] == expected
+        for identifier in (profile_id, 'meta/' + model, 'openrouter/meta/' + model):
+            assert pricing.find_price({'model_ids': [identifier], 'vendor': 'Meta'}, actual)['model_id'] == profile_id
+        assert pricing.find_price({'model_ids': ['meta/' + model + '-contributor'], 'vendor': 'Meta'}, actual) is None
+        assert pricing.find_price({'model_ids': ['meta/' + model], 'vendor': 'Other'}, actual) is None
+    ember = actual['models']['muse-ember-1.0']
+    assert ember['input_threshold'] == 200000
+    assert pricing.estimate({**tokens, 'input': 199700}, ember)[0] is not None
+    assert pricing.estimate({**tokens, 'input': 199701}, ember)[1] == 'per_request_usage'
     missing_svg_estimates = []
     for path in sorted(content.glob('*/run.json')):
         recorded = json.loads(path.read_text())

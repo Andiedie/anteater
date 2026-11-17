@@ -1,106 +1,117 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450">
 <style>
-  .ground{fill:#8BC34A}
-  .road{fill:#9E9E9E}
-  .body{fill:#A1887F}
-  .snout{fill:#BCAAA4}
-  .stripe{fill:#FFF8E1;stroke:#3E2723;stroke-width:3}
-  .leg{stroke:#795548;stroke-width:10;stroke-linecap:round;fill:none}
-  .arm{stroke:#795548;stroke-width:8;stroke-linecap:round;fill:none}
-  .wheel{fill:none;stroke:#212121;stroke-width:6}
-  .spoke{stroke:#757575;stroke-width:2}
-  .bottle{stroke:#0D47A1;stroke-width:2}
+  .outline { stroke:#333; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+  .bottle { stroke:#333; stroke-width:2.5; }
 </style>
-<rect width="800" height="600" fill="#B3E5FC"/>
-<circle cx="700" cy="80" r="40" fill="#FFEB3B"/>
-<rect y="480" width="800" height="120" class="ground"/>
-<rect y="480" width="800" height="20" class="road"/>
-<!-- moving background -->
+<rect width="600" height="450" fill="#cdeffd" rx="20"/>
+<ellipse cx="300" cy="420" rx="250" ry="18" fill="#000" opacity="0.1"/>
+<!-- ground -->
+<rect y="400" width="600" height="50" fill="#8fd18f"/>
 <g>
-  <ellipse cx="100" cy="120" rx="60" ry="25" fill="white" opacity="0.9">
-    <animate attributeName="cx" values="-80;880" dur="18s" repeatCount="indefinite"/>
-  </ellipse>
-  <ellipse cx="400" cy="80" rx="80" ry="30" fill="white" opacity="0.9">
-    <animate attributeName="cx" values="0;900" dur="25s" repeatCount="indefinite"/>
-  </ellipse>
+  <!-- moving background clouds -->
+  <g fill="white" opacity="0.9">
+    <ellipse cx="100" cy="80" rx="45" ry="20"/>
+    <ellipse cx="130" cy="70" rx="35" ry="18"/>
+    <animateTransform attributeName="transform" type="translate" from="0 0" to="400 0" dur="18s" repeatCount="indefinite"/>
+  </g>
 </g>
 
-<!-- whole rider bounces -->
+<!-- WHOLE RIDER GROUP bobbing -->
 <g>
-  <animateTransform attributeName="transform" type="translate" values="0 0;0 -12;0 0" dur="0.6s" repeatCount="indefinite"/>
-  <!-- unicycle -->
-  <g transform="translate(400,430)">
-    <circle r="55" class="wheel"/>
+  <animateTransform attributeName="transform" type="translate" values="0 0; 0 -10; 0 0" dur="0.8s" repeatCount="indefinite"/>
+  <!-- unicycle wheel -->
+  <g transform="translate(300,340)">
+    <circle r="55" fill="none" stroke="#222" stroke-width="8"/>
+    <circle r="8" fill="#555"/>
     <g>
+      <line x1="-50" y1="0" x2="50" y2="0" stroke="#888" stroke-width="4"/>
+      <line x1="0" y1="-50" x2="0" y2="50" stroke="#888" stroke-width="4"/>
+      <line x1="-35" y1="-35" x2="35" y2="35" stroke="#888" stroke-width="4"/>
+      <line x1="-35" y1="35" x2="35" y2="-35" stroke="#888" stroke-width="4"/>
       <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
-      <line x1="-55" y1="0" x2="55" y2="0" class="spoke"/>
-      <line x1="0" y1="-55" x2="0" y2="55" class="spoke"/>
-      <line x1="-39" y1="-39" x2="39" y2="39" class="spoke"/>
-      <line x1="-39" y1="39" x2="39" y2="-39" class="spoke"/>
-      <rect x="-8" y="-14" width="16" height="28" rx="4" fill="#FF5722"/>
     </g>
-    <line x1="0" y1="0" x2="0" y2="-90" stroke="#212121" stroke-width="6"/>
-    <rect x="-20" y="-100" width="40" height="10" rx="3" fill="#212121"/>
+    <!-- frame + seat -->
+    <rect x="-5" y="-110" width="10" height="60" fill="#e63946"/>
+    <rect x="-30" y="-120" width="60" height="12" rx="6" fill="#222"/>
+    <!-- pedals/cranks rotating opposite feel -->
+    <g>
+      <line x1="-22" y1="0" x2="22" y2="0" stroke="#222" stroke-width="6" stroke-linecap="round"/>
+      <rect x="-30" y="-5" width="16" height="10" rx="3" fill="#222"/>
+      <rect x="14" y="-5" width="16" height="10" rx="3" fill="#222"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
+    </g>
   </g>
+
   <!-- anteater body -->
-  <g transform="translate(400,340)">
+  <g transform="translate(300,230)">
     <!-- tail -->
-    <path d="M -70 10 Q -140 0 -150 -60 Q -110 -30 -60 -20 Z" fill="#795548">
-      <animate attributeName="d" values="M -70 10 Q -140 0 -150 -60 Q -110 -30 -60 -20 Z;M -70 10 Q -145 20 -155 -40 Q -110 -10 -60 -20 Z;M -70 10 Q -140 0 -150 -60 Q -110 -30 -60 -20 Z" dur="1s" repeatCount="indefinite"/>
+    <path d="M -60 20 Q -110 10 -125 -40 Q -90 -20 -55 -5 Z" fill="#a67c52" class="outline">
+      <animate attributeName="d" values="M -60 20 Q -110 10 -125 -40 Q -90 -20 -55 -5 Z; M -60 20 Q -115 25 -135 -10 Q -95 -5 -55 -5 Z; M -60 20 Q -110 10 -125 -40 Q -90 -20 -55 -5 Z" dur="1.6s" repeatCount="indefinite"/>
     </path>
-    <ellipse cx="0" cy="0" rx="75" ry="50" class="body"/>
-    <path d="M -40 -45 L 10 -20 L -20 30 L -60 5 Z" class="stripe"/>
-    <!-- snout head -->
+    <!-- body -->
+    <ellipse cx="0" cy="0" rx="70" ry="45" fill="#c49a6c" class="outline"/>
+    <ellipse cx="0" cy="5" rx="40" ry="28" fill="#e8dcc3" opacity="0.8"/>
+    <!-- stripes -->
+    <path d="M -10 -42 L 25 -20 L 10 30 L -25 10 Z" fill="#333" opacity="0.85"/>
+    <path d="M -5 -38 L 15 -25 L 5 20 L -15 8 Z" fill="white" opacity="0.9"/>
+    <!-- legs to pedals -->
+    <path d="M -10 35 L -20 90 L 0 90" fill="none" stroke="#8a5f3d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 20 35 L 25 90 L 5 90" fill="none" stroke="#8a5f3d" stroke-width="14" stroke-linecap="round">
+      <animate attributeName="d" values="M 20 35 L 25 90 L 5 90; M 20 35 L 10 90 L -10 90; M 20 35 L 25 90 L 5 90" dur="1.2s" repeatCount="indefinite"/>
+    </path>
+    <!-- long snout head -->
     <g>
-      <animateTransform attributeName="transform" type="rotate" values="-5 60 0;5 60 0;-5 60 0" dur="1.2s" repeatCount="indefinite"/>
-      <path d="M 60 -10 Q 160 -15 175 5 Q 160 20 60 15 Z" class="snout"/>
-      <circle cx="173" cy="12" r="4" fill="#3E2723"/>
-      <circle cx="65" cy="-8" r="8" fill="white" stroke="#3E2723" stroke-width="2"/>
-      <circle cx="67" cy="-8" r="3.5" fill="black">
-        <animate attributeName="cy" values="-8;-6;-8" dur="2s" repeatCount="indefinite"/>
-      </circle>
-      <!-- long tongue flick -->
-      <path d="M175 12 Q 195 15 205 10" stroke="#E91E63" stroke-width="4" fill="none" stroke-linecap="round">
-        <animate attributeName="d" values="M175 12 Q 195 15 205 10;M175 12 Q 200 18 220 8;M175 12 Q 195 15 205 10" dur="0.8s" repeatCount="indefinite"/>
+      <path d="M 50 -15 L 145 -5 L 145 15 L 50 15 Z" fill="#c49a6c" class="outline"/>
+      <circle cx="148" cy="5" r="8" fill="#333"/>
+      <circle cx="70" cy="-5" r="6" fill="#222"/>
+      <circle cx="72" cy="-6" r="2" fill="white"/>
+      <!-- ear -->
+      <ellipse cx="45" cy="-35" rx="10" ry="16" fill="#a67c52" class="outline"/>
+      <!-- tongue flick -->
+      <line x1="155" y1="5" x2="175" y2="5" stroke="#ff6b8a" stroke-width="4" stroke-linecap="round">
+        <animate attributeName="x2" values="175;195;175" dur="0.6s" repeatCount="indefinite"/>
+      </line>
+      <animateTransform attributeName="transform" type="rotate" values="-4 50 0; 4 50 0; -4 50 0" dur="0.8s" repeatCount="indefinite"/>
+    </g>
+    <!-- juggling arms -->
+    <g stroke="#8a5f3d" stroke-width="13" stroke-linecap="round" fill="none">
+      <path d="M 0 -10 Q -40 -40 -60 -70">
+        <animate attributeName="d" values="M 0 -10 Q -40 -40 -60 -70; M 0 -10 Q -30 -50 -20 -80; M 0 -10 Q -40 -40 -60 -70" dur="0.9s" repeatCount="indefinite"/>
+      </path>
+      <path d="M 10 -10 Q 50 -40 70 -70">
+        <animate attributeName="d" values="M 10 -10 Q 50 -40 70 -70; M 10 -10 Q 40 -50 30 -80; M 10 -10 Q 50 -40 70 -70" dur="0.9s" begin="0.45s" repeatCount="indefinite"/>
       </path>
     </g>
-    <!-- legs pedaling -->
-    <g>
-      <path class="leg" d="M -10 40 Q 0 70 -5 90">
-        <animate attributeName="d" values="M -10 40 Q 0 70 -5 90;M -10 40 Q 15 65 5 90;M -10 40 Q 0 70 -5 90" dur="0.6s" repeatCount="indefinite"/>
-      </path>
-      <path class="leg" d="M 15 40 Q 25 70 5 90">
-        <animate attributeName="d" values="M 15 40 Q 25 70 5 90;M 15 40 Q 10 70 -5 90;M 15 40 Q 25 70 5 90" dur="0.6s" repeatCount="indefinite"/>
-      </path>
-    </g>
-    <!-- arms juggling -->
-    <g>
-      <path class="arm" d="M 20 -10 Q 60 -40 80 -70">
-        <animate attributeName="d" values="M 20 -10 Q 60 -40 80 -70;M 20 -10 Q 55 -35 50 -70;M 20 -10 Q 60 -40 80 -70" dur="0.9s" repeatCount="indefinite"/>
-      </path>
-      <path class="arm" d="M 20 -10 Q -10 -50 0 -80">
-        <animate attributeName="d" values="M 20 -10 Q -10 -50 0 -80;M 20 -10 Q 30 -50 60 -75;M 20 -10 Q -10 -50 0 -80" dur="0.9s" repeatCount="indefinite"/>
-      </path>
-    </g>
+    <circle cx="-60" cy="-70" r="9" fill="#8a5f3d">
+      <animate attributeName="cx" values="-60;-20;-60" dur="0.9s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="-70;-80;-70" dur="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="-70" r="9" fill="#8a5f3d">
+      <animate attributeName="cx" values="70;30;70" dur="0.9s" begin="0.45s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="-70;-80;-70" dur="0.9s" begin="0.45s" repeatCount="indefinite"/>
+    </circle>
   </g>
-  <!-- juggling bottles animated on parabola paths via animateMotion -->
+
+  <!-- JUGGLED BOTTLES (3) parabolic arcs -->
   <g>
-    <g>
-      <rect x="-12" y="-30" width="24" height="50" rx="6" fill="#4CAF50" class="bottle"/>
-      <rect x="-6" y="-40" width="12" height="12" fill="#795548"/>
-      <animateMotion dur="1.8s" repeatCount="indefinite" path="M 330 250 Q 400 80 470 250 Q 400 350 330 250"/>
+    <!-- bottle shape def -->
+    <g id="bottle" class="bottle">
+      <rect x="-12" y="-25" width="24" height="50" rx="8" fill="#7ddf64"/>
+      <rect x="-6" y="-35" width="12" height="12" fill="#4aa33c" stroke="#333" stroke-width="2.5"/>
+      <rect x="-12" y="-10" width="24" height="10" fill="white" opacity="0.6"/>
+      <text x="0" y="12" text-anchor="middle" font-size="11" font-family="sans-serif" font-weight="bold" fill="#2a6b22">ANTEATER</text>
     </g>
-    <g>
-      <rect x="-12" y="-30" width="24" height="50" rx="6" fill="#FF9800" class="bottle"/>
-      <rect x="-6" y="-40" width="12" height="12" fill="#795548"/>
-      <animateMotion dur="1.8s" begin="-0.6s" repeatCount="indefinite" path="M 470 250 Q 400 80 330 250 Q 400 350 470 250"/>
-    </g>
-    <g>
-      <rect x="-12" y="-30" width="24" height="50" rx="6" fill="#E91E63" class="bottle"/>
-      <rect x="-6" y="-40" width="12" height="12" fill="#795548"/>
-      <animateMotion dur="1.8s" begin="-1.2s" repeatCount="indefinite" path="M 330 250 Q 400 80 470 250 Q 400 350 330 250"/>
-    </g>
+    <use href="#bottle" transform="translate(240,120)">
+      <animateTransform attributeName="transform" type="translate" values="240 160; 300 40; 360 160" keyTimes="0;0.5;1" dur="1.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#bottle" transform="translate(360,120)">
+      <animateTransform attributeName="transform" type="translate" values="360 160; 300 40; 240 160" keyTimes="0;0.5;1" dur="1.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#bottle" transform="translate(300,60)">
+      <animateTransform attributeName="transform" type="translate" values="300 40; 240 160; 360 160; 300 40" keyTimes="0;0.33;0.66;1" dur="1.8s" repeatCount="indefinite"/>
+    </use>
   </g>
 </g>
-<text x="20" y="560" font-family="sans-serif" font-size="24" fill="#33691E">Anteater Unicycle Juggler!</text>
+
+<text x="300" y="30" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="22" fill="#333">Anteater Unicycler &amp; Bottle Juggler!</text>
 </svg>

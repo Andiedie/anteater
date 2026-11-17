@@ -28,6 +28,7 @@ jobs:
       - run: python3 tests/test_cache_assumptions.py
       - run: python3 tests/test_reporting.py
       - run: python3 tests/test_gallery.py
+      - run: python3 tests/test_model_releases.py
       - run: python3 scripts/gallery.py build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4

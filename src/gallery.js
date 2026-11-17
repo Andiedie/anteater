@@ -18,7 +18,7 @@ const modelSearch = new Fuse([...models].map(([key, group]) => ({
     const text = normalizeSearch(value);
     return [text, text.replace(/\s+/g, '')];
   }))],
-})), {keys: ['terms'], threshold: .35, ignoreLocation: true, ignoreDiacritics: true, useTokenSearch: true, tokenMatch: 'all'});
+})), {keys: ['terms'], includeScore: true, threshold: .35, ignoreLocation: true, ignoreDiacritics: true, useTokenSearch: true, tokenMatch: 'all'});
 const bySlug = new Map(runs.map(run => [run.slug, run]));
 const cards = new Map([...document.querySelectorAll('.card')].map(card => [card.dataset.model, card]));
 const gallery = document.querySelector('#gallery');
@@ -47,6 +47,14 @@ const time = seconds => {
 };
 const money = value => value == null ? t('Estimate unavailable') : `$${value.toFixed(value < .001 ? 4 : 3)}`;
 const date = value => new Intl.DateTimeFormat(locale(), {dateStyle: 'medium', timeZone: 'UTC'}).format(new Date(value));
+// Compare Unicode characters independently of the browser's language/collation.
+const characterOrder = (a, b) => {
+  const aa = Array.from(a, char => char.codePointAt(0)), bb = Array.from(b, char => char.codePointAt(0));
+  for (let index = 0; index < Math.min(aa.length, bb.length); index++) if (aa[index] !== bb[index]) return aa[index] - bb[index];
+  return aa.length - bb.length;
+};
+const releaseOrder = (a, b) => characterOrder(b.model_release_date || '', a.model_release_date || '')
+  || characterOrder(a.vendor, b.vendor) || characterOrder(a.name, b.name);
 const levels = run => run.reasoning.join(' → ');
 const effortChips = run => run.reasoning.map(level => `<span class="effort" data-level="${e(level)}">${e(level)}</span>`).join('');
 const levelOrder = ['off', 'on', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
@@ -117,7 +125,7 @@ function switchCard(slug) {
 }
 function applyFilters(sync = true, reorder = true) {
   const query = normalizeSearch(search.value);
-  const ranks = new Map(query ? modelSearch.search(query).map((result, index) => [result.item.key, index]) : []);
+  const ranks = new Map(query ? modelSearch.search(query).map(result => [result.item.key, result.score]) : []);
   // ponytail: compare the first version number; parse full versions if finer ranking is needed.
   const version = search.value.normalize('NFKC').match(/\d+/)?.[0];
   const sameVersion = run => Boolean(version && run.name.match(/\d+/)?.[0] === version);
@@ -132,13 +140,13 @@ function applyFilters(sync = true, reorder = true) {
   const metric = {time: 'duration_seconds', cost: 'cost', tokens: 'tokens', tps: 'average_tps'}[sort.value];
   if (reorder) orderedRuns.sort((a, b) => {
     if (sort.value === 'relevance') return Number(sameVersion(b)) - Number(sameVersion(a))
-      || ((ranks.get(modelKey(a)) ?? Infinity) - (ranks.get(modelKey(b)) ?? Infinity)) || b.date.localeCompare(a.date);
+      || ((ranks.get(modelKey(a)) ?? Infinity) - (ranks.get(modelKey(b)) ?? Infinity)) || releaseOrder(a, b);
     if (sort.value === 'name') return a.name.localeCompare(b.name) || a.slug.localeCompare(b.slug);
-    if (!metric) return b.date.localeCompare(a.date);
+    if (!metric) return releaseOrder(a, b);
     const value = run => metric === 'cost' ? cost(run) : metric === 'tokens' ? run.metrics?.tokens.totalTokens : run.metrics?.[metric];
     const av = value(a), bv = value(b);
-    if (av == null || bv == null) return av == null ? (bv == null ? 0 : 1) : -1;
-    return (sort.value === 'tps' ? bv - av : av - bv) || b.date.localeCompare(a.date);
+    if (av == null || bv == null) return av == null ? (bv == null ? releaseOrder(a, b) : 1) : -1;
+    return (sort.value === 'tps' ? bv - av : av - bv) || releaseOrder(a, b);
   });
   const visible = new Set(orderedRuns.map(modelKey));
   for (const run of orderedRuns) updateCard(run);

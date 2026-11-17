@@ -1,0 +1,705 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a1e84a-cc64-7256-914e-fb356aba23e5",
+    "timestamp": "2026-11-17T06:56:18.533Z",
+    "cwd": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/medium/attempt-01/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "5d533658",
+      "parentId": null,
+      "timestamp": "2026-11-17T06:56:18.534Z",
+      "provider": "magpie",
+      "modelId": "openrouter/meta/muse-wonder"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "e3ac836f",
+      "parentId": "5d533658",
+      "timestamp": "2026-11-17T06:56:18.535Z",
+      "thinkingLevel": "medium"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "openrouter/meta/muse-wonder",
+        "level": "medium",
+        "outputBudgetPolicy": "No tester-selected output or reasoning token budget; omit all ceiling fields in serialized HTTP request.",
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "retries": false,
+        "providerRetries": 0,
+        "compaction": false,
+        "cacheWarming": false,
+        "publicationApproved": false,
+        "invocation": "Pi 1.5.2 SDK; original prompt; isolated agent and session directories"
+      },
+      "id": "c91e000b",
+      "parentId": "e3ac836f",
+      "timestamp": "2026-11-17T06:56:18.538Z"
+    },
+    {
+      "type": "message",
+      "id": "539940f9",
+      "parentId": "c91e000b",
+      "timestamp": "2026-11-17T06:56:18.541Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/medium/attempt-01/work\n</cwd>"
+        },
+        "timestamp": 1794898578540,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "24643c43",
+      "parentId": "539940f9",
+      "timestamp": "2026-11-17T06:56:18.541Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1794898578540
+      }
+    },
+    {
+      "type": "message",
+      "id": "f88ed4ac",
+      "parentId": "24643c43",
+      "timestamp": "2026-11-17T06:56:21.349Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgFSz7dRd4nckKFkHbFEURzNuuDytLUReMIlrRScY02BGgZt8BCESZmDdQxo5szTb2Vzdqq3pdYHJoUKzWetAkkrciu4t-S811p5nOgcI53Y2iLh9z0U_DIQVLFwpHUQABtrToSEgblELdjE_pWWtXG5mV-MviVjafODRgoTLiG4ejweex3TFsCZQ7B_BVSl9YwZrE6nwh50GnY9i6Jq5rxMK8oekY18Nfr87VSd81EZM8RrduRH5aiqhQr5CN0xhBlWxV4OHgDI13JexE6g49pG3eGNdprEIOIDjMqcP9COFL75V88pY-MtiQRCeHQVVUizSOcCjF954CX7lKe8sgvQadpbCsnV49U4enod0OaDXtALsgy9oaB1rAAzBjRm5cX3ENZkbqQ6PycnfWFRwDs0pIGxqzf26T2hC9j45OxajIkojtIODZd86YwABeF1NgI1NLiL2887FU1gI7BVG_WeBGDgxduVbRIyEu4bXFF08a6sam_6AX4znPYGFxeRK4PZfIGCg_8w_hFMSxylafrwBrlQcyX2w0ztDhLbyY_5d60bnmSg1jeNkJ5ITLpjVxoxrxI1d4tb4iHqMUM0OkwOQ_xO42ovNazq7aGmKFS64eT8fmnoM_AA_xW7-FsJvyFbcZU_Ib4FW9wsU8YhjpU0mRRXkMpmINTY5lf2JSNUKK0-HFTcBk8qfEphAqxfBWXifopRZzWpOpOtj1IElZYGGywLDhBCsYTxweS56vWUOwJbMyPVXoeUn38TtbpIGFmTWK5cgZnTie9ca4PZSatCXvviNAx1fk1FPMRcK9VEtzvogJXF4GMLc0AbyeurEpZGhXVnYMa--HIcZAIBJnRV7e2ecymli-ywhRRlL-nDMHHDXluQevfUrFyr6mmDLL8KMb0VdIFw4-tC7VWt-K1wk6fe3PHNX71INIoQtd0MeXvt76rGeyfqz-MDKbbyP9GHbSKzkf-la7k1YrRgUJ_z-GSPtVAI2rFmP8TZZ7sJ1Pqelo7nyG3ABkI44kk3SVnI5mrrIdglrWzh77JG1YLT-xFwhzidaIDMp_tmG2lAreYf1vPBD-ag3lnmWFxy9bN-a0hXmad-tNPe4AqFLK3M-JgvKa6BVygu4w9SE1gxqMZKndX6cPFqgVgd00MD36yWMgWK71eDd1p7iAt42Z8ZipniRHoqgoXM_zT1zhhltfaz6HUHMr_DN5NpRuRO8S-55B88dBAEoXqP0Ue09Mv1AX8hiLGffb_atzViz3tnB6zY9-x7Y75E1tj3Y9mPGm1GVVnHlcL-0RuMQ1l36TwJvusM1B6oshFz0vrAmB79L7as9BAQNgdS05kQLBEkxh8Ea-rwEWBbSyltUGAFP-J5ZlUx_gZ5mVyfJxcYjUtL9oiTsDAjDPFzVIkJBDQQf7tPXys69KkX6g.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa9434dc1f4160b44d67:rs_01a1e84ad42770b6ab12cec80cc7dc8d\",\"index\":0}]"
+          },
+          {
+            "type": "text",
+            "text": "Drawing your juggling anteater on its unicycle — building the animated SVG."
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84ad5eb74339c7f3ec73389c351",
+            "name": "read",
+            "arguments": {
+              "path": "."
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 1557,
+          "output": 90,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 20,
+          "totalTokens": 1647,
+          "cost": {
+            "input": 0.006228,
+            "output": 0.0018000000000000002,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.008028,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898578682,
+        "responseId": "gen-1794898578-itLjhzMEeQONI9IwsHJq",
+        "rawStopReason": "tool_calls",
+        "durationMs": 2667,
+        "thinkingLevel": "medium"
+      }
+    },
+    {
+      "type": "message",
+      "id": "ece57c4e",
+      "parentId": "f88ed4ac",
+      "timestamp": "2026-11-17T06:56:21.355Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84ad5eb74339c7f3ec73389c351",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "EISDIR: illegal operation on a directory, read"
+          }
+        ],
+        "details": {},
+        "isError": true,
+        "durationMs": 3,
+        "timestamp": 1794898581355
+      }
+    },
+    {
+      "type": "message",
+      "id": "0f1b584c",
+      "parentId": "ece57c4e",
+      "timestamp": "2026-11-17T06:57:18.809Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Designing a self-contained animated SVG with CSS for an anteater on a unicycle juggling bottles, including moving ground and body motion.Choosing animateMotion with path arcs and offset timing for juggling, and defining leg motion via crank rotation groups.Adding keyframe path animations for pedals and legs, and motion transforms for bottles, arms, and background elements.Adding arm rotation groups and synchronized leg, pedal, wheel, and bottle motion paths.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Designing a self-contained animated SVG with CSS for an anteater on a unicycle juggling bottles, including moving ground and body motion.Choosing animateMotion with path arcs and offset timing for juggling, and defining leg motion via crank rotation groups.Adding keyframe path animations for pedals and legs, and motion transforms for bottles, arms, and background elements.Adding arm rotation groups and synchronized leg, pedal, wheel, and bottle motion paths.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgH8HMjFLRpwo6tnefthi5sGa1nvr2ZsfFCrPX7tfVfvtRXcIf9c0MQOx2UnebaI1Ujdsem0TFYreER6AYDSmEyO1BpsYPv_Qg0jLnoxU_AkYlfWxANA5Kcsm8l0oBlEP_AaBfk2CZ1Lt9jeOQphLlzufiuGbV3oiVK4kCXIa5dIeT4AWvn5J1LOzHKVv21EJyL7gW253fFOdfRsTcfohHKeC-1B4Pok7EEnD2_L6RmMQQu_wIeGdA_cB1cIeWJCh6J8kEyFC_gwwQWJs9-4mZK6D2TgrPeJFcORpXeK_wSq_eHeeg8dSkhgook94-e2WVkhHNEd5e5w-38rNxE2jnIB5zwDiZPlxpQogHGbDhrtjn3yOrsIiIUpsBpX78OqNca-bJ8WqovarcIg0Hl09GSZsEbExwl-IMoDMUKPJQ_nk3r0li6y92iJuOLhzMbswfgaMDWf5Ftt1GdapE8uOGIAo1WtCmRIuqMayTUOW6NZ1zz307OkEWnRlzKaCuN2-Hq98Wtq47LVexEhKJNa0xaXF8GxPpsMihoCG17xRv89w81yI00mTgwlC0CtHLr6majebbi1cjP8Vand6yifb2C3bgmVmV-3XY9jrJo4rjCZAzXcYpvYNKPQCcSsa8sSWZOgBPQc3as5oaJiEhHvEQxeTlwREsfRXUJyDdXaMA3J4YW6REK_ZrLdkY8McIS7kMOgYaIcOJZ72CrQlIzesmX4uOr30ThidORyTyjQdUU3vBQvwEyxu8LnIayMYBwti2p8X26dnUH0nv45kqWeH6ctteHH7GHiY2yJ3OrXF0n-vfIAMNm4JpeezSYeW6DB1wHU81JxaP3VgsfL782EK2Rj7L_fDcbX6jsaHtPl2jSKPHyCzsLptemAsnS9L2X8Rp8IvcLd57dG6lKKZ-8lVjcyW7yyZWBI14QDFnlcrr09u6RhrPz33iQbw9Yy1NUOhB20P9tlEGIJjo4ptxxFLxFaSOWpheLXnhhK7M2ao-xpX_AYKWTBRqMC1qIluRsvAaLXaVFxuDt-CY2-IyxIzfa78Ew1-94P3WqI0cIx0vITnvWGu_7BSpl-faISi_4GpNOMbxUE9jcAmtgDn9lKd2UoI-W9sQNrzHYdtCbZddvcLinAMQqnZFQIvDcHL3pNteSeZTXSXhdZjM3S_4zOZEi03Ak8p_fGi8IlN7P5VlDwZdkbKqtX7R-vPgpmsAOyCyOJwp9M8l9hJ7vNLGBU393qLmUkcYeJgjG4LqtBdDGNwpgemeZvkaVR1x2wzCzHWFc13pdnAeJdWpIKP7NrQYSZXQHU6bUaTCab64l1smqhLrb2moCIkSSbvMG-CtW0onk3AE58Q0H2CayAq5FpXICamPQcax5qXkH_OaPCt2iuXUCf6reQRuBrd8RRb61KeGJk2ehU2f1LljCN-zTMIBA2WETX9mdgm9UsHUeZDvOTa5SJq9x8BDo1PxpAr_nIpqkbFTnnhwxuZj0xAucL-PG3XQCu0JlGTTb9UMBT-cb4VK9NTCbYA80pb_YscQz4zVvBeCB8iR_hr_RG-fQoLKxIqjSbh01AHMvkIIAJRHbNRg-H-8_p-6t1t5_caLTZ5ZGLvmq8RMSBOyCs2c97JCGlD9Ioi0400izM4hjUmQeA0KTfLNzCZklEA-dRj6I9xLvJBF-AM5swbvMZiEarJrab7FPoLSmZTby-TNyaX3rC-FRuhG2fZgDaibV7eRzwdBkOnklSRh85HG8Yr_9U3v031ttWcEJSt0LyGTYAeeE3Bmn8GoG0ntSYpbF789RU4fWCjffgPXvjGBR7fv4XRRpNpjsoEHJ3T7M04ykUKvT9Cj1y6MoTT0MQiy4HkLO3JV9kkfrq9vxWYD7qC5OyYU4XpzO867KhoHlV94eYp7SWmBSWuJ6Ts2tznSnabpignIA6KR7ukVMvJd0z7BiQN2gLwd8t3zL8qD8AvctYq8MOHMNzpXgOFTO42Z0cTUSdwfIMEDzjjGjydR43_iocbkpYg_JpVvwB84IjY-MpNNFIJM3qS5yaDMc0ATDu9hBXTqNdV_V65akKBfaV1X_XXlRp4f0pOtrh9qS7l79wLkAAfJeciqSp_TooBCIyFSJJ8KJkUHam7l7qBnv22xl71T1CaLURTym3cz0VfEdNf4-Fnz4RHaFhicX_6BMeuv53CfvgJqfbTFt5iuV0vtgU52EyCgKb1c24BIqC77N5lBsHcwUpeMfvKEF_NIX6SMgsQTfRNuEOwPfHsN7XZhouCa91RKQVY1ngzE7fRsogPzn-Al-4_jfNBo14ZUsv1sZEW0375SiWlq67Bx0piruJjW1G7zvtsN6FDXTd-n0cgPisvxVEEpFHpo0GxY-JVFCLh4Wd_ewewR1V-2DvH4GE5KfcPfLAXuNJcZ9WdLZtjA-9HtCXi_zUPjhEUh3n0yFBMHCFoasp77FznxSJDcFSdKe0X1eI2i-niPpGkK15stBKZaPtdm_dfFdC60CGRmBUNIi2kYPmcNHdCylmmCXrw1mnghCGIETSqqadGCU5vx2WEKLoHKZyIfzs5Qp13ubJtHEHzIz7l0fCiB_6shO7CbOfDboSAgIgkbYZ5yYJdcQwSzTxhosDE0s3FNn43aFidpCK8uZdArrS39RlicB65KALu5jX7seP94vdsfmx3m4YtbqmrTa8IM5F25eiLNGocnX-MIUmY2wNIa7hthuEYMtm2bt-Cc5UQ-xfhoFJEZMPj6Ve1R7dZwZkDXqJkkeVLg76oMnfpunHiujhlP7ffWV8lkQmn0B8yNe1IwpsvNsPnBnyxqhMJYLk_t3GOSUmq6qSleCeqsC-3UBP7mm1Xx0JYlu-yZJcmEA8Bu0T7h2A3rTKZewoRPX-i5Y_37RoqiODUi9wvUMs2YZqB5rEQgRpBLD15cz6sAu3e54VcMFwQtc_L-vjA40uGofQKzZa2RK_ZrUlGjBqcjOSdhLh8FO86togBxbovUdGfw0POt5JaF31zTRJNAKnZezP6M-o7W_GzFvIlKvC_GYXo7UowrfNSpvoXzhKkDA5LwM4mrRdybmCe8ZlerzDEy0Oyqip5fsWSDUVjmLK9pX-_VW19-XYqLJROZSlnI16Gjjofi1i55cAQbAzk9bG4UDS82v7YjWnmSFcW6etCIhq8JigntxOI2J7V3T3yFLyIo2d0nWejBGtmoRUx2L_Lux81TIZ-OR67WlExqzXraJjYcv54cXnamanD1TAZZ49KDQblWxyjStxXZ-ARpvk_eMtQCf5XdE46HwdRytENb2d8wuaaYzqTI6OO_H3_HXYW-et-Fm5G1wCTQpwvvAC5QOp5qIOclpu2VIFi2IVHe-qJ9M-2UjPtJosA8szD0et3LcJ91TH6GvyQvcp-OpWLo0E5iBRI7tNWmDpAhapOwdshfXm9PkdjXkGHKjUTCU8QAHCUBVdU7OVFeEmJ6go1gAo-eSbq7KoBEnF8noNWuU-_bWEJpN90tMdLk4GiJhm7US9qQtxoI8AOF8iuyZgbVfQmetAN1uh8KJ17rVEcAYoNZIhtNOWOZO67T8YnHqCFAMXB3JG4uIVJXf7arhb50WftRBMyL5x7YgoJnGSk2aQFJDKyha37YKGsCOoXZs-yq9UOVHOHhunFvmdzwJIy-8zak0Rwr1c-j39VbB5Z9TkyatEQ6ew7TIO_TXkJBJ8CrZklBm6L0jRIoNOI5MJO7ZIw6kkmHT5BLyyw3zEQMUSWpDwB3XjpayqyJmP7Mf_e9qatnyJMr031e7oCqr8ucuIJA5_5d4t1fYJ3YDDS5hFOp_uDVXPK_fLnPsMrSxd-iV_sC-NbDXT7hfRv0wGalF0cL49OUBCrIf8T-F3BxIGMVvyv7OBG27rvCb1INQHEIFrkF7TYtjZ-_mE2K-zkJUkqnp9mXuUUXEWZrCWn9sDo2dmbuqvZOTmXahwUwmtCW-gtUwFL2BFgx3BuUfeRq1k_fP33zO32AgloO-nQ6nKRVKebhk_9tzwPhNAyLk9oPlJzrWAwG5eI71NbPTFF5TzLny2lxBlcniyd_yyyUHVU4WjQ3Kc5K1cFUswtFcKFPkVzLDMu84aN-T54Q2KF0Lzq_MgiLJPz9eAsEHvCdnFAry5wBOkLkck2Gj3axU9zZk1YyEA1toqlRdmgQPlbQeSFnvv0zON3ZA_BMKl7PV2kBdylQx_mlhH3wNNkn27YFkSKQsCiBaR9UIFH8-lDzeg7xvgj7sAVyC_d3Pn8z02SZJJqLcgsab_kUIpiqSj-N2aVMC_eAfChXSFAdjBnjFPteOUaRehDpTberjZtDbmWH4FyAX3GI_Be5aX9GpvGKej7OFuxWxHvab3h-FTP_jP4n4jyKzW5yw2YCtB3HLrdJgVyIVGFW17G7APUw5MqqNYW4bdpAeV1VcPzY3vDaRiRVBMxlbBS-jmDJx8VFg8XglpYOj3mjpFFrAzJt5q5BbhQ8LqpOcJWn3td-l7P502FOjyIlnf4e1fs0bpBGAkET3iyBAoO3fCW8FVfNM8BryGsIzO6E2Le6CFFlJlWU5wEXIypScD06MURT9HJzKw9kPmVfNwLsEiPPq9Q5h_P14sFT-wCSBbHdJiYfSgANTzpdFHg0tsqk7IMiLjnLXIx5ts_3vTkg34LHiUUYMcBOog3V5LM2-zA1tQYqHyEkoWuLCXvG4Ft5brKfB0R2d3HpqrL24-ytQ-RTp3lXZkVWpBHBz66oRKXIepStpX5SI2gdRpG3y-5ob54lq3HMboGnfZW3dpHRJZRg0f9_ZyDZmYLcJsGdYFvmdqbrUuucH-44yXXFw5rexkKNCB7g-Ah_D802JNjpXH3OoG2Wl7ULH8JdnTb3K444LKcA577lsf4Q1iUBF-YI7k4I4Y1DBPXe77TFWX9RupWeMguE3YZKnTfN3bZyU7SLNJpbvbonmDsQXl2IbP_cvsxQJt5Ax0NpwWlNdhhh_Ep700sn9Wys5m2WcruG9eB7avvG8HLeeOB5PyiPxAnAAs0zkq6bROwJcB9G-KtVzY1FG7bEjV3Re_tqJukWOeMtOAKxnm-zUt7ZTnhTj4r93NQZTmsQ2q-sc2FfrXJs3Fv0nKWwIyTYs45GylzxeppmEoQY_XmhgdHzwhI-Q1HCUwcoSdajvMdKaadaRcHGPJiPDN2oIY1jQ1JZwTXCRg0WK1cYxTr--e317ca_99X3HwrJzYpRPSi4mwF17XX7_GF5leodCmrOD4LZPbuTjOhnsl9VzGSf05UHxi9TI-u9oTVDR_HLloifb9N3UH8FAUPdNHUBZBtoHdgAdDn2AS0s88K6fQMGPrSdQ-B381E1wLhOmulA7KF3knVp3K5lpVkZFF02QHc16fZjOI7GQMfeIi3NLdv3x7ayurCuuQJySo_rpZM3tI02v5ydOrhKZoEvB9BaNa7ZsOrcnqqDFBy1vsf3l_tH9Yi6L8FH8hYIRfhDl3xpUUdNE4SEe4HCQA8Bohauw_fCF8hXSwJ7kmB2YRU0WR-_r4ANhgrXMho8EjeSPDwrKaEqDRQWRBjARHa0RrBtroPUDsLD-LjDQGnO6BzPW_LDUC8aezE9df2DMWiDAmI9WgJ9lkK9fYstiyivVh1T8MPEs9SLCdB8efABziNyzznw2jKmIOuC4yDOOOMZhXqkmXtseNKpzEze40XnQwZemJoTv26M7ZKzKwTFvA4UTeOC2j0xSLAys28UI6qFcpCOWS_GDplQIgcl9K6H2JrWWdgsZxowxqWzTkFquvGa1ifkhAKwTILST-AmsDVkqmouX_nnzHqkJwjb9JDMyvm_L_83epyDBR4EIRicMXzQlGm2GofmqxTN4aHzje0QYoXdy2Il0w1G3QvyZ0nNzJEQNdN8NY0CQ44fzQPSR_Bdb35fEIy7fmegwN3UMzJ0W0LuAD38P4N-72z-76R3JIJVFbviKHFlVv876pvUuzA9IG6jSXmn0UpMYdQ6pIhZNSPzLUcFd2zsr2RdlDt_m4bIz60pfuGJP3Isu20f_qk4GteRHDKI-95eHOlvtftTTenk3eUA6Ospoik05Iovn2xrXXtIzgtsD-q9x943BvOcUbzMcmX5HdRvLxAC6SH5F5rxfbqkT414staxJIV7bjEiUTDeIEQnSSVvyxSRROQ3oDVRDir9YEwve0mkhguXcuMQgfVL1aV2gn60pyLMooQQVwcwjGtqOOhDQex33C5ii9GnzRTLt9NyeqDa7pRP1wn3i7F1kEd8yfR9B6qbwuqgn_hBXQ2Lj4xaa_iTwCbwA12CUUPzmzieE2b3LdVd_YfnEAHwJK9dK14JBMc8LS7YGYOGXutAwjtI-BSdRxLHdQYoulKlQx8FWueYOXyHolgGZitFFM5DQGVWfSYFMhzVHWZUgjf0Je2Wfd606y79O7M6gjv7KiKRhPqSefFmhE9oqgGDheixBTC5-rsKTVZXx2C9O7fcyU0vLZ00JG4eFjnXM5ivbTd89uF3fl3zIsoCMh1-i_QxaygmGseyTsgxt1RmHakeuFi4WY--aLbKRWxsuLVzBAGAS1VGsbOpypYuowspei1smG8GlLTxIOGfWhsFdA5doGs2eHx7zXIlAU2SEQ9cJL5dwMpnNlwp6AMAiTwVNDp8z9uK02gNeK2Tc1ptuDDSpCGYQVmYqihVOJMo1ee_cymwh_wwa7qwEK1AbJcjdB5lIOW0qpVoxDq1ljUlXHdIcoxVuz3xIVUbIIZyNlZICrqDRm0N8HuDRxdEMXsd1LhkHIgaNTvTMyV7DPvYDogp3hSwMfN02e_TIPbMv4BNyR1upO8bZz7XObhHqBBW7BdwCSVgdzTsKpHufebSHwaXQHFgoUVc_TyVlwGdzAvrLLiZt_f_WgIRJOecCLfAlCsUQ86vuDnycN4GEHoPcqJMWa-PAlOJCbdPSg2wA14bbjrrE8tnE19gr4hQ6NSR4-HVscY0pMBY9cpo9b12cVpEpL529n6e3PGP4wQm_1NfefdW5jso37wmUuuL6U9INBZyDds_8tasq70o7O6OmH51kuw_nub84eN2Oi5vTf6Ru3HfyPoDuZOfhFihmDi9FCI7m4Y9t2M19ZhEM-LO9UXO21J2CmYJK3WWgqj2IhXTgauUttlzMJDJ_PbTd-GR9mscxAsKEYyWLABtbXCYiM1_YwpP3sqtmyx5zki2zp7FE86vEjR-dQ5g5BVZNCW515a3_sugDal6alUDkcH3V-brkLY3Vz5xpMKXyagRqo9f7wBmtmDyw5bN34vjHIrOQesXXcA3KRbjn2O8MG7kGWv0h5AGM9usRm9AkzIQAdwJM0rmZ-yG8xCnZhktQ8p7uVr7kqlZmFVhQnINKhzuRsj-j1giEJ7T-Vq8BhO1bUxJIHYSylrh4Aosc80qXWabWCxlCglb8lR6PYRmwnVK5WRpNFT_s51_4PiQ3SpR_hbRyI2orgl1bkO5Xax8-My5XEOrPBfiiTw2cbTObZkAn5lKh4DaRVQuOB3-wHmSBERZeVAFAklkoxXJmLBq0iR5qPBLPe7MDQjm_lsjRbZmUMSVS14QBwCGGkX0X4TCQWZfa_UhL4qdz-XboXIhg_cnPCaIU4VgnAu3SfqxpllBXF85JJS47JocBfPwKTM03WxdRMVLTtH96sL6fQrMH2dsYkh-DHmYkAD-r7Hbg-UBWudYM4eYxh4hsqz6Q_39ptz64uYMMlBe20dC_maL57-EaAgVpe7Fj2L85Io3aAccLCOH0nvfUVtrQPeSiZy5_vymdfZm-GriMIBWDTVACr3LfO70c-E6GNBVIXfzhSsHhoOq1co0T-aOzqY80px5kMID9W8sjFdC3RXWkNbFVdvEN6-C0kZbu8FWyOaie9lmDJfuDfq_3OGLgWJXj77GmVk-XrTy6--Wa5A-CHMnuYtp9F_aDGVj2HRTDIrbuvZ-Jo9K5v-PwSI1zjkLaFiPoLEvhprK4IcKL4CKGa5i0dIJhnSHk_UTveyOXtXuj9NNzJ8pnEVLnq4Aet_joiEm2DrVK-J_HcKnLRf__W-uobANVzaMa_mybousOADNuriFOScs5gTXSfBE9MGA6heQ2vag656MYyFfm15bmuJotDOJm19mviaYk0NOhkUWhcHLVwQm8E8ERbpDpKCYbvGd80092Mi9wa268P-Gh93O7KL-B3WiZYLtULO94zJd_Kohc2eYc7D-HNG3iwe7RgsIn_bvttkTZCoP6D-Ul3sOVhPJ-Cr51v2I-fFQ8ArdnjscmUVUoXiBCsDjJ7USg-jnIG7JpVevkDGwNrR4zsvc7rj-u5-M5vrQmOplblfVWRXEAbotdiORSmDlwDTBBrf6REujW-FGNrCTimBTDAMTmxvWkNwH5y2s4C-sAvkahqRzFmWou4hm-XdItcpjMgDy47ejqyVNkTukCpHGgbVIKBz6ixYPgJl_1y43Lyk6wydwfVR58r84GXw7ggtcgCwOI0lgXcVXl2WUEzlX8s4EKOHRjMpO1YkWuaGSyLJYxzPVuYg1ltrUlgALjF_yDUIgXwQD7gm80cCriM4pjotMNgLzt9965Rlf3cx1ujweJ5X2mCPHPh8zSVqnHDmR8eGvszHuJQOclQODZELrJy50c44dp84EafvnsVkmcq00tik0iBdYPQ0DTCF3uGOX7mrdsXEFEoamCNXkWWoOJZkGCHEZ16xu0nOINFcGc4FDQD7fx_aIg-CQ57GcFAgDDxAx7wFbnCXgBLbyxTzMC2fLw2qTki7R2zu25u9p1t90mP1NxueoIeNrUNLgmZeFJiXqNdWThjTBfd6gLfcJmFBwd1ZGomczdJsKdEKSbOoguiZmfWw2Ehe-_bXIizQq_aMI3Ktumclrruu-7Za1lbgGfkO1aKM9TeU6LQmNovM03X2q5tgTMU5XVGZn5HdfddjdIx68XL3WzXCiZrE5sLqQmHNTDfVj1QjT9WGzI2DTOTrYW0bIZSGp4KjZf3619PKI-nk_BJ-WPKXLX4Tme7na8JvpEXP5BTEsR9vis_8TxnqLxyE2MahcR8TctPGPjwYKv0NAna1W0yvtNCGPEo97N1gk-GyYu2VkwAWFHAfycak2STRVpbj0-ee8E4svQoW70GE79iMVF0R8oUNgM728qGZO_Yr5PyMfYbEG86YbxOSgqaHkeR9Lj5b_B08PbOxS43ZuruWImA5wGkFuCYhwV65105Cr9Gq7jXLIX28GgFb3yAwVdimMBnEWKNxeb5UvEL20ozR_FwPyRbYFshHL2qcxqua4pSKEy-ghCkQtWig8DpYwwsxqEOjBaVJTAk4TkVBDL6SAUhe91LMSwBr-zA7Oo24HMzKgvuTcYQ_x3MaZa3FN9sJCwsrTNG25XnvATv6K6CRAMjK7R_I4lyHgW8YsQMOILhQoU1OiuWBocK7D6lf7Tvi0U4XCpi1dJXqXXVy3bwHTebj-XZfX_XpJ1LBF4_CQDmz6p7xNogQFgWzbSovAJgPpMC_TnGPjZPOpX_BTtEsVPYeKD6mGQSOgkAifkF4UQYyAk0QABwXV-YM7h90xC7_1ImYnGK05iq0_pDVXfi0xHJ8H_tSbzABfPIOAG5W1isUplbvtq1p-LxfgBJCT777M6aqZoLDXis6nxqqb1bC3qrVXts3GJgR34wHkZ2Vr9SOHJAIZGiy3iK4pN1D7CoZ6qgAlOrcaaKbDzlSYRJv_AeLOMnpK4ALowcvxpWKrTIdQmAMpG__-M9MeQSUuPujadJnaSrVPchbXbtIXRMSnW_FSdlOoM2oM-HZqvvN7_qyue6MPtNTHt0GSOobM_oLqXTweDPkDI2F8dFp3D0BM3H-avMjrPpXUToRPgDnoV6ZeopNRYGSLQfb6qMcp-K4hudLIFbiiLk6nhRFJCa_zegYYwnNxHmxWZ9_xMbxtXH7raeRX30NBWYSr2sfCmeXmDbbx4nh_AMEn15pt50pVBilZCz81P3ahZu6vPPrOzUdx0Eg1N4p-m-sOoYEJ0kmB_-8F57Q2HtWUCnp1Ugs7jzO41Jz16JItFWW6QZa_bBxs1IrNLP3cD6XbUR2GokAhfauJTXiLPn5dW1oETxCOvKfyy7gpDAJshNl1FNRlRaBq3uY4V0sPsVdfhCQR2_fJIGeVTF36Qe69iCEOAIr8AhlMHw8GFGsusCYwjL-KopwUsmepPG7lMF6BmdjqJ-IpmRko3M0Ao1LNZJ46GyAo66MounH8NTWS5E5QRo1iGxC2VE4e4sR9sNazIkagxz28jL3mojbKQtIh1XP57MWC9vmtjTs-IMphw9ZPyjwGlt6yTRyU3Tf5g_ceayBR994iCN2QYTuyNcbI-WlHNbPJ20eYHUum-07_fgOvGw8i2KZUZajzULfi9FPFOL1iL5A5lsQ-xSrsYacCOv0jRoUMMxSExnMFpANelXmTIPPPn6GcZE4BkTenv-4rD5cLKy7zCQrKc6IvIIhZBA3TXDV9ianrjKRlpF158XAbjfQxUJ2Ak7ExK-NkBHmxPtaHue5i7pQOv7IS27C49YSjfCtvkwjsECmwkqlbmj5wmqrJg-9ewGS3K58kp0J5sdGO86gb63PqgLjC0gi3Acn-ynKcHFJdnhGpBwutFvXdG5bf0yJ-qlH_WwqREoFsnv9KlujAEHKyxEECcTDY7ouYdPr1yk21mwZfuGKY64-SpcmkAd7Ed3V3cb8Cv890Ec-gBePrPztB5k6lcdv_V046acw_ypR8rrwPcFKsMuJqgQgtouBMGe9RmNDYRbh0Y7WF7oll4AC8PY5O23_neiz3ZbtI8CT93BYeStPFjBYO-r5z8230bnCaz66sioBF7YD0_faq_b5IVszqH2nZfECIT1_XC5A_HQJu5L_ELbF0_7KqlttD4dKpwYnWFigd50Tw9dUzKob82K7-EGKMaXbQNZS4Xpgu0P57-cu8C7VZD6ozyzUoJVY2a_jRXuz5R2AO1SHzHkOlf-H3aqoGbMmCMESqBM8nlvo3kKhKw0QLjmaAdjOCQnjymcssPEXpn51MTAn5k1uVGrua4CwX7q4lN0sznfXA2zc9O-m8EiwOwioUYwTpNf-9ew6nDwqDm03nj4PT7r3fMHO21f0phWHLsy5IIlF3TsIuNmMITufjARohlKwkGwBwJmFX18jhloLu3RidQOEuQZSi4yAOfl5UPAPAfNxCx8fFWhr86uSdlIhQ-4tHCkySg7mUXmy4SGoY6YpAJwEmmVFMjQxY0BV_ax0aS2uvXI6L3_3PWOgZeHH30aAgdrc4dk7_oKsY8wbEV4G-e7xJ_34QRjlQ-MSgVYrfjU07y4zgZ73hkysUTEYx7NivCJMhfxdBMg2xkhCoeLS4i4uFcS2cbn2xqgYtFCJEH3DaLkuSqcOhuTikmcIGeOQFKFW5XJBtt-z6LlwM0635X6IHdfNqvaJqP7VAgfzUln9852_YAbBWMoQUOr7NK7jS7J_DkXuVjnhqTOciCQD1-OZgzUx5fBh4RehJ5L9B7u7uryGuT_jAOGRxsYAFOjqXP5e2Jh_O5HGqPh1POc4Eq1L8oy90NjHhxGcGrlgsAaq0EfwcSjUCKfkhS0r4cbET_CdvJ9f1cVvUw58mJgmtxvctkZI9iFB6RVQUKfe353xwDdGeACm5urIkGfUrzRXpi5rH1D5zidge8ahMtjOe9uKAXRuy5guwX5rXzNWcXu5bKF92TGZOm9Gm5sIcM-RwAnN0wKZtsNGMEyD_S0F829LaoaYqJ-Olu3Q_4oZHdlPO1uCzV2biuQKZCo0Qw-z6dMvBgHFjW-xbBiprbudoRpxRqHRonSO1aTdANluAqvzV6dMJ1JP8dHBO12AaLM8rdHNGxBqu9f66IeqDtuLBvWtdK6yu2mECm108eywcHniVTNnfA55zl7cr06G8UFe9llHKfD0HcT_l_p3hZ_YyF3ZYmXsjLAywry3QmmD3vhJEBNGvIj5yTGWY8nOg3JdQp8rPk9AWiffd8BSUOL-ox4gHBBOyy5VpwsZLcSD2RtFtsm2fUCFBY3l4UT4ZFEOy8gxUJgWM-RNe_wFnqtHLiIHgz2l9iANWs8rAykqhQmLv3W04MJyEkkoukeBzAh313wPvPgntlV9IQdg5IT4wQujNEwB8bXBFD-1DnyrMUxs_-7AjVbEs9HcMhukhvq3SxN87LSz-57whb_nStn8tT7y2G4h3nh1UyGU6A-002xl38wc8v5mGiD_N01-3ouub7FRq2Zc-HA0Bjjt3R6fFUo18dXqwTfEmRtBZSnAtBqXxiKv4_2Po3pUZuygSJuUJVYvzGrkVsV8QouiqcvTpiGVEElNZe_e8yLf1oGSr9C7uDxquGv0o9ECBa0NGzfJ7ULlQ4_cYG2Csxmb2fVK7SYSbv45VY0sW2ZEXS9z_-O7MB3bWCd9kXjSwaxjqv5fugIc01y1pmRZyJ1Tp_cvOw9sf82--qX2ux48r57QRKcxaCwOj70fEFzvepeT39_k3AWlk7z-WN6sZSJX6c58JiWEiPEewl5Y9Yf75mUlI91cgz71pxrMjlyQCXVBZG7N6GZqoGI6FJNKhqCMQ-3yfhXqhq93c8QiHAhct0QadB09_WlqAMcdiyeROfNMBZlU35fa_US0tI-eWTIya2EQOfF3a1oPs1JfuJrzpd83Drto1XMGwcJyLKd1Be_X01bZMfNUj10n9UT_00YDbZRlDfSKzYtMemT-MDIrG9xkLI2C4VAtDEkDG8cohw-S8lA1rwHW1JMjd3xb6Z5hl3wbUFlwFaD94JWl8JLCPzwmoxWac4iY7tErHHGYQVA3keX98ANukLnbWhzz1qjDZl-xSuvrXzrfSd2K_AS8LA4M2WRbL9gG78Q8HMMBjhjipuR37EOoUR6_qrlG82QLpM9O0U67dQyChi1DbsdcviHtQj0RYG8WOLPKNOtvcAgPFmmjeh1CWWPWgpKBaOXaVpLnVhRRU8lAPlf5UEy1wN6bekSL7eLBO2NRQc2-fUOzVtzICrDcOLnIeLSLS6dAsdkdwMPYC-_6QURhx0FI6jjiJda2TXtDcdhbgMewy4n8uI10Vqx-6oK-TyIDVwtv4OYCxyxxsJkX-34ouC7QdVFsBybAgKs46exeh8-pTSFYrIUzgk1hLKLeWKd6Ku6Hrsb4dn1UMaXiDHB6AB_O_GPIUmAFqjCgv4j6-EnxzF_7-nAztb9WghY3bPfEZtq4E9NNXATBPMZb4TN6rJvuQM7CCNPzZVBdrP9KQ2oAtcVbVkzb-stgXZ-rUcIdoLdS5hB6hBerlXNhse3iFLUV5RHeDRGeJsIytg6xtKck98f8ik6cWnppl1Xu0uG8HrxYr0tU5qcrcu6GAln6DsO2-wFRrZXCqZT7G8zLsTP59IH2iYoxL-Hn0eHKZzdQV4fQvMhFzYznobGj_1aB3qnkSnmN3umyK4G2wycZ4-hQUHt6DxynAB5zZLyDolLXK_gS2G9eqSla5YwvKR_y1TsSYjf-ywE6ruBjbI3z9qsu709uwYjsX3hg3uvKEbZcp5c8BSULymLg_bHlaTsgtFLgMFH8ttg8DA3MUoXGNx7nfhmq7a7TJDW2YDnJkneawPcQEQRhs_VNogN53cOvXNT6TvxQx3sO9TKx7HJCt1N3hJWBJDG0un0iGK8Y-mBm_h4OoxNfhA-lPTYj-AM_yME8ak6PxS7oFmrHMUwaRmGijSncQoq-qcR56onOwmryAiPHRiTXjzgepVs90iExrqEmQS_YF2Hdk_JSO6HQQDv03k9V5_53quR1gNdNjGhAshuwZbrDRU3Zcncs9LjgBpYmESo5L1wvPT0rpy7nwa5RHhIyUFLEmySf58DIOU592XMBt4L3blHon-R7lX2w2RaHW5wPdTIuIWugl9nxcpoiOO_L-EkriAkdzwBkVj9L8E56Nh-yCVB6BfWN43FTug9FLZYtOC2x2wbjHII8skOWME2DPYyuapR_kcK6LpBA-koCMxEWizDzpQrhg_HSn_wbbhIK2Ib2IQNVYNvBWlmVy50Znc6TmmPQdA78zHS81XET82Cmw9sca4SCwLHBSHsQw1SPu60-hNOG7h6r9OvrnsqbfOktfMeAI4EJFzOgvIzmfmXslkfHiAYLK43PgsXOuE_x5YbJE-BS19xO6wJ4eHwW7qXtEssDTjmXcCnvCctpWHsQ1cZhIKKF5Dn7OCXyrknnAg3XVWMXiAe5W-CUBKIIA4dgHtvDPKWdsN-fHDZQaPI-Ua2Z5PR9SCNdmJI6FK-3oWwOw5vdGr4xUVm9smawthQHSLWM-NF7YRwJKKEUwl1oW6ffX1494KM6EVWC4UDGmj6TqVAK7Hb-cgBtjtgl2WQV4Nb97MYN4LMnBliq8mbHTwjkvf-ybK5zcCYueGV_QplMiisfEgTmR4Oo7u6NKW5hZYNA27Eh2boDtAsRZRuwsRbVmYNN1VuoHtaEPfM-UA6tb_deCo-2nIFT84qzVyNZu42qVBMEoumVRTPBWWY1-52hHJ7KtTvFnSgoBYX25dvOQh-txVQuxy211snyOAn0UK3IN4qwRqA9-vMLMhiqB7KKEOT6NtzlCUMnd_54ccsFWNIJIkd2Mcn0g1mxUtlop_KmFrvBBrgN-vQviisCkw-FHJETKVxJCRLNjb_oYWC2nuqNnW8YhLSzjtnnxDwDjqHq5TYhipUVCaXUvx7aVSCRdUkZS_Z0OKuBkF6FfZoP2V2cI9-JHFNFNovZe_gAOP3IEDT0jkumYV7yhXMyg0y-Cj8TkcxP4Vm6Ypfv-af4K1Byr0SS3_i5bSrbwRPPs9DW8Wan5L9oWEMZqZgZoms372YkErE6B3kFUQLtXRMAM0WhRtPze8282qbAjcjZq_DXOK5Rjik2cT9gvhFrcsx3aLhJ9HHZ_GNb6_V_u7fXYJfHl8xzqDnyUpOZxNzCzXG5Ycc34o4DCzG-Dctoj5fiFgu4k70oUhascRBA4pq1XVPDoPLEOs_iqPVxDXWJTMk0WVPfQNHl0WrPor9VKvtAK82zOFKCI3u4qVfxQxlJuR_ImFMetrgVScNvZQc6RtA0rQ54umzaThoWQ8lf7X7YeNwM6CDCuP0e0nSLwHguTHcINJcvs4qSgt-61VSkeBHMfwBlh2Lx9xlI3WW3jtL2E_ccV2olm1nJHBhiXpMlWP30rnBwplLe35vhM1NfkMCIg0nguXoLCFzoXBy5Oto1fS2JT_nau-yl1Wlmr89qRZqv6bKJFxDx5DudRMMmPdqkpuLiXTAfx6yfo2q09htD1o4gyZleD4QVDTtEJcbSWoRaNc4CIsryhIpb9WxCVr78fQdouOklug_0mMZyH_w54E-Dw_hL8yf91BvK2cw1GbgcJmcBpiEIB-QU325uRnBXSkfyAx3ZUS7CUaJ7LF1dx1ZhdJLra4FrzQBdugLwjHxlQl9p7Aq_vGuWFVoUp61WYXva7ib8yfqMixup3HDGtdHbtu4AJDFhw9LWlVmNm5hEhmYwJt5JBC8btxndPm8T1OFaU3UUNTquV4zyEPXYDXBWBRvwBY8O-KqzcVRKddfi9pfd-tvUPV6IeSK6ucU3Xwx9677WCICtdhgp0nwLjEDRPpdx2P3Cnx172ftNX7Auu1trl8KcPPzen5slSef_eUCnU9j0ErJWgDyNiCh7J4dNNrKwGYRcLFm1A_lzbcbd5Iye14hqKuVm4b1k0VsQR9oSyhdllNugHMatiufHvggTr_q2KC2JxMOAZqSPfvWJt55oZn_k90CyeIumPi6CMu1mm3I37U027Har-eBd2Hpc-oJo3Ky_JwgWN1Ad4vf70-WsXqOQ5cTkqueVszrVX1PkFf2dytCTdhJ4RF6lmWGG4k19W-OZTAQPAaLZqJ_dDz3LgF4HCVhd5zFQQaRziKpwI6x5SLsbNMi_I4yiYAbflXj7ZeZY3ma-wSsGPNvznhepvDrcS1W4bsuAK8FGaxEAasD1aerCoHWIa36pu6Y1DWP4rkBUJJFjfY6S69Q1ki_uzRidU67eW3uHODJXTkp2J9kmznJrNpl4ZfM1x12G8sy68-leCVXJ9pW0CdziJBmiRqxcNn8vBX97F6CaAuz27dB3qo7NJWN-hbwWRCD7kS4WZ3wJ59g_Umd8g4qaXF8c2rGgQZze_N-__SlveHZb3eve3x46DdABCBBjvRAYX81PJrBN968G_9UUKk0Crt9Jy-kZQ4eiqfEkOUJOiSCfjmBjIRhiw1GlEyyRYTcdaW9ALPbjqHx3C_QPDCb1TCPKQW8OZFE5SuK9MW-r3zJAORQlR1x8YiGmF1iE0xU6oybK_-JEqAbGkU6wTKOAgKF_3eWI15NHR1MWN1bvlQUQqJglo0axjSc8upF6cJVOevR-CpP6J-MukILC87NZ_fgWWPYW6esqiiCpb7g2nBx35JHpxBgHNzqTk0iR-70ChAHO0tsYAs4cbiG00edlgTUVBbgVS4ZdRVhElpNQExkxsRCIKL_qbKMdI_kKBb0-jiqDJJGLrudvnlZMd-q76llv8KVXkAu7ja8oHRzD8dAkVDCOxrb0L_9fqg3OoKvF7S8e4qN6AVqpOpLwDS9MnGEvG-TJAoWnis44eIdTUq8cJpvbzefq6lZST4iK0M5XNdOHU6hEU84qz2QS-cBh40qKGOfgG5uAxXTgIQcig-ZvYpgakynC2gQgfoPWGHv5-6IJT_BZ12croe7cOHLbPJWgTvrh8aSE7skMmAIa7Hy6D_YSIrYqU2MyX6-FOIb5sgO7QES32KwGqdHuBxlRdEBD2ZfTGuAcFwJF6U3OeuJtIShhUie0hTl8re78NB_OJeXO77m4k2LnY92UKajlE7qc2Cqyc9crOqqHMtUzG5xal0SFMVib5CMcykbfA5pTSDPFTGVC5XvOILHbyF9oP5NU4dUUFCCegY2JbuhVV9qaRI1iMZuiJOmtl3SYblbFOsPEWIenuHIkdYaU9aOeSojrkpHB37pRfO0H0c-HdFtON6BTUVgBW1rh5Z7zjnIOrTlbRXmIwqqz90sMhK8Bv3N04q0j_OdzftX1_240dwke_XGt6E0IMznayCPJT1Rfhh2i0IzUK9z9ivUQXc6qWIPfduGvgLD4JnA4wbK7z2xJZ0c2y1O9WyEkzPzAA9Ojcx9A9g4L4N_yjUQY1v9JCqXzydo6f6Ybbm6wYZIrtwZFv31jJ4LRJblChxn3G-6_-c5-9JM_SqZZsR8gH9y3ahAkogj09j-D49ixr4oqQH7BahKZHe49EPVMkyY-EucX9zwg5lXSzmZldKmCpIO7yHUA_OcNHdsOZMkKDZhZcpAI7NQIV-ObSMfHb8PaqQm7wiEgUBApIq7bSSvIfZzvoqWcHXwHzNojoG23OfWOVRm3I3L5i855iPRTVNcuQ3SJARaohQEpi9LoznZcL5GlHIEG2y0uGPW9usPb9aKQlNkaipacX6U1gTAMlXpx0bGh8SXCfHc_0bL2pDkcM3a5VoABOyWQ_Eoezmlvi1E1zglqNWMJEVJOxd2aPoIAYMHZUvXQAqJVIql1NA_mmbF9sz-m6HujE7SjsG93bmXuMBNekonIP9eka9j0G9gIuYrsvtz-EmXoCTE-S2mYlVEOq1hilsfC2QglmOrB-vWuiHUZ1asLaF909nW_pZHgxIlj738Kqfjn91riqlwHiwXvRguk_YsEfsepqRaJv-09-itBG6Pp2y8lBE54RrMzgC5b--n2A6LvpNlqv-FKHJDW81bK2GUtIc2YG9WX3Ly3Y79WeGB-_wL5iNfnLwOksjsMoZApgT56AAPt2-GsThKMUGu9qQSCmHyt-LyhIaXLmnv2y1TFer10_ZcX9i8D-K3ZtbCEkA7eO2l9Gd9z5P5jenQLwboeqBf3LdvCvy0meSmxgKUTJ1FwRsJr-q6aM-L-JW7y3r5TPy52W23xWqh6WqP9LzoGE4TrOJPrta7x9LAmVLo11ykivihVNzQpzj4YzXNsFvWZjWv2Qwlq0cfF8guBy9qucl9ipo3wJT4REvsLb1n2aKx7VzGQR8C5o5Rpb_LTBjBL28KGDQWT43xOXLWFAhk9nuqRwZJYZ63PELRepZomTdZkPWEzjkmPBbXyjZkfbbsJyHJ2Z7IWRuMG4i4PE-CQcYad8EU44TUAxVM7rhez3KXDR7k28hU0xz__ZngpDZmVeMWZ_hPlVNuvYFwhKQUss3qPw6s5DRbZjWM13OirsSCeFeHVWOlk_lT5laXxP0NqDtoKdSJfU3Ty_ZZphnA_NLZ89XetpnJUIHimQHETBE4iwvusP0CwMpEaXdb2SCaHRsnlrPtdODFSJEpN6Sao1oBJSH7C8oDpFhwtOMMDFe7z6GcKu1SkDc8BwfaRXhjf1Q559T6b6rYyYNIhOYIsTmMr1OfSyIuIreqdXRoYsfs6jE_5E-6yUecSsH1VZY9XSFC33HP6HKvBp990yCDoOOBSA5Y4782m7c4x820LDlqcV97QGQzD5txv-K8vbzMELiBF5rLMXjEoHs7hZt10pE7yFGbG1uygRQNhw26sEb7NSb5MHHHAfqk5e8eLZaOFGQBhtlQU6FqIaecZqbE8BI-zOIELD224FBp6uhkTq9JAumgwR_J57R17dhKbR2WJdiNk78E63OGGJYTycmWeClXmKCu08Ws8lTAwPgHZzu7oPX4PKMkYJAuqI5C7Q6xM3KrqXBfp2t2HiVVN0YJE7tbkQql9z1QtDXe8GbJ9eOFAUI13El5La_i05tWc6ZA7grLS4wGFlVqui9J-PStUnUU-C5n7ld_BUJWQk7i6gTEAF-Koe--OgdkK04RfYdSN8f_jRxEtt_TUTeS27fSUOK47sjAFYrqzvXqtWSVqvHfVqpV1-7Hmky_Vv0FEt23S-rTHw7AWZCy6OaawniAGibbKdIrJ4b8r4s2ZGM8Hvfor6xIJuHXV7hE8IWif19YmkUF_LzXPgu5s-fdHsIak7py8lhR2l1O56SJl2tbH0VQ-F1crxtEogMA9Tcpk6jyouCQ-FbFNn4CXyqYI_nRRa6S5JL_eWhBnLPEr1HIb8K2M2RW7KQFpsWmezBHVodsqjsVYc3Tq4lG45XBHJKooiUJlE3egMzZbrV_7dOujrow27psVjeE-gUbnLXYWRC8une5VQhsIpmHy5ciT_Hc-jevqmKPvd7Y8d-Tf-KXYEwKsWt6kcqXILuhTaATuJLuR0_oTgkTB2ZyvB9hDiCCTGOhDe7eMoAXjk2mThJt2SQFY16sMhaO5H7Sv1GnPIX_fwIhPytY7TZwyrPyQERYmnMS6U6qo-S58fL2EvKJF1CsOVVmGkjlzHMe5Do3odkWEgQ4muaQjldrZZyjW4HN5sYO5j5m0EYpTPFrG-GdJa4yqrcr6N1ej8XgNwoArNDTgkjSTtdupl1VqGyuZ_MvBTBqMt-fHd5YDy9psz_Fe8Ajyz9H7dqznFhSJHJ_XQq5uEOxJ0_G0RfqHg3mL9F75CYiMlLsp6BHzATVH0tJV0-1c7VcL0fcYIBE6txvco_tqpBX3u-C2X4lVDMlTriVQ5tjxnxAfcHh2OsJcSqFwZhZaVsj6EXR96LpOlACXUo0xy9NRCd5Q4rlU5u2cPB1fQluLntBq7Oth_F4BKiJZZu2pZZw9SC7lAqZQRpopuWnaytEJsGjWbBbDwGRotMsWbGP6_e_MnCmohNS_wgLu51Am8iY6ioGXY8JMxuEPoeZ8ZpfOQ8rhf9A64JH4vJkLzTBTajXXmIu1NTkOE_go8cJYTt8UcdbUiwyd-b9zv8vzhIGkgalS1fHJ5MvG5nWbtJqEN63ke5WRgKWK26ac1VL0IeqvBmp-_F0sO8vi47arDHMffb-ssxC4g-tgh5iroxBoH6oh2JssExVl_-bXxxj5r2RFOCC9bLQxwFgZD0JNtJOqTtyyETOAJeLuqbq8cfKbQXXLLZpUROyON3-iMj9m3JtJWvQ-963kTjCZebPSi32Qh7Wqz4hwjh0t8ONL3oNqqShhYCNNa29-6c9-RXRAbBVm9ARAyLEePbs0mE9ZreQczTD3fg7IGeuw53cGdU9UN4Uv48iPWHlZ-Bocz-GEVsTqxu_vg9FchNT0lcMu-UfO42gtl6e2P5-OdsybDxMXqdHpeAk2VnsTBILoodw2Pj-1cedMEIO1ivI22FiuqXOtswMfh0Wmwv2pNztXud_x6jugLSezBXpHR5-wsWAgPXUVenzQT48bKBBi2aKxq9CH7ZGQ_1hRSZWcHgecQh8sdTE1xJK8ywljaIKoJfRscpwG8B3wo5G0egDzTmZxvYOakdOvytw3rXZWGeOdSgrLKnA1vRWgQgoUmuHejNE8HkNkoqQawtl097A7YeEyQgdSmxWjAKJORPg2sdbJumzVjCukPojJLqYoHlP5bZTdiAr0DFkKlUai-kE7P4Du2SFj_5HBjdcTGzkxD4wZp-5GA4Kry6kEaZBTk0VxGXKlX8AkdjZuD7al6iR7glD4QOpmXU0c21Q-z7fGHi-HtxPxU-jiDVKDIHNFyk9tadaFjZl7RJIiX2EZlexb0bxVE15ma4mde7EIc_yMPATDEI8XFLG9tk_lle8ej2thm1Km8-KTbPpLDqj1Hv_MzbX9ZA547V1PDw82Rhe_Rh2XMBn9mAp6xvz4EMFZglJ1FJkar_tW1EqTDmLT0PnoftZS2HNwOVDxUZYrYfIDcQJRNv5QFu7tKY8uM2kkPbyIqDSMVjWcdh4hkhP3Ra0fOOus7NyUzGwSUbVJCw1dXFL2BwPtoTp2LKzhmVKfDuF0oUfitOu7F97yzuzdl2lBNdoZwylRuC4ZCNvm0mSJq7Pn4wLQeQz5ZZ5O5DV97afN27xW0C7gt3pTUnaVAFA-x7ff141d9i1hAEebsljDE9Q_5MFXSMC-cCcjpCfIU5Wtn86LNM3gZTZvJGdJvS6KJSTEFPHkvPuNQW3m1jW67h6rE7jLls2Vw87XH6REJbX2_t6BYXwXPJIMeJQJqS2Bege_KeCAnD62IzaftCgoSb5HwuoHjJQk0DzYl7D7yGTyhTvQReqAo2Cn_lVuncaozei8dYmk-1BHp28u2HIWGxuCyxiWtJIyRPYbtliAGb2qlhX9MtbrszZedFlnvWsM0w-r1JETWryy3M7hYrVW3zSuSFYdOHppJTOCwkRrN7W3C3-YB17diHJZ1dDu10YcxDqwTRlHke2LBSBZJwbHB_yAQgla14MpYcmnpPqV_hZ7gryWsKo6axaQ6mP6NGWRAqh1BQSJyaTNKhoYBRcPVQWQGxy2vzwK590w0dsVcdXUkudG4tTG2bdHoZMHwFWu1xCUuVhnA2626FNSX00PL5VjJXws5xk9j6WgIxG2gMIGks2-sn-Mj8-VNH6Ob6Dw_fuD2TrubqctWfuETz8l77ktdwHXkaqgCBdG4v_-DjlXu79hc96EZezvq8nnmmZj7yqmqgIx7c-QIOb0Z7G6rcdtySXSmEMIHlV4ZNhUrPGCcBSmtg5n_GVPNosSkxQrKIxN2BIoyO3phf-42Y26Oa-Uc8QqebhKwfDfZehIuPJu-yL6knqz8LNvSs3-3_InSzaJOL5u7HapuV9MUAKL1jG6Po1t0PxFwAZKH0wyugUQdMgJBWaF6OYDVpGdbleTKxoUbtsgEF8O7DfJPlrPgZp6StBYbU6wruJwExqoktRouIKxO7dJM8bbmh6A3ac3BDfp1733EcrdMp5MMsTD1B-Er5fezsBteOp1M2MjP5G-udWAymp0jzesrvqAfItbbfhGQw0MGaj4hLTtYqM34PxgcVI5_KSv-XfLZXrBbrn0OdCny95pylEj0r990LfOQD_UU1baPLzVhfd5mpld7wRzm9VA3vuRurA1i-srVer0-Q98OSdWQI3BCTBP_1Jhc8A1yoLvGB-CzTQLRC6AZI-qmVBUHG07PGNwvGF9_vqOZE4j5VBiGRVkRT_taiBeyd-HAe3ETgFrZy8rTW7jw.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa966b8f40b73c304de5:rs_01a1e84ad9bd71b9a5d1b06978e68df7\",\"index\":1}]"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84b49da74a1b158a71cf636468d",
+            "name": "write",
+            "arguments": {
+              "path": "anteater-unicycle.svg",
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">An anteater riding a unicycle while juggling bottles</title>\n  <desc id=\"desc\">A cheerful cartoon anteater pedals a red unicycle and juggles four colourful bottles. The wheel spins, its legs pedal, its tail sways, and the bottles tumble in a loop.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#8ed8ff\"/>\n      <stop offset=\".65\" stop-color=\"#dff7ff\"/>\n      <stop offset=\"1\" stop-color=\"#fff3c9\"/>\n    </linearGradient>\n    <linearGradient id=\"fur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#b09278\"/>\n      <stop offset=\"1\" stop-color=\"#806552\"/>\n    </linearGradient>\n    <linearGradient id=\"tailFur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0\" stop-color=\"#5d4636\"/>\n      <stop offset=\".55\" stop-color=\"#96765c\"/>\n      <stop offset=\"1\" stop-color=\"#c0a184\"/>\n    </linearGradient>\n    <radialGradient id=\"wheelHub\" cx=\".35\" cy=\".35\" r=\".8\">\n      <stop offset=\"0\" stop-color=\"#fff2a8\"/>\n      <stop offset=\"1\" stop-color=\"#e79b24\"/>\n    </radialGradient>\n    <clipPath id=\"bodyClip\">\n      <ellipse cx=\"398\" cy=\"292\" rx=\"118\" ry=\"70\" transform=\"rotate(-5 398 292)\"/>\n    </clipPath>\n\n    <!-- One bottle, centred on (0,0) so it can tumble around its middle -->\n    <g id=\"bottle\">\n      <rect x=\"-6\" y=\"-39\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#8a4b24\"/>\n      <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 -15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n      <path d=\"M-15 8 L15 8 L15 25 L-15 25 Z\" fill=\"#fff8dc\" opacity=\".92\"/>\n      <circle cx=\"0\" cy=\"16\" r=\"4\" fill=\"#e94f37\"/>\n      <path d=\"M-8 -3 C-10 8 -10 22 -8 31\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".55\"/>\n    </g>\n  </defs>\n\n  <style>\n    .spin       { transform-origin: 400px 440px; animation: spin 2s linear infinite; }\n    .bob        { animation: bob 1s ease-in-out infinite; }\n    .tail       { transform-origin: 300px 292px; animation: tail 2.4s ease-in-out infinite; }\n    .head       { transform-origin: 478px 262px; animation: head 2s ease-in-out infinite; }\n    .arm-near   { transform-origin: 438px 300px; animation: armNear 1.8s ease-in-out infinite; }\n    .arm-far    { transform-origin: 474px 282px; animation: armFar 1.8s ease-in-out infinite; }\n    .tumble     { animation: tumble 1.8s linear infinite; }\n    .tumble-slow{ animation: tumble 2.4s linear infinite reverse; }\n    .cloud      { animation: drift 24s linear infinite; }\n    .cloud.fast { animation-duration: 16s; }\n    .scenery    { animation: scenery 3.2s linear infinite; }\n    .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n    .blink      { transform-origin: 512px 252px; animation: blink 4.2s infinite; }\n    .tongue     { transform-origin: 596px 281px; animation: tongue 1.8s ease-in-out infinite; }\n    @keyframes spin    { to { transform: rotate(360deg); } }\n    @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }\n    @keyframes tail    { 0%,100% { transform: rotate(3deg); } 50% { transform: rotate(-5deg); } }\n    @keyframes head    { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(2.5deg); } }\n    @keyframes armNear { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-5deg); } }\n    @keyframes armFar  { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(4deg); } }\n    @keyframes tumble  { to { transform: rotate(360deg); } }\n    @keyframes drift   { from { transform: translateX(-190px); } to { transform: translateX(880px); } }\n    @keyframes scenery { from { transform: translateX(0); } to { transform: translateX(-240px); } }\n    @keyframes shadow  { 0%,100% { transform: scaleX(1); opacity:.22; } 50% { transform: scaleX(.94); opacity:.17; } }\n    @keyframes blink   { 0%,91%,100% { transform: scaleY(1); } 94%,97% { transform: scaleY(.08); } }\n    @keyframes tongue  { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(5deg); } }\n  </style>\n\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"url(#sky)\"/>\n  <circle cx=\"692\" cy=\"82\" r=\"38\" fill=\"#ffd94d\"/>\n  <circle cx=\"692\" cy=\"82\" r=\"52\" fill=\"none\" stroke=\"#ffd94d\" stroke-width=\"5\" stroke-dasharray=\"8 13\" stroke-linecap=\"round\" opacity=\".65\">\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 692 82\" to=\"360 692 82\" dur=\"28s\" repeatCount=\"indefinite\"/>\n  </circle>\n\n  <g class=\"cloud\" opacity=\".95\">\n    <g fill=\"#ffffff\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/><ellipse cx=\"28\" cy=\"78\" rx=\"30\" ry=\"20\"/></g>\n  </g>\n  <g class=\"cloud fast\" opacity=\".8\">\n    <g fill=\"#ffffff\" transform=\"translate(-360 52) scale(.65)\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/><ellipse cx=\"28\" cy=\"78\" rx=\"30\" ry=\"20\"/></g>\n  </g>\n  <g class=\"cloud\" opacity=\".65\" style=\"animation-delay:-14s\">\n    <g fill=\"#ffffff\" transform=\"translate(-120 92) scale(.5)\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/></g>\n  </g>\n\n  <text x=\"400\" y=\"52\" text-anchor=\"middle\" font-family=\"Verdana, Arial, sans-serif\" font-size=\"27\" font-weight=\"700\" fill=\"#274156\" letter-spacing=\"1\">THE AMAZING ANTEATER!</text>\n\n  <!-- Moving scenery -->\n  <rect x=\"0\" y=\"528\" width=\"800\" height=\"72\" fill=\"#69bd6b\"/>\n  <rect x=\"0\" y=\"528\" width=\"800\" height=\"10\" fill=\"#8bd77c\"/>\n  <g class=\"scenery\" stroke=\"#3e9c4f\" stroke-width=\"5\" stroke-linecap=\"round\">\n    <path d=\"M30 570 l8 -18 M48 570 l-6 -15 M270 578 l8 -18 M288 578 l-6 -15 M510 570 l8 -18 M528 570 l-6 -15 M750 578 l8 -18 M768 578 l-6 -15 M990 570 l8 -18\"/>\n    <circle cx=\"150\" cy=\"562\" r=\"7\" fill=\"#ff6b81\" stroke=\"none\"/><circle cx=\"390\" cy=\"574\" r=\"7\" fill=\"#ffd94d\" stroke=\"none\"/>\n    <circle cx=\"630\" cy=\"562\" r=\"7\" fill=\"#ff6b81\" stroke=\"none\"/><circle cx=\"870\" cy=\"574\" r=\"7\" fill=\"#ffd94d\" stroke=\"none\"/>\n  </g>\n  <line x1=\"0\" y1=\"539\" x2=\"800\" y2=\"539\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-dasharray=\"34 28\" opacity=\".65\">\n    <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"62\" dur=\".8s\" repeatCount=\"indefinite\"/>\n  </line>\n\n  <ellipse class=\"shadow\" cx=\"400\" cy=\"542\" rx=\"148\" ry=\"15\" fill=\"#17451f\"/>\n\n  <!-- Unicycle wheel -->\n  <g>\n    <circle cx=\"400\" cy=\"440\" r=\"90\" fill=\"#eaf7ff\" fill-opacity=\".35\" stroke=\"#26343a\" stroke-width=\"17\"/>\n    <circle cx=\"400\" cy=\"440\" r=\"77\" fill=\"none\" stroke=\"#b9cbd4\" stroke-width=\"4\"/>\n    <g class=\"spin\" stroke=\"#7d929e\" stroke-width=\"5\" stroke-linecap=\"round\">\n      <line x1=\"400\" y1=\"440\" x2=\"400\" y2=\"367\"/><line x1=\"400\" y1=\"440\" x2=\"463\" y2=\"377\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"473\" y2=\"440\"/><line x1=\"400\" y1=\"440\" x2=\"463\" y2=\"503\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"400\" y2=\"513\"/><line x1=\"400\" y1=\"440\" x2=\"337\" y2=\"503\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"327\" y2=\"440\"/><line x1=\"400\" y1=\"440\" x2=\"337\" y2=\"377\"/>\n      <!-- Cranks and pedals, turning with the wheel -->\n      <line x1=\"400\" y1=\"440\" x2=\"445\" y2=\"440\" stroke=\"#26343a\" stroke-width=\"8\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"355\" y2=\"440\" stroke=\"#26343a\" stroke-width=\"8\"/>\n      <rect x=\"430\" y=\"432\" width=\"32\" height=\"11\" rx=\"5\" fill=\"#26343a\" stroke=\"none\"/>\n      <rect x=\"338\" y=\"437\" width=\"32\" height=\"11\" rx=\"5\" fill=\"#26343a\" stroke=\"none\"/>\n    </g>\n    <circle cx=\"400\" cy=\"440\" r=\"17\" fill=\"url(#wheelHub)\" stroke=\"#8a5a12\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Unicycle frame and seat -->\n  <path d=\"M400 440 L382 342 M400 440 L418 342 M400 440 L400 330\" fill=\"none\" stroke=\"#d93636\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  <ellipse cx=\"400\" cy=\"337\" rx=\"43\" ry=\"12\" fill=\"#26343a\"/>\n\n  <!-- Everything that bobs as it pedals -->\n  <g class=\"bob\">\n\n    <!-- Far arm -->\n    <g class=\"arm-far\">\n      <path d=\"M474 282 Q520 252 488 220\" fill=\"none\" stroke=\"#6f5847\" stroke-width=\"17\" stroke-linecap=\"round\"/>\n      <circle cx=\"488\" cy=\"220\" r=\"12\" fill=\"#6f5847\"/>\n    </g>\n\n    <!-- Far leg (starts half a turn out of phase with the near leg) -->\n    <path fill=\"none\" stroke=\"#6f5847\" stroke-width=\"19\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n        values=\"M362 338 Q382 382 355 440; M362 338 Q400 356 400 395; M362 338 Q404 386 445 440; M362 338 Q398 416 400 485; M362 338 Q382 382 355 440\"/>\n    </path>\n\n    <!-- Bushy tail -->\n    <path class=\"tail\" d=\"M302 294 C238 246 178 244 142 282 C112 314 142 350 196 349 C244 348 286 326 312 312 Z\"\n          fill=\"url(#tailFur)\" stroke=\"#4c382a\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n\n    <!-- Body -->\n    <ellipse cx=\"398\" cy=\"292\" rx=\"118\" ry=\"70\" transform=\"rotate(-5 398 292)\" fill=\"url(#fur)\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n    <g clip-path=\"url(#bodyClip)\">\n      <path d=\"M342 218 L398 218 L376 366 L318 366 Z\" fill=\"#4b382c\" opacity=\".82\"/>\n      <path d=\"M366 218 L390 218 L370 366 L344 366 Z\" fill=\"#e9dcc8\" opacity=\".8\"/>\n    </g>\n    <ellipse cx=\"350\" cy=\"322\" rx=\"42\" ry=\"22\" transform=\"rotate(-18 350 322)\" fill=\"#c9ab90\" opacity=\".75\"/>\n\n    <!-- Head, long snout and ear -->\n    <g class=\"head\">\n      <ellipse cx=\"488\" cy=\"258\" rx=\"48\" ry=\"42\" transform=\"rotate(-8 488 258)\" fill=\"url(#fur)\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n      <path d=\"M516 240 C562 244 602 260 620 276 C626 282 622 291 612 293 C576 300 540 296 514 286 Z\"\n            fill=\"#c3a184\" stroke=\"#5b4636\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n      <ellipse cx=\"617\" cy=\"284\" rx=\"10\" ry=\"7\" transform=\"rotate(18 617 284)\" fill=\"#26343a\"/>\n      <path class=\"tongue\" d=\"M610 292 C622 300 634 301 644 296\" fill=\"none\" stroke=\"#ef6f91\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n      <path d=\"M472 224 C461 198 476 181 492 190 C506 198 498 224 486 232 Z\" fill=\"#96765c\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n      <ellipse cx=\"484\" cy=\"209\" rx=\"7\" ry=\"11\" transform=\"rotate(-14 484 209)\" fill=\"#5d4032\"/>\n      <g class=\"blink\">\n        <circle cx=\"512\" cy=\"252\" r=\"7\" fill=\"#20242a\"/>\n        <circle cx=\"515\" cy=\"249\" r=\"2.4\" fill=\"#ffffff\"/>\n      </g>\n      <path d=\"M540 282 Q558 291 576 288\" fill=\"none\" stroke=\"#5b4636\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"528\" cy=\"272\" r=\"9\" fill=\"#f2a08e\" opacity=\".65\"/>\n    </g>\n\n    <!-- Near leg, pedalling -->\n    <path fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"21\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n        values=\"M438 338 Q462 388 445 440; M438 338 Q438 414 400 485; M438 338 Q388 386 355 440; M438 338 Q400 356 400 395; M438 338 Q462 388 445 440\"/>\n    </path>\n    <!-- Feet, following the pedals -->\n    <g fill=\"#4c382a\">\n      <ellipse rx=\"15\" ry=\"9\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"445;400;355;400;445\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;485;440;395;440\"/>\n      </ellipse>\n      <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"355;400;445;400;355\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;395;440;485;440\"/>\n      </ellipse>\n    </g>\n\n    <!-- Near arm -->\n    <g class=\"arm-near\">\n      <path d=\"M438 300 Q366 274 322 224\" fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"19\" stroke-linecap=\"round\"/>\n      <circle cx=\"322\" cy=\"224\" r=\"13\" fill=\"#8a6d55\"/>\n      <circle cx=\"318\" cy=\"220\" r=\"4\" fill=\"#c9ab90\"/>\n    </g>\n  </g>\n\n  <!-- Juggling path (faint guide) -->\n  <path d=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"3\" stroke-dasharray=\"3 12\" stroke-linecap=\"round\" opacity=\".55\"/>\n\n  <!-- Bottles: spaced a third of a loop apart, tumbling as they fly -->\n  <g color=\"#38a85c\">\n    <animateMotion dur=\"1.8s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#e99b24\">\n    <animateMotion dur=\"1.8s\" begin=\"-0.45s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#e94f37\">\n    <animateMotion dur=\"1.8s\" begin=\"-0.9s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#7b61c9\">\n    <animateMotion dur=\"1.8s\" begin=\"-1.35s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble-slow\"><use href=\"#bottle\"/></g>\n  </g>\n\n  <!-- Speed lines -->\n  <g stroke=\"#ffffff\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".8\">\n    <line x1=\"92\" y1=\"390\" x2=\"168\" y2=\"390\"><animate attributeName=\"opacity\" values=\".1;.9;.1\" dur=\".9s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"62\" y1=\"424\" x2=\"158\" y2=\"424\"><animate attributeName=\"opacity\" values=\".9;.1;.9\" dur=\".9s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"104\" y1=\"458\" x2=\"176\" y2=\"458\"><animate attributeName=\"opacity\" values=\".1;.9;.1\" dur=\".9s\" begin=\".3s\" repeatCount=\"indefinite\"/></line>\n  </g>\n\n  <text x=\"400\" y=\"584\" text-anchor=\"middle\" font-family=\"Verdana, Arial, sans-serif\" font-size=\"17\" font-weight=\"700\" fill=\"#1f5c2e\">Pedalling, juggling, and looking for ants!</text>\n</svg>\n"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 154,
+          "output": 7203,
+          "cacheRead": 1524,
+          "cacheWrite": 0,
+          "reasoning": 2220,
+          "totalTokens": 8881,
+          "cost": {
+            "input": 0.000616,
+            "output": 0.14406000000000002,
+            "cacheRead": 0.00030480000000000004,
+            "cacheWrite": 0,
+            "total": 0.14498080000000002,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898581357,
+        "responseId": "gen-1794898581-burhY9XtfS0dt02P6IdF",
+        "rawStopReason": "tool_calls",
+        "durationMs": 57451,
+        "thinkingLevel": "medium"
+      }
+    },
+    {
+      "type": "message",
+      "id": "738fe9e4",
+      "parentId": "0f1b584c",
+      "timestamp": "2026-11-17T06:57:18.812Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84b49da74a1b158a71cf636468d",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to anteater-unicycle.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794898638812
+      }
+    },
+    {
+      "type": "message",
+      "id": "fd3e656c",
+      "parentId": "738fe9e4",
+      "timestamp": "2026-11-17T06:57:36.686Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Analyzing SVG path curve coordinates for a dent and checking pedal rotation sync in the animation.Switching to eight keyframe positions to reduce foot path sagitta and sync feet with pedal rotation.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Analyzing SVG path curve coordinates for a dent and checking pedal rotation sync in the animation.Switching to eight keyframe positions to reduce foot path sagitta and sync feet with pedal rotation.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgG_KHD7rIUHt6KboMv8wGBWZz8zv3-ef9T_mXOLW-XKwZokd-92aSkXa31mUcFvAzFaXQgES7CnPEo9QssVHt0QvoJpBGmd-UGD0_iV0U1-dqQqw9DK4pKX38PEWjFV7qy5oajaTBGD1HV3YySN2vCzMNVtpTYMrjbptR72Pix6PIDZ5kzlxru_dvNBJc-zOU-U6lkUoAExfT0cfH47LapfSgrzjC49Tew0saN_m8bXGtfPQoBUSrbSrDyL3n9PQQC9Y_9DoTAlaKbt0XPbDtPvIni3UOKEr8k07pVu_7nujGQaBQnvB9LNAXRtpil3e5yICeijvXPlBIgoJ5ilTNcmGBFnle3U0YTBaat7HvxjgszLMlIiLzfDftxh_so7Kq3adg0jyfueHxfr4h5KA8xiCXCitK6Ki7zBOxsNdml1BT-GAYqog-eDZztmenvaQRFtphhPTiqo-byxo_e79uVA2tiVdbJPvbwCondYH5sbVy3VO9L2OY8eqApFjXcNELtaU6YI_1MTYpQmYpMYDswaeLKCbvE1a6kc4i1-S7RaKKu0NMofVCGDjUKeXr_k25rNlhZmT5YaefXjtc6_oBNw8Iqg1Vpxl9Hfa5N_RD80yJw6-I0r8bl95Xmhxzy6XXAbO9HJX2BaRGv-ddqy8ncd3GxfKGG1LjXeQEHzWBtvIlYdH2z4d4B-Fn6h98UI-SIvmgHba4WXNIVyYKLw8_Xpo8E43a0AS5JIU1MpZRdJgUXhDXPz8JnU5QxNRUdFKDn449Hafhmzu-jD4vHWixuVyzvzI8jaGqKOMGXxeITkrr56bCvGUgxLdJd3E669Jf1Uf_HRrb3OdyH7B43TKMRkMab73Rw0LzeFxVa2k0YF5U2rKqm_YOjm1nmi-X3ppbN2N4oUpmlwSp1jbASY-DquAFjrzvHNfnR4rpA1pzKp_TqvPEnennNj4OJXIqCVDB-SfJtFez5fsPrUM6mGXHArWjNXGCj2WdGWOHyWlGwOChGJcRc1fwWHSdrndcCo3DYmvoenNymDyCV1bk46z_Q1MSRPg5Dx6wmnux2DW-Awfi_9e1UpjUi85eK3ejrRFcjAbnImlJ79HV_LBUtfEYyGHsH-GPtFOp8D_xvzSaes0R28X3HJBC4_vfO6l6NaUpA1-RQAasqhVjhuQM84hZxQE8S-C9nYqFiMOIsS11RBrR4vmJ-gd3rKIimmeipwsftsNvv3NKOLB2gQHDcb-G21_JVMsO25OmzwRiqGhFFkBU2Bi6WMXBIredmRYkVEGs9GFJOvenfpdrrDBj077XgwxzaWfAvJZQN8c5WFiD8exKwW0oIPqOxxgWfnCmi6JF91kkLxawsxvcTN6Y04ycGl_WNTcxgJ2lmwTA9mgXUvP25aOCiDGLWP0KbwmQwGc3Y_UxeezapDd6Kd6dxWsnMLLWZkssrM_-1ex25Yj7OKOBiAEPXUOBWTmeaa6bvyU9rj4w7hAs2pa2BBCiCfG-ebB8VG0S9eD3iDdCCND9uwOBHnx8fomvPVleV5Zx6T1u7EMrC5-XAHfly_LQjp35q7NEyOQ5TgWAUA8mGtoUhUhtVY8iDwXPfqCP-Ycy2OTjOAkFQHeGH7s95AgpaqsYBqf25SgL91mWyizH5R27aVFUwaXi8US4xD4S1xmx7GTXIv_lFfnjfyXl04mB6zJ6QpOPQGT8A_GC4jRL6qcmWEY6GruAR8G-SgAdnZuhZ9F9s7dvdrzAYwZLex-9I4bwL-KBcCB_6-oLNr9hJ9WpLt9wjxIqpZSAsj8N_E0ts3NYnncLzrKtRIGJ0-BBNzM52buVEOk26cLdgxUvcQiBSUFY3J0X8onfvCTaZrdc10GeVv07APkza358hMslMStOQ-TwyZ2e2bjWU5Vphw0hNYGCrrQYqRy3DO51RbPI1pm_kKkcLcTDg9F9haTSEPJyzI7F2tOCBK6NS06yR3H3qIuG9BjoqlukQC5JHVRU7G7uYGk7qNwPCWwu2dI6IhCzsXQcGxxMKXdvPZi4yp95IQj1JUL9nsWt4yEO84ypS8yE5AbTP5eI4sJuvKlx8a39GYBBIpzoBP6jEP82InaeCqeSoT45_lcLefqcqYxl4ehPjlIWMQIm562V0s3rOxNgX3-t9Z8oP4Yf0ZV1Kl9bMabFMgXX7CbvN193yp_uk-BWvmILlS0u0NKXWHiCjttE6Tr6EUBOVVwFCWlSovAijfM2xtnwQBB7ZFKr2Nve-eJj5etWx3Y8paGck8V1B2klPsDejBxju_flGirLI3W2_2k4wmorNIcaZaXIzpUhraxRFXU3jnHkIc0fEjmDqJNevMYbuPZ6F9pqn-4qdww6HgQFf8ErNCq_oMcLh9KVauC1NLHVGGNpo-h5eot-H_9aFud4_8BJcf5MiL2AjU8LPGyy8b0dDRsftA83_L6k9u1ZPqhGAjCbUuOMVxsd8Hauj9Zrn4VDB4TuP2DDaEmZ-n8rHhSm6BMLwkjkmWc75dPBGnHiisZb9mf7sf6jPu8UjG7am6DcPbV_A_MXxU1IsccTqrUZbpcaXDnd79rew4wX0EkSL5AvcONadgLlNTQI76ujzKByPkVGD69i-6SW8AWIgigMYLuau1SqgzRsqEXy2m1hx9WiA3mxGDdnG27XrtTkIRCcglknGK0eyYbtqFbHp2yCJgvqPDcoQan7coalf_NNvManvNmc17cH8EWED2L6Af7Jiwa4tmI8qRCxzlQqJBLkD6IW7VFNCXqwRqBs-ynLKJsHpxApIpQryaVlgDLcnyAgv5Zgw2BpkeODKtLcUYKGXJgmGcw52CoHRS-le1P1uBFiZ8G7l0Lh0SkmanNSsJZhTBZih5DG3gAfFOSfmHSqPQugahZIvyoGZFARRZuy_JaEjmBQsaLtMYxbB--iSLbKvNWhN1JAYdri34wmzXS6nmWEgUyj_hg9btPIYX81V0SN2zuRbJK_VA7n_9zPUBwbSH3f1MvZi8cpGoG2Ylpsy0fWVYAmQxOhHqEHUj5HJUjp-AJ5hz4lOKGWPzm4-wAvbKWnXSDhQO0Wk-LKum_vzM_oCl4yYx06JYDTEDGQOGcV3vhUDAMmHp2IZ3V0KuYuJEbzQ-TXETiR3yK11NGRb8mERx_ph6h1lo9OAIDcALK59Q6RYPziv2fUSJDC8Fhrtf0vqglhom7trF3rgaO_ce6OWkSL9e5nH0m_J-M7LXWTPa1YFIL5UEHnF4aLi7nyVq9s29UlDvPBrwKSxrz51V98jwgu2-JN-Ljd0WM6ipo8PELX4Gl71LwHhJB1eYUD9iUIoo1Y79wYYzM2mioKFpgPZH8N26lKpGUR2i0WPK0aCWDyy90KADU_d72AfOXoFsHtLlZCX5ZXrahiBFySG-7EsO_57GCFIQ4sum59RNopw_wWyj0Sg1G5LpdPuSCY8AQZRCcoj6clvUFypQ344lavU5LW_nGA1LGe1vL3mYPvDtxHzTg1gtLwkXjg0E2Tk2GPahg4oaNIYDWs0S2zHjmckoH2_p9vmuJXmKKJc9NJqrrmeWHN1Su1fZWC8Dt07jO0te4ZX3Oo2w8aDyuqcYKsVnk9eOPxm89CR1BgJ5cmrtKUBemo3POOxAW_WdeD3brkOrIfXZhawMrGVQXmCtC6QgynGqCeRB6XKLwr-CFdHzheirvnjN6DyD2n2ewHqvA0P35f8oLeSiFY8payG_EQoeQycp_Cfgi6LBqR87X83pKyKnUKFdccizp4Q_W__ZYe1LHESAO01VLFblGclABtH6sgWuOJiRQEG8hQI0-kcTSlijarvyfz_xsSZdtLNjVbUZ7VUSxh7DXv-nWxXG5CHp-s7aKazr5t1PPgg6Q1b2fldpa4PX9B7gBn-IIQm6LflR8V7-CLtVX9kt8i-9k1dS3Gim6LKRkfLDRpYFCtAOF8BtBDf82nn3oc8hjgibxne-GopuByjwjTWkYzHqsJsi5ALietafpxNVV8APW6ydHZNO7gMTcOcaUx_t7h1yW0hybDx7yjX12befoChHPTv0YbBt6pR7wGpB6xsdTr9YTpJyU4yV5zu6ugc0BZChonRKyFQMJk7OzSH1CjUWee5iRDOjHTeyyX2-bMALQrXAZ3_kxmaZyLmHjJQRoRs17OFfgScVxLIRxSungSr895m29zKf31pHjQbVYmeDY6Cb2hYSbB377cHzno9o9hl6nhR4ZPL4LuS2i4B-DWnDmo7Dt0xG_21EKrOhLghlbTweVG7vt9epohZnGfg0RMfTAHdLbW903nOCPgdEZ7n8ZZhvNwE1viXN9lbpgIO6o_wtM1ZwKBDWcdVdlfhRunimPjezX1GaCT14pyzm1mBmo08xzXTMEJUIlsjfgYOOS9YmNXZjL6d3TtLMiinVCh-JkNA8vky0iYzQ76HoOUrdnxjY7eHt6qJk6lPAvxQO7I3JuMdWHWTpcqyIOXu99pRq2tjf8tEHZAfM_pGG43NtmVRf-nwgrUoMZirBmWvH2gZzU6kq3uE3cBWENkJmgACtbdVhVu-xTvMgUb1xTagxLwoGTHqmTNBoyKTUiH7wN-W8z_buUfYwgju4HmykVANm_2lDuS4ovZsFwzjt89DPvfVQJCD40h0LIwXmFktN4wrNnXyG-_LCDhz_30lBxAJT1KnxSvJvmkR_yZ0NIhvp3pMz5yjUocAQHErX58HbBJyodIWfcxWHwpvLJ44txNEH8dEdx5EPaabY5NdWYhtDOaAdYlVmMeZ_HVhCx8SYhBuqNF9cp2yGulkVdqLuie_WG02QehQ74T3a56lS__GJcqcns6yh5_1ptj_KcQYeytHzYcA5mN4VD_mJTyW6U8teQaqNYzO5DBLEwoKJ8eQKQBLYQqBmz2r6Wr9350zscizDPiulnde9MNJGGnAENO_UR5CPsMETWCt5shpzKWy826mhMXsKk2683fOzbIMuturJIFjV9B7fTmiZbreubrGa-auWbZccRjysFYsjZW6ncS_gLBg13LFWTMGJCzPbDqznDSwFrPJ3lO3EPT39lxACbJUjellxYzKUAqlQ6k1p8D9PQgwYSGtn7B0DZa-9nKhVW6jfB3MqiUZh6RTmxDVj3f7mgQEruoR6zJXjDcNC4IJ5f8LRdWzCtcn8YNSOzM-m09RJlxLNFbEdZ6JFJdpLQ7ChUyuK4Tu0a6w566HNFJsdgA41uBvei97aOJDJUY2Ms1sC8FPMz5tll1DSBNApvElt-SO8qz2o5zVRfzC7oIdiso9TBKa7PPucsd_jughwQnUX62hwq4Ph_b1lgWT2KoSY1S5WF9YNfTz5vjh76Q6LLEi0vjUDXxo96WRn1Qp3uKWma9OgOUwGuYk893ZRuz4bDUN_4a1qmPRmoidyK7CbraZTlFwJGT7RlD2IFzMh-rndDpuK9evuBu_CoLuGElRyob6FPXQ6yh7guKMF0SsDalA9qQEKuvthqoVJwSXLPHzch7ZF-RNkXMVycbLqnwdTCOctTG9EZF96xhMj8Y5sxXwWQShq_3K4QV4fMcu51iJE0LYUBMhieh2fSyb0KeGmo47ypRd6S2-05bEWF7TIXDeADbIUwSASPjlAU6P3VP7DOyhh3BWzE6R0JGEcduJ_yZQJZiQcyxgMKJFnJe_MNkB2GXuuw8HN50_1rrJpm0r5a16zzQPaCc62RXe7u4DN1_IltoI7hRnqyT9CjAEvB85HaUnHJYQ9e8O1RZmSdzhY51GM3100gdEjcP7EtlJiDU-uW4zzGZ2dx2MAOc26tO1GIaM0PvppdRyfQnHhpBpARUdTDl_LpJmJ6c6QmQ5yRwE8VN21aX2mkvMm1Zxlead8L5ZvYm15gOcwWGdkParKVVb-W1NgewyxwhCuuV3TgkONSX2z5O5N7BVRK_B5Ozl8MqJ7_zdnudvl6z0kb5XJuQTYvi5ydUmr-fdxdllMRiGoy_XJ6SiX2Ftvm7bIFKvnw6h9wUXgUPY7EMsf9jd-f78L7_kEWhimf6-KGqWV_OgNGA6SIMmzvXbQv7K15KEjDGfaVAyhtBORnNX_TR_PshVDj22DPbfMDWdZZukNcHIpe6VXsYyOEHqKgwCsyqS0Pp9L_xhmvWDQqrbKxP2i6t-9adyoywbIEwJvFMW5Dx6yLF8tBmzsrp9LCCZHt5qYYc1RO3kl9bnNIyUdH4kqGlsp8Gnd0o5DDgJiSilTVCtdy4gvgV_EtFNNrRKkdq8c96vlGOZgjyErHqHvn3bMMSuPXjqpXTB_3645I_GaaelRKZUYhtBsKmIZ6Wiz_xl0JVj8tkXCuvoqLuax6JwYmqXhl_mPgHaau0qHI9aFZPjEgZwrwvMSffmb3P_csSwpJQdf5K_GJd-2O4BwdqKFVIKHGmRXkNC_9fqoQ7Dkm4VNTm162k3KhN_aUAAVIOsM_oQ68HyPHWBvp958wzsZt8lpQMMLCnhYuV222XBjwMGAGOblfVBi-y8n3kg8jGDxWUK5NYGCrDfA4evSd9C-7BTOAnTJBT-DHnrPzeUYIxak4XcLNiKyXDkyVFNiBvv0cPomFD70kcsgw_3fx0krO9q3FetL4J9I30hkbYyQjveKdhDc1QKmgRWUKVjr4DCXFvPT5Xuaq633wZ5cxBj5Y_BJxbqxAxwiZHVK9_AUZHEYPmtKCUvwll_vJzaXeyjNkktxL2EtedA1fUhz4iaNW8dH6j1wRfoBKe6kPFA-FTdf8oROgJ56eXhd1P0hHeJUidziRpaiZlyv4698FFE-P2K7PT4XlZ5GOzfFei3k8bodf9toBZwcO5ztT2YvGfXJxMKvJBsE446u_J3NPDX6Pie-84e_gRGshK2FSCQqOdxgQKi_JSqZ5ufTklIOPcMZy2jS_1L8E9V0hk3xvw5Ka5clwjy7DbObtVlCHtruYvtzP7v1ycmYRXHt5-vnPtjglJ9bj63GbDedhBECwMuYD3O0AT8p0SxDlm13w9k7h-OdITl7ShmaJzmnBZpJOEogqGtQ_OlgEPHejBEKTllprFrOVqHJsb18-SA6vlYjbH5ZocJ6dS5GKo1UehXlbpsN949Ag6yCSlrIMRxQXm9soACfWoFc2pvWWASTcKEh8XrT6W9ycYbLUvvhQFC43Y6kUVDrjHkpGREt3EkHjfNGCEuI5a2FEnXuRpH57MWmuPhw2MJK56-ZsLQYhlqIxT_wb4BOhdsQxcqqnAOBXuDixsyPXvzsMe9vjX1ur0TzGKS7c5HjJUjB9JfVFN6fGkFIyi1Xb-Czv6HUVfraLnHBV5W4xCzmPMV5sKFj0D1T-q_EQswwen24SK57h7samzmATBp9i4UiwuMG0PhlsCxPKirfpCLhJq_Cu5Eajqi4zNGQ_MXKI_ktZb25R3XrVGaEcuzIwMBwq7SHbtKN6RI58LC1W6j8xesu-HBmvcf5ZQoFtSx-6b3i1f5x7XL7VGWrmPnneriYGbIIBMVx2zbMNE2Co3U21vW6RdH7fW1OkvXgotAkt7fy7bxW36Fz5Ubt46ETZ4igJv-XTSCQBN7axSSbFgHWGo4DU6x4GJ-uCMxa2RSXVyE3aYiU5FqKVdCIcq8FmhV7leNJ0M_GDeOHtcJ0-WF8jLWXRW8oPcRXdZFNxERcUgKWfrH_tFDssKwHe_HLggWXtLoj7A4KibIzGPez2It23ihjjKrBjaALlu_-JLHd0wUiusCehrDiy8gFkr2aCWkUwEDYvPI8KGSLcM5VYjNMH7OYsVDFrmCVgUEJsPq7AlStDTbcxHZTSYkJuq6p60qnyzvmTXEOZZbJmqDdzooQx0z4fiXxPeTx4IhYjy0a2oPaQZyzc3RROhwscajo0f6UAUbeiNlK1A8dVGIu4JhFF5QBPqcXiY2SWz_Y-d3U3ozkRwNcu2g7921ItwPJQUBk7AWYN3mB-tC3i5m1moVaDZLzVIOfgn6ikkkYE8t2_hJWQy-E0_Cf0K-6b0d0kEUp84kf9JLMTXUHKxdVBVFk-5BFYaCsohgCJl2XKtWR-c3EmOnB8AUe3xMCpjFX8eFAVP7IMCrDxL84RzANjg-QfYEMd50ahFfNWEvP9Bdk6KL4Fq5pJJ6j4s-1tcayfm--Qakx2FRBK7wD9xodvJYgGwW390i089Zkhhtm350NK5vO2ytR9pQWq518Y4N8gdnWWV7ZoOJH_-48Aoh9GU8gVIID6C9mBw8m0WPOmNydKp59xBMQP9ocsfVuAa3j3y-OOzzu5-7KBvukQtWTLkBzfjeGqjRfMkS8kntHMJNfAdveSPEXhMiNDzFGTDwysVWmbKd8kHJpP7BCq0hjKbur2gohKZIftXQm7JXxyBctzuy4KxBcNf3LoMgm1TQRnlm42V-39Lb4p0iZ8iGCN_H3Rt9RXw0Z43XJd7z5Yw5uMxreFQyLX6-aXFyszeocFxKsmB7i5gQqpxVu5lRxB1gFDY_2gQRlZUZndowU_6Okhv7AmJT9YhUW9caPXJ4CAcvUZ5Q7PNMMsEfqiEUgPKRltfLKi0PxXx8cjLW9P4ciUoiVMNAkB8r_aT5nSxpueOGwVB2LJdePbEXYHKfFob0V6fyLDmvtS7-84-4pGM8akQL2UyqeYlTCNqTyEP8Zn2eXO7KeLkoN7AOzMe88KEnwGXG5YW695wik3Fy42gV6LCxPuA6QMvU3gOvTzV4yraIyD7nc7ynzOCm6g7G0wq15PQWkpxYmLfM4DZjtFYYzhoibTGdDujKTp5a4kGQ6sRZPQrVaNEOUA01lCuItvYr-8ZgXH429bq-xKS9_u6QKTRQSYreZiAJd4Dt9LBsIj19Pkx8rqHoJSunNFrQGwtsWLCbNSDDeTQt9qYxqWM0svmlgYkozpwtl7oufriGaClV-RNljqCtJlAn-LQHDq-gDjXUMCjuKoeKichEQP3xqaCvRgVE86ZioaWFoU7Z_WFtyF5pAbI2gtiFJNwtY4Q9xBx5AbNg0AdwAM8sLixPqj4LIC8C00fwBm7UlneJuQQKonHJcNdB9kT5EqDRFhZFd6RtoKGGTGkkbGn3Hac6pKzORXPuUywkGzP7NZAiHcwejoJ_6t6DVMCxvZSqg13qNuGZfFIKTEEFE8GuuIr9OvdEBBUYDfLvibi54gUiT0eLQfZuCHePU9PXCuwGi32bdIxXeeBX5DAUlYAa92iEdgBNgq77oBdlx68mAUHZ_IIFb5kuR3pIouDv8ulbM1d9zDAn2Hg3IKp8nfTyF7RgkX4vbC7QRuRmZSprutYa0t4cF6dPiGJvnZbZImtv40rpsWJGq5zpotKbBnVzwTd8461UkUawWd5On2zF60ytIoLScf8P6WO7O1tjSu_nl1N9cSryrNnun9YvtpWr3H7QHQp4OLpujBI2UL-wXI9l3S6w5GXDQ3fqWCRWd5UeIOBF_LhVVJuTCV1M7cgMC1lQTiK3xoSFzFmp9sulT_l49pEsiMlWvkpaOqbbV2Qq9cqBgazpCzKPK9sual_FletDD9p8onnrAWMP6H5Ev01GvyiAhPA-AlBjR2vLxoJ4O2w0U-joH-8jgYcsC-c7yDj3g4LlTFT9XmMJcK7CZvkG19kKpzbxtAX2drVNH0B_GoszHoEfv_sHTSFNCx1cZk7dud_Eulfflp1ufnnP1JgGASQ8L7isNqnqb3eyRIRR0e7lCxngqvcQs-d8ePVPzicN5fN9vuyJIyXaDQkiN9bQG5cIKoZTYZPJjPt31o5pISHn-Ekzj9rhxF6KSrKaxhAkG5i3v_IqjX_nMdJFpVcFJ6o3E7u_DOWqggA0QUu5sF3pGUyoz8G_d3rAeFjf-KIxBOmsrVAnUORZR909xpPgOLsa6ZNqWsk-eRzGlNww4hxYfH5htCfAbq_nj2OBCmbXYLnxKIJioOGWMDjX_CCsVH4Acz8FTNlIK523gLIfvdG0BAFMQXooguEA5t0qYUg4Knofs8m-liFFjBA4D4l_-5C9n_Pn4Y_GUDEq0mYiQhkuqsHlY3pLVOKuVTDsiHoyi9K2yShnOFPXTchgXMQ-uGa9JG_tWjS0F3z0CZDDKX4K4Y7hC72S2zc7YuuySjzQ5mct1fId1-OMWjP8vETFAKMq739Kcmk3N1-khQY3aVINYr3TRK0dKerDPDYp4CxpIwcVfUZ717-dBkgCfzvtVwD6dSXboGyMkaFI6gEnmVRJaYY7vwQ-PNJ8pS1uJDesQmFx1_tC-5D5G7uTxGdx6pj2aUVNQd3snkbc5zuWcRUfH0vUz4PpachBlAgwoycKGpwLfOBlu0QkRBed6-EZl6ElSV5RHW3x8wpkhr4no23N58iFV2I0hpXT_oU_TAnQeDczfi50O9cLNZEr_YhY8w_kF6hLG803YlTV_j6awaKtihVkrTdljuhqumlPCmJhgBJOWkM1kaVH2hR-0njoucNpNxVwXCd9q73VNhw0QMUWf9LICY_jCdYuwwOYqiMygYmEiTYHQRUXT_eUpn_vSoGe0DGEWmEVYZ3wkSfKvHHGMTwnfcxCAllztpXeBBGlAt7ztJ3q3xBXdQ7w7O7TtrpTiZ4-TE9-HdK1gNuKhUSr-mjF46awSIKGQNeskOZqXt-la4g3HGb5UrB2rT7qj4G1YpT7QPNSdRXdSH2MUk4m2aAX6armjGwsE77JG_uKPqjKCnJ6hHsOC_xwft7xfPGtgypQg1IaWXKkKhT4he_l25Fz6jwUJRaqfhqNqjg11cn01S_sp2Il3AaX7p3dfz7ZCjFqDjFi0wwanLc2yp3RGuhcHaG8Si2XCl7f02yBIVpENxcBCl-64ulxvJvTxX3M0dbnIQCyxJpV7sQl-DLhlEhqYIFy9rt6yBD0Dlbfrv8EcBEQVDRxc2F98eRcYryFfPQ1oMRLMLIRhiQtzD1hdG3N6cXj3Jgyh2FXLMjgO4vpz5S2qOXY2JiIm6Llb9-_nxWEyoTHA_tjvruPK3d4suQfYWGW24uxsorRgwzvIw4oxAiYm1pBeUKnZyRGjboR4Q3_Chq6sHodlaNQgSenhTSWhes8_rZ8.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfad28682c4d3143041c9:rs_01a1e84bc53a7255869d2bab89e954b6\",\"index\":1}]"
+          },
+          {
+            "type": "text",
+            "text": "The main scene is drawn — now refining the pedal motion so the feet stay in sync with the cranks."
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84bf295709bb7c8b39c744b2838",
+            "name": "edit",
+            "arguments": {
+              "path": "anteater-unicycle.svg",
+              "edits": [
+                {
+                  "oldText": "<path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 -15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>",
+                  "newText": "<path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>"
+                },
+                {
+                  "oldText": "@keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }",
+                  "newText": "@keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }"
+                },
+                {
+                  "oldText": "      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n        values=\"M362 338 Q382 382 355 440; M362 338 Q400 356 400 395; M362 338 Q404 386 445 440; M362 338 Q398 416 400 485; M362 338 Q382 382 355 440\"/>",
+                  "newText": "      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n        values=\"M362 338 Q376 389 355 440; M362 338 Q379 373 368 408; M362 338 Q395 366 400 395; M362 338 Q411 373 432 408; M362 338 Q421 389 445 440; M362 338 Q411 405 432 472; M362 338 Q395 411 400 485; M362 338 Q379 405 368 472; M362 338 Q376 389 355 440\"/>"
+                },
+                {
+                  "oldText": "      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n        values=\"M438 338 Q462 388 445 440; M438 338 Q438 414 400 485; M438 338 Q388 386 355 440; M438 338 Q400 356 400 395; M438 338 Q462 388 445 440\"/>",
+                  "newText": "      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n        values=\"M438 338 Q460 389 445 440; M438 338 Q452 400 432 472; M438 338 Q437 411 400 485; M438 338 Q419 400 368 472; M438 338 Q414 389 355 440; M438 338 Q419 368 368 408; M438 338 Q437 366 400 395; M438 338 Q451 368 432 408; M438 338 Q460 389 445 440\"/>"
+                },
+                {
+                  "oldText": "      <ellipse rx=\"15\" ry=\"9\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"445;400;355;400;445\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;485;440;395;440\"/>\n      </ellipse>\n      <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"355;400;445;400;355\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;395;440;485;440\"/>\n      </ellipse>",
+                  "newText": "      <ellipse rx=\"15\" ry=\"9\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"445;432;400;368;355;368;400;432;445\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;472;485;472;440;408;395;408;440\"/>\n      </ellipse>\n      <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"355;368;400;432;445;432;400;368;355\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;408;395;408;440;472;485;472;440\"/>\n      </ellipse>"
+                }
+              ]
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 7161,
+          "output": 2523,
+          "cacheRead": 1652,
+          "cacheWrite": 0,
+          "reasoning": 1194,
+          "totalTokens": 11336,
+          "cost": {
+            "input": 0.028644,
+            "output": 0.050460000000000005,
+            "cacheRead": 0.0003304,
+            "cacheWrite": 0,
+            "total": 0.0794344,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898638814,
+        "responseId": "gen-1794898640-ZLsNSNhAHanv1ZVu18rs",
+        "rawStopReason": "tool_calls",
+        "durationMs": 17872,
+        "thinkingLevel": "medium"
+      }
+    },
+    {
+      "type": "message",
+      "id": "0f4f19dd",
+      "parentId": "fd3e656c",
+      "timestamp": "2026-11-17T06:57:36.692Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84bf295709bb7c8b39c744b2838",
+        "toolName": "edit",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully replaced 5 block(s) in anteater-unicycle.svg."
+          }
+        ],
+        "details": {
+          "diff": "     ...\n  27 \n  28     <!-- One bottle, centred on (0,0) so it can tumble around its middle -->\n  29     <g id=\"bottle\">\n  30       <rect x=\"-6\" y=\"-39\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#8a4b24\"/>\n- 31       <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 -15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n+ 31       <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n  32       <path d=\"M-15 8 L15 8 L15 25 L-15 25 Z\" fill=\"#fff8dc\" opacity=\".92\"/>\n  33       <circle cx=\"0\" cy=\"16\" r=\"4\" fill=\"#e94f37\"/>\n  34       <path d=\"M-8 -3 C-10 8 -10 22 -8 31\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".55\"/>\n  35     </g>\n     ...\n  50     .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n  51     .blink      { transform-origin: 512px 252px; animation: blink 4.2s infinite; }\n  52     .tongue     { transform-origin: 596px 281px; animation: tongue 1.8s ease-in-out infinite; }\n  53     @keyframes spin    { to { transform: rotate(360deg); } }\n- 54     @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }\n+ 54     @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }\n  55     @keyframes tail    { 0%,100% { transform: rotate(3deg); } 50% { transform: rotate(-5deg); } }\n  56     @keyframes head    { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(2.5deg); } }\n  57     @keyframes armNear { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-5deg); } }\n  58     @keyframes armFar  { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(4deg); } }\n     ...\n 129     </g>\n 130 \n 131     <!-- Far leg (starts half a turn out of phase with the near leg) -->\n 132     <path fill=\"none\" stroke=\"#6f5847\" stroke-width=\"19\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n-133       <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n-134         values=\"M362 338 Q382 382 355 440; M362 338 Q400 356 400 395; M362 338 Q404 386 445 440; M362 338 Q398 416 400 485; M362 338 Q382 382 355 440\"/>\n+133       <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n+134         values=\"M362 338 Q376 389 355 440; M362 338 Q379 373 368 408; M362 338 Q395 366 400 395; M362 338 Q411 373 432 408; M362 338 Q421 389 445 440; M362 338 Q411 405 432 472; M362 338 Q395 411 400 485; M362 338 Q379 405 368 472; M362 338 Q376 389 355 440\"/>\n 135     </path>\n 136 \n 137     <!-- Bushy tail -->\n 138     <path class=\"tail\" d=\"M302 294 C238 246 178 244 142 282 C112 314 142 350 196 349 C244 348 286 326 312 312 Z\"\n     ...\n 164     </g>\n 165 \n 166     <!-- Near leg, pedalling -->\n 167     <path fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"21\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n-168       <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n-169         values=\"M438 338 Q462 388 445 440; M438 338 Q438 414 400 485; M438 338 Q388 386 355 440; M438 338 Q400 356 400 395; M438 338 Q462 388 445 440\"/>\n+168       <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n+169         values=\"M438 338 Q460 389 445 440; M438 338 Q452 400 432 472; M438 338 Q437 411 400 485; M438 338 Q419 400 368 472; M438 338 Q414 389 355 440; M438 338 Q419 368 368 408; M438 338 Q437 366 400 395; M438 338 Q451 368 432 408; M438 338 Q460 389 445 440\"/>\n 170     </path>\n 171     <!-- Feet, following the pedals -->\n 172     <g fill=\"#4c382a\">\n 173       <ellipse rx=\"15\" ry=\"9\">\n-174         <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"445;400;355;400;445\"/>\n-175         <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;485;440;395;440\"/>\n+174         <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"445;432;400;368;355;368;400;432;445\"/>\n+175         <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;472;485;472;440;408;395;408;440\"/>\n 176       </ellipse>\n 177       <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n-178         <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"355;400;445;400;355\"/>\n-179         <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;395;440;485;440\"/>\n+178         <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"355;368;400;432;445;432;400;368;355\"/>\n+179         <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;408;395;408;440;472;485;472;440\"/>\n 180       </ellipse>\n 181     </g>\n 182 \n 183     <!-- Near arm -->\n     ...",
+          "patch": "--- anteater-unicycle.svg\n+++ anteater-unicycle.svg\n@@ -27,9 +27,9 @@\n \n     <!-- One bottle, centred on (0,0) so it can tumble around its middle -->\n     <g id=\"bottle\">\n       <rect x=\"-6\" y=\"-39\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#8a4b24\"/>\n-      <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 -15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n+      <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n       <path d=\"M-15 8 L15 8 L15 25 L-15 25 Z\" fill=\"#fff8dc\" opacity=\".92\"/>\n       <circle cx=\"0\" cy=\"16\" r=\"4\" fill=\"#e94f37\"/>\n       <path d=\"M-8 -3 C-10 8 -10 22 -8 31\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".55\"/>\n     </g>\n@@ -50,9 +50,9 @@\n     .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n     .blink      { transform-origin: 512px 252px; animation: blink 4.2s infinite; }\n     .tongue     { transform-origin: 596px 281px; animation: tongue 1.8s ease-in-out infinite; }\n     @keyframes spin    { to { transform: rotate(360deg); } }\n-    @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }\n+    @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }\n     @keyframes tail    { 0%,100% { transform: rotate(3deg); } 50% { transform: rotate(-5deg); } }\n     @keyframes head    { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(2.5deg); } }\n     @keyframes armNear { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-5deg); } }\n     @keyframes armFar  { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(4deg); } }\n@@ -129,10 +129,10 @@\n     </g>\n \n     <!-- Far leg (starts half a turn out of phase with the near leg) -->\n     <path fill=\"none\" stroke=\"#6f5847\" stroke-width=\"19\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n-      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n-        values=\"M362 338 Q382 382 355 440; M362 338 Q400 356 400 395; M362 338 Q404 386 445 440; M362 338 Q398 416 400 485; M362 338 Q382 382 355 440\"/>\n+      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n+        values=\"M362 338 Q376 389 355 440; M362 338 Q379 373 368 408; M362 338 Q395 366 400 395; M362 338 Q411 373 432 408; M362 338 Q421 389 445 440; M362 338 Q411 405 432 472; M362 338 Q395 411 400 485; M362 338 Q379 405 368 472; M362 338 Q376 389 355 440\"/>\n     </path>\n \n     <!-- Bushy tail -->\n     <path class=\"tail\" d=\"M302 294 C238 246 178 244 142 282 C112 314 142 350 196 349 C244 348 286 326 312 312 Z\"\n@@ -164,20 +164,20 @@\n     </g>\n \n     <!-- Near leg, pedalling -->\n     <path fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"21\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n-      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\"\n-        values=\"M438 338 Q462 388 445 440; M438 338 Q438 414 400 485; M438 338 Q388 386 355 440; M438 338 Q400 356 400 395; M438 338 Q462 388 445 440\"/>\n+      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n+        values=\"M438 338 Q460 389 445 440; M438 338 Q452 400 432 472; M438 338 Q437 411 400 485; M438 338 Q419 400 368 472; M438 338 Q414 389 355 440; M438 338 Q419 368 368 408; M438 338 Q437 366 400 395; M438 338 Q451 368 432 408; M438 338 Q460 389 445 440\"/>\n     </path>\n     <!-- Feet, following the pedals -->\n     <g fill=\"#4c382a\">\n       <ellipse rx=\"15\" ry=\"9\">\n-        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"445;400;355;400;445\"/>\n-        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;485;440;395;440\"/>\n+        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"445;432;400;368;355;368;400;432;445\"/>\n+        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;472;485;472;440;408;395;408;440\"/>\n       </ellipse>\n       <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n-        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" values=\"355;400;445;400;355\"/>\n-        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" values=\"440;395;440;485;440\"/>\n+        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"355;368;400;432;445;432;400;368;355\"/>\n+        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;408;395;408;440;472;485;472;440\"/>\n       </ellipse>\n     </g>\n \n     <!-- Near arm -->\n",
+          "firstChangedLine": 31
+        },
+        "isError": false,
+        "durationMs": 5,
+        "timestamp": 1794898656692
+      }
+    },
+    {
+      "type": "message",
+      "id": "2dd520d8",
+      "parentId": "0f4f19dd",
+      "timestamp": "2026-11-17T06:57:38.332Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgHVGvGufQNBXwqfJlY8g4NAiiufWUrvMNGMrrDfqtipxZIDxCzxbOplm0k4H3oHFzINQqEZd7hoYmMX631WO5AH-n7Fp3ub2zGIF-wwKlF3lnxislV3AYjs-Z-6JPWnrbR1uEh7rowgHz55RABcrUoIUI8ii1Np60iwHsfsWu82nMTpSywlx4CuGl7Q_CkbieBljgGzq3p3qLu07W7WglNBCqKy8XyZZIokGnCacFUDMadAP_lZ_IkGfcnvDASrGIl6UPFl-kjzJGIuYa7fLIDzQW2kTbXxVICCz3lLEpwutRgEbboglurn_LTXeLtFkG1ETJgL8c2VxXL_U7JbLSrvG7Bv-vGW_nHyUtZG3tYKVoSOaPGbJ_w2qrZfUG17iSH6aKdkKIOFvjVNIYVXkh6NtppHEQcWUKqOtpRlcTnjxehibNx0YuD0UCyXVXJDcOIGYNmyZxROA2skVW8N2JF3IhYD1dthQQTJpfkgZTRMWPupdoseP8qCI_r2Eppcf8OtYlWb9D2or2oA11vfNF8iKdRH5LGUjlwtpkDkYSEEvj-xbL1PGMQ4MlE6q6YihecAQFFr5Pe57_ISqTArjlKIq0pkmZD6DwqPtxeVqST2jdzCNoQckqr5SageO8RHhqir9syOeN2sh-MpegPVdcLjrET0Gz6Q56PWJ3dhdYzdGJp5wJy1bKu_kDtANrj_R-unSLuy1upQFzeKo_tXlz_TdHzaMfdmiZXthl0c6jfJbx2tp0mVi4IV-XpdsU8LhpMQxoKRANICztfQE3BpDP6ERMMdE2QDP4JssqLPtlYfbYfa6j8K5p_YZgOkHNIrQnYgMuqcWOWEyVIT3xdOoqMB11qlnMvgB6Vyl1mRRk_ES8JuaxlpP1rDeaeocC1cBoOxlCfLlyWgIErFUM3vrl13OBHQN6__Sylmf6KFX-d_kjiO-H1NN2JCFDZ_tDP4v2fxUZKWMZTeNMhLs6Y0YsyO_b1Kdh4J4JidJN7sBMmnjdpJT21PpMLR1VxrjvbULI6hOsoXArxK0tPwfNNO_NXvLK5e4ntDtFS60dT7lyjHzBQbFFo01R-RtSnJeU-dt-F1SRjUoJf-_Fu3URLGBRZ7c67EDMAjo1ICxOq8yihl3sXdT70SrWZS6Ofay8QOmWHbIhKoIybeAdudlNic63IM_P_DKYPwFewdAi-tv2gbyvBtd7nH2tGDxxzb11TkjVWH-eN0JCf5YgwQQPczpBbUsM1L-8AUO3aadhWKsOLA31xo8rKZ7Qd5gwyzi1EDwRZ88eHDi6JKIA9wby_hTYBTnIAuXpPk5up879DnaNy3zgLAu41nOL6sDs3bcDj4SFfWegOcWKoxGeHg310u07CajT4eOmxq5OUMKqOJ-QL4841ekVT-xOeZ0_KqA7Z3B2Y9S_7vBlVHPw.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfae115eb034c688a4247:rs_01a1e84c017870f5a3ab3e118c8b2439\",\"index\":0}]"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84c02967316a36750fe39053b89",
+            "name": "read",
+            "arguments": {
+              "path": "anteater-unicycle.svg"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 11213,
+          "output": 68,
+          "cacheRead": 116,
+          "cacheWrite": 0,
+          "reasoning": 16,
+          "totalTokens": 11397,
+          "cost": {
+            "input": 0.044851999999999996,
+            "output": 0.00136,
+            "cacheRead": 2.32e-05,
+            "cacheWrite": 0,
+            "total": 0.0462352,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898656694,
+        "responseId": "gen-1794898656-kCW3KWTPBSiA8zk0XWQL",
+        "rawStopReason": "tool_calls",
+        "durationMs": 1638,
+        "thinkingLevel": "medium"
+      }
+    },
+    {
+      "type": "message",
+      "id": "6891065b",
+      "parentId": "2dd520d8",
+      "timestamp": "2026-11-17T06:57:38.335Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84c02967316a36750fe39053b89",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">An anteater riding a unicycle while juggling bottles</title>\n  <desc id=\"desc\">A cheerful cartoon anteater pedals a red unicycle and juggles four colourful bottles. The wheel spins, its legs pedal, its tail sways, and the bottles tumble in a loop.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#8ed8ff\"/>\n      <stop offset=\".65\" stop-color=\"#dff7ff\"/>\n      <stop offset=\"1\" stop-color=\"#fff3c9\"/>\n    </linearGradient>\n    <linearGradient id=\"fur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#b09278\"/>\n      <stop offset=\"1\" stop-color=\"#806552\"/>\n    </linearGradient>\n    <linearGradient id=\"tailFur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0\" stop-color=\"#5d4636\"/>\n      <stop offset=\".55\" stop-color=\"#96765c\"/>\n      <stop offset=\"1\" stop-color=\"#c0a184\"/>\n    </linearGradient>\n    <radialGradient id=\"wheelHub\" cx=\".35\" cy=\".35\" r=\".8\">\n      <stop offset=\"0\" stop-color=\"#fff2a8\"/>\n      <stop offset=\"1\" stop-color=\"#e79b24\"/>\n    </radialGradient>\n    <clipPath id=\"bodyClip\">\n      <ellipse cx=\"398\" cy=\"292\" rx=\"118\" ry=\"70\" transform=\"rotate(-5 398 292)\"/>\n    </clipPath>\n\n    <!-- One bottle, centred on (0,0) so it can tumble around its middle -->\n    <g id=\"bottle\">\n      <rect x=\"-6\" y=\"-39\" width=\"12\" height=\"9\" rx=\"2\" fill=\"#8a4b24\"/>\n      <path d=\"M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z\" fill=\"currentColor\" stroke=\"#26343a\" stroke-width=\"2.5\"/>\n      <path d=\"M-15 8 L15 8 L15 25 L-15 25 Z\" fill=\"#fff8dc\" opacity=\".92\"/>\n      <circle cx=\"0\" cy=\"16\" r=\"4\" fill=\"#e94f37\"/>\n      <path d=\"M-8 -3 C-10 8 -10 22 -8 31\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".55\"/>\n    </g>\n  </defs>\n\n  <style>\n    .spin       { transform-origin: 400px 440px; animation: spin 2s linear infinite; }\n    .bob        { animation: bob 1s ease-in-out infinite; }\n    .tail       { transform-origin: 300px 292px; animation: tail 2.4s ease-in-out infinite; }\n    .head       { transform-origin: 478px 262px; animation: head 2s ease-in-out infinite; }\n    .arm-near   { transform-origin: 438px 300px; animation: armNear 1.8s ease-in-out infinite; }\n    .arm-far    { transform-origin: 474px 282px; animation: armFar 1.8s ease-in-out infinite; }\n    .tumble     { animation: tumble 1.8s linear infinite; }\n    .tumble-slow{ animation: tumble 2.4s linear infinite reverse; }\n    .cloud      { animation: drift 24s linear infinite; }\n    .cloud.fast { animation-duration: 16s; }\n    .scenery    { animation: scenery 3.2s linear infinite; }\n    .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n    .blink      { transform-origin: 512px 252px; animation: blink 4.2s infinite; }\n    .tongue     { transform-origin: 596px 281px; animation: tongue 1.8s ease-in-out infinite; }\n    @keyframes spin    { to { transform: rotate(360deg); } }\n    @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }\n    @keyframes tail    { 0%,100% { transform: rotate(3deg); } 50% { transform: rotate(-5deg); } }\n    @keyframes head    { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(2.5deg); } }\n    @keyframes armNear { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-5deg); } }\n    @keyframes armFar  { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(4deg); } }\n    @keyframes tumble  { to { transform: rotate(360deg); } }\n    @keyframes drift   { from { transform: translateX(-190px); } to { transform: translateX(880px); } }\n    @keyframes scenery { from { transform: translateX(0); } to { transform: translateX(-240px); } }\n    @keyframes shadow  { 0%,100% { transform: scaleX(1); opacity:.22; } 50% { transform: scaleX(.94); opacity:.17; } }\n    @keyframes blink   { 0%,91%,100% { transform: scaleY(1); } 94%,97% { transform: scaleY(.08); } }\n    @keyframes tongue  { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(5deg); } }\n  </style>\n\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"url(#sky)\"/>\n  <circle cx=\"692\" cy=\"82\" r=\"38\" fill=\"#ffd94d\"/>\n  <circle cx=\"692\" cy=\"82\" r=\"52\" fill=\"none\" stroke=\"#ffd94d\" stroke-width=\"5\" stroke-dasharray=\"8 13\" stroke-linecap=\"round\" opacity=\".65\">\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 692 82\" to=\"360 692 82\" dur=\"28s\" repeatCount=\"indefinite\"/>\n  </circle>\n\n  <g class=\"cloud\" opacity=\".95\">\n    <g fill=\"#ffffff\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/><ellipse cx=\"28\" cy=\"78\" rx=\"30\" ry=\"20\"/></g>\n  </g>\n  <g class=\"cloud fast\" opacity=\".8\">\n    <g fill=\"#ffffff\" transform=\"translate(-360 52) scale(.65)\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/><ellipse cx=\"28\" cy=\"78\" rx=\"30\" ry=\"20\"/></g>\n  </g>\n  <g class=\"cloud\" opacity=\".65\" style=\"animation-delay:-14s\">\n    <g fill=\"#ffffff\" transform=\"translate(-120 92) scale(.5)\"><ellipse cx=\"60\" cy=\"88\" rx=\"48\" ry=\"24\"/><ellipse cx=\"98\" cy=\"76\" rx=\"38\" ry=\"28\"/></g>\n  </g>\n\n  <text x=\"400\" y=\"52\" text-anchor=\"middle\" font-family=\"Verdana, Arial, sans-serif\" font-size=\"27\" font-weight=\"700\" fill=\"#274156\" letter-spacing=\"1\">THE AMAZING ANTEATER!</text>\n\n  <!-- Moving scenery -->\n  <rect x=\"0\" y=\"528\" width=\"800\" height=\"72\" fill=\"#69bd6b\"/>\n  <rect x=\"0\" y=\"528\" width=\"800\" height=\"10\" fill=\"#8bd77c\"/>\n  <g class=\"scenery\" stroke=\"#3e9c4f\" stroke-width=\"5\" stroke-linecap=\"round\">\n    <path d=\"M30 570 l8 -18 M48 570 l-6 -15 M270 578 l8 -18 M288 578 l-6 -15 M510 570 l8 -18 M528 570 l-6 -15 M750 578 l8 -18 M768 578 l-6 -15 M990 570 l8 -18\"/>\n    <circle cx=\"150\" cy=\"562\" r=\"7\" fill=\"#ff6b81\" stroke=\"none\"/><circle cx=\"390\" cy=\"574\" r=\"7\" fill=\"#ffd94d\" stroke=\"none\"/>\n    <circle cx=\"630\" cy=\"562\" r=\"7\" fill=\"#ff6b81\" stroke=\"none\"/><circle cx=\"870\" cy=\"574\" r=\"7\" fill=\"#ffd94d\" stroke=\"none\"/>\n  </g>\n  <line x1=\"0\" y1=\"539\" x2=\"800\" y2=\"539\" stroke=\"#ffffff\" stroke-width=\"4\" stroke-dasharray=\"34 28\" opacity=\".65\">\n    <animate attributeName=\"stroke-dashoffset\" from=\"0\" to=\"62\" dur=\".8s\" repeatCount=\"indefinite\"/>\n  </line>\n\n  <ellipse class=\"shadow\" cx=\"400\" cy=\"542\" rx=\"148\" ry=\"15\" fill=\"#17451f\"/>\n\n  <!-- Unicycle wheel -->\n  <g>\n    <circle cx=\"400\" cy=\"440\" r=\"90\" fill=\"#eaf7ff\" fill-opacity=\".35\" stroke=\"#26343a\" stroke-width=\"17\"/>\n    <circle cx=\"400\" cy=\"440\" r=\"77\" fill=\"none\" stroke=\"#b9cbd4\" stroke-width=\"4\"/>\n    <g class=\"spin\" stroke=\"#7d929e\" stroke-width=\"5\" stroke-linecap=\"round\">\n      <line x1=\"400\" y1=\"440\" x2=\"400\" y2=\"367\"/><line x1=\"400\" y1=\"440\" x2=\"463\" y2=\"377\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"473\" y2=\"440\"/><line x1=\"400\" y1=\"440\" x2=\"463\" y2=\"503\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"400\" y2=\"513\"/><line x1=\"400\" y1=\"440\" x2=\"337\" y2=\"503\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"327\" y2=\"440\"/><line x1=\"400\" y1=\"440\" x2=\"337\" y2=\"377\"/>\n      <!-- Cranks and pedals, turning with the wheel -->\n      <line x1=\"400\" y1=\"440\" x2=\"445\" y2=\"440\" stroke=\"#26343a\" stroke-width=\"8\"/>\n      <line x1=\"400\" y1=\"440\" x2=\"355\" y2=\"440\" stroke=\"#26343a\" stroke-width=\"8\"/>\n      <rect x=\"430\" y=\"432\" width=\"32\" height=\"11\" rx=\"5\" fill=\"#26343a\" stroke=\"none\"/>\n      <rect x=\"338\" y=\"437\" width=\"32\" height=\"11\" rx=\"5\" fill=\"#26343a\" stroke=\"none\"/>\n    </g>\n    <circle cx=\"400\" cy=\"440\" r=\"17\" fill=\"url(#wheelHub)\" stroke=\"#8a5a12\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Unicycle frame and seat -->\n  <path d=\"M400 440 L382 342 M400 440 L418 342 M400 440 L400 330\" fill=\"none\" stroke=\"#d93636\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  <ellipse cx=\"400\" cy=\"337\" rx=\"43\" ry=\"12\" fill=\"#26343a\"/>\n\n  <!-- Everything that bobs as it pedals -->\n  <g class=\"bob\">\n\n    <!-- Far arm -->\n    <g class=\"arm-far\">\n      <path d=\"M474 282 Q520 252 488 220\" fill=\"none\" stroke=\"#6f5847\" stroke-width=\"17\" stroke-linecap=\"round\"/>\n      <circle cx=\"488\" cy=\"220\" r=\"12\" fill=\"#6f5847\"/>\n    </g>\n\n    <!-- Far leg (starts half a turn out of phase with the near leg) -->\n    <path fill=\"none\" stroke=\"#6f5847\" stroke-width=\"19\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n        values=\"M362 338 Q376 389 355 440; M362 338 Q379 373 368 408; M362 338 Q395 366 400 395; M362 338 Q411 373 432 408; M362 338 Q421 389 445 440; M362 338 Q411 405 432 472; M362 338 Q395 411 400 485; M362 338 Q379 405 368 472; M362 338 Q376 389 355 440\"/>\n    </path>\n\n    <!-- Bushy tail -->\n    <path class=\"tail\" d=\"M302 294 C238 246 178 244 142 282 C112 314 142 350 196 349 C244 348 286 326 312 312 Z\"\n          fill=\"url(#tailFur)\" stroke=\"#4c382a\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n\n    <!-- Body -->\n    <ellipse cx=\"398\" cy=\"292\" rx=\"118\" ry=\"70\" transform=\"rotate(-5 398 292)\" fill=\"url(#fur)\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n    <g clip-path=\"url(#bodyClip)\">\n      <path d=\"M342 218 L398 218 L376 366 L318 366 Z\" fill=\"#4b382c\" opacity=\".82\"/>\n      <path d=\"M366 218 L390 218 L370 366 L344 366 Z\" fill=\"#e9dcc8\" opacity=\".8\"/>\n    </g>\n    <ellipse cx=\"350\" cy=\"322\" rx=\"42\" ry=\"22\" transform=\"rotate(-18 350 322)\" fill=\"#c9ab90\" opacity=\".75\"/>\n\n    <!-- Head, long snout and ear -->\n    <g class=\"head\">\n      <ellipse cx=\"488\" cy=\"258\" rx=\"48\" ry=\"42\" transform=\"rotate(-8 488 258)\" fill=\"url(#fur)\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n      <path d=\"M516 240 C562 244 602 260 620 276 C626 282 622 291 612 293 C576 300 540 296 514 286 Z\"\n            fill=\"#c3a184\" stroke=\"#5b4636\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n      <ellipse cx=\"617\" cy=\"284\" rx=\"10\" ry=\"7\" transform=\"rotate(18 617 284)\" fill=\"#26343a\"/>\n      <path class=\"tongue\" d=\"M610 292 C622 300 634 301 644 296\" fill=\"none\" stroke=\"#ef6f91\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n      <path d=\"M472 224 C461 198 476 181 492 190 C506 198 498 224 486 232 Z\" fill=\"#96765c\" stroke=\"#5b4636\" stroke-width=\"4\"/>\n      <ellipse cx=\"484\" cy=\"209\" rx=\"7\" ry=\"11\" transform=\"rotate(-14 484 209)\" fill=\"#5d4032\"/>\n      <g class=\"blink\">\n        <circle cx=\"512\" cy=\"252\" r=\"7\" fill=\"#20242a\"/>\n        <circle cx=\"515\" cy=\"249\" r=\"2.4\" fill=\"#ffffff\"/>\n      </g>\n      <path d=\"M540 282 Q558 291 576 288\" fill=\"none\" stroke=\"#5b4636\" stroke-width=\"3.5\" stroke-linecap=\"round\"/>\n      <circle cx=\"528\" cy=\"272\" r=\"9\" fill=\"#f2a08e\" opacity=\".65\"/>\n    </g>\n\n    <!-- Near leg, pedalling -->\n    <path fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"21\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n      <animate attributeName=\"d\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n        values=\"M438 338 Q460 389 445 440; M438 338 Q452 400 432 472; M438 338 Q437 411 400 485; M438 338 Q419 400 368 472; M438 338 Q414 389 355 440; M438 338 Q419 368 368 408; M438 338 Q437 366 400 395; M438 338 Q451 368 432 408; M438 338 Q460 389 445 440\"/>\n    </path>\n    <!-- Feet, following the pedals -->\n    <g fill=\"#4c382a\">\n      <ellipse rx=\"15\" ry=\"9\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"445;432;400;368;355;368;400;432;445\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;472;485;472;440;408;395;408;440\"/>\n      </ellipse>\n      <ellipse rx=\"14\" ry=\"8\" opacity=\".75\">\n        <animate attributeName=\"cx\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"355;368;400;432;445;432;400;368;355\"/>\n        <animate attributeName=\"cy\" dur=\"2s\" repeatCount=\"indefinite\" calcMode=\"linear\" values=\"440;408;395;408;440;472;485;472;440\"/>\n      </ellipse>\n    </g>\n\n    <!-- Near arm -->\n    <g class=\"arm-near\">\n      <path d=\"M438 300 Q366 274 322 224\" fill=\"none\" stroke=\"#8a6d55\" stroke-width=\"19\" stroke-linecap=\"round\"/>\n      <circle cx=\"322\" cy=\"224\" r=\"13\" fill=\"#8a6d55\"/>\n      <circle cx=\"318\" cy=\"220\" r=\"4\" fill=\"#c9ab90\"/>\n    </g>\n  </g>\n\n  <!-- Juggling path (faint guide) -->\n  <path d=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"3\" stroke-dasharray=\"3 12\" stroke-linecap=\"round\" opacity=\".55\"/>\n\n  <!-- Bottles: spaced a third of a loop apart, tumbling as they fly -->\n  <g color=\"#38a85c\">\n    <animateMotion dur=\"1.8s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#e99b24\">\n    <animateMotion dur=\"1.8s\" begin=\"-0.45s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#e94f37\">\n    <animateMotion dur=\"1.8s\" begin=\"-0.9s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble\"><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#7b61c9\">\n    <animateMotion dur=\"1.8s\" begin=\"-1.35s\" repeatCount=\"indefinite\" path=\"M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z\"/>\n    <g class=\"tumble-slow\"><use href=\"#bottle\"/></g>\n  </g>\n\n  <!-- Speed lines -->\n  <g stroke=\"#ffffff\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".8\">\n    <line x1=\"92\" y1=\"390\" x2=\"168\" y2=\"390\"><animate attributeName=\"opacity\" values=\".1;.9;.1\" dur=\".9s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"62\" y1=\"424\" x2=\"158\" y2=\"424\"><animate attributeName=\"opacity\" values=\".9;.1;.9\" dur=\".9s\" repeatCount=\"indefinite\"/></line>\n    <line x1=\"104\" y1=\"458\" x2=\"176\" y2=\"458\"><animate attributeName=\"opacity\" values=\".1;.9;.1\" dur=\".9s\" begin=\".3s\" repeatCount=\"indefinite\"/></line>\n  </g>\n\n  <text x=\"400\" y=\"584\" text-anchor=\"middle\" font-family=\"Verdana, Arial, sans-serif\" font-size=\"17\" font-weight=\"700\" fill=\"#1f5c2e\">Pedalling, juggling, and looking for ants!</text>\n</svg>\n"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794898658335
+      }
+    },
+    {
+      "type": "message",
+      "id": "415a2f06",
+      "parentId": "6891065b",
+      "timestamp": "2026-11-17T06:57:43.989Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Diagnosing SVG transform-origin behavior with nested groups and animateMotion to fix unintended orbital rotation.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Diagnosing SVG transform-origin behavior with nested groups and animateMotion to fix unintended orbital rotation.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgGbxQtJ09OOmEMkR_WHSuMiXxQFZ0PcL8ZCjYta-cCJIu3CB1GUad4dshlTbjJcnfsQdfLYvEKPIlyf7uF1NNazD1AN56IUEhEo1h79uDzTwHLib6f_k9Z6cnb737ItNqSBvizStVWtjerzC5vI8mAY3CgAK2WnCXL4t_R0V2tKhFj1wy0rO8rJdhEDGMVN-BQif0IhjMNEKis-aaKJyuez74BuCJx-Xzgi2SD-mqVq-OudfQC0X-poA7V3or0p7T_SVo0DTgx4CktAoLh-Ir4JEOB8myYhbdenkO1mimetqbl8atwKmrtisoEr5AjxiDCFGfm7o8VSCp5ws847vLnR-7C8-shiFmnZUNkt7Sb-mouWcEB25njDS2h2lOCnX1g0k7HALHXBNXQ5PEN6Y-M3lSJCU-r2Ljym8z0MwAGBFVOyxACzgGrEF334XL3gHF5c5X4HpywcuerLaLt0MtnjDSP4-AASbpduE8eOB2QSKAla2xlaUo7S_n53x6p3-zk-cspbCRZS_LUsWLaaMuNj-ASPX5CelRQ86YlJwPkQANLGJuN6Xu5FqnYpZri7kLrEIXMZOaYeGllb4nOs488NqYm87WfXpn8ypFGN5VkkyWZ5z2RJ8lF0qv7Gv_uhneVlHoY3Vl2t6nFXo-Fvvhf-IqExsYzlcm0Sd3Wo64IFH0HYN-yhWqtMIGYibKussJgq8t5V3PZSiZoDT7a-KaLRcdmZi15tzlxUr6pYxE0x_NtCHeK7jfJXm6QbUtzk2srNmIOlOq34DMjcP6S9J5LsMpmOtdeskbAcJWD2ZrA-EWqBKo_rCDcuZ9ZFOIcKzbA_TmxozePvum24c_tdbx3_Be-HxK20n_P-aPmkl1v4h2S_1-GsNs3H9Dt9QO4UqiCmyjMdflvdiNH3yPzlg6ECcb5HYHUQ-DSg3JUIv5u1Iqe3EYEjdSh0vJiuPfueTif2dTAetc34ef-NQ1hrqfktUqhQJsz-m_uCog-Z7be2dnxmwooe0tjwwEcvF0PsuM35565vUV-aKzoGOPhvBQLW7Jm4GMcOg-6d8VbnspTIHwTkrOJbJ-XudI4U9eGDBFrxUZEHqpf8Po_NvNQp4oMMCCQx-CE6u4Tu-rc6YN9jWBm83mFMVJ_pNnFJwy0DqNtf9r9wnbgUXINR9K9VFzVW6DQ7taH6gg-Gxr29JrWADb2RJLku3cUX6fLKh8KwChmAFM87BLjW-YPX9gKCf_IoKCUq_BezpUT1lGSmB3VhPmt8KzYbjbP3sjh-bd9QI_eOb4STrDdfpPyQUVdF3SBAQtZPegbTEprF1bo9fmXLDNcxNdx8bcxaOKlSnJ0nYc8oRkTofi4HbwLHnktFGcoY3iL75NRFShWGbEaiDMxXbBbuhoxcJ-d8RwNKt4vVCPeVdHRQdwpx_7V_6xpCF1hLwa3CanlFTr-zRtsn6fqaZwrS21QicPQOA6U84W6SZ7XM0CcU5bk84VTjDB98JEl4TOkwwOKtnVYBLRYP2XCHyXkcMQfTfOdjZz7CYsgskppgztG8zMSVO9ojRUfoJtE4Fb3TbKtQZ7cgwRrt9t6ReCzOmpr2WSyjq2QEj7qswvMjZcpRkC6dAoJgyK8F0q1BW8pKzzJDjqxNTOMEM4G0cxmgFVWnhrE5ESJYPlRAY0VqKbD7gEXODve4uUIa1JGMZpT2DwZnZkqBbp3bK4FmaNPSQouAguIxes2wv_o0vQW83xv6OfkvZoGMSe6LqPDjPdPOPneO_I_PCrYLSl2baU73p9OUJQIbvMEaaU_KV_ucZPoHhUB6WJlosCIMUTv5W8CfiEBJIWx8tlE0V0TdWO6pxYOxYW-lwoWibXeNC6SSaMBoORc9Q4kJcq3LyHYsLQ6mvbAhvdwwpaYHPPSJa62w1a_eT8IfBFrlxhLVJgSd7BglW7k2-IGkw1JdEqxEt2vXDQpmpAttiGBoge3kckhXh2NK6jRqEy6_1Bodc0gklFwNser9V7sINDgfz2rbELfpFx4FDgA9pqVLxuaKtMFIbQKcYO_O-WqNkt-J60o6X07FxRrDoRVeWviuoS-9f_c4GKn_YW-qZl5FJ0WZxfANcNYC0-nCsNbmFsoMnjVi8svg6POS7Cjy0ZbWRIGTTL00tBLP1-x6HeuFEndgI01z1bZYwMc5NVVa_AH81Ir5uVsWViLSIZxSEuV-spDpqG5I84QGTypvDSq6rlPZY3h4LcuS68Z4oNEZeRDw1BESAgFFrPLu5FR6cpiuHL2OA3j5rXyXUA0kdPRQqZhjynModGUn039uxVCBOOG1HOSfkVxqZNmnL4c7iNMRap52eH9txCBztbC_axNZ1w8XpIusScle9g7FgTqTxwhGdBGthcbkos_zIYOoXMmmY6tsvE6Mjy9mjCDwh1HPQFMc9Fm5pnpzaZFgjyMmUk0I2sTikhs0xBjs4i-XjD5FdKmJWp8Gk_DMUf8XQD7GozujaTxBbdHXKyvnhLZSIzIIjnxl1UQ0qeR3Y5Xw4nhyH18fsviPxcgnlcXw8DGGnECW0Kbo3xydslMjNN5WDo962JZH0chTqqCHMprdWrAbA6PAGxA3dN2eA0eieTZjoAAdnZA28z-ODqoieYROdODbyHU4IbnrXhqSd5f107J2-EZbZbs5L5zgBzFfZ2Fesn3zst3zAZNpJgi5t-3-HCeTQrCBOmeI_0LvjGzZa7Gm8cr1RElmLiOnuPR7en7ffoR_NI5NnQp6jSZuJEVw2fPwC63yNfWhxpxle2DAsVjQk7dq0S6k6fpFY8Q.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfae496a00e4ecad741fb:rs_01a1e84c0b2f774fac6e86c4dc43e057\",\"index\":1}]"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84c17cb75ae9d125b72fb6cb435",
+            "name": "edit",
+            "arguments": {
+              "path": "anteater-unicycle.svg",
+              "edits": [
+                {
+                  "oldText": "    .tumble     { animation: tumble 1.8s linear infinite; }\n    .tumble-slow{ animation: tumble 2.4s linear infinite reverse; }",
+                  "newText": "    .tumble     { transform-box: fill-box; transform-origin: center; animation: tumble 1.8s linear infinite; }\n    .tumble-slow{ transform-box: fill-box; transform-origin: center; animation: tumble 2.4s linear infinite reverse; }"
+                }
+              ]
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 7712,
+          "output": 459,
+          "cacheRead": 8692,
+          "cacheWrite": 0,
+          "reasoning": 258,
+          "totalTokens": 16863,
+          "cost": {
+            "input": 0.030847999999999997,
+            "output": 0.00918,
+            "cacheRead": 0.0017384000000000002,
+            "cacheWrite": 0,
+            "total": 0.041766399999999995,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898658336,
+        "responseId": "gen-1794898659-01biFbD4ogj5bG9ZlRIj",
+        "rawStopReason": "tool_calls",
+        "durationMs": 5653,
+        "thinkingLevel": "medium"
+      }
+    },
+    {
+      "type": "message",
+      "id": "c508dd0c",
+      "parentId": "415a2f06",
+      "timestamp": "2026-11-17T06:57:43.990Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84c17cb75ae9d125b72fb6cb435",
+        "toolName": "edit",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully replaced 1 block(s) in anteater-unicycle.svg."
+          }
+        ],
+        "details": {
+          "diff": "     ...\n  41     .tail       { transform-origin: 300px 292px; animation: tail 2.4s ease-in-out infinite; }\n  42     .head       { transform-origin: 478px 262px; animation: head 2s ease-in-out infinite; }\n  43     .arm-near   { transform-origin: 438px 300px; animation: armNear 1.8s ease-in-out infinite; }\n  44     .arm-far    { transform-origin: 474px 282px; animation: armFar 1.8s ease-in-out infinite; }\n- 45     .tumble     { animation: tumble 1.8s linear infinite; }\n- 46     .tumble-slow{ animation: tumble 2.4s linear infinite reverse; }\n+ 45     .tumble     { transform-box: fill-box; transform-origin: center; animation: tumble 1.8s linear infinite; }\n+ 46     .tumble-slow{ transform-box: fill-box; transform-origin: center; animation: tumble 2.4s linear infinite reverse; }\n  47     .cloud      { animation: drift 24s linear infinite; }\n  48     .cloud.fast { animation-duration: 16s; }\n  49     .scenery    { animation: scenery 3.2s linear infinite; }\n  50     .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n     ...",
+          "patch": "--- anteater-unicycle.svg\n+++ anteater-unicycle.svg\n@@ -41,10 +41,10 @@\n     .tail       { transform-origin: 300px 292px; animation: tail 2.4s ease-in-out infinite; }\n     .head       { transform-origin: 478px 262px; animation: head 2s ease-in-out infinite; }\n     .arm-near   { transform-origin: 438px 300px; animation: armNear 1.8s ease-in-out infinite; }\n     .arm-far    { transform-origin: 474px 282px; animation: armFar 1.8s ease-in-out infinite; }\n-    .tumble     { animation: tumble 1.8s linear infinite; }\n-    .tumble-slow{ animation: tumble 2.4s linear infinite reverse; }\n+    .tumble     { transform-box: fill-box; transform-origin: center; animation: tumble 1.8s linear infinite; }\n+    .tumble-slow{ transform-box: fill-box; transform-origin: center; animation: tumble 2.4s linear infinite reverse; }\n     .cloud      { animation: drift 24s linear infinite; }\n     .cloud.fast { animation-duration: 16s; }\n     .scenery    { animation: scenery 3.2s linear infinite; }\n     .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }\n",
+          "firstChangedLine": 45
+        },
+        "isError": false,
+        "durationMs": 1,
+        "timestamp": 1794898663990
+      }
+    },
+    {
+      "type": "message",
+      "id": "04eb7610",
+      "parentId": "c508dd0c",
+      "timestamp": "2026-11-17T06:57:47.596Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgEmcOQdIIUUNeiAdxfFZNf4Vjdg7lrzhfvnkjv-3fKqxA5k9Oex6Js9D2u-gejpei4K3Z04qrj_bcbClnM9CAlFjhBfrTJISSppM5vQpchHKiY2F2TNHoVml5DmpXUPS3hSOS4658iXSfQJANkT-cyQ7jVnf5ZypN6kRVakGWaLODUvDJZ7wEmvD5UP4Ikhq1hykFawQgrKEEI0IW5xVM1YGLALSoMLpeapPjwzPwX9TLGtqD7mmWlqJiCXhD4LiWhmqQwJaNpXhK0qxFJGbJUe3Vxa4B4V8t0W1-Da-05eImixqm7xq-rLXqJ5XGotvbizGR0RTJCG97Kz_tai-ZSMZvKheUiGEE0AT0lX63UDq64A7s6ic-UIrrZ2VvQ5fbmyY-Dt4-rEJ2GSI-9NpyojNbomHocj-035NlMzDvaHzdZCZaSAoUzfnR4sTBMxbuynSaEfa99DuiARwzrBwbGN0rSpbP2y2IadQIeegVeJotpfRmhlXFgSLZ-x0AEJsqzZZqN9RW_gaZQM9w0G_eXUGsqjLmE-4scOkIfa1lPG_EbEAW5A-eprkUPyXFmNGuxYtbcFP8JhwZWrrN23mmRLpXn7eyqY3u2Kqv4uYPvgIBC8MLgX9-xizAA6DBCHXX5wrBVvzMmrpRJZMLlnCES4DYeiGH0aWaX1pD0KT7aJfdi3M41c626VF5ZTTZQEWB7SfAcvoJg_fK1FybSoeWmLUNg6qImbuEz1zRzr1QdXCWKbU9WEsQNKB-Ts2NFbFZUhOX8Xo0IrBc0d1_HRauic0bcARRntFoAf3xXuoAE4l0W-gVw7dEAbucFiI59pOQiuzIrssOJY8QmxFEPfYA9V2laYbFz_HxxWTofmLRdY-KUzMqFf-5dwHrN1WRAppN92DGPTv_53SHAWxVzibmcUvfUQARa1snTjEO2sl4ZfmV3PuubKl1M_HeMA72o4sb05opQDJoc_riKdZUwX54qVjsbX4OjETqGWLhhEfLTDyBkgUv90OrHxpiJ4oEST9FiAN5tKZlDrOqHcsSC2VrmCechfM7Vnv7IJrJlA_HJ7TMi49v0uQv2PiWB6B3UTy2tXd1x5Ecm-uKDFHKASAZvkzctDfp9XD36mAhS6TVm6Q-7SmI0HAwoUAuqWln2dj3TP1_offzvVlQeR7f0bX_PdEuboiQZ_GIDWvglpB89NpOYPRY0lygAmIAtEzsaHOJ6OMYql7NzyabmXxF_Fya1XymyegwNyb_cRZt2eeaEz1rj_wLIMCPBU9aZEpHIACgkfugSGI9GSOisuagt7N5Q_R0wuZrpVyaHyUzK3F26ZNZU2SrG8Vuhjz3HyEFJ_oUxSfJ--A-OQR0Bg7Pmn2Zf9lgN68Vx4OvKtLi5gcOAnGovnF8EXojJmX6EFQfAmctxaGeLEA0XclQ.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfae9d1c4b028cf75485f:rs_01a1e84c1f6c77a6979878e7fbee36dc\",\"index\":0}]"
+          },
+          {
+            "type": "text",
+            "text": "Created **anteater-unicycle.svg** — a self-contained animated SVG (800×600, no external assets).\n\n**What's in it:**\n- A cartoon anteater with a long snout, bushy swaying tail, blinking eye, and wagging tongue, bobbing as it rides\n- A red unicycle with a spinning spoked wheel, rotating cranks/pedals, and legs that actually pedal in sync (feet track the pedals around the crank circle, legs half a turn out of phase)\n- Four coloured bottles (green, amber, red, purple) tumbling end-over-end along a juggling loop via `animateMotion`, spaced evenly around the circuit\n- Moving scenery for a sense of travel: drifting clouds, rotating sun rays, scrolling grass/flowers, dashed road line, and speed lines\n\n**Animation techniques used:** CSS `@keyframes` (wheel spin, bobbing, tail/head/arm movement, bottle tumbling) combined with SMIL (`animate` on leg path `d`, foot positions, and `animateMotion` for the bottles).\n\nOpen the file directly in any browser to watch it play, or embed it with `<img src=\"anteater-unicycle.svg\">` / inline `<svg>` in a page."
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 16878,
+          "output": 277,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 11,
+          "totalTokens": 17155,
+          "cost": {
+            "input": 0.067512,
+            "output": 0.005540000000000001,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.073052,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1794898663991,
+        "responseId": "gen-1794898664-BuRsYsrn9SCAX7pfTt9q",
+        "rawStopReason": "stop",
+        "durationMs": 3605,
+        "thinkingLevel": "medium"
+      }
+    }
+  ],
+  "leafId": "04eb7610",
+  "systemPrompt": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>\n\n<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/medium/attempt-01/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}

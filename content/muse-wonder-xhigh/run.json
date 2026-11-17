@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "slug": "muse-wonder-xhigh",
+  "name": "Muse Wonder",
+  "vendor": "Meta",
+  "date": "2026-11-17T06:56:18.752Z",
+  "model_ids": [
+    "openrouter/meta/muse-wonder"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 79.147,
+    "request_seconds": 79.043,
+    "average_tps": 121.92,
+    "tool_calls": 3,
+    "tool_breakdown": {
+      "read": 2,
+      "write": 1
+    },
+    "assistant_turns": 4,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 14891,
+      "output": 9637,
+      "cacheRead": 10868,
+      "cacheWrite": 0,
+      "reasoning": 2665,
+      "totalTokens": 35396
+    },
+    "recorded_cost_usd": 0.2544776,
+    "cost_usd": 0.2544776
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/muse-wonder-xhigh.html",
+    "snapshot_url": "./sessions/muse-wonder-xhigh.json",
+    "session_sha256": "8e7bc10fd8839696f91ac0d7b4ae8fdc7c537d6bc5f00febc10351ccda425389",
+    "export_sha256": "55739c046dec81516a8fe1516068122b70746f24d5e30cf447912742dc9d092e",
+    "session_id": "01a1e84a-cd18-768c-bfcc-2a3bdf99c974",
+    "imported_at": "2026-11-17T07:17:58.793153+00:00",
+    "artwork_sha256": "06909a9dee0d99b1dea3f71d40475639ca91cffef907b8841fcdc1e02f808cb2"
+  },
+  "response_model_ids": [
+    "openrouter/meta/muse-wonder"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-13T12:13:27.720505+00:00",
+  "checked_at": "2026-11-17T07:18:01.231520+00:00",
   "runs": {
     "claude-fable-5.1-medium": {
       "source": {
@@ -148,6 +148,15 @@
         "kind": "local",
         "session_sha256": "bdca1be65914ebfdc411338ca554a42b3b545bbad80ff242dc36e7f25a26184a",
         "export_sha256": "3d3d4403eecbd1467043fdb5113cd924ce3c655baea237465e45f09cfc5924ef"
+      },
+      "follow_up_count": 1,
+      "xml_feedback_count": 1
+    },
+    "muse-spark-1.3-high": {
+      "source": {
+        "kind": "local",
+        "session_sha256": "0a75eb824373a28a49338a86bfa52d6269f113ae7820ee3986c40ada556ca0c1",
+        "export_sha256": "38af1757dd65dc57f08c9483130880124fce79040971e5368d2eb4c87d8cb9ec"
       },
       "follow_up_count": 1,
       "xml_feedback_count": 1

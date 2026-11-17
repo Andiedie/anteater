@@ -1,0 +1,456 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a1e84a-ccc2-756d-b318-9593d5784750",
+    "timestamp": "2026-11-17T06:56:18.627Z",
+    "cwd": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/high/attempt-01/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "bf796f41",
+      "parentId": null,
+      "timestamp": "2026-11-17T06:56:18.628Z",
+      "provider": "magpie",
+      "modelId": "openrouter/meta/muse-wonder"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "95dc3245",
+      "parentId": "bf796f41",
+      "timestamp": "2026-11-17T06:56:18.628Z",
+      "thinkingLevel": "high"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "openrouter/meta/muse-wonder",
+        "level": "high",
+        "outputBudgetPolicy": "No tester-selected output or reasoning token budget; omit all ceiling fields in serialized HTTP request.",
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "retries": false,
+        "providerRetries": 0,
+        "compaction": false,
+        "cacheWarming": false,
+        "publicationApproved": false,
+        "invocation": "Pi 1.5.2 SDK; original prompt; isolated agent and session directories"
+      },
+      "id": "52338ff4",
+      "parentId": "95dc3245",
+      "timestamp": "2026-11-17T06:56:18.632Z"
+    },
+    {
+      "type": "message",
+      "id": "fe8730f8",
+      "parentId": "52338ff4",
+      "timestamp": "2026-11-17T06:56:18.637Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/high/attempt-01/work\n</cwd>"
+        },
+        "timestamp": 1794898578636,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "402b5a27",
+      "parentId": "fe8730f8",
+      "timestamp": "2026-11-17T06:56:18.637Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1794898578635
+      }
+    },
+    {
+      "type": "message",
+      "id": "fbdd7a7e",
+      "parentId": "402b5a27",
+      "timestamp": "2026-11-17T06:56:20.622Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "thinkingSignature": "[{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgGJSUT08bdRNQdKc_avSNk-zIkVco4NJV514ziZwhux0OQfPsqRw8Eo5uvejIkolBxPHh4Flvo9m6eq5oZljLZxnlcltz8iBfFVLyhAHICBLxhAwDtsAq0mR2PHq-z7SZ-qxWFnoCIwgvvkldI_-QokBzWgqCRhVPzDBY398451-j6W9MogpTN1MZpr5flIZhQYJeN9Vz3pbeux4gL9LqR7Y0e1to4AlNNA7sC8O24iDHHR_SaemjHg6AH81N0ONd9ZVol-FS7xiSVxu5rSxje-g33kx7yqi2cBlpiknbV_uhN3_nH-xJvfy9I2aG1_dZCpER9Fn35kiQjQyfT0W7MoMsGIG5YDYallK2M2p4hYoakP7uu_0EhhDtxTp2oPMSIJ9Tv-YJxAI-euh9Tawfa8QLG58atWSQTM1Kaxszea-ZX2GPg_zNMrlXvEzmMKLaPQvHmBpqs8mzG3CeJjFZH3E1J2i41BbIXeecEky2JyPdi4-vW9a1B2VkR4Ys_EHPI6ZJmm0B1ObNiAbIz99IBP3mGhsUBAK1mnwmMpb_QB5T5jYgWG4DcEYJ8kHVju6Rdq77hUbFRLe9R-vKWjuB0dZ0sGqJQ-859vU-HELAPjDl52QP3hjhYGri1pw6J7oWHyxXXLeSEvyLUf7IKX_xQfx0PK8d_wErDKm9sxBI5cCv5i5z_7TImkB9pbo1qnoUX1br8MhC_qWf1CrmTkxiqG6tTSNtQccVeGnDwy0j3aqmm5MrxGrrO5mXMGRdB_D5jf4WOSOYy3rwAVtG3MVnBEDxkdLYyY5P4DK4RI8VmjO1hGAELGIfjPrX91dmFvas0XEG7zC4-END4xJMdD9IQeTdioqEbn4yHbKUUE2gIseXGcu5jdYWLvjG-7n6LSf_WmWp6ZXifZw-98poX6MOBKrMd-PDeUwf64iJuXlTTfwDC-WlBuW_sWDt9jBX-_72pAahkfJA_Ek_gcVOhd0es2qiMksJEnsJIBii8T1TPCzrFct4OneRkz2meWcsWgckhmfXU4wnccb1bxrwDiE_T2nnpaoHqkZdeD_eu02tDpduUQrMmUrBTxXzubxM1WuxRTuSpNrp7j36zoueFOuv_ZZuNWME2psGcC8MfZbrv9F3e7TZCpNzExnq88T9u3CtSTKEdGsRFn21US5rrKyGzJkUMvSZFpWUeVvOblghXaRJIqws_mpAt7pT05OeZUFV9XE2pK6thl6qOKDvgmVcXtc1Ssn-sXlbGngU_nmOlboItaWhXhm4RwxSf8Wvez4vn4vhlBjQo6Wi_UvzW6dR_a643dd_fk0YsX1ll_LA1Xj08XZT_OHR_4FLHGuqZfXfIzOa4xmU7dYrJc9WFtE53hYd-jlC_lI6AojS5jcaXM1Sm7ghXSTm9BEnaT5k1pYmFIoZHp6TB7tw.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa93eee5a1ced8864f75:rs_01a1e84ad124773ba80ee3c4c8f076d0\",\"index\":0}]"
+          },
+          {
+            "type": "text",
+            "text": "Building your animated anteater — unicycling, juggling bottles, all in SVG."
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84ad2bb7215a46c119fcc10b109",
+            "name": "read",
+            "arguments": {
+              "path": "/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/high/attempt-01/work"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 1556,
+          "output": 126,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 19,
+          "totalTokens": 1682,
+          "cost": {
+            "input": 0.0062239999999999995,
+            "output": 0.00252,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.008744,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898578777,
+        "responseId": "gen-1794898578-qdwiC5q331ySqoHlZBKD",
+        "rawStopReason": "tool_calls",
+        "durationMs": 1845,
+        "thinkingLevel": "high"
+      }
+    },
+    {
+      "type": "message",
+      "id": "b10708f1",
+      "parentId": "fbdd7a7e",
+      "timestamp": "2026-11-17T06:56:20.636Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84ad2bb7215a46c119fcc10b109",
+        "toolName": "read",
+        "content": [
+          {
+            "type": "text",
+            "text": "EISDIR: illegal operation on a directory, read"
+          }
+        ],
+        "details": {},
+        "isError": true,
+        "durationMs": 7,
+        "timestamp": 1794898580636
+      }
+    },
+    {
+      "type": "message",
+      "id": "8a201042",
+      "parentId": "b10708f1",
+      "timestamp": "2026-11-17T06:57:45.792Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Designing a standalone 800x600 animated SVG with moving background, spinning unicycle, pedaling anteater, and three juggling bottles.Evaluating SMIL versus CSS animation for the pedaling motion and anteater leg articulation.Deriving foot and bottle trajectories and keyframe paths for the SMIL animation.Adding SMIL keyframe paths and CSS transform-origin handling for legs and pedals.Extending animation with juggling path, bottle rotation groups, and anteater body and tail geometry.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Designing a standalone 800x600 animated SVG with moving background, spinning unicycle, pedaling anteater, and three juggling bottles.Evaluating SMIL versus CSS animation for the pedaling motion and anteater leg articulation.Deriving foot and bottle trajectories and keyframe paths for the SMIL animation.Adding SMIL keyframe paths and CSS transform-origin handling for legs and pedals.Extending animation with juggling path, bottle rotation groups, and anteater body and tail geometry.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgGYBCVSwshnbqoE-RNceydupM2-CmUmqT3-q7Ob-lNP47AOSQ9nH5uK8pqEyxDz_bMCE9OaCckOXuoZr4RW68Ju3TvQFVlCr49wWiMe7_DWa1kK6s-hO9qHsi5Ggf2Reg8KFdPdl5J6xbaNAlFkSNy5nGsz4do_5tW6pKzRNvnz-eK0ywkWV_7WhucAnLiFW1GhPvAGhbhqnl09HmanYEyFfa_QSaCPPYx09LxTEuJ5rwnShW7NF2U8-0nNXNJGIQT-jqDkDE_1T5lXfXt-YSpB6T39ZiuU-QTSEBIYx1X8l6Yk6wuxY7U7pzAQLxEzxVdVXVQa9ggkW7jDyeTKpMTGWEhcqX4YXRHL9ro5L_IQ40XEnWJJmswQLCHASXrmRZ_5ybiNbnKO6MrJ-Z1_DIyCS4VsA6ax7z1cw3TRRYmq2IdIuFqpno7RheNHTOX3KFYDWwGiR1KNCRMvlWj180ndzsbiINSYiJTbstbQUESXEaXCIONXot5Plc9MBXAVBrfWoQ1_E1RNobq4UkEFAhKJWAEYYJ7z4s9TF27iHj-g6pMeUkfgC5-6LwcB5duAz6o6fZgGz8qE7o09qjkkBqYobLKsmPjrNt_wa26ocu_r9sWeeB1OdBCOCrgrhUMqgJmf_3EcUsLWh6PM3DAiRagmjhcRvKYsqlICLpwyEa1-c0oQ3O4JA1MWLDexKjXbdeIa2qghNNpUDu1D3isYk3hKxf7KsRepIV-Xw9VQuHBTgV9X2KkHQ3WfxevthI9NwF1_ciYEgw0gV9_YSey8JU1u3pK8domSFFGEwXziGzEyJ2Jp_tI_ojCF_OOZEUj12t_yZ_NjnQog9-12E4qUKHAPRqbtGEvw__jdTBSKbQILSv10kZj0IAHlHTjNi-d_xB_gfXLbx41CnkvlMza-6IycU_NNMXaa6CP2-J_lDFnQYnKxMenbkCpoJisR4zhJ0kh_PP9m-GYU8rNzU_9-pehftwPHzjWGRsAlRByn1V25j4zS3ofG9LXnXvnGz3zyQkbPCVlXFTpi2jqgV4ui_Ct99mNjTRkJnx_fc_UcOBrQziGmTK24uLxhgwqD0yShDkVUIrYx_EU_FnAvY1dJA_1cu0VRC2vTiMCD5CC1-OIwWyKXfnPtMrsK5Hin53EvnuCJ2ZsxcnDmGC8WTJCba6kky5CAv7o_zh9fGuMTuP52AXOMgHc2noPDF3Hx-RyD-ga2dZcmWcEUxbTcZJPnArkNTxoYrDg2-Tuof8axifhHK9-l30R1ULSKj58raJXSnt19bl3y1CaifMUQI2VB8AcxB51ul-HX4fERuIFN-cMLQ9P-2qu1OHvbZj1JLVOCu9daUxMO8u7NZRSjac777-JDmIKHSeuhCMVUxWC9XJMwRn9YGh0HFzqsGHfAHVBoHg5Kl1hAcOT8ZzdwPuBgRBC4OWZE-uEivgmV7nHl8p11GAulwl5S3yDBPzEo0jSwSPHljo5yJmaLYI8eZuUjj_WLwI-ei0IOrcgVBC6Ld5tNmZe-5uHNmnhz8yjoQWqCh0jc_LJ_Iok9g-kQo2F1ZnZyXa2NztQetdWjWRjY4Jb2KsbarL632GXapMu-gmNJgmURle9Zyvu0O7F633Q8bQdB2rgZnPwgpX9ZU_tspCFLd6WEhIsZZo_XXhNT_sXK7wkg_V1TIT8AUcYVXAY35ZW1itFm2-oX6KqPImSuKcAh7sTbpWVc21QmKe5YxWvUzcuI6N4XvX5Z4hQhZ0nTUUcFiMMisG6CSzQtBNQyz2LnyooIfC7Y-OKOak_eySIOAK41pPezURlDvKwLBOV4PTB7VaKv2MgRyFRoRRlEJTOrePr0qPcgeb52Du3aXTdbA8h2N9tOs7ceVB07Hy3xOdDATXFt-m3MU55lAVMpR4PcvW2FzbmkU6wJoYXPNbxG_o41PGj1EuxI90NWYp6B1xTeu-IQuFQZ-nLfgXE9G50fBTujqA1-sIY8x28cCUAyvOwyfZH7OR1X9f6XktNHIDA9GVKElz7jPx-WKxVLN8D8j9kM8KpoIs8ZsjfpVtEzQjdUzbv3muQVRIP2lV0KG_x4x9o3hiJPokSnK0Sx7lvCBMjDmKr3hwjm929Ld8f2W22-51H-560SI-8xbiUU-RJHy02TBQPpyjVIA7o1fiLejurtK_1Z2Q7rjXg0rQG51FrVtyDy-Nzo3_QhXzgkG9fHt4EZCsuIywgXdyYdj0BZSI7QkITcaj2tNSSqmcrh1-DBsagzvc2UcW_7sf8v2ArqESujcIr39uwxceie4eyBvFje5WUiIMbBxlq710nR3G0ezMV6XZ465kB7oKnFN_53i7UFNvq7PrVpUqGQvg__FZNBmoV59-yOzDpkLJifB-IaQgjfYurAV_fwKs8Dp1BcpM1_4NaFjSQkIaR7earN9rEPVgVHdBrqSn6ToHIu6xgPt5RFfme5chc-m_VhYuUzvKPVK5_pVtbDare4tpkX0MOYw2pj1yC2K_AF71VTsverFzADHai3xKC7C48SV4VCoqA6FchTOpD-ZgkCifC8LOGIAgt2MZBwryirunmMh2J_mmB7DuFIyJ3OrKGarcS2wTCpIRsQNPsiMBifEgO9CKktZKDn2s2FPP9esKfQ7bzHv2-0V4i6vKMfwyrdxpJKJQjz_-wd57xl8of96BTT6twPSbWIzy2BgxoHXSGUiqpgNUE3vNhEjhCBRmYjrG63wLjSdCJ6hcWRI1Um3_MYKRLAgiLkTbUbOfigIb6wu0LoYSEOGX1jv2QJwrvFTtchIV-naNgnibnJLWtvIA2pyTCNH-gkerNPx6kebObsTb5JcGZDXg2KieYM_9b-EsXcQjuk1-T9YJc3sYLz3qpU9_4IL2ET9rNYenMkG9fJRYiq1F0i3-kcOsKPhErkAxxvS-dlSKB_Xyq0Ofr1yAhbnAeCeAx6txMkgOd5-DkzsewgO7T_rgOfz5fzrZ7mmHSLBuenD8AcCxj0x6RlNPCwzV8S2R4pKj10HuETPQZFRqg_drVjF9UvgFLnntudejbut-Y1u7HVvMFYQ7C_vBh8GEKBMAwcieS0eiIc562ilcJ2K-EJNYhEKiOfqcO3nVoreJ9QR4kT2S3mZwmPVb0OdD-NZ-xqCsyx4NoWUSLDV77OQWddb-YOpPB4fmzFeAWbIhGrsH65pD5xN2yC8YYWv_byaEPTeQ8DTEQRpJO-9Y8igb9Vu7WT1Wz0sId86Xh5iw4bx7gYg5Cfhm0LdmlnAnTLH3VNYobOhXTaZorA94m1Lmhs_qIpentoggcUgvuLa5RovnJfPKEeSwVBC7ySUbnFrzK0Lzaareu26c0sfXxSC-JQZNzvot2MfU6GoVseku7-LUNiBvOJzybcVf3L680FmnsKRL8APVxU_h1hcxwL3Z4aEdWoPB4xFtceqO2rNSom6AFISehj-JNQjQ__dQB5dSyfikKf97xoGKevvbAJHSnzR2Ne1vas0L3ZpzmCo4M-GZV5rpxnl-4clfZyJltyXgE12e17g5ikxOKnaDu4nK0pKXMHvbjopnJlcXAJKvC1YV0buT_X9VAjpwqmGyOXS6ZCy4sBGQNtdIfuswsBPc8FNMUFi9iP0dpOy8wnug6ZhcDl8tGb2qQzzYPHYAWOkJ-TiomeBelY1ogZ3qB-A1EX7nXPu-bLIiCqBmXqxmVvxVof6pW5th1oO5Cnvorq-Cve7iXBxO4PZSrckWYFhOPPOKzLpI6sHqLenJN6MQeyEO2mFmcmD0juxiCljs3LKOB0zeGQCmAEYIzLfV-K8USRSyl_eTeRrMxGpxN6mRDBq1w1WzDuvFbZ9yGqV-Rv0AilK8yLsMvyfixN83NR12JJ2nxLNV-ShK8BQzzlnCt0PUZ6OUqznB3mfBG14qGpjVKyAGjd3IuWUFRLFpwwMXBl3xT3Aw-fyvxOE4FC4HI6vAjHpbxVEUrIHwXzOtE3z4DWBpXMPRKIPVc5keSf17KbzLay8SlkTmaB2LdAU0A4tskH2MItwg-T84jOUvZtwNEtbiDFEVovS_9FvgPnI_aki2i3rX1BKYcAgs7Ji50o5fvLPJEj_dQ0hIMse13DRz59bDGPyQtzl3jhcCdaZNrW4xhQqNh4hu77Qa7ol-ZZZSa7IcQBLI86G0VmMoXK7xeBflTOgLL91aOHweS8RLPHpJGRKTMSVgfEW5AENKZdZPCo3ZFgvDtTo6uY4LyCXsSWphOC0n_7OMuxQVUFDp62YseeOp2VUeBC61HOdBb1sZSkB4s_XwN5LxcKBAcsztMWZBsV0vH8p9MyIk2C29xty_JTuQxz_n_pYfoXpKxdCn-Ut-h_5he5maeBgrPa40Q3Sr5akRjXRYCjSsMfyB3uRb8Fdr4FTBQ-lyvfrzx0bQbQyAJQy8x1zoAdjHE2svELf1_kFxYhNaVGj3OCcemL5iRUIqUMg9PnJmrTSTtTSfpJPPSd1mKn44wwU8KbMKqKToLwuxK3GWIKrTp_CS4Bj2dh2617jVUUfnKH5O4b_67P7o794uS7PpTy5DyRQ0aZJa7CrPBCTHMkj4wbpbe_jZRET3hcGYJRnRZGdRZ0OLax550KVxUzYsC14ojqpMe4F_OKJIkDzgzrhFs3FhH5xk3cHFobkQA0RBa_RRvj3zFrey-_KviXzSBPzx7N75lj5LN3ge6KMZqpQMx72P1lG_IRWpgW4wfc5MhAChppl83wfbzNs4Ru2ApzIFVNoOkoc_8Xd3KSophJss-KF55JPyhx5Ji8a52FT7ihhsso7ARpgYAxXgJE_8A8p4yITGhBTMBP9Wclg5ApcLRkQSptY9zP-pRDDx4q8pytSJFMk21rhWfsPSZ5XQYJL-mMbPCT1_ZW-ZVsckMarJXXYIhtmWaYjcgdtPSSV55pzByZ8KzIi02MNrSx8Ba7J8jYs2dd9KL3mgyG31mGXPMfbJ25f--nuRJM63ARNnMEILoC6wC2pMYqR9WM8QHpknlcpfXULlAZM6PEFp_Rqz2ncNLVbs0zBnHTBj9nparkFdkGB6LDAuU9cX9DexgpRQR4DFi8RFSMNuMm4nOrQff3VhjTMpeltsrRbvN6ak9uQULEJjJi21vPcvJ-ac_HhhgjRqqzsVpbVkEPUdpvS76TnGigvM0-vDf_eFgn9A918oAxHmiOivLhfzMMFutZxSUiRtCPtK_yHrOiGZk-6TnAyTKQe-cYhqA6v3jPPR5sS22iVg3xCSihlG8lXklmrYdJ9lxbz50QuJkwNlwaGMy-t0QCYt6kDQYBvA0HZ3UkvjLwVV9foJS98rXqJpofQx8PLpN0HG8xiZD-d58ebcnbzUwdZZIXvKCNglW3ipNwq-p0E4EfICgM8gGgVHCrLZzCKnk5k1gHk7kDgAWNU5ZpLMuFAA36u159kU0Uz8DadHqLlUDy-s7nEMomJtfQJcJUbhXTnqhUn2Hskz30mAmq84xuKtjJ4jtIIfRrYoAE0K24Y23eePbwKtKN-RCZ7fEGupvXwrGmyYl0nkkVSjnVdhqZAX1XmYhlWSjfH0EG6BlcByFV0_DHeAmrbR0SG7oclihUnCIpYucSyjIeBWXK005aFPyd9nsVxphIV0zxDWKRbkC4KUswg94m7s4nEihfW50qHL_X0ea0v_q603sUc_7574fNkFjIqU9zYSsX0w2I0adU71SaBQ0ncNh3MfZJrf_1BlbP0b8g2S2qlK-lc4L78nYBG9MzHovFKe4Nod97NdTZC8g-B_y8IvVtN9ScKTnWDFndyYnWoJtrXISH3IustHiFf7FvpBsOydytwapNj9U6084xuEuYq3G3c1e1dqOmLHhWsxECpt_cQT0-TpR3P96fMMQpD1JxLNmta7SHuKkj5SOgnLaI-gwC_ygFTNq9MjFjkpzJjHT57IfLJUrypKwDnkKAkdJwglGh2wYhWauoA6GV-i8RTX-QbnUlrQx45ZlRY7NFTc84AlSACJg-T5SkpZ3Nbc2r48KzkjvVEyFT3glL18BQARCDQc810NheAvEXssYMeYUEllvaYYupUM9xPKziV6MtDSdcmz4xS_mPiA4g19ng8S3kOIUk1jH-bfqBIrXi2tYrwfaJS2feWei43WMk7_gMLc7ExjdSzYFCkQNK7IS4iXYBiZN2gppB6GbqHBhA23Bf2WjQ7DPMtBd2MDJsQeWZJJEUGdjZeaRmKRwiNRGT7lILA8vYeYLN8qaOi5zWjorN5P9aVOstcKKMzn20xjL_jw58jpGyX4h23oXxCxdxMuqn8HAn_LD1tEmCYaCyjs2OIYg21Z9eQUfPSuvv763nx88FMkMu9FjrhKStaX-SzkOPrMK-B9N295XfU7PP0PUoBSPZ7N2JxxXqUGKMGDsd0HgzULseFzAPO7dRrEFpXWDGbi1Tc7nvVKFo7RlB7iLzs0-SOYtrPyMSMfvP6ygcCYyPtDD41XDFsqdbbwGdCNoB54Y66xJfJur5Kcq5jdPCj10M6gu2z_2wFMtdfWaNFF9mzFICdpuhwzc2vn9AtUBW75ydx1UWXVlqEkGbhta4rypRxxyVjZvLVkAVR1WakR0N-_l8lJh2sQCCiKO9u-v5LtNc0ee2Vo6dCOhGXrW5hULn4o3rggvuQ8xC88KeiHd4hPWIy1Lb9SqkWrhJh1T9lh5L6y8_o7nRblCKL_Gsb3SdUAQ6OsQNKN7gNnBYi1M6wjgx-xdM95byQguP9t6WQ_d5_6wl0R2XeNh-wMwYYJB-9izagZc7YyNzkh4k22iBxnhLxIvQ5zsRyPgzLynXiMWEoietQNi3tf2ppxWMJyAS07Qpea3b_NKwBLz5JZ8SesQNOmuuIZab6saVJqPqOi1nr7XZmTAq3e9mIEHYXocXgM09S6jJdyIthkeVZrbDUGTjkMGCggOV2PvO46HQlobf8Oxff8C0p0S5qnviZeTjOnogPmM6vwjvtPDSxkjHjgKwfcjVW2FO5wgagDJoDcwFDTm93x1_MZ5KSY0AwV8pgY4oJ02e9lSceXLY259lztHnlUronOYnkJ2717rPtm_DjQZ-gpmQ8YtWiqKgg7xrIPLF6lmhPrqOGmXViAh4hvRLhoU9lUGILoAzS_rBRquPBjnuBvAyxqqsqUGhV-2l5WJepK23k5KwYyJWW9nsiq2ZzH5jVyuX4metAOaxkyUatTM4KJNJFwJMUresJZDhBnhKLePSFwzI9-r06qWZdp2DYHIH_M8UD4tJexdWm-nkiHMZoBFo1CdQ2T6V6nUPEfX319AFzjJP8khjHT_Gsms2YJAp0D9uf_oAPnATFbqNtR8rEJQV7U3DuvJnmOC16No01MigLTBCYjInCMUo0r-e3t-6328qg509A6yINKBAZpwCjY_NaBwulxNyK_2a0X_lYWymsdYLp4hKvdgSUa00CBsEjjKBHBX4ZcAZd-jXMCuerD6_GOvetPnUlSQa6m_yGHFmneP9I4aGPtuhgfLqGiMJREHXvSAT6_lsBq7uHwAetJigMHALBZk4bJp0bTQCK2jhONeHkyLZG7DMGxamGXy3xxJon3IIUCcQCRvvoadvh_pzSa5IXO2_FkdzN25iQ5PBF-VCROqRxRrah6a7kVFuEjz5vE5-B-WVVy1aHIXd6k3dUoGjpfy0PwjlCHsNmlCT7MXB4YUcX2vDcT6yosBGcyyqGHUNFY_YKotW_ZnHCKzPO2A_LPTeZW-wAS_C1lXvyDrjUoIxqhvcyspeLc5isi50iJlMpvMdimXmjGLbmZaogX5imsJRPXDZ8CXpGtiYxQO8d5ybhY3g7v0s_lOTwEW3e4GGl4JbgLmJZcClIVQPp7jd45VKmH-DU_VKu5OdsyZ_NMgkc__bWQ0QZ73h3CgO4UXNsimiv7fMJLNmkI3jQM0qFgJzcR1lFmVrcgA3uOpZC908V_-VWBxRtip6lL25Ma-bf6zaOywXQZuBe81s8tR-XELkhA0Y19lBfm1YyHBlcCKkHpIVLKakop3uzaUREFkXFnygCjv8bAe-CMYvYgxBFf681jn0agYq-0hK1miGMNa55p81H6a-aQLPtxWNbMu2vjdWZR8M6yr8sDkzhfogXKa0OB3_OqRI_0ZLmUZ82U_UgqiZ4qzEjgiGCU_5JvJhiu18pzVqqqkzEsf9JUDdjDBRNDzKLQbhJPMrRaJJId2R_dnPPjl5wYqGlEHQMmRSc_IxTe9wEkbiDHm_gquoVjuzmyIaOW3JhZi5q8kWPwqAfdSx1oL7SpTQac_W394xiLJ9-lWVtD31Y0CqSnTq7xQLT30Ax793WDF70Io_17xhs0m7eDCVegcSYFFQ1yWEFgtYZqJsNBIa934zQ1BXd3GSsJ11_gM9wwDrKRD99adjsuYbjR4g5OPBR2v2dJ3iWJtRHjWDz_1-vbo9JWalRyLb_mhdCHJalPY1QbMUWRcyfma0HJUZXsgUR1OherdZLz6N1hels05V-Ge8603p7twiBrMCulbkFU9A1rhNlh64HPWC38__JQc1qGeYJ98ny3EiAFof1KxQ4RRjLUOH8nc5UDccuXTuaPg7ss2i5mhMVrVUrLClG9OjLhpIB928RJca8PkjzOASsMmL0YqGLJmRRp4wFQ3XpSIEEMZ1-34p1ALCud6Nipi4xcNzjNmfmjcQZ5tJT9H44XBRK1CRT8v2X-PFpBx3ePJHJs4u_A2lKINTPYF22QaXgRK3kD3X7BuzDkQUBkW2RqM0tWWDtTbBMD-3i2udkvCgrtAlDhvMxLOtMWlOdEy_zcBD1UGA8nY80Omz6FYyN31PV6zyghbwLUcjumNuFMLKALFUVxov4kn6GxoL3mNmoU--l9Q2QX6t2bb7Fpbi2oiiX0DpTGTVdNaSNIwHGeWL4USmfMIqCiGLzrhNeAbocHhdkoy-DdPLEJjrNjUTOViXVwADKEEVLRwhHxF6BRNYtPuakKRwFvNts5HRg8I0xV2Pw9_FXDk9rQ4Lnv1-3YkDs_JxqHeVVZYmS38u99c1aC3auzi2oTmF2TLKTkhbkIjFyRqfHz-9WDdA42mq2I39zWreRHiyOdVg1GPyv3dxnEkiqreHqBBjZb2F6kpdLGH6RigKY3kNnrZ6DWT7uTK-D7Jw5BsPhPTw5fOtBGnfanlkMgqiT-ZlNnnbGVPn_pnUF26UQRSMmCEuvDqy9uP6zBQMD5EMb2ID5K_V_KLvhXO71pnH47Y4E79TRAjU00M3XBoCPO90AfTHnJFBpMXdo5StCed3w2DhnNF6jxC55iJovyz7A_LzUaqaUuMMozEedrxSk0nJGCx0GX8hxTLeFo2vkUTdBKxFvQe6FoY2mfTFo7GJ4sRM6cxagXFAiouHllMt6tU2y9ne2hPmmb3u1S-J9xLpeT2_wnLdR9iNvrG0Zz4osUfnL4qtsMXGdMtH7Orqztw6TmPZmYtTZhJcg835B0wXSyDzwtOfYknfcYtL6W69Z1JHCW1CLoCVxSzJJEMnmnnYv0t2riV0asme5HP0ZWejDIbbQHrXuhWYKj2RsHHLr7NI-J7DN45gpnSYaynSKpuUMxf7YXc0Kp9pHlIQHn5wROJ9B4NXyCKMFsmjg2Y4sDGbxgptUPf9X_ukRTfaw47rnLs9PacD8hQQZvHkm8z7MrCosTzAidwmJkdZaUMSl_XPg1xcNHNHBptxVhn960ZSgL4_Mjh0m0bXKVecdFL8RD_GRcSP_yZFOOGTgjhJ6jqKKKY_t33KeDS9w9iFxG3sdPcJBQawfNTFNQ6-lPw4qQMIVUBQyz0WQFaW_vc2Osp6LOJZFieUbq58kDBB_K1fYGkpT8LhUxYb_BHPrXM2UooXXlnfVWh6UdXkEsL44OV-Xc_-AwUrujewtwlVrPPVaCFmEQw24pH0s2lUmT1MpOMBaKmcHs0OtZGaYSjRix_VRT-dnGy6r0y7cUFMkRUrhG2qcFNc4Kob0D10HNc3SJikBEb2xedk08OLT-LbtdBSa4gol0XhTMXVc3QREZ9Dk--OUuh9YFh9uLov_ol2v7O1B0ZGaw13njpc6J1dMhSdCPmUuXKzRS5_5Cnx_-ybVhXQJ9Z9Iv4RQDIUrbUmW6myWS9xWLDFxzs1apHB1INnld0rCwRfvgH-vvqsawR1Vshk3OfTEPGxwti_7GfJg-e6JmssmErga4D_1TA6HRKc9rahE_-Koq00FY_a5XYm0YXT3PL8AQ0Hh1fNp5Fmtble0hkZydYEcqRDpNZwfRSla1sGOAHO3qKvNipCZ5ADrpRX_nrOumdUifvuxFYqk-lNxHyi3eOc8w9shIKgoybtug-WB3JbR58BXoA45YmfiIR5EPBkCNVacEZiKRFX0PD0kDt6jcwgfebmVPKZVVwif_XQrGFHyji4Uok3IhyjJ9aesFjpsvLqQLJPjRdr8dCveiy2zG17OPIcBxmovEWhTZ4gohxpTz7oWleMys-FXzCtISwq_r8EFVo7zx5aZo2iS7tDbfYbtNpehn6RBgMvLATKNRim9E0weGhc7fUgEhy7n97pFXIY4-vKyDripIWpLYb6afguqTUl2pApogxtqS3Skk1BI4QdbqPGYzjuPw7b12S-37dvOs2eqyytICETpXWmu1YnBr_CNnVjHiWzB1wLQqojt3ZYbNQcSUTBKFFR3Qw9pUd658qhuhyAdWXOC0dmu2HcG3YxqxKNIIRSVhnkxMAzQbXPlhmSujvmVVmJ_VHCcLnQnDJFRqmoGBIb484qq3ogeyC9CUN-m1jxic3zyrjVx7p_QlwZdgussyFC5y3ZEGbSQnim8XQqBrPUHW1p251Rqi91j9QnSli1qmeAsdnA83UA4LFCqhyVH-lORkvd52eoIx2g0F3q-VGFo2TM6cFlZHWjLzgmQ04NGGp5l0E4Uy0zH837qlipt4aYlNYt5ilIlCo1JaixyrceV0SY1cO68rtxKbzjIwtPX7QZ15bNwbppLjMv6vMzVJpVbtU187jdqVTg52Za5_XbA82PTu8yByGWY66JAeKdwKYFpyBWM5ZEmEtCOfZ4mU9h1tRGy8QMhx87ChHk7bGxrEJeUt8ffA1p2cwexCrQKYWesiFq-Du3R75oYvVrcactrT0iO7AgdCmFzUouhhKL7MfA3CTPkpdx7LvbVvCa8FHbExexJejrnAIk7acF9M5I5Vdo6pg5XwMUBhUIIEv3LtKpmNra9th2Lfz-IJzMh7iQqxbIvc8cUX-UgyGH-UW9dUOyKQp3J5w7AIE8znCnjFDFrV45PiBoMAl-jV_bExQyIGlzzEtN4CH0GGw90ay44bu6KyUk8vBW01FJmpEFfni3gGbc1NTIPODWpPbk0cuwZIvFYFvQRKSmx2h3FhOG_CbKCN071qBD7_e_MckO87xHZSqihN3qjq3Ng54f2a0I-_XyS4SUE_3aYo3ltHgY97WP7rn_q8viUmOCHJVT5SSRIAQm3ZY-6h4uxEozD2U5LdmEKrxZGeUg8pvyNsuJNvq8qCK2oReu1_4oCcZSTcCfflz6PF82n2GlX9rXTxJ5WcM51mXRISFYdw9JJ5CeYh821XP_AnlN5KUjDI0UKFQbpeXWfXmyyZamSlzh-ZyDl8IPQpbgqeh6fTH1z_kBv5j-Hx3BYjHm9sAae3stzSsnn7wPe5a7wyEXmb4O1FxKMbXRDs1jdgJIyoRE5TpvZ7EVMDn6e5fteZD0VUe32CPoWxf1A_t1cT04pGEnQd9I78PuXf5FdKf_mAxGXImXv2iiqbQdmc_aPC5cD8p2mkB2-YHX-p9c8x44y_vYlKVaoJcsGXgm7TK3V6yZMF8aqIUHp9Y5GlbRWv_uJeQav3wOGtAOlDxQm-m0wBVo2EjLN1vDFbJUvDMiEgkCdWq3lnVXTxP76MZo2MKj3WXlxSZHMFGckRrOek_YkRwuG_6oJvbHYf6KY3YxbPURz8fEGULUpWAxKWETNE0BL5Z4MoB9SBcSV8uuvN2PdhyKqgvFZAExiUPh-ihaRdF0BXbuUJsQ6u6nxBRsr4Jyi2BoTvnt60Yy5qo1A70JjkbBIoh-f8QyHQVyhYcvyx4DKaqelW8FTeAywLWWxr3-KTr0Q7X02YPVhYCHThzDnJi32lshJhcYLBusGNgXH6knvKORRCihzl2E_wgeQrK7Q2hITM71aZC_x29fD5vFpbtnzuV-6uDaboDvijS4cG5w-GTZSeYQ4tXZ-OfT3Fjo2yf9ogHF6t-CnUd0MPzJ9BbtvNXZNBb3ZieoOP7A0xOV8qkYe5CuXf3c4pLVNtswPd3p0f25Qg8Xf3sKZBJqrwz_98Tbvu5PKgB_90MZ0ZmcnS_8FhAL9cXZrCNWoQuPFP65PRBHMc0ZEF4o8LNti_4ZFT2DelsqVbCkUNF87icewhuVCAiUW3l6tkqu5cNuPwdaq2IZz5B4K1LvZi3aFm4z_9ZWi5-5wpUYPN19ud8mLk-kHs68nefCYGM8lXoj8C9LTrGMLzM6-pgWXADq7TRILQlPW9roC-R8TtWduPhzVbvrfemHXwBMsE7OgWqonfOlyqCXUgnrMMkWSUsiNoAucOIj3ln4H4pH_8kW20U_IeQ8Eu3UuPTvdJeQPLzoPY8_1POzdqB9oUSCdgsrXy0XNNU5npzzkRY4wpoSZV-I5xmgiNPraxiBLFH8dU3VlYJRUwOrQ4FqC22gjtu4xZxIsPZu-GUbjlB0hHJU7Fk_9CVC92LvfQppdl2Pze1XsNG8K-8H1hp5xhvBpWs_DZPBFfKk_r3i9kREg07lDyh-Hg2PHpnVuyzu5yxcE6JrXa9kPYIh3VmNy06yPeZYULCQuHpZt-ZHxWwmL79nuJAaCbDll8Cd8hb00qGXFGpRD5G4baD4P1ffxmrSjTMFbGJmv0WOvgjbSLeH2LoLMq9POajUnATrhFTKxXlzss0UDCGOmcfi3zATT6VvuMi0aEiVMCFHfyD-zLK48Vs19wpryiYwEAcjIutAqQrS9fO5EEm_KjLQFoDs_rGcZlwHhaeMKH7y7Zmbtm3jhi9L2xS_ztUz3nacpFXWVlgzWj1DnJs2qOPL6evWzVwrTXxEtz7CDaLYw19dRUsMiU7uiOXYjfw8sAmRMTH7iT-1Oin6fvWYzQyFdPiSyuI8ZBrEGvpp1Gcq8vaoB1MDQ3yk4_9erptP4D08z0Es0baPo4aURccSQYpaln7olrpvvgwemhanmrS7DT-JOXruuaZy7iVov76DwjhVsf9KK7XvPbzqTZjtC9aqLQMAFA-KaWRDiHjtYcf-cJVUxQON08xLVRKv2YcJVyje7hkUH_CwBmDWX_3zmfYVxt4S50HJXF7JZVDQJB2kkRqA89vfc8a547UgB0QrVZbE-WBBusH5Qp_qb4es1BFBWIv8H9rBRPNiiDVMkZyRb8IjbS97xOhI-UJ2uiMCrEYj4IY_-PYWV7CEjcbpYoVRpPM2pvymwMTEzH_p-ZswUCcGcI5QkCBIXCc6V2NXpAPyJ1wpjHQzHnWLGhBqeYnHtbdWk7NxEbqGGyBEdEcijcWXB_va3PtPivquFHePsPUPIZs9St1QIpBJNtN0mT3pCOzUEfMm_EwHpUZ25L25nxyQ8509QivE3uH7zcyKIucQc-Eqauzqthl92D-uw92gp7RoyymTNNVE1KW87rpwPaKoyGLxFkVKj1NkRL2D7PJhQVF3o-nE14RzSkyFLdGkwW-PExp221e891kmiPGC9xmZDFahR7QRuKQd92Qurj9R6RAPnJTyzl1XwyQDjES-ucIasezdQGxg4adNmwA5wCEN605G3MODPLmnl_D9kYVYQkooxAwzPmaYwaxtHynt8O-iM_whG7nfognE6eXpP51ARaNfBaK_HjqGJ2jSfdR9FPRQc98oQHE9QYHDRrL2GqStpHAGd7bIH88-SCy7O-6NexzEaLlSvUBOCDHEnXwWdDAhFpNIPeukEJcVmGVowgaEnC-kOuzo-xh7apHp4-sYGRrpIVcbPexblMASSFvycszvdRUNflUeXgtQDSFZ3LHuw9LB21a4OK_iPJCSin8VuEtQpu-V5rNgWGLDTnZK8N_B29gBfNcuoLJd8rE6ddd17SU5EVwGoa9bVa4vO6ufXvJRxDP-4hih_biU1X-KBgh-Hin_fGovsHSgEX_1B46anS6437pa_Ab6cZUHVJG6T_M3Sqvq0gmCm-qljSJIHDaYbF80fk0kLnvBbdwd3po7cmi4Mvs4dS7HH3UiIoMtA5V1h1LQjfZdVdNWytz5HjrlNk1MRE70SjyxBwxOkCtmRW62ZeYnmXxLKMEGXf9Vzuaie9n1gcTWy-zh2DsuXVoFx0D2G20QZavsYbKgExvotgOdTmjR_O2mmlH8yEF5Ej2zSU8xpaOgZkfTZxHPmgXhONMlpY8_nPke6RyaOQkmu-DZ5cWE7RauOMBYawtqAlp0017GbT9f7dQnkzfVS75B9_Fwjt884ZYiek7qWdEknVi8OLdeqR6SvBHnNTu9VBPGUj-63pUVZ_eMSHE3CbdSuh1M4zLFXeNsOAsICdugcysiXql9cOtWGP4lyZtzEyL-ldHBT1L_SY2CicaKN7VijOLu4daUWEf9fiLG5T48Dpt7aarhY2-u-RUa3GfcEJfPlL44ECGlapIWfZxvFWEoYcTJ1wv94m11NaGeVX0zey6TVpdWz66Lg8n_d1NOM2Y21d5U-JdPs8i4PxLE9weZIBeGYzinqdoD4EZy-XAllwPkyPOLwqmUkubXFPitrsejfjk7HFRCXALBS28--K_EMf9IwVCPa92rlZARvcHNs3ptt9Zj946TVXl_wtR9eTKKKmPFlwgquQKemAjYnxHjk0xCA6APkAZqhqkl5Bfs8y-8JqXYrHiVWawfsB2Ehji_lW_gG3ZxCubsNPTrfzxBnYzy97sPMk7K-WvgtLYw4HSNnYmpi-rKFsVOZCrnfYWWBa7qSIQdw8T7s-kYMCIyrVlcNFER3aMzGkRPVkleXcfF829jC5hTZTCS1bvRPnqcbGD71RY8enmq7nuQd3io68_pFiXI3V1y9l9bYI6q5vklrP_bHQtw4nMC2WLs1WIdMAO0YcJXHeNVMSI8wrO1eQO0SOMmgGPp7b4x504VWPmu-krtit63e0rEfKTwc27zEqonHhxOwjHsjxmhoVv9j1O0sfmL90PZ5_P-5HHXXsRvMNWwiX_JTinPo9cJ1zSomcaCjA6coDfQ80lrWW6rCEu6KaTDA5fk_-66PlDlyhyhp8bFgD5-nh2MbAa43Uqf4Uy2oq0VdIBTQjjz1UfDuMLndVyXHSntrZMXQz6qQS78NzobxxpP4Ht5Oe7a99wDzMVHwYSLSTYrbU0jgoeyjhLqbRXwZkdTyLBXfiwtIxD1QikKK7reqYFx46FUO02OjrMJd5DwOR7UAhduAvaHvm78GqFdL_ZqVtqhYh3rTVsoYRYJT3FDxYIhm154eZk0q8qYEqpuV32GhuqepRq16bhZfIIFQ0MOQHpnZ_wv9vtH9_sEsqfj-GVxpWoUfOM6jloBTp_GLZhuwxuDvPomOfFgG-6PbH16PXeHoKvshfaPzDzCOtK5rLlYS4sNV594DggQaRJEJgmmN_IUI530v9Y-36toyRIeG9Hk2fj6lanrRxyU9lzePZyMoQOwT24vbX1vHT74KCQ1v2ShYUiefHTPP3Z_B45bOpJjGWZvhmgheIac8Wxwmf4R1b_LdVBFPsbRKuB7xv-8DklLAf5POHtsOf4uRZOQ_r9Tji3qJyWT7ezBvGqjjsL297AdkpLYOXoZen667j8zfk5X4d48sGL21tAoyvZOif5glXfGTa8BrXbWfvCRjd7flFtJ9HltLKrZmzU9xhKl-B3WLwE2IyF4QnF213OmkCWyJYC7FlPPaMIORosxK8JMFQPJuRKomg2Byox23NB_uW_mpOb5J9qXq6SkcZ7g0Ge9oFoyMcGvrp00HvxVdL920LUD9eYrDjZ79rzqZeNV-34OsqBHN0Xz5m-nG_NRUVlW74PBB6stPV2xwxHvwbjV5y3ZTcILv0-9fC3xDJJN7N8eYsF5xXdxhSpf6AUEskl1eMTdd4USe72j_VqY7lnJyW6L6KHlNRMvnXUwPLamIapR3y6xoAO1G8sxFpvAif-TPhqVoFz_CuO5Jm33ohUlf2kkaKrxGHolqRJZg3yTXdObHe-XFGX_2ZFTPI67JWFMmGionAvtunpVPm9RgQQe5OIgMOrzz9A3Ai7qLbSBfIKGjx6fDNaOeAYKtR3HKlufHSFvzP3DhoZRMT3MhnuGmw6lbJZ7Q58_mbU2JAjpp16zJYvQ6wp23P4Ncfi3DCfz2_m1aQYeHHYz5USm599F3ZYBHcFOfi0IGwKBnBaB-LHSphucwvN9hv9ZR8MdGURSA69VI-SxjrNolmCD4klkpr7mhOKfRK_jMHO6VzWhKu0xkXXotghUP4z38n9TsFE1_llL3crgmalvsXeWainGd7EOssc82TOb8PHuTT2tVR09PoSX1tKzx8eNWm5MqJa6xKHmpu_kqz6wW7Aj0SLdI085KWCYdPrgFxXQntIzpEGkQZZWkp8ntOKLwLHbNwnRJlTtRrnW1-Y50kf5E9kutH5KUlYbMFHzjfgkvlIexrXmZez9XHOO1ioaqJGMy61I-CYVA19hMjPC57d8FKl-FLq_OP09xdKr8bXPfU9UQ0F9SPnTYjdpV9yhrjbzN65F5OF_BB651GPgxZtu33PhTjkJR8AiGuMQIuPa29hKeQU4LMZ-5XAP6vRFfPWBAO0UWiwxbNZw6KKiazmlSSdv9uFAvd1btznuWD0Yd9SC7Ops5ZRO6hFr5N-DjH_tAj_gelXOTGeN4bsieQX1cCGTS4oO_2oEgkmyesLwlfqY1Hc8icX2sqWcX_0IlDJhZXm_WKzukpMatOA6qU37oXAZm3JnhJgHVq6sjF4STFNT_lLzXAzA_q-PRH1YXxI0h9JG_YOLn0zcaaFevwIY7ILKrOhouoN1-P1w1GTBlaw95E8BRh0ba7wRQzQy94YC0P5uYnCaDF8UgudZnZxqu6nD1uXb95AMwhD1DuJwdSv0Y06mQhxbuGEnczyGLMlEn4Yv7-1GKMKEyyB1IJF9oh8om_mt3eDlHqxk5A6Pu1J95FlUbC_N4DaXy8st2YcSMQEv223O1rPoHejZDrgEmLoNLQB5KpvXECNwRe6auYju2QqGLrsA_9KH_t0Wwt_d-xe2zfEpHqstTfd3OiL9F-dfSh4dSTuj1f-obymMPv3-i7QEkp8JTvSvS-Vm0mleDD5p6iOADRSKlsB6esjQY3PEnOZZ49SaIZMJcrVuhViDqiuCNzy77LINBFN3Qh4RES0NwauP2ikeU6IelyXGsjZyqtVqWvGsnNDi01AeXm1yoeV19wfPXFcDhVT5jnPp2LKR8yJ_hOL11XnsV3Q0a3tfEcmyZk0wnlbn6T_wckuRqQFwK3u97RusPGAI-hVKLpYF4OUh_5KX6q01trsKXIJAkr_2xoJr2Eg8O64Jz2-xpfKBWdAf2R0GWLNdQPJMri-N8dMI3xUCt-r5eAG23zJ3ROVgzD41dbqVACxUkzuGMKASyVw50MNy1So38z6WYcQnAnw2Cfume1Vhm_oX12L3gy2xe5kwPEwUtlXDzgn_48xShxsyDYZcBBscmX234XH9SmN0hyBE2BbA6NEyksmienKq6JuJCR6yaPYrrnhEZ4uPKR4_4Yi1Sr4DgYneio9Env9xA6CQUvekdioy5KVes9eVT5n_noLdX_xiJyWzN_uAG3HGfo00V_OrHsburYKZnLVRtHuZUeEmXu2AE7xiuBeVtok7dKS0riWVL_0wXEgHy2xe4vMskAoX3KZdsNXmFdy1RT5BZiH9Prl3J7RtWawFe7FOB-mIp5_WRMo3frWpbasxSejwv3v7UfaaKn0MY7SAWqFzK4lTUtFNJ9-vEXNjMuJp5LV5JhnAls_xIw3CT_18mRHi5__kZqAIgeS_aT8EKFpt2T51HLGRXNXuHR8ms5xbMnhAvFltLOx3mWbv6EgnAEWlMSkHYxLDiCkHVW2SDRm5eInrAfSzsLl8BprWyVMXzyO2ilp7FHCZLKtLk1x8JW7UBzji79hdFQXE6LfLk0VkELnXX7Oxb_fUf6KamutrUx8UkWOG2d3OGbCL_ADhV1yz6zA5sNw_Bb_XZWCykIjYIQwrpZSympeclG2xRDE3IoP0rPhPcT9FzgN6ePbfTL9GkZhHpx-cMayZrsQaHkcCHKh_TFTniu36YLuhmaAr06PDrjrvCUUpAcKV5UWk83PP-9BpXzfROkxQgHwFLjdtyNh3Q5mOGufLPQKN1gEKNPp1wRIrDYVX6aPKDvy8GsJMfe4jAqD_v_VW9RhFmBVmC-b-oEXM2xE2L5KCK2l7rCady5ydHOqzI2V4uHIZU37zHjUWqejD-Dd5MBccECUT2MXwFW5Pn8ajGdu6sv3R9nwelk_8BirDeV6tjICxFUGkLyA6u_jjLYHCFhT4JEABxAbrfu0v1c6LTqDzpxftfZA0yVozvTJTpyCB6D4tTf4O0IyVzW-Re4uBkySilX4ySMBOsjZ8PRomlIph_DmcE9z6dnbk2CqKN9rxt5zjNb2jPHCDxeF5QcWto7s9BQuA3BkoiXzXlOnWGcBS_L9pEr40qmAa45QfKpAOUI2yo3Yu6dTKtXUO--I4DNTI2jiBon4DqrKYogh3G-WlBWm48bsHl8bZzTfpfZm5kxO5UaqMKID8cwmDPJYckeBuYnmlL358ZraxJsCKjztNFFmLhiMP6Asi4QRhvls-tseW12o1Pqraw_CiIF9mmis0I9zueM5U5Jz70O97coUAPYF9Tsyvp0hJCx0pGX8c3TFEpefPlAXs9bpWLGcHpvzmoQOsuKOKuQB7AMVJ2hWpkGL0UlY6TgrV5w_qvy8eo_oRCsPtOK76Nk2uU2hKdf79DMjhCLtBD3CZhWw5LWybJ-aMELQsVcX-vpqItaC8ShIyiEdvaUbV9iCmhXQaQQalPacOimCDFQtVPgAJZbVX3fgAx_x2CqQxY1tFjw_RixBpYdy_Aa-e2Qi0YsZvI3SyruYa1p7MqD7vJdq5RF4nAmlkrYRxv1GQ_mc70duK5DW1sCiGNkknOX_FkMPBbW0XL022BTrpHyI6rXqbJUMSQuRZ5O_DM8kiixOBgdvmlDquCegTiBkKnLaNtKjlUxeQ-9ViEWgdg5Fpwkb7nSbFSamDaKzOdd1GbID91p9viXT_Lx3ksRoVq-p43iG_HWcP3kWzOF9597haJiU7b4z03yc7KIYLAGvcZIt8UwtBOPWVuroKseyETAkOyGDTNdEKk9h3KLqGtHGiE0b1dp6oeQziIDax37k87nq7rJWbHu1Te1o5uuaM5GGix-0RTgH6VK_PtOIbGLYWc6u6zTZCAOcldOVLAgJw9s1o9916T3JuDcVzRh01yxSNgH53nh6xKMnCA21D4M6fTFgfQTXJ7KYcfIHgY_UT2HwDDVsEDME0kWykrLgoDktcuymxBmmVODlnPBQCDGSeKecTunwVEHsHuJVY0hIUk8CWB-kRSEfbSRhA9JrQu97ut1-8Dg8wJoKCL8tt92JNria56ZOP6nOEmh_Pz9mzEq1S9Iq62G5KnfyBs0xNhvLX_r_3zWSnnSE8wy8STpymYwGAUpQdGu69TKzijIJ0Q3z2Nx1XC3Yg6fqdqlegRPw3ARQ0rHhOEnx6yOcJVDOKKFF97Rsykoj7qNuNkPDRAWZDGS2syRUOeYlQ75vAHz7-hM4CtaILF3mzWV5dEQ1Hm-2Mg3Gj9jo48TjaK-fG_Sjivz7I7dNX4NXR1lk6oXRAIyv-aqzgtdlziamNm3jSnEXQPADXCM1ED2UJfgLPLiao3_cR7fj4MpqYjAUuvBX_0TSaFqldXc0sGJOnxzqAe1xEn-WvfyQItI1yMPh4KGtlFfXw-GF2XoaKhGzkHY1W7LQ1oeyJRBMK_vVeqRsj-tWA5uHGnR63JKbiB_KZ0UpL87E63s9S4_6ZenMLX84kRGWq91Jz6QTCFS33WGQInXqtal0hMtF0Zed-7HMxZ0ioaftD5ADQlZNjGgFPgy-g3IgZNwaQZCZqZpzfZFJ6JoSenNtyQHDYeZfH14wqnUbVAsyi53vioq-C5X3Z_AyxDc6uYKgO9t6hebSf1EOFhdOa9POmmKb2fiILdp-0Uz_FmLLXGbg0cPGs6dT6M4W04SR4cZmGB6UncJgMFqneqJpuRIeNYu7ytztJdq2vq5YuXO4x4TGWRKcxOpObEGpY1uyu1ZkUFXDjyy7qaZsBSFQuBK86FYWf0Jyh63KF94JWnr22LYW61jz3zmAJHilwM0PPsc06sach4KXY2mbDtxKG59KmspG56KDtZT18wAEzgzGeJErkHbrhKZJvInoc7_fzVX2Qz1U92O8tMPu9SMETLZExBImfoKqlPo5B_LJEoXNw4_jdMqBu_pcjpBpMMkPTZaWAH6IFsVRxqFI7NnECKvRIjtA6OBzo5i_-mCxsPHexLzuT08FKqKfn2P7PEQxQhHmOSz9aBuDL2A77C0pxwSfhvP0phjsZg8q-p4C9IEwFs1H4OoxEG9YxcaKUJxzEu0P-1WQoaxJLqOjxDgxWFXhRYcAGI5ORUOWA2rkiNwBNn-32UWpEkgBoNI6VLdXULA3Jg9CfAqkptIxOIG7qn2byXbOYqQVAIMecvjm4F_LRV91zIjlmy0U_PRNmhystpk2hNkyMG26yZvsaY-FcqUdvr6VLioqSg7PVWAWpIiwk5Th77dyqet8AeovDafJp-cXrcArJDptOFbg8WhwTYPTzAv2NZKv9efrZk1doPytzpJzmbhxGUEF5LH4cZbAtzPAkSU6UpA54YrlRTp4M5SV3_cOgYcT7K8s8n_705y52-nvii3GQK5naCg8glyKx_eZy3B5ZYcLLIyS-nqCfGBJoghRjzZfIbNJEMrzZUGbJFMVsHh-u_supuTlF7tAyrnqcWyfyQNji1IqLDbxPsQ2j1KSrtMCAwbW0ZoSos2EiGoHrdtcMhKSCSsWex7AMVlR_sObcqlYZttlnZ-pb6HrfyH3zfQrL3NRUuQ-Pz62REcl5u5eeESOCYRMqzKIK1amQx-t3h-2ObRxf9F772saFJFy3xXXr1_6AVqjDPGaEb2gMhVzh41PjoI9qZiKyulSNtyPxbaXiLVzM166fRK1OEYdN_iCxGCFDJIHAn-tIolr8jXc29-ehb_6W2Yd23ngqq9Y1AVttiz_XcZWEDyXDdNR9Go6n4_DM6XadTAg7PzW2PNXi-juz0IHSZxEUDq2gZwgX_80AX1E7JfzGrtLLoDuRKeoPzJeU7AIokryXlxScKLBIeTVvxuShFmE2D5ouQI9-48FFPDHRq6IJ6ggN8uflI2ocO-F6SUIxviyEW4KdnJiNGd6o6EfzSG6sULVlrLaYiX7L1bUvCZwk6kdvqZELZLe7JVyI6CRPlH5Sb9He6II1Gn-7d-o--r7DroI07nZjR0cdFLeyaDYYdUboQzPDvRLP3YorvxADApv40Okd5rd2Hopf6OHyaFuuDM0Ms6kz_gAeFEocvk7GYJdRQoTpQ4HlvlqOVB0jcw4fDDVdnwsR00naod0nL19z15apCpvGP1vZaC_nyDQIJxRjga-tzV6ubRWGqOdBkijCLhZpgZ5zZ2atftZo3XntFqV2lH0N4LzCHRRjwIBrKB_6r9bJiAQjdPuizTNGMYeon1zQl_to-k8oqaNXo8jrRUxojfzMw2-IE9qTlGdit1938P--kQ6INn9eg11lSPMdKWEsi4-jz9cukTK7fZzjVr8ScyF0SDFpyvFJ8ZQAel7rM37YFxb8RV9nFAvB2ULtSTvmmglT_PQugmtBs147Tu_Qz1QX0ihxJ_V31UVffMDGcH27jkUhRfQZI9fsT-8oQzTfepXy6xm24bDaN54utAH8gs7l2ARQMycMuhb_sq41BCrYXkBFHuFGoFEiI6UDQbqtrGnI9FrKnG4Rszc6zcImk_R21uiMa-wGnapxoVbmA-28yIYFsCp8wKLSqBjSERjuwtDJPCqp1VwRmSM5tYLn7NIIxjrAvN6-aRvBvpypkO4kuSYou96zWB-vGQOk43fiSHiMoqm-f7P0Yiklu0s7W5gLk3dfWGNeAVGXxUxmskDU_e89B5VPBWWBnK8iX3Rj_CDz8nmpINZ5MSgZqVbc5AijRBG7K9QPF1TxVOyv6uZhhrs-BJszJF9PBXKgyP82i2E1EuSuPj22dv-zCxzq4DqtGwBv3qu94QuEq99Nvgo_Cq3HbNzdewywP9UBz3y0NaXER8UyB1rl3DclWEEWiby3e7HKwXqB3Xv4_dxRL-Ffqfof1ovUwslAd3TP10m3eN_CdwQX51n1eMsfhkE0pAJEcFh4m7MM3uiRks-_eTPuUA7maTs0dR8XeS9RBHcr_rV4j_efJhj2QozULCLqImjwiiTzvpTPjibPgyo9B1i8hvGkpZMt2K-Cp87HPK6cDq9LCyxw5xBy3W1-PVoaMb7707gSwlu0qBMsKdlzl2NCVAxeRhxlt9BlX28t7OldQhhheubMSOw1yR0sCG2n585DYs0rub58-7otpAcTkjon5zUVrDRciVYRaugH-Msonr8KQDx6N51R55-2Yp-SRyEfayk4Gi5Pufae6HvJF_0C14elqGioyB0YhXqYRdFMwQDhtKvygzT3Xy2eLoDlDWh9rOvwSzBlulEsFmvnoZ72f2pA0SnZMT3Bbx_e__t-3OzPzPFSyWI4Df2xV68k8iI3O48-h5kG-Itj2ttnf31nnm27TEjCBLbqngaTXgf23wOXm7FvRoIW41Brd1EKy1T8abAoLgTOg-PrU8feHZMyz4iEUurmPnbQmuUcQCHGNRVGaFrqJR4-i1ggD1ty3sjI6Pu1eFPSFn-K50rzZ5wWJ0xqpO_n53cnljDHIEDX3h_351qR872ks6GkuA7llo9ax-x8oQDg7TY6WBF5-bk6F7xlVqcVtLhb1UtBAURfqPNFmi_VbLPqecZC0M6mSxfxCooHTyQJz4ZRYjcUiw7M8aJ0qkrfvT2bz_MIQiryTP6RDPNWbxdNipvHdfELzawXaKkmBp8H4fTw6PyNHqc9JXLLex_6EqfBw8ev8iJufyuGdowBO7hRE09B7N33FjN_x8czFZxsqChF5Fm7_e5gebCd8ANJmp-w3FPSQkao8fTnuBXdpWIEJ_coD6KpopMcQlhlCOqLDXxbmWI4PqJy-YUNdixKZz64AQWtiSySnsvJZZF0xRYeAknt8QfVv0ypJPQh4rPV5T86jEfykr4_HBZ3R1RnOMvY4t5PTpbkBcZOZmVTz1yG5SpKUD3faifIi9Ku7IvZG97lEu0YFBzMRcI0DKZ6nlUZhkRiEO9LxI6eUrfzvEv6otdR_uto1oEDUCs0cdzvVxkN3IkbO5HB2ZkWAEaNHop4gC6srE9rAZ7t3_w0Zj0snFI-2vS2KD0raKwhLHiUnoqzZazE-2b_cinV3WlcDdmmVFgGqjJsAZkMqv9783vwyC81q3_3QzNDmorkn3CWj-19m2XA-Om7nyplvqel6Htw69prxhSyUHeOR1Snlu_KmO13DJ2UYbH4PmApx6pjNP8djiIDdGPBSYR2XYkMVO7WE7wyn4OQ-sC22lLF4-LFJkXdZQmqh7zNlNbCoqvws0OUUVLn29PrfS5vP3tFf6laxHzNouJQNZufGfqIL6CeyvERIN8pSY2QNC4G3AdLxvQufavW3hfmoAZfPCeSJDHMxTkB9yc6vSm-M3v4gniycVsdNh6BJqNlrHCaYHKe8hEfZGMZg7s8Cqq_sFKLLVv3XcahQXeirmRw0FZN-m7mPbpQAd8LjPWUTCtTFbhISQCcLswUVZRiCqIA9tCnuz0_1ZRIlS6C3zAJaOy7D_rYhnygshl7HyQuLIoo3iLlYY-QO_I_zYZ7PQH-WzECWlUl2sIPerxLZ6dTCY2j7vmofGLTTt4M8ZyozlyiWimH0G74rN8gkYykllg_Ew8Qh-7QF9yQsnh-OGs8_HZUNoqM0S23bGrT8mJeeNlQIUo7D0juyAOYzWSrt4mJpto6ylwn82y6IUq70ZVgmQXqu0nNpKQnitP4FA7UxtQfoGQpT4yqQ7eFWt43Z4l4bEZk2ndNhCX476j-CFOG84quSNnEWb37ZvAKSd0MFYOZZZqxaLzY1MrrIGOloY5wptZWktlDvX3sGFoS-tKQw5m4RDTlgsyIU8kilkGEJgkGs0jh_ai0DpRvu7ZkehbhsnCsSxFADFI4ukwDlMM6wdRnzSEGbdmh0HZ2dTOVbFV1TK7hcIPN7u1rqRCErUy0nEyAuT5pKywktoRYeD_VbR_5E4TXx0kkmulilTOyUbAAJ2lexao-vi2KlYwvx95SwI4Ir9C7MyZAtZg0-UQEq7JzEEm-T1ta3bTsYJkqTAxOQywym37xQCu_v9dGyGz7cyM-Obei9d6BVYoJ7trRbQnXaEURHeXkl8MJ9DAF7Wx7oVJIYaZfTWoIEE4DA0e0_O1KlKzbWIltne1QDWBEKeCaFnVYdSzaWCjjY2LxnLOyNfsUAnuTbifOda7VuO0QIyUH1i3Dhr-s6UizXwEXwi3h5KkEawQouUfd9ZaWDrhGF0tjLUJYWIKMsjGr1VrHsIhDwahTDA2ikPA9D5s_GSAm3wNq81K1LlPNSinl3S4P0Jo1SXlvepfC74VPV8JjSEIgiHQdHqcTJp_nfEQwcf-057rUg2-ZNt-TxqRWfid8qh2PcJotjDyah7sh8n4r_30VC8qhQuBWDDFrfVWI4HV0SGS8wxAGRlMfrYBU2lVY1xN-u-Tl9PT8b6YM4nsLvvYbZTwd6TIyftEHTm2HP0TO_kLWiMLCkw3AYkc-Q0dfXG3EJe69YkGUQ5sJPV8igi52ch7K9dGaXC4u0he7GoSgm_6LNU8zJSs3odBLTkhc8ZCF_5m5C5hlfo9HSVgfx0aKvK0lgUabIkK0DLNAFAMiAIo-Yc5fStC13ZYCJTGsndzHd8ROOz7gKgM2UX_fv5sJ7Xzdf9UXKsZAhLO2dFShZIoONqs-JsmwnakbhPe7GCUqy3Niq3nfTkiLoOiWxFQwJj4vkLbWuJh3zPXy7E7OoymsZ8FCBWHzZbKqSIDPHt4gCeOlL-Vgu4_pYBeGto8_St1E63nw6nQGy5IfU3r6KZ3l38sX3Y2FfhpZNto0_qa9gXSH3pmvvFJPVpjWLLJ5KUSSzVTTjL76XikismRJp4jyCc_8h8qvZihPNdX75h4D7esjimSaNnPAZ7LQC5seK-pIzVhAAQPC7aXHy5afge29cxeAQxGbHiCcTmnBQhUeWy1A3qDIdn_NHRC_UHokQH3H7DyCLcZa0TVBd3QC2eqrOzWYD6xIBn6As-Dgwhg5ru4VnC5hFlntb6bMtGyNQi6EukYRX-hNnuFbJKLFeWAqv376OFDKKVf-JmCZGaDzTtc69cDl-ol3_E-XsjuxByOnj_ywhZhtNh6BgQ0OnGzcjoNXgNp5IMKf8sjN3bY-bPfrb_oTY0UPY_ixGQB9OqY1vdD-Hh1qkLbuk5GXRazIlFrIYhkMT1Rd-V2VZ__fxE2V1PSdOq5c8mrrZTdRDJWyEGIygHqhhZJcYkcHoijR7XLYInoUOge9DEC9k3NO8NOpynMMIqxYB6HW7J320f5REll_0Ht5ui0Bm8ckyf-zLBMAmCR2OqyBTHEaqSe7kJziL5mCk9MfIRHuFJkQltGxxfP5Bn_g8EhyJYCC_uWSXuq037PdgoGThnPaLdqnYTmBPCdaTJIpAkw-i3nNoF_Av2h-V2-AIsjma3olfTbxLceYrPA2Si7geGTJvle1g0J55_SUBUlsi8-IV1dKhZ3H-ammbq8MdEvl8rBUSjRcKFq5dkwI-5RXaytYi0K0WRIH_5Jlw75OnCEDEvXaPon_pTwW813CCUy2Vw_aH9VLsrNCUaj7v0Ay2rSLqluR3m_gEdKoj-lmeD1qD5sV4UGD0bA8tg776LdwX14FqOs-j1bvZ4hTrGdaDPuh2p3HiRfJYtdlPkCanbOGHwK3I7BLaz2bcBqU6E9gUUR1eC6RBZ9PqR8C79gaAMxgtbxY6c8C8VDq0pYFnw6RdFR71ArjbMfu3__5YvYTuCBFbpYjFe9uxux93Zy2TsVxMnva3_zC2H-mTwOXInoKArz0eSN1ct3n2baEC3bK42MgCOh0acIHW4sFfZRo8KtlmnqOpqHpKeP2Nu8tT7qg9_FLQ8Iu2LKSQfGm5jpQxXWwiz5UUYCBdepFDpSbWodcRhYdL_34Ah0cY3B_YoZA68Et0VCkgE3CD_TjU7mECqHrv_2HAK-obFjqRW_RgfULxI6-Fq7xPw7JoXKRkuDIDW2Ntlxdk0fQSnRq4SAhxmn2dEMqmv79QiWHbzWRZiMWrOumGwODA2TkHi6pG_IzX40jSCa_ktQQzwGbQODCgZfgXw8u4YO76925qlZ_Iq4Y27RcUqDRnOPmp2BO_A_vBg20xxRCOWDdNCbQIrVC4ewMNyv_VnmW7HTbtBCDALUFVUGRCGAjdv8po4_7lyNmvqZv9vtE6aC38e2PgFaCJHNsuJWXQJtclpfjt1oqdKZxac78lUIMuumc4r_dbJ9vsELxoSn498Q5FKBM5tlU1x1B_Nn-RWmjw8BMdoVL6S3pmpx31Nhy3MGdA6zjmUXli0QD8lF7ErEPLHWWgjUiwGsp0o6NBQXeNnx7Hs-aRdQOIsiSJ7TVbmKBO1feQawALLC_9_5606GaqeLZfVcFfHvWaD4zzZ6LsjzY6rvqqG1Aup6f4SadjUNP0v6iTQ8PIdCgHVZ1JlWA9XZ2KsaDhMP-PcAd_HjCEBhCjo09yMin0c_sVVW55YBhtD1B4HnjAqc0RILW54IbdCF9ItY9ZxgOwxsawvKCJCYRNvPznao9P55yZMw8OcnsZGT4bAAC82IPp6HshHU-akIBDjA_XPOSEzctySemXlfQmZSPcsSSm73QTRM9cJDNR_Q8wOhxsUTrnSlsAlpwG3ZYlYfFG_IbfZxe-Ihh2ja8wKTvgNkwZsNTMH9iEo33JQ8B-6rh0sDJW3lEvRZBB1a2bUgZ1MFvMJSjsJ013jkFJ0duSQYSmTYUpep4n-7C46OorDAggm-EccB1DY0wfvpqzHL_M7UfA8Okm8VIw53D5P6GPD4foe5VxlbwOPGXDcXlICAQ5aVFeC7pe5iq2-57oS3NhPth4nNBrIm9dD2Ae1Miwor6M4mfqqlS8j-_eKvgPi7Nt1mHzEi88N14hSvHyuid-Rk-SfsWXomSDSvGAIlEvKbppX_QnRft_dE1lyql8Ne31IolR4Izz8NTujwP-dgJ2MtQ1ZTrznHY0QRUtTya5mRo5oNYztyKF0dl0l_Kw1WG4yIr_geXKLD0-Jz-PYpHrxu1KzY7OSi3Eu-Fot83LWP6I-ha9ASUsJ0O4vEj5Sj41e-J3P2sjYYr561vfcp8bqyOR2t-eefp_8aMDEPDUoQPMtLrc_JIYS9U_fE0E1N4i6DllDZMTZLqgaWPuT1jQXTOk_4kR99jP3SMkU6vmXmDmodfaRrf-8mesulQqsv-v3biKchBBQ0cLJZ_hpGW71M0PxcXJbwi0GNxSESv8PeUvzVoh4zWAEe1gKid9IjFShjfHErXVGcAAP0VaTFSY9LxSq2k-SqWITpEXCGVTUT4IHr5TDTVa3ibBrL2_BpnMsBlyawKYZRKtF9QexNXOI-tafNQIWaQBMNR73gYac_zTMV6e6Wg3u9-4qgtKwYhwgSmAwBOt-A5Uy-b9BYUIR_osvAkQQkpGov0lLiE4aHVW_KecJ5cn85ex-oslVjpsH82Y8yxs7H5JWpHed1ME413r6ajjzJvrWWkXdmP5xyixtZXVLdtAIgHSY7ClSettO2rDUnikcusrP6Fg6OhmELU3qTHFVxVgrDJeg5lI5BdDfBI7-DopP20rkmwSAYivqxaUYOG6hI7RKsjrF3knCWAOFaKzNWzC8RKZlIdrb79ed9Ls2oRFKNsdtAentwtIy76AmZBtDn6bSA8byH4IRaGYU-KhJKADEhA1H_2oF2NtorvKMJ0OXZLntkcnn29dWhBQukJqdnVLZJYsl2cAJYYTbYEpNHGNHn8F2yqXzS6JUPhtbMsUNZ-qr248QwdVkegYT4QTOgSJb8gp_gJ8744PH-7-uotEgmEi4YMPFc1Ci4cce6clvHobFNW078LB5gd2OmrJ9hmpfdPwTmGBsecWd9JTTEh-9pZVW16hBww-SrKkTyMJXRHY6zzE7WnlWTLD9IlM1aMEvsgBlcL_KoI9vOdbyjAgoQTvaNinlfSFa0GJNaK_WMejIPRFez7dqcYMhUEqQROWE9-GmU16WeZ0y6BkZ3Mbi_3P9-FZzmTTLEEI7nYmDgS-FySd4kz_NaMV2AOh2QTwOU7L0fP75GCkKq5BzxhSjrBEP49RjiMVNDMB60_GtHi56wprOL7FBLDnvH-6CFGj65QwkiHri5GbJuxeuKcfQyR6m3jJo85Jxfkeg0KeEpIGIyAs-ghxozUOjMFCRexUqV9X4sxlTuZhPBXTzE5AlFfRd5dAXfNxTGY1xGIlmLYwOuz2AWmyoGsYIfVi0uVgTMWNpo36EhyJG-J6I8wwGnciJOhoSDh4onhdXCRfWd0Yto82ldm8Qxb8cbC4N_UmG2R4i5iDpd5II1Q90v0xw4ldG2AtmEa29CR211FG950rpD4EWbg320qyogjMWu9X6ego33Sv6S9qwvsY3hZUjLm2cPuzoLkyQTq3JlOpsPcM_16BzdmJMGoOT3PL9y-qFqkQE1HiEOv4XORUbgbgnC8emlMgpoBtp-0XsZX0DTV0csB6zspXEq7QyMZUrhFL1sJlA8fwM68-eKRBth-B02DDEC2lDbG0oapOLSG7l5axw0xQJFLKqA90k5y6KJz9Gu_LcVQ3IeDeRxUu0P81sMrgAeX1giMUUi4cP8Gif5QRIaebzglV1crvqno3EtVf6GLFJu5ZfdfuZvp-pD5S0B1JeWk6MXIjwR1XEKYHAlSeaYes7pSJPWcujSQq2qwZBMS_eLqUaTmuZSUelCW31xdA2gCZt2RDOakdzKjABqBmxAYzDaTmk8B5PVcJP05V_8ple2TKwFPhuGG6MsbYaBbt9pOMyZ0qcsOb7hN-ogVWmg0VX4FD0EPPl5aIq95PKol8tJ7zo7WNR8AGZoVMwyJAcGW9eKyrSHlLbMuG40S6wrAeDdJ2yixTgZxFQ6Bxb_0hwRtqNsE-rUU_-r9Om4znEKLVyMCsZ9C86seVQT8txcZM_z_KvHll6LI97e7GWJJjfSrHZ5H0_HPGNT58BBxX3kkip5KVZa-62KJkKlSAWA1Cju-eBWe4YKeYutGEPR-39OPXzgnl_xv5fmq_Eq39zWTTfx_YfhWn_uDsAbG8uKC96TY6O1dY2s_s-q8hIX0h5uYwVe5GrNGWlwCLfV0OKLwaK7zHDZHzpnyGW9gTOUcVIh0wg37INNDzWzDbjQ4MUpZLqH0yeFdfTXqzc2hoGMDUd2odUaBpYHu5rj4aPodAK0E9XU61cHM9ou27ZvA4JP5x1AAD-tyHfP207-25paLhW38tc4vCAfHePrU7BgKcV5ESguXd63zaabGZtW8ZweeJNtQC1GyuY8wpb88VoI1mcxxO6nAf3kJtQ6k9yo7rkap99c86yOrt56ZbKwGgHJhpvkrzeCLQqw8WLG6Kuc_3vbgSgq1oo_EwYZIIqObZ9NZMqlC0aWNsqNKdwbY0M6mw3qW2blQnKheF9Ke1VdUs0p9a-lRWN3fHDdhGqN23PfahbywKidY6g15fTtleNRk5b3aXu9xQu7XJSs_1B23Hq96oiF-WNE3Luugrier-T-u2KAXkP7Rhyx--bESPVYn38Qa-w7quDkZzlG6GiFMFL4jCIvTpGwwg2tJvXcpy7lC0c4BFAbVGpuHKz9o9v07BwFLSMOO4T5XtXH1tuxAY0AxLiX1YkjEXcFkfzUt21tiRX1Pj1DgdoZp2gl-Yd0Fj1m6MeOQ9-w22Hb3mjm5wv8Uq3LIvmRM5QYXei2C7z2nI7Heq932WwnjArafRHcJMpYDA0cAWetkE_5gjPaVeyj8h817p2eUouPGLPLmS2kZyvCs4NRO5vsjtMm_ZLj8kitl8Yrz85dwwjNXj4qibiD3jVPoLGLhKZAGvDJDwA-znu41IWszgJUVnYPuzvXUMAQsQvyyGBGIKa2prMMFOkdlA5e8tx7rjk0iak0w5gMVbqJsxbiZrF2gWA0DfWq9I7AaMPUuUQ9wYmJYcVzw-eNjzGox1yd9h6bz7gIYhoZpP69JYzvfaQKtWMe3z2EXip9vdxoMeAIgM2xtVWmz3U4-3oCPVI4qTu2fUhrpmvroEeUq4R3jgcm2L-n7TshrmWIKU9eESsrKyGxsQGpkUlH9sumFhkBpZFtJhJoATYhIIfd_AafrJwPbPOha_GsGwr7PZvk2j14jD0gvNiCtbZuacLTBIVw-KaP44YIJw_FgvjbmqShHH6rGo41qvppfLodZibo4COCtigC-TdrH6Dei8CgdFgH1dlB8w_PUBou7P6Bqyj63wmCU1zZUCp7kh4K5Ye9WfNBxZP220xHRHkCJQAdwyyVfQ9miCRw0kmlS0TByrbF64cYWpPJr8I2vmkOn_8SaYqrQurJAYFvh2Mmxf_8hKzfTupdU-zrh4SbHQh7I9X3o7qWQrNZHLG6vzo0NJmugcKQ8B4zpVAdUxGOYWix5W-g-B0q-ip9C3DEZxT657vNfN88CXFLlHTsrX9pGm3mVJR3-2RC9cDHD53mcpVYFmyDCm8aE5eye_5kdOwMGSy-TmyNQvaHlfM9GDC1eIDoNA440aXxGOdrJ_xq2BEJpvI0cD4xchKpDYL3jegm8_qMVdgBq4A6lUeM_FJouN-qe4y2qyXFvaK_ecuAsl8wQE7FOI0VgxnWoKT6X5m_pABAzHOnsO9khxPBjvUJGv9z-V6OkZpYSBM6dfzUKkTPdxqLneBGVTQuRNG8hubK-K3sWPQ-GPGQ6nh_txCBE0HWIkB4C4fLYNtyAkx9nyzf-Qich-SfWwwMX5Fb9teUhpJECC2aRRqf8WA2zsfXF-SUrWfZmLhsFLj3O6duB8S5qBnYoUjqcZUDqFoUZ-n1-2G1e0nzpalR5C83OOGksSO-79OpILvKeR4g-W8FJ6LOVsxyifgvIr1tv2-q3fBn6a1meiI69MevZ1iZouY2-pWaaJTPV_fFRFgg5_RuLvIrOldv4GznSSJqsCBD56_He-azUZFvE7Sn7E0d2jDK2aJsX5GJrZ6LnPdki4TJRwkbASMG4cMoQVWI7sUl2BXxAO0hiymp3IflTSwc4N9WXOmmmh9z_EXkD-mYw5VTj53jMnSnC_Q_OjUSKpyMsdFQlTo5EDZ0pu76p2jGM-RbUdbvm-ynvebikqPzvcXgJhGmUUiiVtbGR69kIIsF7cKfQloAe9_WTO3-QpIBEYugIcmSy3CeAfXnpad58FHosC4rQQ1yJZDjZZeQeo21p_X-0l6S6oVNRTKS0BIjU9Fe2FxOZyj0bFuzE5FaEGcT1r0WLzluJHfuqjSDYdqBJE2N7c0OsdJQwi-JRlj_BpZL5cEA38xAsKR5kHBON7LpSPNd1t4zL69DD2laBk0VCEUW3wUCtWcyiySJD4U6F_xvZZJZ5bTlRpgqfke9AMxl3exc2ONt-fV5fuW__UeoROnv2MlpSgVpg6flZysRVnw9OqHDX1RvPwDY-UvG-m3AduYVzTfMs59ZQPvaW1XCXuM-KJvURkKu_RmMNn6OcW9LC4RIf8NHn9xyeebVcD3xqshMTO5TQkOzAschulT1xlSbodky60bsgbQgU8BhOlSCYKZJmNfTJqX80Ztc8AnZdQ1Rb5oOLNRo5QQ9DulfpDUJvZjwY4QKQl1MYvMxNqAOLJdesIShgqs-mJM7BvwkfwvtMNjerhL-RTEbogJuUOWpIxvCiOfwYw9YK8SrdwtPr-8oT9RTN8kJ2yMjQz3kkO2xNFIdJ3GEwnw-grOOYlb-sKfcZAydkSwZcdbvpkZAtd3zj57YF_GpJqrzRb_ljMqaYWeqH1JwqJCkMZZaEbpQr1IkKcOxfvpcYS9XttONlGMbuaO9RRmdbOQFksEXQc1JrxRunACyGyvRMCzlAA7ENN2Pj3BZoXMeRO5ksmn_5HkzrUp7cM3UTR6yhBOCa5-N7jB8ieYZGLRlGD8mg54HEbTk3nYfhcfKPHi5IYVgFjeGYIHEghrnHFgTGFCHiPyYM1DEbzi8yvTrRJtsnYuJq8ruRes69GBYnSbKA4D_aUqVod8kdl3m94oy_AHMCOPAvlzuZ0ROcutIS9Y3bzuDwi_abF9_01W5Wk1v9QitLowJZ75wo7Q-_rdhqaiMuVf6CzF54fPcSVDX5p471X4DISkBKdJaXxzMMU2vT9aG5GJsR3vG81HG6lHVlhBMGLHbvgIIjU73XtTc-6hngopVfxbxTrxYZVcM6L8n_qLOzKYWtNO8XprkcqWo1g1jE1MqNEmgQsYJ5_kVDG_Etbmus972fn_ESyWfPzQUupE0ZVb3t2CRbj9IEXa_H92OX_GXkHysCDbdS-oinAmLcHySIMYwJH1kIgt0OJRImwYywp9Mmo7Qpd_4cqe4sk-TRnR6vH4LEtmdk-_rm6QLR5ARUlyewPNYnl_oH1K8svFhV0Bji4LehP2trtoKNXdpI9lu_MqL-6dR4A_LT4dvMOb0qLyMK9yEfYjZWHb5HPzSBgcZ2BNF58rh52WuRMZ3QtnsvNuF-QY74mD4VGrJf3z5RSecAcAgwRuwN-OgkYRRdPx4Gt0TDkiZ-7rdVpg5XskFAGZS7b3CdllY5HT4AosxuLTmrdMnJJ4cCuIf6WHMtuekjWpFCaC1sxP2Y30Iiid5NEQiKyMhMYk2xscu2ymG_aFjh8Bww_nhrr3FXkeerq76fDvxkyK8WgwMwdGpAtj510I3OTbU4KX48bAGL81WnqGfYbmtqhlQhmsFW_Ep9KY4z7x5KVJgK88wnDsrC4gdxkhY75DLrzrGXRfMF8QYfbZTOFWXctRSZLfkpbum4ftp__OfAPp0Crjea_unn8aKTe1p9ctXIchoBQE8UZg55jyk3pGqTTnN5RPTHEvk9KwlVmUGcgOb1hPuOo0s4bRU1YN6-9GzaSnJYotYoELqIN6gFneSPExeVQmrNvHxZQuuNveVjSHGfROgAVo_Wlcp3BauEdH8zF5OOqp905AgmTJfkzwU38KO8HmO1YUsuMjwet_tKChHRyvL-5oMeDyfyNbo_kELU8jLpdk2dCIobEyiJ3soiVs_aklJ5qm275KMtZEcEFrRnTqznzFuoJ2Lid608heu-R4e-W5F94Tap3rgB51R4c4tXJkwmN2c7z_JXL91xah0Rf-_ZNNV1-mRk-nL4UW3UExEBYteU-Qr8IUsIViKbjbvSnVacvjHqPEwJrsDjIDj7RetneADIE22XPUkmxy0G15m1KeZzza3jK_7YYGtcU5PW3ZiVyl8d57_Sl5iA9UpiAHUd3TI7K4p52Xc3wFFFOI4V3DyoHmyKL1GCDbvID3YpCSRB6TtlGH2WfMSvKHG6mw-KRIthf4bTXQVcuQm-cHgfQbKVr63R7FNhjqiUY6t7OC8aY-YTo234S62f9cK-xhb560F9iKm6SBw8XaDwu7b4J1VmdkdPgaEHG3vSaRLLvGFXJu3ESz6gVTlnBespwTgfICISZ1pev-AbsBuDHIsnW1kAa7bh8Citk0nm2zhE83KD7YIbldrCWLyIHKVIyMLUM7xJbzR1JdioPy_qsjNxPQbf_ufXS9AcgUIG_tC6cbcqQs1GUBOxj2xUOvMu4cxm6YvmifMeN4dXgL2emRHNyEfXiIZruGqcBNwDkSZs1x-i21vvt3Ha9LNO2bi1F8KZqkUTEwfXoBrtSLlHWz-yz2ZWFjbyW1iboVmiCTu5SWHk8EyYujXrzIv5eQXfJfPWFblw_wdic4IdeIkAxKFKwnA3NXgf0bCTqIwTjrVletISnaS-LTlFm9Y6W_JDWV7Q7q-6fprA9tdYGu8l1WzzdAhgTqTREiiGxANSNEm8v7GQVL8mjpQ9pOffcburMJVh1J2oiOM-VeC2ugzXZHs85tc5WRxZkL9XpdHPW0XAe53OIg0-I96YBkIqXBZzrcGAb3nqBjkxfXr1kERyBd3yfVIYzMLzxw1jVyY09IUOY3xglPojLOpGKS0jP63jbM8BQWcc2xTm6sU42PRKgqTQLEiblG0ac4mGq1sf82b4VMBt31_CaoH2QayQDxOiGVw6GQc9ZY9wggCT6v-h5eM8z8a2CiYQz7WgEz0eeweTkbHuRz83tLctHh5tzXCIP2p1m9GFiSqc7gOspTIon7fOUQL-438jTELiePYr75xMJGRx0lvZmoCDoiPIbzUq7XtoeRgOGtMQHsXEDPxEQMP3JNynFiUST7y7k26juXBPPdMzs5tIMwrG7Jkh2y-fDiUbsY0zRDbt9b4upfqV2WqC9fqIlefy73Ewuowtyd_G7hDwGAT2XWzjg-ybs_LMcx5YMLuoZm_7HMDfFc1BctyaF0eCBtfXe3Zh5pv8LauHKLsM1xtRKfkVn0el7IHdAHGwVgnysdm6zt2xpiuSPQZTBpyMTu7zIiUCf1lAxzDTaSG3526oXzmwjN02pfC4mkhf5J-pS4C2kdyXsbPHRKeUNtIVPcaJ98zmNT2l5b7em7i0dOi71NTLiWsnN-0B0dXLuctkj_ZcihFYv-Fc9ODIfbUOqYJFnJhXOI_-WVN8eSGOjLllqy-o3c80wGJ2TydLMkV7sP5ZWpdpzkKkwx0CWIAd3aRByv64UHinNKx1f0EdqCuPo13MCi70dQ_QLG_P95E6yPZzNhs0EiNLKxbTEnl_lWt1leQFY62K51JWl3EWVir6EO6zC6NEYiEP0yDCtJRGj7pwBFh330vX_BjkeXhZFglERmzll8n0NypqEwLnHMvqqkkQaFrquqV8IMfzBsg7l84wYYnoSp_HGPoNsRrjr0tuCUsytRqrMDbgg969VxBAzUOusUZu1f5MknbYK-b6k1XTrTbqGDExzogXrsRqJtlL2PcwP6RKiohLzibPrg13VYwJvlSDypRrG2-yHWvJ0WTtYuogAlBHnVKXm_IZOnvbgAsxlmEfQ3_oaBYUcObtbpsFuF0FCD1zQNJYAFns_ym5TLqrMWrgqG12Bq4xys5gBcOTn-7nCbhsfAKtovO0uOEDIhId2BsqGJiVSYFUgB1ZRWw2Ra5ipB-g1fuabb8v5wM-QmMMeDJY6CVsiFxlCHD1y93PefEaaDH0gB99nAXuVzRzA1wT0NTFMps65CRB1WSw8ZCSUhjb7l9txn_ZMN7StfxfBRIrZaEZ6T6iXRQ7MbY98U0R8oPRfJhrWY55mxQZ4Y5T7Nf_vZmZnZUDiHElbTp4uRFJrZ3z_9woWy9PYSQqQHWLDRqqI_hHu-vdIzqRu5FntCEQKwwzoboKoj3kLU3RsqlD1f9OaB8MOYVclXovIq3kJGOFGjjrfGtpYOBAxJCphDmUHDCz_2qdxXBS0vR-2O2hFpY_A7SBSGtrFWCYcGuLfJHl9_Xon6Zy-ul3lpRJVnc6HV-uSHbmQBuhP_27c4l_flDoXdg_s3dar5b4sM2JCUPiaRa5a_yBBp12vz7f3cCPTTVzIlMD1scZVqhx_nWnwpDKEhqfvMhbH2kHPSgh824g9REk4RvC_VOSuUBiE6r4mg8BWGlS7B5qVT3MijOSO60PkRspCO7goEg3NCjeanfm2SWBoknbArOCeizc39Dq-JwFB6Tc6-7wXlcskc9j_57FimL6Ly4ozSc04fVvWQJpbdQyjgmck_iXdsPhFvmzkQx8AZEON6qJcXM8gHE15kOgbR67w6s5KNVARi6MgTNNY0DWa-K2LAEvKKBlfqx4Pm720JpXAxje9JsHau6PpZ4qgFuaYlfmZ8f-BnTvqMWfZ56SLAWEoayLtt54hV1gEWFF5VboRDLnJS1krHsoopkg1Fp4yN4B4bUQsQSBI8GBSJZr96iyIjgMVGMlwnezblMMv7jsz4S6xCN0FMY0aB3rUt-A-4anu1mZSQBpLyEPywxZmrYuoohHZRx_BAbh7IYjvloJDfzgjJrsckXXNxywNdjiVyogIOUQ76ElzCtn3QySeFmWv9_M5zDPwBowqVOseW3MdBr1IeJ2rkRB8JG1G-VZnXKnv16R4LOHF1VajOdcNU6fSL-ea3Moj--kfnUMIJyzv-Xmo7WJBtPd9aAYfrTj7bZwrHa-1bg8tN8scwbHNw_CuTWwja_fMCJLX-AcGtaT64fC5PRQmH4KBdfKifUKFUZMTHLEsGpHVtmsOCzsUQHBl6fWm2LVAo5LnLI2jOmDol7uKJ2YRO1KifQlOLqQJnYM2yym_LZbs00Wjh_0cR4iYH6_Fzf8wKtpU7RXomBcnYLdozr6d8rHDRCnycsV5-oDUA1mMV4eJKfBG7w9X8PnqKjoz7Zuj9I65ImRrZZ11IclZP3FFwo2mFLE2lBjTAT7pSSRZ6lgbugvvS3u_MDGAFSvtuKhP1Qe6LeVfApVWUE8KQsDuGkSUKJCCtk0zaGSerda1ZvpbT5DLUys-Xr72DNQUDgqM6u6m1WqhzVRbUguo6RSLU10J9Th-5nk9cKpUqGKeDBoXy93cRKgEbFfxIPoFPIMvAuV8pwygdPDnvJplkCX_3T-QzhYd2ymJCnsxWv-OEQn35ACJaaRUSE_o1ramDFNSSXjt66LfVU4C0QVv6fJ5CY5OpG8gKqrF5aojkOxvD53g2ExAJ8fATnrcDszPKIEGxQMj1o1RQXLSHJ7WGc3wggWu2at3fSWe0bz9Nf1UNN7PDTO9fJ-15XD8qsF-yIz3xjGUnJpzHHSMZxKwweOtrfLB3_B70KRsvDgMtE6gu5RKAkW9f_7k_XZZaP_pCJ_F-Xn_uytcjSaGa-BNG8mdDjV6sQkjamukUGj8vOt-103dPb628g7HnA7yxhcNehIOvZewjalJIRI1AStSn1z9x52m_GjNiErzxXdRCIysPM5MUa5ZJZz476KQE-yFXi67ugesmKE6vTQW_1JIC3JrYEiD79EPmaLpPBWJzVV2XzAJf1A6PPNI83vuwxZJh9bj3F5rUz37sRr36YkLGS93w3YIubPUcB0xkDc-LhLTZacFJ2lQoxlGmPgu99nEEaMriJoEavk17k6jUQXk2cp5PSKC5yGeRnGPOY7Y61VzgoukiCQix6cqOBAKJrrcRFf9fwnPOm5lCbc6vFySKp3gxHsXgES35s76JT9oQyAGtdkfD84GJhM0NNHb2Lx-l-9v-bXGKqR7yDCSBeWO2JexnFM_GLSIB8dA8VWF9RBgVUYgbV8Oqn3fHQ-eEFI_HTfUok7w5a2dzcitKrXnTVuaWANwoTSXYV1l2UNixD-aySQAXRLDiV7Why8JXI1283Kx2ITXx0HlJtj0QZWg4BdQhi1oTGjrDNoHCCS9Xm2WauFt-r70Neau3DURfEaxxj8yDsbkPmzplvT7mDuCGNKPRi9fvMPX7e97-EOfcxvxn9t8An26yU67lMVCvi7MwOZW9kp_EziSrZ6Rav8cGl_nzaH8vn0MzKHiAIoZk92dtCbJxm6KucMRLfic9iwRBmJqKsUTuYEluvXYGLdaRh6jP6guQarIKm-NaurEYjDzbW24uHJv3wmf6XClJFQ3Xmanxl_6w6gA1n0XudTC8-PQbmPtPEsnrLj5U7QZnMrYUO7Kv6OerZW11tfihR6Mo4RkUOuoAEXyAqxsYXsA7pRQmqu5aO6u9hSv1dspSXM0xRA6lFm6rRmly6kp1kl4bKFFi7hxL28SOK19l3Qwf311T6O3wZRfpL49ni0hdrOOZ6jiKZTtO4ibdIgsFrSjaB5sdvuOKhnBn-I6uW7-L4U5WM0HcjjQvYHOIvV48Yd3Sk60PhW8dy68_R2V09BEKD0wG2S3MUI7el5XNmNE4dDb9LdRIGkjj2WVYiwCBRd5hAzg7TSzFhe85cMqVoIGb3OJiJRrqJCfDl3PxQSBHXSyDfFMf1_lzdcyCQidxWlo2f0fmUswcPoa_OdKX2v0Sxvu90rKCtJvGOzYiLdzDfPHuD4tyCKasnMwb0DJfTGF8vXwOImMHDDp3BNXRyySdWshfu1cPIE0cexAkkFqLpMLdFU6TO3N2rQTW0Ncnurr90AokwijihJO0Qf5JN0SX9xFbfwLIQcUjtwME5LvfChR7LGLY84452PEVWn74BwfGN6MLBrgafRbDv3TBTIpZSb2l9Cf8leMA12APyXQx6PErJWTReZDvrhNuw6uSswIf00K-2PvyDsxyVcIy6YEsUkQYQPolDG08R65K7A1CLc1zFeuYiEEvdMmeIGWyK7KKJVLmqHWYv8tsujFTrJ3SJygq-yWAX0AtOIKbVij2vcikeesoQ9Pi_2Get4u6nFKBHOPobwmpCZUm_NUz1APEHlJX-RVi_h5ch4nlswXPn3Eo5_Qv2tG0dUeWdjXznzk5LzPhTR4bT2TWBt96IvWcdEEm1eLI-GFvXRPD53A9vdCIYqFPsQUG2QNGO2bjxXOm-CxYDyo78fA7DokbMBKnH8RM3D3ogY_HydkDM7xbVv03A-jvR2-Kn5z1F_VBwwQQ77xDAU30_4P6YVDTy0Dqnc6RUJqztgJLfLUjobcvLTJLDds6jQMqgA2DdI_bXn_bebEdpy5CcFFmpf3CbW6YCeSSmNSOJfPMLOxbasNvbfS7oVpfTkUxLtq49jGZY_v-DSjK4vCxBXe6zWprCNIwkwzaGFnSXIXYW5Z1xY15b5HxHEumUYOuX0RKRzWrEtlrES1cZwGjBva6lTeu7fdLNN4z5VuQBhY8RObjz3ncsBts4jNmcLB3g3YS3BCx7O4F7FoypqOsQpqDYm5pV09qatHmry5sMR6Jw-JSP9gZ5j_xiLBBNzK2ZhyCrKUPmcw_g525lKuvwTLj9kwjbcf0iKIQ9iuSqYcxcGO9tcY4C9-xgzTL-DmkYSd4d45WbRrNQ2b3hminP7diWCyUbxNUp5HiwCqSLkHSIcRxpftZd6_5rVV_nct1IpSGNnZPVnmJxLuThIUf3TlBgmuakVj-iolhKRgj-NCTdXRDFFgqyWYgvApBioWuHj7YW0zl9J_dmlXpBzODYraa-sFhepss69h0cE_efG7MHi8gdoN_WAAPugrdu3V5KykgjPXem2oqxPlCBU21Awd915y9zyOM0wJRMXUQy32vUUR7u2pMyZeAHCU32uRn4L_JJO8JGwuDg1J9UTbyyhsOHJCbv9uNrPIaDblVg_8TCXJmagzn0iDx6_69eCV9gjTvTJQ5IowpoJtnSWt2ldIWc9Ydymud4CNX7xrGYZyNJRO1FYdXOvUsMt3Vs1Ew1-flD-J32ucI3lib7l7BUemC3AfPox1Z4Cs__uBS04IlhG6GaJWRIJDOKXBANFS83jW_8lO9CG8Ruiu1pFu0lkLCZ2934-xmvS52jJorEImi59MBHKlM1HkckeBSK5vml9Vvt-yVANhmAD5b-lsFlLhQ7iYpsPwdfFkOa9YILJ0fiTbiPpvBxN8VyWRjYc4koylmabF5oAliLEECFZXQ9_rvl0qpPbPHOhCbMVUEzHqt1jXZHM72pLC2dCLYBPN_FsyFJJqWna18T5ncnUlTcFfMm_mYHdx0eCVeN6iQy5d-KKU3wa5yeEBJaB9fmDf_OrVv0YvaAvm_Sp4gB3NewxYtWMNXUo1pHsFQyx7Nh0zxcvKMdv1vDfcecZGDd76n2ILQaLUCG13wTzIiWyaxAbn8MNj853iqUuVeOrcZI5VYCzfsujr3VXYe4dQ0E_TZg1DxSGOS5ML3pjT8oEHBisuQrdtyW44UxP83x4YE3hI0sGZRLhanHIytEuWyyl8zecfiwYfTMQMBlbY96UN4sKrHMVHw45SgnQqXO8r7hEYpF6Qb1G5QUOO1weZycj9KDPfp-OxJj4CvcymBXHYhgvgZA6MJB9UGptctLU2xHAAiCaNWBwv3Lp9YOPwfUVGcRf7SZE6Xjra6oVsDeJkMVeuN_X5BMAgBbWX7fcufn8BDJACjb-agrcVz4nBhpqRLBzhPWkDySVA3eLrO6NozgnaE65x-ZxDizpy5SUJw4uS1J2yd56vVDvVFhd3hgxn7zqUyGuV4nfRA4FgstD9aUdQx-obcWCtpkxZn_f4J4sjkxHB-HT4vBsuEz2RpDyk9V9rm4CH9DwRGqVPfnqtKJj_6JjrAE1S6xb8ubCr7njZMJ4g7DRQA5yuLB9TOpN13a4FAxEhXttbhgV7WUTukrvSHRovgjG5H5Ngtoc6FtLsfwiSC9mG_mu-lUwugSXYLHuDjTNrJodhXFHHcY3m6WIjAAT_hyRGFrc7l35w886r6tJ3JhQEWNYyBK_KQPLF-_E1f_4M44U1ZU52z9YLKMZvvJplmpTSQwLk6vYVmtxGEeaNt2XwGTrTi0XKwJlDtg7fkJnfTAvNE1-qWngvl0YJn2MlJCsJaHX3xv7JvlEaJ4sNirsbHlBR0G_kI1OenPyLdu91x1jr_Y6M8NhGWna_7_TLSwJUdcfJOIIFoJJg6ogRxP4z5SQl2jeIE3bHJbm2aJECewO90mOLNTKNjXkUrKWmAM1g9-PZYtvfSA1h20yVbSpjLlay_2Q-HYpXkpL6LYkGbpERFdddZX5m46NXnb3hAtYtuJCNI1X5zQgI_b74hyZPSK-MYQBV3frEorcv0u2zoUUKAmxDXX6vdOjgh3iQB-xcbwU5pTuVYsWy8Y39nN26SEuQmkeKHZmPMio3S33FmEAU4flGscrrMED9WeuD1xMGpzuRdVOk6Otg6Z7r-BRm_W4ZXX_QYoQxIvuh9-j-GCu3yNMhjwlPG5OMHGYrEP59XOzPzrVg89A4xYjdVwjbkWcwR2xEYUbnA21lTYc5eCEtwNAf3rxbnHsnltbiCfSDIxD4K1JUdYhiWZhJs-qKWBr-8_uGB8X4DxDJRjjCp3h6IA9D45i0kC9XBb_nlN36Tuze9zVQztOxEZfEPQQh4iSlRnY0uZ-g9ytnQ8-ToRnRyk4oIM6T06f1E0AmP6UJjnG5RW4Ri7osDbW_qxyFga62Mfa6rQLu2qkyrKlTKtEx9sndiqHnw1UwGSpH6QL3-vBqU1Jt6V_xgfHj9tAN0LMTaWvmoQqTzEzGJZ1FClJaUCh8V1nMXTktLXJS_pSwI4HPNzF2J7ls_lD7ijL8OyTjAfE9CY15QHAE8DTKDey8lbFkdS7LhEcLiirlJWE--UuxG6lG8Y9rVCGpWm7UTStSyfavYm53YKYdj3Pk3VGrI_-CkL7PAteiCGXBS9dlsBa21NbTt6z9L0WgO98L5aqN-NPGxK2mMElIIYTLlRW6o8GfToQOSWEQPPgeT2ZuU5GXjeN4AVxPYJcxHBuWXvicXp_evaS2AXYEEHUKi3_ojvhw8FtRhLnG-dgG-rNgxMYf85M9fRP791JT32DnUsCZjIzB6rHgcnYR3Z51fJzucR0LRZq559APmLolQ5JFVLz5BtNh5qfUDLusbBNI9D9RFzI1UalUcr8UrrQox7QD-wZWW_Ix9Cz_taV0zjMySSnmMZRDTerbqOSSIhuGY6LC6GKL2LRB9Yd1cmZw9pMjjEeuVVjciPgIiTDGYWGPV99xNzc2FVPwGaRRhCBfvbANVcJhsvaiA3fnHRBhXVblMX9R9O4ud283alIE-d2KvkHVsnlkqE7SKDpw6nHAY9IxuurhJZMVeLTTOGSFO6y6aJgOQytMLnAnPMzmvumVd8ab28Rs3zuH9YY2AiKwaAA8UhfRsBA-IZTJH4m5MpHegJZLRO07TNqzKjM455O1P9WR6mjkmUcjD02O6AMk1fuQCy7omgkcREcATBxWlXc1NNZPCPYI-IhIuzKcYyvh0GZ7QJDOwVcZAM-NlcqAN1u-eXuYlIPlKKcTB7AnOCTmOZfGYBv3dCNAIOj2rij2QPS1l9lvfM_4LQCfifdD_KszyjrsVuNXBnOT2dGeTksIBvc8iE7MhSa5lzkBA5j0X6vZ3TS9DZO5S4hyeYTzoyDz9Td8rZjabEEWgl9UIqhQN7mmVK-lCkFo3NU9hqF9H78K5Uy5rQMqW4v-uvhNz6hcxRqYIZYUD23emgeg4jMOHEf3IZSH5kuCRWF-n9z13qJ3tVIbJyYrU-30UJSy-9DIKluauBU3WNgiLolrCamDzzanuvm48OvWaWYejsnP4mnUPkoEa-Xu4omHHbtVI2BjQF11_479h-6VVHBW6frzK8uhLQufaC-o-zXyUiQeOalI2OsvTPGcTCXzJEIB9xrDNpnwVWGxPAMaUrNtpzF_j2yMcz3ST2eK0rRgp3NnsmUjP6-ArH-Yhhc0gdmdbXZPpBFvWUVghqv9dkYnjwru1XflDa7ggWjEYZyLfWp4Aa37m-Cdnq9WwryoUpV19nIvBTeUTDwWVMO3bbCWW4F93pMhQXRQ1Ea0GQ8HpwuiOusCyWGJdpP7VbHJJ_f-SunGFuhJXnQA9RQBg4S7LDEaHYIOOPjCd3B_V1fvPTRJ6lFHpdMwZVYFZJ36BQtyTJuk-oasw9pIamqc0Ad0--bdcap8d93r9H0tM4Ps3AfRaxzyU0qqPSx88ixJ-FF9W3XgOOGjRwbiHeR8xnccaJj-8Uzaqh1aXMhfkAoM6p0FXMYIP8i5VZ4t62JXGKYw7eqco13YMQgDfgvNPhOCPNKRDVRgqUBBGnEF7RY4m5qk2QEtbLDWpMdnObRivHn9TGLDzX_blWFQxaayFbIFIqzAtUIFD_vFcC0GmxOtAgbIgX4gxdoTPN0a72M3em45H8Q9WZYYTgQmJT3mh6KpICNFYYhv3h5jKf3z1ckfMYoSWSnTrnBbO_jFN8rA4hDBzVTvpYZo0Op3c_uBDf-HPN78JOOfM3_JLewS-_K6YqZ1MDfN9Xs_XLAJJJnggSrsIM5mf-jxp6QT1RwbeYj518cE3_044-QcA05doKqvLmRFXVpPLIriW2q2Tn73zKJHrlsuOtxW8btnWmQAav13ajXRls4u6JK4pHsidkZXdXU18mtnsO4BEHJbeSvrOfxDreupULFSJUazIlf8t5nMDRzdAmMK3Ibxk2WTeYX8iyVSoYGGc8Z48ekw2qyBmacsB3Im4aoNA2QsAmP3p8fRxSw6I4NcY4Rcl5B-1f7g-4RC627DHXHQN1NASo7To2U98Rg3wDH-vfneKYruwOlFlkoi4bucOufcsrwZr-ldJPA50BOZ-DGJjbViXxOI4VGk9_i2820RFNWIVy2zP7wfAfjLLzmCC7BJOl4EdMweRsZPPjBGCar_39b04wp-uFcdrkpZ9XhBOgDdkFGb4HhBuXJQnk8EoimJnBFvtC0x0fxQPxhVccRxMeZoIc3cIfHe7WpMY8i304Rf8agPmAYqNIxwFDfrpAYlvAEIk7wG6Rr814O6qe5qb9V8sVrS1ike12-3ZaOYfE3UmtoIkxAVU8-SORgusOMzIpGlsbstGp2BN4iklHNJ3YZ5NoAQacE7yybfOEeoow-ds0AieYZK2scgEmRGbZP_9ip4tbBrXhZhEjSIW1QssgFVi1PXt-IZ5wxFwMM9MKkW3yGXFr1yHApgkeR9m892-f1niio-Z98xVilKSHUPZkSd0BE4taruni2NuitWXEClluEZpPj2oi7C-02_A8.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfa978f6290d459a44342:rs_01a1e84ade3f71f28a5ba1c7b1d0791c\",\"index\":1}]"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_01a1e84ba313722eb5a1c4b00ae021ac",
+            "name": "write",
+            "arguments": {
+              "path": "anteater-unicycle.svg",
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"900\" height=\"650\" viewBox=\"0 0 900 650\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">An anteater riding a unicycle while juggling bottles</title>\n  <desc id=\"desc\">A giant anteater with a long snout and bushy tail pedals a unicycle, bobbing up and down while three coloured bottles spin in an arc above its paws. The wheel, pedals, clouds, road markings and circus bunting are animated.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#7ed6ff\"/>\n      <stop offset=\"58%\" stop-color=\"#c9f2ff\"/>\n      <stop offset=\"100%\" stop-color=\"#fff3c9\"/>\n    </linearGradient>\n    <linearGradient id=\"fur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#c7a17a\"/>\n      <stop offset=\"55%\" stop-color=\"#a67c5b\"/>\n      <stop offset=\"100%\" stop-color=\"#86603f\"/>\n    </linearGradient>\n    <linearGradient id=\"tailFur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0%\" stop-color=\"#6b4a2f\"/>\n      <stop offset=\"100%\" stop-color=\"#3b281c\"/>\n    </linearGradient>\n    <linearGradient id=\"headFur\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0%\" stop-color=\"#bd9268\"/>\n      <stop offset=\"100%\" stop-color=\"#96704a\"/>\n    </linearGradient>\n    <radialGradient id=\"sunCore\" cx=\"50%\" cy=\"50%\" r=\"50%\">\n      <stop offset=\"0%\" stop-color=\"#fff7ae\"/>\n      <stop offset=\"100%\" stop-color=\"#ffb52e\"/>\n    </radialGradient>\n    <clipPath id=\"bodyClip\">\n      <ellipse cx=\"435\" cy=\"295\" rx=\"112\" ry=\"59\" transform=\"rotate(-4 435 295)\"/>\n    </clipPath>\n\n    <!-- One bottle, centred on (0,0) so it can spin while travelling. -->\n    <g id=\"bottle\">\n      <rect x=\"-6\" y=\"-33\" width=\"12\" height=\"8\" rx=\"3\" fill=\"#ffcf3f\" stroke=\"#b7791f\" stroke-width=\"1.5\"/>\n      <path d=\"M-6 -26 L-6 -15 C-6 -9 -14 -6 -14 3 L-14 22 C-14 29 -10 32 0 32 C10 32 14 29 14 22 L14 3 C14 -6 6 -9 6 -15 L6 -26 Z\"\n            fill=\"currentColor\" stroke=\"rgba(0,0,0,.28)\" stroke-width=\"2\"/>\n      <rect x=\"-9\" y=\"7\" width=\"18\" height=\"16\" rx=\"3\" fill=\"#fff8dc\" opacity=\".96\"/>\n      <path d=\"M-5 11 l2.2 4.4 4.8.7 -3.5 3.4.8 4.8 -4.3-2.3 -4.3 2.3.8-4.8 -3.5-3.4 4.8-.7 Z\" fill=\"#e94f37\"/>\n      <rect x=\"-9\" y=\"-3\" width=\"5\" height=\"27\" rx=\"2.5\" fill=\"#fff\" opacity=\".42\"/>\n    </g>\n  </defs>\n\n  <!-- ===== Background ===== -->\n  <rect width=\"900\" height=\"650\" fill=\"url(#sky)\"/>\n\n  <!-- Sun with slowly rotating rays -->\n  <g transform=\"translate(92 92)\">\n    <g fill=\"#ffb52e\" opacity=\".75\">\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"28s\" repeatCount=\"indefinite\"/>\n      <path d=\"M0-68 L9-38 L-9-38 Z\"/><path d=\"M0 68 L9 38 L-9 38 Z\"/>\n      <path d=\"M-68 0 L-38 9 L-38-9 Z\"/><path d=\"M68 0 L38 9 L38-9 Z\"/>\n      <path d=\"M-48-48 L-24-32 L-38-20 Z\"/><path d=\"M48 48 L24 32 L38 20 Z\"/>\n      <path d=\"M48-48 L38-20 L24-32 Z\"/><path d=\"M-48 48 L-38 20 L-24 32 Z\"/>\n    </g>\n    <circle r=\"38\" fill=\"url(#sunCore)\" stroke=\"#f59e0b\" stroke-width=\"3\"/>\n    <circle cx=\"-12\" cy=\"-5\" r=\"4\" fill=\"#7c4a03\"/><circle cx=\"13\" cy=\"-5\" r=\"4\" fill=\"#7c4a03\"/>\n    <path d=\"M-13 10 Q0 20 13 10\" fill=\"none\" stroke=\"#7c4a03\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  </g>\n\n  <!-- Drifting clouds -->\n  <g fill=\"#fff\" opacity=\".92\">\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"translate\" values=\"-180 0; 980 0\" dur=\"46s\" repeatCount=\"indefinite\"/>\n      <ellipse cx=\"0\" cy=\"105\" rx=\"48\" ry=\"22\"/><ellipse cx=\"38\" cy=\"94\" rx=\"38\" ry=\"27\"/><ellipse cx=\"76\" cy=\"107\" rx=\"44\" ry=\"19\"/>\n    </g>\n    <g opacity=\".75\">\n      <animateTransform attributeName=\"transform\" type=\"translate\" values=\"980 0; -220 0\" dur=\"62s\" repeatCount=\"indefinite\"/>\n      <ellipse cx=\"0\" cy=\"168\" rx=\"38\" ry=\"17\"/><ellipse cx=\"31\" cy=\"158\" rx=\"31\" ry=\"22\"/><ellipse cx=\"61\" cy=\"170\" rx=\"35\" ry=\"15\"/>\n    </g>\n  </g>\n\n  <!-- Circus bunting -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-1 450 0; 1 450 0; -1 450 0\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    <path d=\"M0 8 Q225 72 450 18 Q675 -28 900 22\" fill=\"none\" stroke=\"#5b4a3f\" stroke-width=\"3\"/>\n    <g stroke=\"rgba(0,0,0,.15)\">\n      <path d=\"M80 28 l24 40 8-45Z\" fill=\"#ef476f\"/><path d=\"M170 38 l24 40 8-45Z\" fill=\"#ffd166\"/>\n      <path d=\"M265 36 l24 40 8-45Z\" fill=\"#06d6a0\"/><path d=\"M360 27 l24 40 8-45Z\" fill=\"#118ab2\"/>\n      <path d=\"M455 18 l24 40 8-45Z\" fill=\"#ef476f\"/><path d=\"M550 10 l24 40 8-45Z\" fill=\"#ffd166\"/>\n      <path d=\"M650 8 l24 40 8-45Z\" fill=\"#06d6a0\"/><path d=\"M750 13 l24 40 8-45Z\" fill=\"#118ab2\"/>\n    </g>\n  </g>\n\n  <!-- Hills and road -->\n  <path d=\"M0 505 Q160 440 330 500 T900 485 V650 H0 Z\" fill=\"#8bd17c\"/>\n  <path d=\"M0 530 Q240 485 470 525 T900 515 V650 H0 Z\" fill=\"#67b95e\"/>\n  <rect x=\"0\" y=\"566\" width=\"900\" height=\"84\" fill=\"#59636e\"/>\n  <rect x=\"0\" y=\"566\" width=\"900\" height=\"10\" fill=\"#f7d154\"/>\n  <g stroke=\"#fff\" stroke-width=\"7\" stroke-linecap=\"round\" opacity=\".85\">\n    <animateTransform attributeName=\"transform\" type=\"translate\" from=\"0 0\" to=\"-120 0\" dur=\".65s\" repeatCount=\"indefinite\"/>\n    <path d=\"M-80 618 H20 M40 618 H140 M160 618 H260 M280 618 H380 M400 618 H500 M520 618 H620 M640 618 H740 M760 618 H860 M880 618 H980\"/>\n  </g>\n\n  <!-- Ground shadow -->\n  <ellipse cx=\"452\" cy=\"576\" rx=\"132\" ry=\"15\" fill=\"#243b2a\" opacity=\".22\">\n    <animate attributeName=\"rx\" values=\"132;124;132\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n    <animate attributeName=\"opacity\" values=\".22;.16;.22\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n  </ellipse>\n\n  <!-- ===== Unicycle wheel (stays grounded) ===== -->\n  <g>\n    <circle cx=\"450\" cy=\"470\" r=\"91\" fill=\"#eaf6ff\" fill-opacity=\".35\" stroke=\"#263238\" stroke-width=\"17\"/>\n    <circle cx=\"450\" cy=\"470\" r=\"78\" fill=\"none\" stroke=\"#b8c4cc\" stroke-width=\"5\"/>\n    <g stroke=\"#78909c\" stroke-width=\"4\" stroke-linecap=\"round\">\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 450 470\" to=\"360 450 470\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n      <path d=\"M450 470 V395 M450 470 V545 M450 470 H375 M450 470 H525\"/>\n      <path d=\"M450 470 L503 417 M450 470 L397 523 M450 470 L397 417 M450 470 L503 523\"/>\n      <path d=\"M450 470 L515 495 M450 470 L385 445 M450 470 L475 405 M450 470 L425 535\"/>\n    </g>\n    <!-- Crank + pedals, turning with the pedalling feet -->\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 450 470\" to=\"360 450 470\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n      <line x1=\"414\" y1=\"470\" x2=\"486\" y2=\"470\" stroke=\"#37474f\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n      <rect x=\"471\" y=\"464\" width=\"30\" height=\"11\" rx=\"5\" fill=\"#263238\"/>\n      <rect x=\"399\" y=\"464\" width=\"30\" height=\"11\" rx=\"5\" fill=\"#546e7a\"/>\n    </g>\n    <circle cx=\"450\" cy=\"470\" r=\"14\" fill=\"#ffcf3f\" stroke=\"#37474f\" stroke-width=\"4\"/>\n    <!-- Fork -->\n    <path d=\"M450 470 L432 365 M450 470 L466 365\" fill=\"none\" stroke=\"#d8434f\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  </g>\n\n  <!-- ===== Rider: anteater + seat, bobbing gently ===== -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"translate\" values=\"0 0; 0 -7; 0 0\" dur=\"1.2s\" repeatCount=\"indefinite\"/>\n\n    <!-- Seat -->\n    <line x1=\"450\" y1=\"468\" x2=\"440\" y2=\"356\" stroke=\"#37474f\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n    <ellipse cx=\"433\" cy=\"352\" rx=\"42\" ry=\"12\" fill=\"#263238\"/>\n    <ellipse cx=\"421\" cy=\"348\" rx=\"18\" ry=\"6\" fill=\"#546e7a\"/>\n\n    <!-- Bushy tail, wagging -->\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-4 335 285; 6 335 285; -4 335 285\" dur=\"2s\" repeatCount=\"indefinite\"/>\n      <path d=\"M340 282 C292 190 238 148 166 158 C128 164 124 198 158 232 C205 280 272 316 334 318 Z\" fill=\"url(#tailFur)\"/>\n      <path d=\"M310 272 C270 220 232 194 190 188 M322 292 C276 268 232 258 190 260 M296 248 C262 214 228 196 198 190\"\n            fill=\"none\" stroke=\"#8a6a48\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".65\"/>\n    </g>\n\n    <!-- Far leg (darker), pedalling out of phase -->\n    <path fill=\"none\" stroke=\"#75543a\" stroke-width=\"19\" stroke-linecap=\"round\"\n      d=\"M405 335 Q430 402 414 470\">\n      <animate attributeName=\"d\" dur=\"1.6s\" repeatCount=\"indefinite\"\n        values=\"M405 335 Q430 402 414 470;\n                M405 335 Q435 385 425 445;\n                M405 335 Q449 379 450 434;\n                M405 335 Q462 390 475 445;\n                M405 335 Q465 402 486 470;\n                M405 335 Q460 420 475 495;\n                M405 335 Q447 425 450 506;\n                M405 335 Q435 415 425 495;\n                M405 335 Q430 402 414 470\"/>\n    </path>\n    <circle r=\"13\" fill=\"#4e3826\">\n      <animate attributeName=\"cx\" values=\"414;425;450;475;486;475;450;425;414\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"cy\" values=\"470;445;434;445;470;495;506;495;470\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n    </circle>\n\n    <!-- Body -->\n    <ellipse cx=\"435\" cy=\"295\" rx=\"112\" ry=\"59\" transform=\"rotate(-4 435 295)\" fill=\"url(#fur)\" stroke=\"#6f4f32\" stroke-width=\"3\"/>\n    <g clip-path=\"url(#bodyClip)\">\n      <!-- Giant anteater's black shoulder band, edged in cream -->\n      <path d=\"M382 232 L452 232 L408 360 L338 360 Z\" fill=\"#2b2320\"/>\n      <path d=\"M452 232 L476 232 L432 360 L408 360 Z\" fill=\"#f6ead2\"/>\n      <ellipse cx=\"370\" cy=\"330\" rx=\"72\" ry=\"24\" fill=\"#fff\" opacity=\".12\"/>\n    </g>\n\n    <!-- Near leg, pedalling -->\n    <path fill=\"none\" stroke=\"#9a7350\" stroke-width=\"21\" stroke-linecap=\"round\"\n      d=\"M475 335 Q510 402 486 470\">\n      <animate attributeName=\"d\" dur=\"1.6s\" repeatCount=\"indefinite\"\n        values=\"M475 335 Q510 402 486 470;\n                M475 335 Q505 420 475 495;\n                M475 335 Q492 425 450 506;\n                M475 335 Q478 415 425 495;\n                M475 335 Q469 402 414 470;\n                M475 335 Q478 385 425 445;\n                M475 335 Q492 379 450 434;\n                M475 335 Q505 390 475 445;\n                M475 335 Q510 402 486 470\"/>\n    </path>\n    <circle r=\"14\" fill=\"#5d422c\">\n      <animate attributeName=\"cx\" values=\"486;475;450;425;414;425;450;475;486\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"cy\" values=\"470;495;506;495;470;445;434;445;470\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n    </circle>\n    <!-- Claws on the near paw -->\n    <path d=\"M492 462 l12-4 M494 472 l13 1 M492 481 l11 6\" stroke=\"#f3e9d2\" stroke-width=\"4\" stroke-linecap=\"round\">\n      <animateTransform attributeName=\"transform\" type=\"translate\"\n        values=\"0 0; -11 25; -36 36; -61 25; -72 0; -61 -25; -36 -36; -11 -25; 0 0\" dur=\"1.6s\" repeatCount=\"indefinite\"/>\n    </path>\n\n    <!-- Far arm -->\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"4 410 288; -6 410 288; 4 410 288\" dur=\".9s\" repeatCount=\"indefinite\"/>\n      <path d=\"M410 288 Q380 250 375 208\" fill=\"none\" stroke=\"#75543a\" stroke-width=\"17\" stroke-linecap=\"round\"/>\n      <circle cx=\"375\" cy=\"205\" r=\"13\" fill=\"#5d422c\"/>\n    </g>\n\n    <!-- Head, long snout and party hat -->\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-2 500 285; 2 500 285; -2 500 285\" dur=\"2.4s\" repeatCount=\"indefinite\"/>\n      <path d=\"M492 258 C542 250 590 261 628 279 C640 284 638 296 626 299 C584 309 538 313 502 306 C482 296 480 268 492 258 Z\"\n            fill=\"url(#headFur)\" stroke=\"#6f4f32\" stroke-width=\"3\"/>\n      <circle cx=\"503\" cy=\"252\" r=\"15\" fill=\"#96704a\" stroke=\"#6f4f32\" stroke-width=\"3\"/>\n      <circle cx=\"503\" cy=\"252\" r=\"7\" fill=\"#5d422c\"/>\n      <circle cx=\"524\" cy=\"278\" r=\"6\" fill=\"#211712\"/>\n      <circle cx=\"526\" cy=\"276\" r=\"2\" fill=\"#fff\"/>\n      <ellipse cx=\"624\" cy=\"289\" rx=\"8\" ry=\"6\" fill=\"#33231a\"/>\n      <!-- Flicking tongue -->\n      <path d=\"M630 291 Q652 298 668 284\" fill=\"none\" stroke=\"#ff7b9c\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0\">\n        <animate attributeName=\"opacity\" values=\"0;0;1;1;0;0\" keyTimes=\"0;.55;.65;.82;.9;1\" dur=\"3.2s\" repeatCount=\"indefinite\"/>\n        <animate attributeName=\"d\" values=\"M630 291 Q640 294 646 290; M630 291 Q640 294 646 290; M630 291 Q652 298 668 284; M630 291 Q652 290 664 276; M630 291 Q640 294 646 290; M630 291 Q640 294 646 290\"\n                 keyTimes=\"0;.55;.65;.82;.9;1\" dur=\"3.2s\" repeatCount=\"indefinite\"/>\n      </path>\n      <!-- Party hat -->\n      <g transform=\"rotate(-8 500 218)\">\n        <path d=\"M484 254 L518 254 L501 202 Z\" fill=\"#ef476f\" stroke=\"#b51f45\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n        <path d=\"M491 232 L511 232 L506 216 L496 216 Z\" fill=\"#ffd166\"/>\n        <circle cx=\"501\" cy=\"200\" r=\"9\" fill=\"#ffd166\" stroke=\"#e3a008\" stroke-width=\"2\"/>\n      </g>\n    </g>\n\n    <!-- Near arm, tossing -->\n    <g>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-6 498 288; 5 498 288; -6 498 288\" dur=\".9s\" repeatCount=\"indefinite\"/>\n      <path d=\"M498 288 Q522 250 525 210\" fill=\"none\" stroke=\"#9a7350\" stroke-width=\"18\" stroke-linecap=\"round\"/>\n      <circle cx=\"525\" cy=\"205\" r=\"14\" fill=\"#5d422c\"/>\n      <path d=\"M515 196 l-8-7 M525 192 v-11 M535 196 l8-7\" stroke=\"#5d422c\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n    </g>\n  </g>\n\n  <!-- ===== Juggled bottles ===== -->\n  <!-- dotted juggling arc -->\n  <path d=\"M375 205 Q450 45 525 205 Q450 145 375 205\" fill=\"none\" stroke=\"#fff\" stroke-width=\"3\" stroke-dasharray=\"2 12\" stroke-linecap=\"round\" opacity=\".55\"/>\n\n  <g color=\"#22a06b\">\n    <animateMotion dur=\"2.7s\" repeatCount=\"indefinite\" path=\"M375 205 Q450 45 525 205 Q450 145 375 205\"/>\n    <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\".9s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#e98a1d\">\n    <animateMotion dur=\"2.7s\" begin=\"-0.9s\" repeatCount=\"indefinite\" path=\"M375 205 Q450 45 525 205 Q450 145 375 205\"/>\n    <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\".9s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g>\n  </g>\n  <g color=\"#2f80ed\">\n    <animateMotion dur=\"2.7s\" begin=\"-1.8s\" repeatCount=\"indefinite\" path=\"M375 205 Q450 45 525 205 Q450 145 375 205\"/>\n    <g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"-360\" dur=\".9s\" repeatCount=\"indefinite\"/><use href=\"#bottle\"/></g>\n  </g>\n\n  <!-- Speed lines -->\n  <g stroke=\"#fff\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".8\">\n    <animate attributeName=\"opacity\" values=\".8;.25;.8\" dur=\".8s\" repeatCount=\"indefinite\"/>\n    <path d=\"M92 330 H188 M58 366 H164 M104 402 H180\"/>\n  </g>\n\n  <!-- Caption -->\n  <g font-family=\"Verdana, Geneva, sans-serif\" text-anchor=\"middle\">\n    <rect x=\"252\" y=\"592\" width=\"396\" height=\"42\" rx=\"21\" fill=\"#263238\" opacity=\".88\"/>\n    <text x=\"450\" y=\"620\" font-size=\"22\" font-weight=\"bold\" letter-spacing=\"2\" fill=\"#ffd166\">★ THE AMAZING ANTEATER ★</text>\n  </g>\n</svg>\n"
+            }
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 189,
+          "output": 9508,
+          "cacheRead": 1524,
+          "cacheWrite": 0,
+          "reasoning": 3997,
+          "totalTokens": 11221,
+          "cost": {
+            "input": 0.0007559999999999999,
+            "output": 0.19016000000000002,
+            "cacheRead": 0.00030480000000000004,
+            "cacheWrite": 0,
+            "total": 0.19122080000000002,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794898580637,
+        "responseId": "gen-1794898580-dAvZtGMwRL1Oarfc83s6",
+        "rawStopReason": "tool_calls",
+        "durationMs": 85153,
+        "thinkingLevel": "high"
+      }
+    },
+    {
+      "type": "message",
+      "id": "dc8f0534",
+      "parentId": "8a201042",
+      "timestamp": "2026-11-17T06:57:45.796Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_01a1e84ba313722eb5a1c4b00ae021ac",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to anteater-unicycle.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794898665796
+      }
+    },
+    {
+      "type": "message",
+      "id": "a53a607b",
+      "parentId": "dc8f0534",
+      "timestamp": "2026-11-17T06:57:54.144Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Validating SVG structure and checking coordinate consistency for paw animation and caption layering.",
+            "thinkingSignature": "[{\"type\":\"reasoning.summary\",\"summary\":\"Validating SVG structure and checking coordinate consistency for paw animation and caption layering.\",\"format\":\"meta-responses-v1\",\"index\":0},{\"type\":\"reasoning.encrypted\",\"data\":\"Q-PaDgHT_BVP4sHlN2Ap8PBT5tT_RQRbRQ4xwefxVyJstlo-acVPLxZV4GmSQ2whsEgmfJYQsowx1sAwLk7QpfKBkxyCIRlTXPYb4iCfURl8J47X_o9ThRCcOrhIli8NA9mKO33YxO7dV1xqfmPCQ5KHqq_CpqOa8nRiFK-bDvy-3On9jG7NlXKUjqTV81PV1451i0Gw-E9r5-40lkBDPqsi6R6mzrLjTRwW2_2sFSnpupDVYFq_Oeh9g1BjgiU84mTaKnmBgKYlC7z4UT23qtcCRNmvAspBFjrvJObWs6TX0tD0tkgjua178FTiqS6yYkVvJt8CVy46qsD1aiZYrVwYPg-EHNZrVxk08dKrS2p7cQqA00WiPIJ8h-so_O3tauuLkFiXp7kR1YjuP3k5HwXOeEJ5wIhCj96aM1DVodERgnhDkx7eraHysDZMT4QGESYPQiUlshN7N5xY-JC2OXNaPb7GVzhl2InCXQdxhH7BWoDy2RH-RCe05g16v5POJ9dFUa1OYsdMi3mCQ5vOy0U9RHje__f49uvMWtwx_HB1KNLnANdgN9Kl7_O6-SVQYlWARuZx1_VFsglxZc6eD3Y8rGJIcp2yrRXL7e-D855QOMm7r38TmQjLT_O57b-c6mDxYgZsMIZwjRCPGsDI95ZPod6mW2_5Jn9wqKkE3ABG2x3sxecJT1WZYu-h7Ew7IaunXPyfhYZo2j6GtINKtFiAGw8K14jXnTkHKVYkNvolRgXzOqG0IZFGkp2JY1xysAMs0FFCPjUMkk3hL_btrrTxDT9iNiD5dS8Ae10BIyuiYFBt1BqzF9mrUdZ08LSQmAX3nxhB4YY4jcdoz5ZHSEylL0evUqtuSRpF70Ss5rFER1fLJDYC5fq_zKxEdhkPVW59ovEbCcKTIoVoZtIADKofR3ryCsfWnPF1N-iVD1g2hkkGoswh9DJgKzXLfSoc86dIFBLebUwh9CZg4A_3lmNJI0_Utt02uihmhOL4WmYHnHNKjfog0gEIjT01AXg5HWpDa5bF6wrqEKHMf6KgYiWD9NoUFSzh6MuGxFnTJW0S5XelCNwyTlmxwt8RGtJ2RgaSj-BuGZQreRToUbrw3HiBlPlb9uVeUR7StrPhQxJ2FqRbS3pccv3B9rcEmF15onmrJTmMvDfwMRI1tAQCUPVoqI7bbaKQ0oc-640_yzBhhOF8-M1ZzeNbuC8tNNGXbgvileWLQTV-mECI4Ia0LPFkNsvUA_ma9zI4cBXjqL20YVfBMyBvacurcF8eGtoZN61te-rmo2DnqIvqzYeIIpfioazMKxbuRNNR_l8F1cwTc6WH2KFbcMvFJYxGBk4H02tKFU6xwuQIS8ST6QQFyDT7h2d5QvnsxvjH7ib9GpogjIJS4f9ITUZPSq9kfdJQcxX68giaLfUPxIDpvIYzqTk8q7eWMpZHthdi5NWuLHmuBJSMJpm-Y5cpCkXh5HjwQ3u6R19e_vdWxe0i3SsSeA8WNWkzJ5PQeErR7TjE40mBWEp_4-pjhn_xLuyMMFK9nr76KgwwARD3zEUlLPtVCDHjr7oFv5AdBzdjB90kWOym1N61XTa0fpqDfVnS00F0G3KKTCcJKbiOv-LI7lBZ2ikDsB_gITF0_JI4Nn-CmglfgdDJQMFr6ON1DsHy4JH9g7rTvpNA1YKVtzG1jdHQ-bSa97OPhKSQikC9VdGqYrjOb43hPLD2aZK_jIFhMxhqBuDv45mVQpVn3_uSUSi_ijsmEJMzurRN8U-7J_6-r0IiQYa8GSywCx_G4NGx-DcgiDpiNvmh8XEnVaanrShZT93gpV1sLL7GLKDlgjtWsywVVnl4JypDJqG5aYtIx5D4WOm1D_eRECir9J1UTvF1_rpiUThRYf9WgbEoazFSnEAfXrpLjB_gN_V4sX4Z6_d0gX8RHkHHMurXHsFzLUcN290INVi30QbpJpsGt3tfl8nSTm-p8rH8-_4dgnaTltvQG6CjwVI4oc0Zcwjpm927OD9Zba8ljbngHd_VIernILBk8wqi9lk2yqqsWcZJYgZZY-30v8It3hVFSLt4z2sMtxU4oC7JnM-vFpJGD_38brYEKd31jwSSe5HsMN4AJrgzOkEM1LrjbRRZ-1R7zqpLVM32i-SuncCGyF1ORADediXNR065iNefl_2uDPfb5AfzZMIhyIsU3-wvjEDhdzPtxYr-BkOs-kfnK3iNmyDcnt_gk9F07o9Oli-YNnrUpixdhxhn58BSsOn6gJPCSI5QO9KfbaDLontqr6HHvWmURz2H7r34zKEee1opLpErQjF2dZeUHLuFCpYJ9TRSgRRcXcfPCfLfkVdxCUD0GFJEhko1cy1LYetqkMTpzgjvk_sBOByGWqOWLScodWAiiQj4Anf24PY9eben91RFGajaCXHdwX3xFqGA4ur9h2GDVP2igWW7_J24VGKtAvJVKr3--REo-zAG2k8Jeo_865rKy4HtPDGMcUVnQNF05Y64KaVnz4u39JvSH2ZaomUEX8cb9eEa7k0jul_aNrEOxPv__SA8sPycNUMiqb0HPqc00iQrpS8CvNcoZ3XJaxqjKM5q19xNXh5I5j2PR0RNXbZ4SxnPly4jKGlIeWYuoG3Vvh-DIRQIX_cz_GAUm9iw4bVGLki6qj7EZ9ZfkADWxKKB8MugFTepbF5YvjpudIRjPhMyyzyBKhxsNu1FTApD6mKbbLbOUScbDNAJNOWckFP9QgP0XgnC1bivU0RVumzGVlaVXvrZpLfzKSa9vINs3uuYi6cKkIXnXi4EgGreC4U.eyJlbmRwb2ludF9zbHVnIjoibWV0YS9tdXNlLXdvbmRlci0yMDI2MTAxMnxtZXRhIn0\",\"format\":\"meta-responses-v1\",\"id\":\"rs_6afbfaec041aee45899e4f50:rs_01a1e84c2c0273068623c73f9ef39323\",\"index\":1}]"
+          },
+          {
+            "type": "text",
+            "text": "Created the animated SVG at **`anteater-unicycle.svg`** (900×650, self-contained — no external assets).\n\n**What's in it:**\n- 🐜 **Giant anteater** — long tapered snout with a flicking pink tongue, small ear, party hat, the species' signature black shoulder band edged in cream, and a big bushy tail that wags\n- 🚲 **Unicycle** — spinning spoked wheel, rotating crank and pedals, red fork and saddle\n- 🦵 **Pedalling legs** — both legs (plus claws on the near paw) follow the pedals around the crank circle, phase-offset 180°, synced to the wheel's 1.6s rotation\n- 🍾 **Three juggling bottles** — green, amber, and blue labelled bottles that spin as they travel a dotted juggling arc between the anteater's raised paws, evenly staggered\n- 🎪 **Scene details** — bobbing rider, smiling sun with rotating rays, drifting clouds, swaying circus bunting, scrolling road dashes, speed lines, and a \"★ THE AMAZING ANTEATER ★\" caption banner\n\nAll animation uses native SMIL (`animateTransform` / `animateMotion` / `animate`), so it plays in any browser with no JavaScript. Just open the file directly, or embed it with `<img src=\"anteater-unicycle.svg\">` / an `<object>` tag."
+          }
+        ],
+        "api": "openai-completions",
+        "provider": "magpie",
+        "model": "openrouter/meta/muse-wonder",
+        "usage": {
+          "input": 11026,
+          "output": 584,
+          "cacheRead": 116,
+          "cacheWrite": 0,
+          "reasoning": 255,
+          "totalTokens": 11726,
+          "cost": {
+            "input": 0.044104,
+            "output": 0.011680000000000001,
+            "cacheRead": 2.32e-05,
+            "cacheWrite": 0,
+            "total": 0.0558072,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1794898665797,
+        "responseId": "gen-1794898666-87EYzQnFaIYJsfm6knr0",
+        "rawStopReason": "stop",
+        "durationMs": 8347,
+        "thinkingLevel": "high"
+      }
+    }
+  ],
+  "leafId": "a53a607b",
+  "systemPrompt": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>\n\n<cwd>\n/Users/andie/.local/share/anteater/runs/muse-release-sort-20261117-144053/muse-wonder/runs/high/attempt-01/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}

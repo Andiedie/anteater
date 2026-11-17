@@ -26,7 +26,7 @@ const chinese = {
   'Model performances': '模型作品', 'The collection': '作品集', 'Filter by model maker': '按模型厂商筛选',
   'All models': '全部模型', 'Find a model…': '搜索模型…', 'Search model names or makers': '搜索模型名称或厂商',
   'Reasoning level': '推理级别', 'All reasoning': '全部推理级别',
-  'Sort performances': '当前展示记录排序', 'Newest first': '最新测试优先', 'Best match': '最相关优先', 'Time: shortest': '耗时：从短到长',
+  'Sort performances': '模型排序', 'Model release: newest first': '模型发布：从新到旧', 'Best match': '最相关优先', 'Time: shortest': '耗时：从短到长',
   'Cost: lowest': '费用：从低到高', 'Tokens: fewest': 'Token：从少到多', 'TPS: highest': 'TPS：从高到低', 'Model: A–Z': '模型名称：A–Z',
   'Clear filters': '清除筛选', '{shown} of {total} performances': '显示 {shown} / {total} 项测试',
   '{count} performances found': '找到 {count} 项测试', 'No performances found.': '没有找到作品。',

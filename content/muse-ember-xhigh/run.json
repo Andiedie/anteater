@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "slug": "muse-ember-xhigh",
+  "name": "Muse Ember",
+  "vendor": "Meta",
+  "date": "2026-11-17T06:56:18.158Z",
+  "model_ids": [
+    "openrouter/meta/muse-ember"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 21.8,
+    "request_seconds": 21.629,
+    "average_tps": 439.73,
+    "tool_calls": 2,
+    "tool_breakdown": {
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 3,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 10899,
+      "output": 9511,
+      "cacheRead": 3176,
+      "cacheWrite": 0,
+      "reasoning": 2857,
+      "totalTokens": 23586
+    },
+    "recorded_cost_usd": 0.005858104,
+    "cost_usd": 0.005858104
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/muse-ember-xhigh.html",
+    "snapshot_url": "./sessions/muse-ember-xhigh.json",
+    "session_sha256": "cc212ec9fc16715979d9a5f982b67a3fd43e7c725a98ace44f43eff72c9a1959",
+    "export_sha256": "789a60a8bd743b72f7f8ed296d434d1d8e75fe04d1474ed97b8985a8e73911bb",
+    "session_id": "01a1e84a-cada-74ef-8ae7-955443525983",
+    "imported_at": "2026-11-17T07:15:04.981338+00:00",
+    "artwork_sha256": "a28c246964289fc7e2b12038eaab52c0897557bd422628244d8bce18ed6913cd"
+  },
+  "response_model_ids": [
+    "openrouter/meta/muse-ember"
+  ]
+}

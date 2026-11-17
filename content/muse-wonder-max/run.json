@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "slug": "muse-wonder-max",
+  "name": "Muse Wonder",
+  "vendor": "Meta",
+  "date": "2026-11-17T06:56:18.697Z",
+  "model_ids": [
+    "openrouter/meta/muse-wonder"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "max"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 135.804,
+    "request_seconds": 135.679,
+    "average_tps": 97.88,
+    "tool_calls": 4,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 2,
+      "write": 1
+    },
+    "assistant_turns": 5,
+    "errors": 0,
+    "tool_errors": 1,
+    "tokens": {
+      "input": 44098,
+      "output": 13280,
+      "cacheRead": 3408,
+      "cacheWrite": 0,
+      "reasoning": 6920,
+      "totalTokens": 60786
+    },
+    "recorded_cost_usd": 0.4426736,
+    "cost_usd": 0.4426736
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/muse-wonder-max.html",
+    "snapshot_url": "./sessions/muse-wonder-max.json",
+    "session_sha256": "cfd7201e7951c6897a450b7ec39974b67462dfcdfeff74ae9bdac179c07bef63",
+    "export_sha256": "8ea4eee035abbeedef47a7bf334abe05553732e9e1fd79c0e76ccf67b13c0f4d",
+    "session_id": "01a1e84a-ccf4-7648-a98c-213120ab9308",
+    "imported_at": "2026-11-17T07:17:59.268494+00:00",
+    "artwork_sha256": "ed62390f5e9b1faffacb5f39d17dee585dbb1639860f5ad68df195d00a56da38"
+  },
+  "response_model_ids": [
+    "openrouter/meta/muse-wonder"
+  ]
+}

@@ -1,0 +1,220 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">An anteater riding a unicycle while juggling bottles</title>
+  <desc id="desc">A cheerful cartoon anteater pedals a red unicycle and juggles four colourful bottles. The wheel spins, its legs pedal, its tail sways, and the bottles tumble in a loop.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ed8ff"/>
+      <stop offset=".65" stop-color="#dff7ff"/>
+      <stop offset="1" stop-color="#fff3c9"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b09278"/>
+      <stop offset="1" stop-color="#806552"/>
+    </linearGradient>
+    <linearGradient id="tailFur" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5d4636"/>
+      <stop offset=".55" stop-color="#96765c"/>
+      <stop offset="1" stop-color="#c0a184"/>
+    </linearGradient>
+    <radialGradient id="wheelHub" cx=".35" cy=".35" r=".8">
+      <stop offset="0" stop-color="#fff2a8"/>
+      <stop offset="1" stop-color="#e79b24"/>
+    </radialGradient>
+    <clipPath id="bodyClip">
+      <ellipse cx="398" cy="292" rx="118" ry="70" transform="rotate(-5 398 292)"/>
+    </clipPath>
+
+    <!-- One bottle, centred on (0,0) so it can tumble around its middle -->
+    <g id="bottle">
+      <rect x="-6" y="-39" width="12" height="9" rx="2" fill="#8a4b24"/>
+      <path d="M-5 -31 L-5 -17 C-5 -10 -15 -7 -15 3 L-15 27 C-15 36 -9 40 0 40 C9 40 15 36 15 27 L15 3 C15 -7 5 -10 5 -17 L5 -31 Z" fill="currentColor" stroke="#26343a" stroke-width="2.5"/>
+      <path d="M-15 8 L15 8 L15 25 L-15 25 Z" fill="#fff8dc" opacity=".92"/>
+      <circle cx="0" cy="16" r="4" fill="#e94f37"/>
+      <path d="M-8 -3 C-10 8 -10 22 -8 31" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+    </g>
+  </defs>
+
+  <style>
+    .spin       { transform-origin: 400px 440px; animation: spin 2s linear infinite; }
+    .bob        { animation: bob 1s ease-in-out infinite; }
+    .tail       { transform-origin: 300px 292px; animation: tail 2.4s ease-in-out infinite; }
+    .head       { transform-origin: 478px 262px; animation: head 2s ease-in-out infinite; }
+    .arm-near   { transform-origin: 438px 300px; animation: armNear 1.8s ease-in-out infinite; }
+    .arm-far    { transform-origin: 474px 282px; animation: armFar 1.8s ease-in-out infinite; }
+    .tumble     { transform-box: fill-box; transform-origin: center; animation: tumble 1.8s linear infinite; }
+    .tumble-slow{ transform-box: fill-box; transform-origin: center; animation: tumble 2.4s linear infinite reverse; }
+    .cloud      { animation: drift 24s linear infinite; }
+    .cloud.fast { animation-duration: 16s; }
+    .scenery    { animation: scenery 3.2s linear infinite; }
+    .shadow     { transform-origin: 400px 542px; animation: shadow 1s ease-in-out infinite; }
+    .blink      { transform-origin: 512px 252px; animation: blink 4.2s infinite; }
+    .tongue     { transform-origin: 596px 281px; animation: tongue 1.8s ease-in-out infinite; }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes bob     { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+    @keyframes tail    { 0%,100% { transform: rotate(3deg); } 50% { transform: rotate(-5deg); } }
+    @keyframes head    { 0%,100% { transform: rotate(-1.5deg); } 50% { transform: rotate(2.5deg); } }
+    @keyframes armNear { 0%,100% { transform: rotate(4deg); } 50% { transform: rotate(-5deg); } }
+    @keyframes armFar  { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(4deg); } }
+    @keyframes tumble  { to { transform: rotate(360deg); } }
+    @keyframes drift   { from { transform: translateX(-190px); } to { transform: translateX(880px); } }
+    @keyframes scenery { from { transform: translateX(0); } to { transform: translateX(-240px); } }
+    @keyframes shadow  { 0%,100% { transform: scaleX(1); opacity:.22; } 50% { transform: scaleX(.94); opacity:.17; } }
+    @keyframes blink   { 0%,91%,100% { transform: scaleY(1); } 94%,97% { transform: scaleY(.08); } }
+    @keyframes tongue  { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(5deg); } }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="692" cy="82" r="38" fill="#ffd94d"/>
+  <circle cx="692" cy="82" r="52" fill="none" stroke="#ffd94d" stroke-width="5" stroke-dasharray="8 13" stroke-linecap="round" opacity=".65">
+    <animateTransform attributeName="transform" type="rotate" from="0 692 82" to="360 692 82" dur="28s" repeatCount="indefinite"/>
+  </circle>
+
+  <g class="cloud" opacity=".95">
+    <g fill="#ffffff"><ellipse cx="60" cy="88" rx="48" ry="24"/><ellipse cx="98" cy="76" rx="38" ry="28"/><ellipse cx="28" cy="78" rx="30" ry="20"/></g>
+  </g>
+  <g class="cloud fast" opacity=".8">
+    <g fill="#ffffff" transform="translate(-360 52) scale(.65)"><ellipse cx="60" cy="88" rx="48" ry="24"/><ellipse cx="98" cy="76" rx="38" ry="28"/><ellipse cx="28" cy="78" rx="30" ry="20"/></g>
+  </g>
+  <g class="cloud" opacity=".65" style="animation-delay:-14s">
+    <g fill="#ffffff" transform="translate(-120 92) scale(.5)"><ellipse cx="60" cy="88" rx="48" ry="24"/><ellipse cx="98" cy="76" rx="38" ry="28"/></g>
+  </g>
+
+  <text x="400" y="52" text-anchor="middle" font-family="Verdana, Arial, sans-serif" font-size="27" font-weight="700" fill="#274156" letter-spacing="1">THE AMAZING ANTEATER!</text>
+
+  <!-- Moving scenery -->
+  <rect x="0" y="528" width="800" height="72" fill="#69bd6b"/>
+  <rect x="0" y="528" width="800" height="10" fill="#8bd77c"/>
+  <g class="scenery" stroke="#3e9c4f" stroke-width="5" stroke-linecap="round">
+    <path d="M30 570 l8 -18 M48 570 l-6 -15 M270 578 l8 -18 M288 578 l-6 -15 M510 570 l8 -18 M528 570 l-6 -15 M750 578 l8 -18 M768 578 l-6 -15 M990 570 l8 -18"/>
+    <circle cx="150" cy="562" r="7" fill="#ff6b81" stroke="none"/><circle cx="390" cy="574" r="7" fill="#ffd94d" stroke="none"/>
+    <circle cx="630" cy="562" r="7" fill="#ff6b81" stroke="none"/><circle cx="870" cy="574" r="7" fill="#ffd94d" stroke="none"/>
+  </g>
+  <line x1="0" y1="539" x2="800" y2="539" stroke="#ffffff" stroke-width="4" stroke-dasharray="34 28" opacity=".65">
+    <animate attributeName="stroke-dashoffset" from="0" to="62" dur=".8s" repeatCount="indefinite"/>
+  </line>
+
+  <ellipse class="shadow" cx="400" cy="542" rx="148" ry="15" fill="#17451f"/>
+
+  <!-- Unicycle wheel -->
+  <g>
+    <circle cx="400" cy="440" r="90" fill="#eaf7ff" fill-opacity=".35" stroke="#26343a" stroke-width="17"/>
+    <circle cx="400" cy="440" r="77" fill="none" stroke="#b9cbd4" stroke-width="4"/>
+    <g class="spin" stroke="#7d929e" stroke-width="5" stroke-linecap="round">
+      <line x1="400" y1="440" x2="400" y2="367"/><line x1="400" y1="440" x2="463" y2="377"/>
+      <line x1="400" y1="440" x2="473" y2="440"/><line x1="400" y1="440" x2="463" y2="503"/>
+      <line x1="400" y1="440" x2="400" y2="513"/><line x1="400" y1="440" x2="337" y2="503"/>
+      <line x1="400" y1="440" x2="327" y2="440"/><line x1="400" y1="440" x2="337" y2="377"/>
+      <!-- Cranks and pedals, turning with the wheel -->
+      <line x1="400" y1="440" x2="445" y2="440" stroke="#26343a" stroke-width="8"/>
+      <line x1="400" y1="440" x2="355" y2="440" stroke="#26343a" stroke-width="8"/>
+      <rect x="430" y="432" width="32" height="11" rx="5" fill="#26343a" stroke="none"/>
+      <rect x="338" y="437" width="32" height="11" rx="5" fill="#26343a" stroke="none"/>
+    </g>
+    <circle cx="400" cy="440" r="17" fill="url(#wheelHub)" stroke="#8a5a12" stroke-width="3"/>
+  </g>
+
+  <!-- Unicycle frame and seat -->
+  <path d="M400 440 L382 342 M400 440 L418 342 M400 440 L400 330" fill="none" stroke="#d93636" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="400" cy="337" rx="43" ry="12" fill="#26343a"/>
+
+  <!-- Everything that bobs as it pedals -->
+  <g class="bob">
+
+    <!-- Far arm -->
+    <g class="arm-far">
+      <path d="M474 282 Q520 252 488 220" fill="none" stroke="#6f5847" stroke-width="17" stroke-linecap="round"/>
+      <circle cx="488" cy="220" r="12" fill="#6f5847"/>
+    </g>
+
+    <!-- Far leg (starts half a turn out of phase with the near leg) -->
+    <path fill="none" stroke="#6f5847" stroke-width="19" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="d" dur="2s" repeatCount="indefinite" calcMode="linear"
+        values="M362 338 Q376 389 355 440; M362 338 Q379 373 368 408; M362 338 Q395 366 400 395; M362 338 Q411 373 432 408; M362 338 Q421 389 445 440; M362 338 Q411 405 432 472; M362 338 Q395 411 400 485; M362 338 Q379 405 368 472; M362 338 Q376 389 355 440"/>
+    </path>
+
+    <!-- Bushy tail -->
+    <path class="tail" d="M302 294 C238 246 178 244 142 282 C112 314 142 350 196 349 C244 348 286 326 312 312 Z"
+          fill="url(#tailFur)" stroke="#4c382a" stroke-width="4" stroke-linejoin="round"/>
+
+    <!-- Body -->
+    <ellipse cx="398" cy="292" rx="118" ry="70" transform="rotate(-5 398 292)" fill="url(#fur)" stroke="#5b4636" stroke-width="4"/>
+    <g clip-path="url(#bodyClip)">
+      <path d="M342 218 L398 218 L376 366 L318 366 Z" fill="#4b382c" opacity=".82"/>
+      <path d="M366 218 L390 218 L370 366 L344 366 Z" fill="#e9dcc8" opacity=".8"/>
+    </g>
+    <ellipse cx="350" cy="322" rx="42" ry="22" transform="rotate(-18 350 322)" fill="#c9ab90" opacity=".75"/>
+
+    <!-- Head, long snout and ear -->
+    <g class="head">
+      <ellipse cx="488" cy="258" rx="48" ry="42" transform="rotate(-8 488 258)" fill="url(#fur)" stroke="#5b4636" stroke-width="4"/>
+      <path d="M516 240 C562 244 602 260 620 276 C626 282 622 291 612 293 C576 300 540 296 514 286 Z"
+            fill="#c3a184" stroke="#5b4636" stroke-width="4" stroke-linejoin="round"/>
+      <ellipse cx="617" cy="284" rx="10" ry="7" transform="rotate(18 617 284)" fill="#26343a"/>
+      <path class="tongue" d="M610 292 C622 300 634 301 644 296" fill="none" stroke="#ef6f91" stroke-width="5" stroke-linecap="round"/>
+      <path d="M472 224 C461 198 476 181 492 190 C506 198 498 224 486 232 Z" fill="#96765c" stroke="#5b4636" stroke-width="4"/>
+      <ellipse cx="484" cy="209" rx="7" ry="11" transform="rotate(-14 484 209)" fill="#5d4032"/>
+      <g class="blink">
+        <circle cx="512" cy="252" r="7" fill="#20242a"/>
+        <circle cx="515" cy="249" r="2.4" fill="#ffffff"/>
+      </g>
+      <path d="M540 282 Q558 291 576 288" fill="none" stroke="#5b4636" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="528" cy="272" r="9" fill="#f2a08e" opacity=".65"/>
+    </g>
+
+    <!-- Near leg, pedalling -->
+    <path fill="none" stroke="#8a6d55" stroke-width="21" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="d" dur="2s" repeatCount="indefinite" calcMode="linear"
+        values="M438 338 Q460 389 445 440; M438 338 Q452 400 432 472; M438 338 Q437 411 400 485; M438 338 Q419 400 368 472; M438 338 Q414 389 355 440; M438 338 Q419 368 368 408; M438 338 Q437 366 400 395; M438 338 Q451 368 432 408; M438 338 Q460 389 445 440"/>
+    </path>
+    <!-- Feet, following the pedals -->
+    <g fill="#4c382a">
+      <ellipse rx="15" ry="9">
+        <animate attributeName="cx" dur="2s" repeatCount="indefinite" calcMode="linear" values="445;432;400;368;355;368;400;432;445"/>
+        <animate attributeName="cy" dur="2s" repeatCount="indefinite" calcMode="linear" values="440;472;485;472;440;408;395;408;440"/>
+      </ellipse>
+      <ellipse rx="14" ry="8" opacity=".75">
+        <animate attributeName="cx" dur="2s" repeatCount="indefinite" calcMode="linear" values="355;368;400;432;445;432;400;368;355"/>
+        <animate attributeName="cy" dur="2s" repeatCount="indefinite" calcMode="linear" values="440;408;395;408;440;472;485;472;440"/>
+      </ellipse>
+    </g>
+
+    <!-- Near arm -->
+    <g class="arm-near">
+      <path d="M438 300 Q366 274 322 224" fill="none" stroke="#8a6d55" stroke-width="19" stroke-linecap="round"/>
+      <circle cx="322" cy="224" r="13" fill="#8a6d55"/>
+      <circle cx="318" cy="220" r="4" fill="#c9ab90"/>
+    </g>
+  </g>
+
+  <!-- Juggling path (faint guide) -->
+  <path d="M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-dasharray="3 12" stroke-linecap="round" opacity=".55"/>
+
+  <!-- Bottles: spaced a third of a loop apart, tumbling as they fly -->
+  <g color="#38a85c">
+    <animateMotion dur="1.8s" repeatCount="indefinite" path="M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z"/>
+    <g class="tumble"><use href="#bottle"/></g>
+  </g>
+  <g color="#e99b24">
+    <animateMotion dur="1.8s" begin="-0.45s" repeatCount="indefinite" path="M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z"/>
+    <g class="tumble"><use href="#bottle"/></g>
+  </g>
+  <g color="#e94f37">
+    <animateMotion dur="1.8s" begin="-0.9s" repeatCount="indefinite" path="M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z"/>
+    <g class="tumble"><use href="#bottle"/></g>
+  </g>
+  <g color="#7b61c9">
+    <animateMotion dur="1.8s" begin="-1.35s" repeatCount="indefinite" path="M322 224 C345 92 455 92 488 220 C462 292 350 292 322 224 Z"/>
+    <g class="tumble-slow"><use href="#bottle"/></g>
+  </g>
+
+  <!-- Speed lines -->
+  <g stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".8">
+    <line x1="92" y1="390" x2="168" y2="390"><animate attributeName="opacity" values=".1;.9;.1" dur=".9s" repeatCount="indefinite"/></line>
+    <line x1="62" y1="424" x2="158" y2="424"><animate attributeName="opacity" values=".9;.1;.9" dur=".9s" repeatCount="indefinite"/></line>
+    <line x1="104" y1="458" x2="176" y2="458"><animate attributeName="opacity" values=".1;.9;.1" dur=".9s" begin=".3s" repeatCount="indefinite"/></line>
+  </g>
+
+  <text x="400" y="584" text-anchor="middle" font-family="Verdana, Arial, sans-serif" font-size="17" font-weight="700" fill="#1f5c2e">Pedalling, juggling, and looking for ants!</text>
+</svg>
