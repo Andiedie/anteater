@@ -463,6 +463,28 @@
         "en": "Launch article and dated API changelog agree; article JSON-LD has datePublished/dateModified 2026-09-21T00:00:00Z. Do not confuse Fast access or 4.6 with this exact model.",
         "zh": "厂商公告与带日API更新日志一致，公告JSON-LD为2026-09-21T00:00:00Z。与4.6及Fast访问方式分开处理。"
       }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6.2 Astra",
+      "release_date": "2026-11-17",
+      "source_url": "https://developers.openai.com/api/docs/changelog#november-2026",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "The OpenAI API changelog lists the first public release of this exact model on November 17, 2026, using the publisher’s calendar date.",
+        "zh": "OpenAI API 更新日志将该型号的首次公开发布列于 2026 年 11 月 17 日，沿用原厂日期。"
+      }
+    },
+    {
+      "vendor": "OpenAI",
+      "name": "GPT-6.2 Sol",
+      "release_date": "2026-11-17",
+      "source_url": "https://developers.openai.com/api/docs/changelog#november-2026",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "The OpenAI API changelog lists the first public release of this exact model on November 17, 2026, using the publisher’s calendar date.",
+        "zh": "OpenAI API 更新日志将该型号的首次公开发布列于 2026 年 11 月 17 日，沿用原厂日期。"
+      }
     }
   ]
 }

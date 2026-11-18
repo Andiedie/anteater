@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" width="800" height="700" role="img" aria-labelledby="title description">
+  <title id="title">The juggling anteater</title>
+  <desc id="description">A giant anteater in a coral neckerchief pedals a unicycle under a circus spotlight, juggling three colorful bottles in a continuous cascade.</desc>
+  <defs>
+    <linearGradient id="backdrop" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#101f30"/>
+      <stop offset="1" stop-color="#243d48"/>
+    </linearGradient>
+    <radialGradient id="spotlight" cx="57%" cy="30%" r="68%">
+      <stop stop-color="#ffe8a6" stop-opacity=".26"/>
+      <stop offset="1" stop-color="#ffe8a6" stop-opacity=".025"/>
+    </radialGradient>
+    <linearGradient id="fur" x2=".75" y2="1">
+      <stop stop-color="#e2c7a1"/>
+      <stop offset="1" stop-color="#a2806d"/>
+    </linearGradient>
+    <linearGradient id="tail" x2="1" y2=".8">
+      <stop stop-color="#806c70"/>
+      <stop offset="1" stop-color="#413949"/>
+    </linearGradient>
+    <pattern id="grain" width="23" height="19" patternUnits="userSpaceOnUse">
+      <path d="M2 3h1m12 4h1m-8 8h1m12 2h1" stroke="#fff0c5" stroke-opacity=".15" stroke-width="1"/>
+      <path d="M6 8h1m12-6h1m-3 11h1m-14 5h1" stroke="#0a1523" stroke-opacity=".3" stroke-width="1"/>
+    </pattern>
+    <path id="spark" d="M0-9Q1-1 9 0 1 1 0 9-1 1-9 0-1-1 0-9Z"/>
+    <g id="bottle" stroke="#232637" stroke-width="2.8" stroke-linejoin="round">
+      <path d="M-5-31H5v16c0 5 8 8 8 15v26q0 5-5 5H-8q-5 0-5-5V0c0-7 8-10 8-15Z" fill="currentColor"/>
+      <path d="M-9 4H9v15H-9Z" fill="#fff0c8" stroke="none"/>
+      <path d="M0 6l4 5-4 5-4-5Z" fill="currentColor" stroke="none"/>
+      <path d="M-8 1q0-4 3-6m-3 27v3" fill="none" stroke="#fff0c8" stroke-linecap="round" opacity=".6"/>
+      <rect x="-7" y="-35" width="14" height="7" rx="2" fill="#ffd084"/>
+    </g>
+    <path id="cascade" d="M382 334 C407 229 449 66 504 82 C563 98 590 249 622 329 Q635 363 604 350 C563 278 524 139 476 150 C422 162 401 286 367 323 Q355 354 382 334Z"/>
+  </defs>
+
+  <rect width="800" height="700" fill="url(#backdrop)"/>
+  <path d="M489 0H548L774 596Q790 648 485 656 170 654 205 604Z" fill="url(#spotlight)"/>
+  <path d="M0 0H125Q96 120 0 199ZM800 0H675q29 120 125 199Z" fill="#472e43"/>
+  <path d="M0 0H92Q67 99 0 151ZM800 0h-92q25 99 92 151Z" fill="#663a4b"/>
+  <path d="M0 178Q85 119 111 0M800 178Q715 119 689 0" fill="none" stroke="#d6a16e" stroke-opacity=".45" stroke-width="2"/>
+  <rect x="20" y="20" width="760" height="660" rx="18" fill="none" stroke="#e7ba80" stroke-opacity=".35"/>
+  <rect x="27" y="27" width="746" height="646" rx="13" fill="none" stroke="#e7ba80" stroke-opacity=".15"/>
+  <path d="M63 630Q400 592 737 630v16H63Z" fill="#b59b79" opacity=".12"/>
+  <ellipse cx="448" cy="635" rx="207" ry="20" fill="#111e2a" opacity=".58"/>
+  <ellipse cx="440" cy="636" rx="96" ry="8" fill="#111e2a" opacity=".68"/>
+  <rect width="800" height="700" fill="url(#grain)"/>
+
+  <g fill="#ffce83">
+    <use href="#spark" x="349" y="164"/>
+    <use href="#spark" x="643" y="211"/>
+    <use href="#spark" x="592" y="98" opacity=".65"/>
+    <use href="#spark" x="276" y="267" opacity=".7"/>
+    <use href="#spark" x="685" y="284" opacity=".65"/>
+    <circle cx="403" cy="116" r="2"/><circle cx="654" cy="146" r="2"/>
+    <circle cx="310" cy="213" r="2"/><circle cx="686" cy="244" r="2"/>
+  </g>
+  <path d="M388 264q20-67 48-100m122-17q25 31 38 73" fill="none" stroke="#ffe6ae" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 9" opacity=".33"/>
+
+  <!-- The wheel and crank make one revolution together. -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="436" cy="541" r="91" fill="#202735" stroke="#151c29" stroke-width="10"/>
+    <circle cx="436" cy="541" r="82" fill="#334652" stroke="#f2b676" stroke-width="4"/>
+    <g transform="translate(436 541)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.44s" repeatCount="indefinite"/>
+        <circle r="75" fill="none" stroke="#c8d1bb" stroke-width="2" opacity=".5"/>
+        <path d="M-75 0H75M0-75V75M-53-53L53 53m0-106L-53 53" stroke="#b7c6b7" stroke-width="2.5" opacity=".78"/>
+        <path d="M-55-56A78 78 0 0 1-23-74" fill="none" stroke="#fff0bc" stroke-width="3"/>
+        <path d="M-29 0H29" stroke="#17202d" stroke-width="10"/>
+        <path d="M-29 0H29" stroke="#eab177" stroke-width="5"/>
+      </g>
+    </g>
+    <path d="M413 433l8 42q2 12 8 24l7 42" fill="none" stroke="#202637" stroke-width="18"/>
+    <path d="M413 433l8 42q2 12 8 24l7 42" fill="none" stroke="#f17f68" stroke-width="10"/>
+    <path d="M414 443l7 29" fill="none" stroke="#ffc08d" stroke-width="2.5"/>
+    <circle cx="436" cy="541" r="9" fill="#ffe1a2" stroke="#202637" stroke-width="4"/>
+    <path d="M385 432q21 5 35-1l24-5q8 0 6 8-20 16-48 12-17-3-17-14Z" fill="#433143" stroke="#202637" stroke-width="4"/>
+  </g>
+
+  <!-- Far leg follows the opposite pedal. -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M414 413Q452 458 429 498L407 541" stroke="#51404b" stroke-width="21">
+      <animate attributeName="d" dur="1.44s" repeatCount="indefinite" values="M414 413Q452 458 429 498L407 541;M414 413Q449 451 444 475L436 512;M414 413Q482 455 469 498L465 541;M414 413Q463 463 449 523L436 570;M414 413Q452 458 429 498L407 541"/>
+    </path>
+    <g transform="translate(436 541)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.44s" repeatCount="indefinite"/>
+        <g transform="translate(-29 0)">
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.44s" repeatCount="indefinite"/>
+            <path d="M-12 7h26" stroke="#202637" stroke-width="7"/>
+            <path d="M-8-3Q3-7 12-2l1 6H-9Z" fill="#66505b" stroke="#202637" stroke-width="3"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <g stroke="#292635" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-2 377 407;3 377 407;-2 377 407" dur="1.44s" repeatCount="indefinite"/>
+      <path d="M401 405C349 382 336 326 270 310q-78-21-137 27l27 2-34 21 34-4-26 26 34-9-13 24 35-11-6 17 34-10c59-20 85 36 151 38Z" fill="url(#tail)"/>
+      <path d="M156 344q67-37 117-12c47 22 59 54 99 72m-197-35q54-31 103-8c30 15 49 37 71 46m-150-25q37-17 76 1" fill="none" stroke="#c3a288" stroke-width="2.5" opacity=".54"/>
+    </g>
+    <path d="M399 354q-25 3-39-11-8-9-3-14 4-5 12 3-2-7 3-8 7-1 11 12l29-12" fill="#8d7370"/>
+    <path d="M367 413c-6-38 35-75 76-98 18-10 37-13 52-5 25 15 16 52-8 74-21 19-35 48-69 51-23 2-46-5-51-22Z" fill="url(#fur)"/>
+    <path d="M371 400q15-31 44-48l49-34 16 26-51 36q-34 22-38 50-15-4-20-16Z" fill="#f4e2be" stroke="none"/>
+    <path d="M377 411q12-29 45-50l51-37 14 21-51 40q-26 19-33 48-20-3-26-13Z" fill="#413744" stroke="none"/>
+    <path d="M427 397q-7 6-11 15m20-18-6 10" fill="none" stroke="#e9c7a0" stroke-width="2" opacity=".65"/>
+
+    <!-- The near arm meets the right-hand catch. -->
+    <path d="M480 346c26 13 56 36 80 36q25 0 45-26 6 1 11-5l8-10q3-6-3-6l-10 7q7-11 1-12-5-1-9 8-4-5-8-2-4 3-4 11-18 18-31 16-26-5-54-30" fill="#b09583"/>
+    <path d="M529 359q21 14 34 15 16 0 30-15" fill="none" stroke="#f0cfa8" stroke-width="2.5"/>
+
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-2 480 313;2 480 313;-2 480 313" dur="1.44s" repeatCount="indefinite"/>
+      <path d="M463 293q-12-12-12-24 2-14 14-8 12 4 17 23" fill="#8d716b"/>
+      <path d="M471 281c13-11 27-11 43-1 20 13 38 18 66 22l30 1q14 1 12 11-2 14-25 15l-55-5c-25-3-36 12-54 9-33-4-43-33-17-52Z" fill="url(#fur)"/>
+      <path d="M506 294q22 17 54 21l47 3q-6 8-15 8l-52-6q-23-2-42 9" fill="#f2d5a6" stroke="none"/>
+      <path d="M603 303q20-4 20 9-1 9-11 12-12-5-9-21Z" fill="#332c39"/>
+      <path d="M609 308l6 1" fill="none" stroke="#a8958d" stroke-width="2"/>
+      <path d="M494 288q6-3 12 1" fill="none" stroke-width="2.5"/>
+      <ellipse cx="501" cy="298" rx="4.2" ry="5.8" fill="#262633" stroke="none"/>
+      <circle cx="502" cy="296" r="1.3" fill="#fff1d1" stroke="none"/>
+      <path d="M467 306q13 18 39 18l-7 14q-22 4-42-18Z" fill="#eb7861"/>
+      <path d="M464 323q-11 2-26 16l18-1-4 13q14-8 20-19" fill="#eb7861"/>
+      <path d="M465 327q13 6 28 5" fill="none" stroke="#ffc38d" stroke-width="2"/>
+    </g>
+  </g>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M413 411Q480 436 479 480L465 541" stroke="#362e3c" stroke-width="25">
+      <animate attributeName="d" dur="1.44s" repeatCount="indefinite" values="M413 411Q480 436 479 480L465 541;M413 411Q471 452 452 515L436 570;M413 411Q450 453 423 497L407 541;M413 411Q464 439 450 476L436 512;M413 411Q480 436 479 480L465 541"/>
+    </path>
+    <path d="M413 411Q480 436 479 480L465 541" stroke="#b79985" stroke-width="16">
+      <animate attributeName="d" dur="1.44s" repeatCount="indefinite" values="M413 411Q480 436 479 480L465 541;M413 411Q471 452 452 515L436 570;M413 411Q450 453 423 497L407 541;M413 411Q464 439 450 476L436 512;M413 411Q480 436 479 480L465 541"/>
+    </path>
+    <g transform="translate(436 541)">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.44s" repeatCount="indefinite"/>
+        <g transform="translate(29 0)">
+          <g>
+            <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.44s" repeatCount="indefinite"/>
+            <path d="M-12 7h28" stroke="#202637" stroke-width="7"/>
+            <path d="M-9-3q10-7 21-1 4 2 2 8H-9Z" fill="#64505a" stroke="#292635" stroke-width="3"/>
+            <path d="M8-3l2 4" stroke="#e8cdb2" stroke-width="1.5"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- A full circuit contains two throws, with the bottles a third of a cycle apart. -->
+  <g>
+    <animateMotion dur="2.7s" begin="-.15s" repeatCount="indefinite"><mpath href="#cascade"/></animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="-35" to="685" dur="2.7s" begin="-.15s" repeatCount="indefinite"/>
+      <use href="#bottle" color="#ea7967"/>
+    </g>
+  </g>
+  <g>
+    <animateMotion dur="2.7s" begin="-1.05s" repeatCount="indefinite"><mpath href="#cascade"/></animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="-35" to="685" dur="2.7s" begin="-1.05s" repeatCount="indefinite"/>
+      <use href="#bottle" color="#73cbb5"/>
+    </g>
+  </g>
+  <g>
+    <animateMotion dur="2.7s" begin="-1.95s" repeatCount="indefinite"><mpath href="#cascade"/></animateMotion>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="-35" to="685" dur="2.7s" begin="-1.95s" repeatCount="indefinite"/>
+      <use href="#bottle" color="#eeb35e"/>
+    </g>
+  </g>
+</svg>

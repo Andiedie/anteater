@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 760" width="960" height="760" role="img" aria-labelledby="title description">
+  <title id="title">The anteater's balancing act</title>
+  <desc id="description">Under velvet curtains and a gold proscenium, a long-snouted anteater in a scarlet waistcoat pedals a unicycle and tosses three painted glass bottles.</desc>
+  <defs>
+    <radialGradient id="stage" cx="51%" cy="48%" r="71%">
+      <stop stop-color="#386568"/><stop offset=".64" stop-color="#21484d"/><stop offset="1" stop-color="#102e36"/>
+    </radialGradient>
+    <linearGradient id="fur" x2=".85" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#e2bf8e"/><stop offset=".56" stop-color="#bd9674"/><stop offset="1" stop-color="#98745f"/>
+    </linearGradient>
+    <linearGradient id="plume" x2=".75" y2="1"><stop stop-color="#c4a88c"/><stop offset=".55" stop-color="#967d6e"/><stop offset="1" stop-color="#665953"/></linearGradient>
+    <linearGradient id="velvet" x2="1" y2=".2"><stop stop-color="#552f36"/><stop offset=".45" stop-color="#b55447"/><stop offset=".7" stop-color="#86413e"/><stop offset="1" stop-color="#58323a"/></linearGradient>
+    <pattern id="paper" width="39" height="31" patternUnits="userSpaceOnUse">
+      <path d="m2 4 2 0m17 14 1 0m11 8 2 -1m-26 2 1 0m18 -23 1 0" stroke="#503d33" stroke-width="1.1" opacity=".24"/>
+      <path d="m12 11 1 0m23 1 1 0m-14 16 1 0" stroke="#fff2d2" opacity=".44"/>
+    </pattern>
+    <path id="arch" d="M42 696V153Q42 114 83 112C175 112 180 53 285 53H675C780 53 785 112 877 112Q918 114 918 153V696Z"/>
+    <clipPath id="inside"><use xlink:href="#arch"/></clipPath>
+    <path id="star" d="M0 -10Q1 -1 7 0Q1 1 0 10Q-1 1 -7 0Q-1 -1 0 -10Z"/>
+    <g id="corner" fill="none" stroke="#886846" stroke-width="1.4">
+      <path d="M31 91V32H146M37 76C43 43 84 52 102 35M39 65C40 49 51 41 67 41C61 49 48 47 45 54M48 41Q46 34 39 38Q38 45 44 47"/>
+      <path d="M77 41q7 -7 16 -5q-8 6 -16 5" fill="#98744d"/>
+      <circle cx="31" cy="93" r="2" fill="#886846"/>
+    </g>
+    <g id="curtain">
+      <path d="M38 44H234C189 119 151 156 91 204Q72 221 53 215L33 202Z" fill="url(#velvet)" stroke="#302e32" stroke-width="4"/>
+      <path d="M53 213Q122 180 178 102M67 191Q110 146 137 97M43 183Q60 148 74 112" fill="none" stroke="#e08a69" stroke-width="2.4" opacity=".64"/>
+      <path d="M47 216Q94 202 137 160Q183 121 226 60" fill="none" stroke="#d2a866" stroke-width="4"/>
+      <path d="M47 222Q91 209 138 166Q188 119 230 66" fill="none" stroke="#d2a866" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+      <path d="M46 219Q64 247 60 286L52 301L45 287Z" fill="#c59b5f"/><path d="M52 228L53 285" stroke="#f6d58e" stroke-width="2"/>
+    </g>
+    <g id="bottle" stroke="#202e31" stroke-linejoin="round">
+      <path d="M-5 -33H5V-17C5 -11 13 -11 13 -2V25Q13 30 8 30H-8Q-13 30 -13 25V-2C-13 -10 -5 -12 -5 -17Z" fill="currentColor" stroke-width="2.8"/>
+      <rect x="-7" y="-36" width="14" height="6" rx="2" fill="#ecc78d" stroke-width="2"/>
+      <path d="M-12 1Q0 4 12 1V17Q0 20 -12 17Z" fill="#f7deb0" stroke-width="1.4"/>
+      <path d="M0 4l4 5 -4 6 -4 -6Z" fill="currentColor" stroke="none"/>
+      <path d="M-7 -5q0 -3 3 -5m-4 31v3" fill="none" stroke="#ffedc5" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M6 -7q4 2 4 6m-1 21v5H5" fill="none" stroke-width="1.6" opacity=".46"/>
+    </g>
+    <g id="spokes" fill="none" stroke="#cbab75" stroke-width="2.2">
+      <path d="M0 -76V76M-76 0H76M-53.74 -53.74l107.48 107.48M-53.74 53.74L53.74 -53.74"/>
+      <path d="M0 -76V76M-76 0H76M-53.74 -53.74l107.48 107.48M-53.74 53.74L53.74 -53.74" transform="rotate(22.5)"/>
+    </g>
+    <g id="shoe" stroke="#252d2d" stroke-width="3" stroke-linejoin="round">
+      <path d="M-14 1l2 -16 14 1 4 9q14 -2 18 6q-1 5 -13 5h-24Z" fill="#a95842"/>
+      <path d="M-12 2q18 4 34 -1M-6 -9l9 2" fill="none" stroke="#e2b67d" stroke-width="2"/>
+      <rect x="-13" y="6" width="32" height="5" rx="2" fill="#d5b277" stroke-width="2"/>
+    </g>
+    <style>
+      .wheel { animation: spin 2.4s linear infinite }
+      @keyframes spin { to { transform: rotate(360deg) } }
+      .sway { transform-origin: 446px 467px; animation: balance 2.4s ease-in-out infinite }
+      @keyframes balance { 0%,100% {transform:rotate(-1deg)} 50% {transform:rotate(1deg)} }
+      .tail { transform-origin: 417px 440px; animation: flick 2.4s ease-in-out infinite }
+      @keyframes flick { 0%,100% {transform:rotate(1deg)} 50% {transform:rotate(-3deg)} }
+      .throws,.lift,.tumble { animation-duration: 3.6s; animation-delay: var(--phase); animation-iteration-count: infinite; animation-timing-function: linear }
+      .throws { animation-name: across } .lift { animation-name: altitude } .tumble { animation-name: turn }
+      @keyframes across { 0%,100% {transform:translateX(400px)} 42% {transform:translateX(665px)} 50% {transform:translateX(609px)} 92% {transform:translateX(343px)} }
+      @keyframes altitude {
+        0%,100% {transform:translateY(313px);animation-timing-function:cubic-bezier(.33,.66,.67,1)}
+        21% {transform:translateY(107px);animation-timing-function:cubic-bezier(.33,0,.67,.34)}
+        42% {transform:translateY(315px);animation-timing-function:ease-out}
+        46% {transform:translateY(328px);animation-timing-function:ease-in}
+        50% {transform:translateY(312px);animation-timing-function:cubic-bezier(.33,.66,.67,1)}
+        71% {transform:translateY(135px);animation-timing-function:cubic-bezier(.33,0,.67,.34)}
+        92% {transform:translateY(315px);animation-timing-function:ease-out}
+        96% {transform:translateY(327px);animation-timing-function:ease-in}
+      }
+      @keyframes turn { 0%,100% {transform:rotate(-12deg)} 42% {transform:rotate(370deg)} 50% {transform:rotate(372deg)} 92% {transform:rotate(-14deg)} }
+      .arm-left {transform-origin:432px 382px;animation:catch-left 3.6s ease-in-out infinite -.612s}
+      .arm-right {transform-origin:506px 381px;animation:catch-right 3.6s ease-in-out infinite -.612s}
+      @keyframes catch-left {0%,33.33%,66.67%,100% {transform:rotate(6deg)} 16.67%,50%,83.33% {transform:rotate(-9deg)} }
+      @keyframes catch-right {0%,33.33%,66.67%,100% {transform:rotate(-5deg)} 16.67%,50%,83.33% {transform:rotate(5deg)} }
+      .foot {animation: pedal 2.4s linear infinite} .rear-foot {animation-delay:-1.2s}
+      @keyframes pedal {
+        0%,100% {transform:translate(28px,0)} 12.5% {transform:translate(20px,20px)}
+        25% {transform:translate(0,28px)} 37.5% {transform:translate(-20px,20px)}
+        50% {transform:translate(-28px,0)} 62.5% {transform:translate(-20px,-20px)}
+        75% {transform:translate(0,-28px)} 87.5% {transform:translate(20px,-20px)}
+      }
+      .leg {animation: stride 2.4s linear infinite} .rear-leg {animation-delay:-1.2s}
+      @keyframes stride {
+        0%,100% {d:path('M446 452Q444 472 494 509Q500 523 484 575')}
+        12.5% {d:path('M446 452Q439 477 489 520Q495 538 476 595')}
+        25% {d:path('M446 452Q431 478 476 525Q482 544 456 603')}
+        37.5% {d:path('M446 452Q428 477 463 518Q467 538 436 595')}
+        50% {d:path('M446 452Q427 474 459 506Q464 526 428 575')}
+        62.5% {d:path('M446 452Q427 470 464 495Q472 509 436 555')}
+        75% {d:path('M446 452Q434 468 478 490Q487 501 456 547')}
+        87.5% {d:path('M446 452Q441 468 491 497Q500 509 476 555')}
+      }
+      @media (prefers-reduced-motion:reduce) { * {animation-play-state:paused !important} }
+    </style>
+    <path id="front-leg" class="leg" d="M446 452Q444 472 494 509Q500 523 484 575"/>
+    <path id="back-leg" class="leg rear-leg" d="M446 452Q427 474 459 506Q464 526 428 575"/>
+  </defs>
+
+  <!-- Layered paper frame and stage. -->
+  <rect width="960" height="760" fill="#ecdbb5"/>
+  <rect x="15" y="15" width="930" height="730" rx="3" fill="none" stroke="#423f35" stroke-width="2.5"/>
+  <rect x="21" y="21" width="918" height="718" rx="2" fill="none" stroke="#a58a60"/>
+  <use xlink:href="#corner"/><use xlink:href="#corner" transform="translate(960) scale(-1 1)"/>
+  <use xlink:href="#arch" fill="url(#stage)" stroke="#343f39" stroke-width="10"/>
+  <g clip-path="url(#inside)">
+    <g fill="#d5c291" opacity=".68">
+      <use xlink:href="#star" transform="translate(222 208) scale(.9)"/><use xlink:href="#star" transform="translate(275 290) scale(.53)"/>
+      <use xlink:href="#star" transform="translate(356 119) scale(.7)"/><use xlink:href="#star" transform="translate(724 247) scale(.95)"/>
+      <use xlink:href="#star" transform="translate(777 350) scale(.55)"/><use xlink:href="#star" transform="translate(693 455) scale(.6)"/>
+      <use xlink:href="#star" transform="translate(143 368) scale(.7)"/><use xlink:href="#star" transform="translate(827 507) scale(.55)"/>
+      <circle cx="266" cy="163" r="2"/><circle cx="309" cy="224" r="1.6"/><circle cx="186" cy="326" r="1.5"/><circle cx="751" cy="291" r="1.5"/><circle cx="672" cy="144" r="2"/><circle cx="812" cy="382" r="2"/><circle cx="663" cy="505" r="1.5"/>
+    </g>
+    <use xlink:href="#curtain"/><use xlink:href="#curtain" transform="translate(960) scale(-1 1)"/>
+    <path d="M39 662Q476 626 921 662V701H39Z" fill="#a27353" stroke="#262f30" stroke-width="3"/>
+    <path d="M39 669Q482 634 921 669M39 686Q480 670 921 686" fill="none" stroke="#e3b984" stroke-width="1.5"/>
+    <path d="M112 696l102 -43m57 43 67 -48m213 48 -16 -52m190 52 -72 -48m214 48 -98 -43" stroke="#76553f" stroke-width="1.6"/>
+    <ellipse cx="455" cy="676" rx="98" ry="7" fill="#5c4c41" opacity=".62"/>
+
+    <!-- The wheel, far leg, fork and saddle. -->
+    <g transform="translate(456 588)">
+      <circle r="86" fill="none" stroke="#142b2d" stroke-width="12"/>
+      <circle r="84" fill="none" stroke="#6f7970" stroke-width="2"/>
+      <circle r="78.5" fill="none" stroke="#e3ba79" stroke-width="6"/>
+      <g class="wheel"><use xlink:href="#spokes"/><path d="M-39 -68A78 78 0 0 1 -19 -76" stroke="#fff0bf" stroke-width="3" fill="none"/>
+        <path d="M-28 0H28" stroke="#253536" stroke-width="9"/><path d="M-28 0H28" stroke="#b49367" stroke-width="5"/>
+      </g>
+    </g>
+    <g fill="none" stroke-linecap="round"><use xlink:href="#back-leg" stroke="#253333" stroke-width="24"/><use xlink:href="#back-leg" stroke="#72675a" stroke-width="17"/></g>
+    <g transform="translate(456 580)"><g class="foot rear-foot"><use xlink:href="#shoe"/></g></g>
+    <path d="M439 463L456 588" stroke="#233335" stroke-width="15" stroke-linecap="round"/>
+    <path d="M439 463L456 588" stroke="#d6ab67" stroke-width="8"/><path d="M442 498l7 50" stroke="#f7dca0" stroke-width="2"/>
+    <path d="M435 481l15 -2m-14 9 15 -2" stroke="#323934" stroke-width="3"/>
+    <circle cx="456" cy="588" r="10" fill="#bf9359" stroke="#283232" stroke-width="3"/><circle cx="456" cy="588" r="3" fill="#f6da9f"/>
+    <path d="M406 456q12 -6 31 1q19 4 32 -4q10 -4 11 3q0 8 -16 13q-34 11 -56 1q-9 -5 -2 -14Z" fill="#743d35" stroke="#252e2c" stroke-width="3.5"/>
+    <g fill="none" stroke-linecap="round"><use xlink:href="#front-leg" stroke="#263334" stroke-width="27"/><use xlink:href="#front-leg" stroke="#b08b6c" stroke-width="20"/></g>
+    <g transform="translate(456 580)"><g class="foot"><use xlink:href="#shoe"/></g></g>
+
+    <g class="sway" stroke="#283332" stroke-linejoin="round" stroke-linecap="round">
+      <!-- Giant anteater's plume, with long engraved guard hairs. -->
+      <g class="tail">
+        <path d="M429 421C387 409 361 418 335 443C290 479 235 487 199 484Q214 492 230 493Q182 507 128 493Q145 508 162 513L135 510Q161 529 190 533L165 531Q206 554 238 552L219 557Q259 563 295 549L278 561Q319 555 349 531L338 548Q373 531 391 496L389 510Q420 487 435 449Z" fill="url(#plume)" stroke-width="4"/>
+        <g fill="none" stroke-width="2.2" stroke="#665b55">
+          <path d="M413 431Q385 429 350 463T249 517M402 444Q369 458 344 484T263 535M388 467Q346 529 296 540M341 473Q295 513 217 515M307 504Q259 532 192 524M242 503Q208 512 169 505"/>
+        </g>
+        <g fill="none" stroke="#dcc3a0" stroke-width="2.4"><path d="M388 428q-20 5 -46 28m-9 9q-27 21 -58 29M356 474q-21 25 -52 41m-11 5 -16 6M235 537q27 3 53 -7M198 518l-17 -3"/></g>
+      </g>
+      <!-- The far forelimb reaches toward the left-hand catch. -->
+      <g class="arm-left">
+        <path d="M449 377Q433 363 419 378L399 392Q386 378 372 353L359 360Q366 396 390 412Q401 420 413 413L448 396Z" fill="#9b8069" stroke-width="3.6"/>
+        <path d="M363 366q-10 -2 -16 -12q-4 -6 0 -7l10 7q-10 -15 -5 -16l13 14q-5 -12 -1 -13q5 0 12 18" fill="#b69a7d" stroke-width="2.6"/>
+        <path d="M389 398q6 8 13 8" fill="none" stroke="#cbb496" stroke-width="2"/>
+      </g>
+      <!-- Haunch, striped shoulder, tailored waistcoat. -->
+      <path d="M419 467C397 460 391 442 397 418Q405 392 431 370L468 339L510 355Q518 387 496 422Q484 437 480 452Q468 473 445 468L436 472Z" fill="url(#fur)" stroke-width="4"/>
+      <path d="M405 431q3 22 21 29m-16 -36q1 10 5 16m8 9 8 7" fill="none" stroke="#8c715e" stroke-width="2"/>
+      <path d="M432 369L461 343Q476 359 504 356Q520 368 512 390L488 433L475 445L460 435L454 445Q429 438 410 417Q425 393 432 369Z" fill="#b75545" stroke-width="3.8"/>
+      <path d="M439 371q17 15 7 31q-7 10 -18 9" fill="none" stroke="#753c38" stroke-width="6"/>
+      <path d="M416 414q15 17 36 24m9 -10 14 10 12 -13M507 368q-2 25 -29 62" fill="none" stroke="#edbc7f" stroke-width="2.4"/>
+      <path d="M457 352l-2 20 11 -3 4 14 24 -26" fill="#e4cfa3" stroke-width="2.5"/>
+      <g fill="#f6ca7a" stroke-width="1.7"><circle cx="495" cy="385" r="3.8"/><circle cx="489" cy="399" r="3.8"/><circle cx="483" cy="413" r="3.8"/></g>
+      <!-- The long tapered muzzle and black-and-cream cheek stripe. -->
+      <path d="M450 351Q446 336 457 314Q470 287 494 288C508 281 527 285 542 293Q562 302 583 298L627 288Q634 287 634 293Q627 304 601 313L549 333Q533 339 519 352Q505 370 483 368Q461 366 450 351Z" fill="url(#fur)" stroke-width="3.8"/>
+      <path d="M451 341Q465 303 495 299Q517 296 540 307Q524 311 510 326Q486 351 457 359Z" fill="#f2ddba" stroke="none"/>
+      <path d="M452 333Q470 303 496 302Q516 300 533 307Q516 312 500 329Q480 348 456 352Z" fill="#41433e" stroke="none"/>
+      <path d="M462 313Q450 307 452 295Q455 281 465 286Q475 291 473 305" fill="#bb9777" stroke-width="3"/>
+      <path d="M459 301q-3 -9 2 -10q6 0 7 9" fill="#85685c" stroke="none"/>
+      <path d="M489 288q-6 -7 -14 -7l2 8q-9 -5 -15 -2" fill="#cfad84" stroke-width="2.8"/>
+      <path d="M624 289q11 -6 13 -1q3 5 -7 10q-6 -1 -6 -9Z" fill="#263332" stroke-width="2"/>
+      <path d="M567 319q29 -5 52 -18" fill="none" stroke="#65584a" stroke-width="1.8"/>
+      <path d="M513 296q6 -4 12 0" fill="none" stroke-width="2.2"/>
+      <ellipse cx="522" cy="306" rx="5.6" ry="6.8" fill="#252d2b" stroke="#e9d7ae" stroke-width="1.3"/><circle cx="524" cy="303" r="1.9" fill="#fff3cd" stroke="none"/>
+      <g stroke="#86705d" stroke-width="1.4"><path d="m479 342 -7 6m10 -3 -5 6m18 -13 -4 5m48 -25 4 -2m4 3 3 -2"/></g>
+      <!-- Near arm, striped cuff and upturned claws. -->
+      <g class="arm-right">
+        <path d="M501 371Q514 367 524 377L551 392Q580 383 616 352L629 362Q591 406 559 418Q547 422 536 416L501 401Q486 392 490 382Z" fill="url(#fur)" stroke-width="3.8"/>
+        <path d="M492 382q19 13 58 25q19 -2 53 -30q-27 29 -50 37q-7 2 -14 -2l-39 -17Z" fill="#655b51" stroke="none"/>
+        <path d="M610 355l8 -8 16 14 -6 7Z" fill="#f0d9b0" stroke-width="2.5"/>
+        <path d="M618 349q3 -7 0 -14q-1 -5 2 -5q5 1 7 11q8 1 17 -10q4 -3 5 0q0 5 -8 12q9 -3 14 -10q4 -3 5 1q-1 9 -13 17q-10 7 -16 8Z" fill="#c5a483" stroke-width="2.7"/>
+        <path d="M630 350q10 -2 16 -8" fill="none" stroke="#7e6958" stroke-width="1.6"/>
+      </g>
+    </g>
+    <!-- Independent horizontal travel and vertical acceleration give each throw a ballistic arc. -->
+    <g class="throws" style="--phase:-.738s;color:#de8760" transform="translate(529 0)"><g class="lift" transform="translate(0 107)"><g class="tumble" transform="rotate(174)"><use xlink:href="#bottle"/></g></g></g>
+    <g class="throws" style="--phase:-1.938s;color:#74b9a2" transform="translate(585 0)"><g class="lift" transform="translate(0 253)"><g class="tumble" transform="rotate(-23)"><use xlink:href="#bottle"/></g></g></g>
+    <g class="throws" style="--phase:-3.138s;color:#e5b759" transform="translate(373 0)"><g class="lift" transform="translate(0 243)"><g class="tumble" transform="rotate(30)"><use xlink:href="#bottle"/></g></g></g>
+  </g>
+  <use xlink:href="#arch" fill="none" stroke="#e0bf82" stroke-width="2.8"/>
+  <path d="M74 716H402m156 0h328" fill="none" stroke="#9c8059" stroke-width="1.3"/>
+  <g fill="none" stroke="#967748" stroke-width="1.4"><path d="M421 716q9 -11 20 -4t23 4q-10 9 -22 2t-21 -2Zm118 0q-9 -11 -20 -4t-23 4q10 9 22 2t21 -2Z"/><path d="M466 716l14 -7 14 7 -14 7Z"/></g>
+  <circle cx="480" cy="716" r="2.4" fill="#9a6546"/>
+  <rect width="960" height="760" fill="url(#paper)" opacity=".6" pointer-events="none"/>
+</svg>

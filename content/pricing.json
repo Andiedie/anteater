@@ -1201,6 +1201,50 @@
           ]
         }
       ]
+    },
+    "gpt-6.2-astra": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6.2-astra",
+      "aliases": [
+        "codex/gpt-6.2-astra"
+      ],
+      "rates_per_million": {
+        "input": 8.0,
+        "output": 40.0,
+        "cacheRead": 0.4,
+        "cacheWrite": 10.0,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K. The cache-write rate applies to 30-minute retention. Output includes reasoning.",
+        "zh": "全球标准费率，单次输入不超过 272K。缓存写入采用 30 分钟费率。输出包含思考 token。"
+      }
+    },
+    "gpt-6.2-sol": {
+      "vendor": "OpenAI",
+      "source_kind": "official",
+      "source": "OpenAI",
+      "source_url": "https://developers.openai.com/api/docs/models/gpt-6.2-sol",
+      "aliases": [
+        "codex/gpt-6.2-sol"
+      ],
+      "rates_per_million": {
+        "input": 2.0,
+        "output": 10.0,
+        "cacheRead": 0.1,
+        "cacheWrite": 2.5,
+        "reasoning": null
+      },
+      "input_threshold": 272000,
+      "cache_write_ttl_seconds": 1800,
+      "rate_note": {
+        "en": "Standard global rates, prompts ≤272K. The cache-write rate applies to 30-minute retention. Output includes reasoning.",
+        "zh": "全球标准费率，单次输入不超过 272K。缓存写入采用 30 分钟费率。输出包含思考 token。"
+      }
     }
   },
   "runs": {

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-6.2-sol-xhigh",
+  "name": "GPT-6.2 Sol",
+  "vendor": "OpenAI",
+  "date": "2026-11-18T02:28:58.753Z",
+  "model_ids": [
+    "codex/gpt-6.2-sol"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "xhigh"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 653.166,
+    "request_seconds": 653.091,
+    "average_tps": 33.47,
+    "tool_calls": 8,
+    "tool_breakdown": {
+      "edit": 2,
+      "read": 5,
+      "write": 1
+    },
+    "assistant_turns": 6,
+    "errors": 0,
+    "tool_errors": 4,
+    "tokens": {
+      "input": 67857,
+      "output": 21860,
+      "cacheRead": 60672,
+      "cacheWrite": 0,
+      "reasoning": 7550,
+      "totalTokens": 150389
+    },
+    "recorded_cost_usd": 0.3603812,
+    "cost_usd": 0.3603812
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gpt-6.2-sol-xhigh.html",
+    "snapshot_url": "./sessions/gpt-6.2-sol-xhigh.json",
+    "session_sha256": "afc5d3f5725ee2b4c5b40e4a9d116ccba32d57f297dfdc312df8019cb9f36ae3",
+    "export_sha256": "11093a65ea8a73e935ced964e0afd324f67844228aef25815729a4b6836fb87e",
+    "session_id": "01a1ec7c-68fa-73c2-a29f-286563b8aa46",
+    "imported_at": "2026-11-18T02:40:11.539511+00:00",
+    "artwork_sha256": "46005c4dcd3eb9caf9a8a2d9deba14c7a1d74bd28b8cec205e1778b86165fc33"
+  },
+  "response_model_ids": [
+    "codex/gpt-6.2-sol"
+  ]
+}

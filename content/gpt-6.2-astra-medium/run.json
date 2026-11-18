@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "slug": "gpt-6.2-astra-medium",
+  "name": "GPT-6.2 Astra",
+  "vendor": "OpenAI",
+  "date": "2026-11-18T02:29:09.222Z",
+  "model_ids": [
+    "codex/gpt-6.2-astra"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "medium"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 111.023,
+    "request_seconds": 110.969,
+    "average_tps": 32.03,
+    "tool_calls": 1,
+    "tool_breakdown": {
+      "write": 1
+    },
+    "assistant_turns": 2,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 16191,
+      "output": 3554,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 67,
+      "totalTokens": 19745
+    },
+    "recorded_cost_usd": 0.271688,
+    "cost_usd": 0.271688
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gpt-6.2-astra-medium.html",
+    "snapshot_url": "./sessions/gpt-6.2-astra-medium.json",
+    "session_sha256": "296c57cfdd8f35ba9031a6aeedde3d98898881b12d03f50b504bfad940cd413d",
+    "export_sha256": "a6e038a9646beabd10c592c2d4bb32880a4cef35e52840882b640386aefb0119",
+    "session_id": "01a1ec7c-91de-74c6-9838-a70dd4a62041",
+    "imported_at": "2026-11-18T02:32:26.222959+00:00",
+    "artwork_sha256": "1dacf435b5d265390c402d64decb32a6ea130d9de6b68d8a5e2d7c7230dbefcf"
+  },
+  "response_model_ids": [
+    "codex/gpt-6.2-astra"
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "header": {
+    "type": "session",
+    "version": 3,
+    "id": "01a1ec7c-5758-7164-922e-365e8e560140",
+    "timestamp": "2026-11-18T02:28:54.233Z",
+    "cwd": "/Users/andie/.local/share/anteater/runs/gpt62-codex-20261118/astra/runs/low/attempt-01/work"
+  },
+  "entries": [
+    {
+      "type": "model_change",
+      "id": "d8d5a02a",
+      "parentId": null,
+      "timestamp": "2026-11-18T02:28:54.234Z",
+      "provider": "magpie",
+      "modelId": "codex/gpt-6.2-astra"
+    },
+    {
+      "type": "thinking_level_change",
+      "id": "d2f8aba1",
+      "parentId": "d8d5a02a",
+      "timestamp": "2026-11-18T02:28:54.234Z",
+      "thinkingLevel": "low"
+    },
+    {
+      "type": "custom",
+      "customType": "anteater-benchmark-policy",
+      "data": {
+        "model": "codex/gpt-6.2-astra",
+        "level": "low",
+        "outputBudgetPolicy": "No tester-selected output or reasoning token budget.",
+        "tools": [
+          "read",
+          "write",
+          "edit"
+        ],
+        "retries": false,
+        "providerRetries": 0,
+        "compaction": false,
+        "cacheWarming": false,
+        "publicationApproved": false,
+        "invocation": "Pi 1.5.2 SDK; original prompt; isolated agent and session directories"
+      },
+      "id": "309a83a4",
+      "parentId": "d2f8aba1",
+      "timestamp": "2026-11-18T02:28:54.237Z"
+    },
+    {
+      "type": "message",
+      "id": "904bbc6c",
+      "parentId": "309a83a4",
+      "timestamp": "2026-11-18T02:28:54.239Z",
+      "message": {
+        "role": "system",
+        "content": "",
+        "sections": {
+          "preamble": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.",
+          "tools": "<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>",
+          "rules": "<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>",
+          "docs": "<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>",
+          "cwd": "<cwd>\n/Users/andie/.local/share/anteater/runs/gpt62-codex-20261118/astra/runs/low/attempt-01/work\n</cwd>"
+        },
+        "timestamp": 1794968934238,
+        "toolsAdded": [
+          {
+            "name": "read",
+            "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to read (relative or absolute)"
+                },
+                "offset": {
+                  "type": "number",
+                  "description": "Line number to start reading from (1-indexed)"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Maximum number of lines to read"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "write",
+            "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "content"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to write (relative or absolute)"
+                },
+                "content": {
+                  "type": "string",
+                  "description": "Content to write to the file"
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          },
+          {
+            "name": "edit",
+            "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+            "parameters": {
+              "type": "object",
+              "required": [
+                "path",
+                "edits"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Path to the file to edit (relative or absolute)"
+                },
+                "edits": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "oldText",
+                      "newText"
+                    ],
+                    "properties": {
+                      "oldText": {
+                        "type": "string",
+                        "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                      },
+                      "newText": {
+                        "type": "string",
+                        "description": "Replacement text for this targeted edit."
+                      }
+                    }
+                  },
+                  "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+                }
+              }
+            },
+            "constrainedSampling": {
+              "type": "json_schema",
+              "strict": "prefer"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "message",
+      "id": "b018fd83",
+      "parentId": "904bbc6c",
+      "timestamp": "2026-11-18T02:28:54.239Z",
+      "message": {
+        "role": "user",
+        "content": [
+          {
+            "type": "text",
+            "text": "Generate an animated SVG of an anteater riding a unicycle while juggling bottles."
+          }
+        ],
+        "timestamp": 1794968934238
+      }
+    },
+    {
+      "type": "message",
+      "id": "dae8cc0e",
+      "parentId": "b018fd83",
+      "timestamp": "2026-11-18T02:30:04.971Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "I’ll make a looping circus illustration with three tumbling bottles and a spinning unicycle wheel.",
+            "textSignature": "{\"v\":1,\"id\":\"msg_01a7e0746b25faf0016afd0d734eac87d1a597c63a54bca622\",\"phase\":\"commentary\"}"
+          },
+          {
+            "type": "toolCall",
+            "id": "call_3417c4c2d0d24e8fb1f13ac8598691db|fc_01a7e0746b25faf0016afd0d73d8e487d18f225bc298f04c30",
+            "name": "write",
+            "arguments": {
+              "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 640 640\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">The balancing act</title>\n  <desc id=\"desc\">A giant anteater in a red party hat balances on a unicycle, tossing three colorful bottles under the lights of a circus tent.</desc>\n  <defs>\n    <radialGradient id=\"light\"><stop stop-color=\"#fff1c6\"/><stop offset=\"1\" stop-color=\"#f2cb91\"/></radialGradient>\n    <path id=\"star\" d=\"M0 -10 Q1 -1 8 0 Q1 2 0 11 Q-2 2 -8 0 Q-2 -1 0 -10\" fill=\"#be8552\"/>\n    <path id=\"bottle\" d=\"M-5 -24 H5 V-19 H4 V-10 Q4 -7 9 -4 Q12 -2 12 3 V21 Q12 25 8 25 H-8 Q-12 25 -12 21 V3 Q-12 -2 -9 -4 Q-4 -7 -4 -10 V-19 H-5Z\"/>\n    <g id=\"glass\" stroke=\"#302e36\" stroke-width=\"2.5\" stroke-linejoin=\"round\"><use xlink:href=\"#bottle\" fill=\"currentColor\"/><path d=\"M-11 5 H11 V17 H-11Z\" fill=\"#fff1cc\" stroke=\"none\"/><path d=\"M0 7 L4 11 L0 15 L-4 11Z\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M-7 1 L-5 -2\" stroke=\"white\" stroke-linecap=\"round\"/></g>\n    <path id=\"flight\" d=\"M245 308 Q310 -65 402 299 Q331 57 245 308Z\"/>\n    <pattern id=\"bulbs\" width=\"28\" height=\"14\" patternUnits=\"userSpaceOnUse\"><circle cx=\"14\" cy=\"7\" r=\"3\" fill=\"#ffe3a4\"/></pattern>\n  </defs>\n  <rect width=\"640\" height=\"640\" fill=\"#193d43\"/>\n  <path d=\"M54 573 V288 A266 266 0 0 1 586 288 V573Z\" fill=\"url(#light)\" stroke=\"#cfaa70\" stroke-width=\"5\"/>\n  <path d=\"M67 573 V288 A253 253 0 0 1 573 288 V573\" fill=\"none\" stroke=\"#fff0c5\" stroke-width=\"3\"/>\n  <g opacity=\".75\"><use xlink:href=\"#star\" transform=\"translate(155 222)\"/><use xlink:href=\"#star\" transform=\"translate(474 182) scale(.8)\"/><use xlink:href=\"#star\" transform=\"translate(503 370)\"/><use xlink:href=\"#star\" transform=\"translate(119 401) scale(.6)\"/></g>\n  <path d=\"M0 558 H640 V640 H0Z\" fill=\"#b85742\"/><path d=\"M0 573 H640 V608 H0Z\" fill=\"#edd097\"/><path d=\"M0 606 H640 V620 H0Z\" fill=\"url(#bulbs)\"/>\n  <ellipse cx=\"314\" cy=\"561\" rx=\"96\" ry=\"8\" fill=\"#874b3c\" opacity=\".42\"/>\n  <g stroke=\"#302e36\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n    <circle cx=\"314\" cy=\"505\" r=\"54\" fill=\"#f7dfae\" stroke-width=\"9\"/>\n    <g stroke=\"#ac7860\" stroke-width=\"3\"><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 314 505\" to=\"360 314 505\" dur=\"2s\" repeatCount=\"indefinite\"/><path d=\"M314 455 V555 M264 505 H364 M279 470 L349 540 M279 540 L349 470\"/><circle cx=\"314\" cy=\"505\" r=\"46\" fill=\"none\" stroke=\"#ce7052\" stroke-width=\"4\"/></g>\n    <path d=\"M314 505 L302 411\" fill=\"none\" stroke-width=\"11\"/><path d=\"M314 505 L302 411\" fill=\"none\" stroke=\"#e28c58\" stroke-width=\"5\"/>\n    <path d=\"M278 407 Q296 417 325 404\" fill=\"none\" stroke-width=\"13\"/>\n    <!-- The bushy tail counterbalances the long muzzle. -->\n    <g><animateTransform attributeName=\"transform\" type=\"rotate\" values=\"-2 283 380;2 283 380;-2 283 380\" dur=\"2s\" repeatCount=\"indefinite\"/>\n      <path d=\"M287 368 C248 350 215 366 189 400 Q149 454 83 455 L99 464 L81 474 L104 478 L91 490 Q154 511 206 475 Q244 452 271 408 L292 392Z\" fill=\"#766559\" stroke-width=\"4\"/>\n      <path d=\"M101 479 Q158 481 202 436 M130 487 Q184 479 222 430 M152 460 Q183 447 202 419\" fill=\"none\" stroke=\"#a99579\" stroke-width=\"3\"/>\n    </g>\n    <path d=\"M295 390 Q346 386 356 422 L337 488 L320 491 L331 427 L294 426Z\" fill=\"#75645a\" stroke-width=\"4\"/>\n    <path d=\"M310 309 Q346 286 372 307 L397 293 Q404 286 409 292 Q416 302 405 310 L378 330 Q353 340 320 336Z\" fill=\"#9d8772\" stroke-width=\"4\"/>\n    <path d=\"M263 397 Q245 372 261 333 Q271 298 292 275 Q305 248 328 239 Q352 231 371 249 Q394 268 449 276 Q463 278 458 286 Q454 293 435 292 Q378 291 350 278 Q338 299 335 337 Q340 377 318 399 Q290 415 263 397Z\" fill=\"#b5a089\" stroke-width=\"4\"/>\n    <path d=\"M254 351 Q280 326 311 279 Q323 263 338 260 Q321 280 316 306 Q301 351 255 376Z\" fill=\"#fff0d3\" stroke=\"none\"/><path d=\"M254 359 Q293 332 315 286 Q322 271 334 265 Q322 289 321 310 Q310 350 255 382Z\" fill=\"#38383b\" stroke=\"none\"/>\n    <path d=\"M322 257 Q307 239 315 234 Q327 226 332 248\" fill=\"#aa8e78\" stroke-width=\"3\"/><circle cx=\"352\" cy=\"254\" r=\"4\" fill=\"#302e36\"/><circle cx=\"353\" cy=\"253\" r=\"1.2\" fill=\"white\" stroke=\"none\"/><path d=\"M448 277 Q464 275 459 285 Q450 289 448 277Z\" fill=\"#302e36\"/><path d=\"M412 283 Q433 289 446 286\" fill=\"none\" stroke-width=\"2\"/>\n    <path d=\"M323 236 L327 199 L351 234 Q338 241 323 236Z\" fill=\"#d85f49\" stroke-width=\"3\"/><path d=\"M325 220 L337 215 L341 221 L324 228Z\" fill=\"#ffe1a2\" stroke=\"none\"/><circle cx=\"327\" cy=\"198\" r=\"5\" fill=\"#fff0cb\" stroke-width=\"2\"/>\n    <path d=\"M310 311 Q297 303 287 321 L274 335 L252 307 Q247 296 240 300 Q230 305 238 319 L258 350 Q270 366 284 356 Q308 339 314 325\" fill=\"#b5a089\" stroke-width=\"4\"/><path d=\"M239 311 L235 304 M245 308 L242 301\" stroke-width=\"2\"/>\n    <path d=\"M282 379 Q251 395 258 421 L283 483 Q291 503 310 501 L321 497 Q327 490 315 486 L301 481 L286 426 Q316 416 318 393\" fill=\"#ab937c\" stroke-width=\"4\"/>\n    <path d=\"M313 505 L302 495 H285 M328 491 H345\" fill=\"none\" stroke-width=\"6\"/><circle cx=\"314\" cy=\"505\" r=\"6\" fill=\"#eab46d\" stroke-width=\"3\"/>\n  </g>\n  <!-- Offset each throw by one third of the continuous loop. -->\n  <g color=\"#338e85\"><animateMotion dur=\"3s\" repeatCount=\"indefinite\"><mpath xlink:href=\"#flight\"/></animateMotion><g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"720\" dur=\"3s\" repeatCount=\"indefinite\"/><use xlink:href=\"#glass\"/></g></g>\n  <g color=\"#e47850\"><animateMotion begin=\"-1s\" dur=\"3s\" repeatCount=\"indefinite\"><mpath xlink:href=\"#flight\"/></animateMotion><g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"720\" begin=\"-1s\" dur=\"3s\" repeatCount=\"indefinite\"/><use xlink:href=\"#glass\"/></g></g>\n  <g color=\"#6896ae\"><animateMotion begin=\"-2s\" dur=\"3s\" repeatCount=\"indefinite\"><mpath xlink:href=\"#flight\"/></animateMotion><g><animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"720\" begin=\"-2s\" dur=\"3s\" repeatCount=\"indefinite\"/><use xlink:href=\"#glass\"/></g></g>\n</svg>\n",
+              "path": "anteater.svg"
+            }
+          }
+        ],
+        "api": "openai-responses",
+        "provider": "magpie",
+        "model": "codex/gpt-6.2-astra",
+        "usage": {
+          "input": 6352,
+          "output": 2459,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 8811,
+          "cost": {
+            "input": 0.050816,
+            "output": 0.09836,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.149176,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "toolUse",
+        "timestamp": 1794968934280,
+        "responseId": "resp_01a7e0746b25faf0016afd0d686dd887d180839f5039288b83",
+        "rawStopReason": "completed",
+        "durationMs": 70690,
+        "thinkingLevel": "low"
+      }
+    },
+    {
+      "type": "message",
+      "id": "fd79a903",
+      "parentId": "dae8cc0e",
+      "timestamp": "2026-11-18T02:30:04.977Z",
+      "message": {
+        "role": "toolResult",
+        "toolCallId": "call_3417c4c2d0d24e8fb1f13ac8598691db|fc_01a7e0746b25faf0016afd0d73d8e487d18f225bc298f04c30",
+        "toolName": "write",
+        "content": [
+          {
+            "type": "text",
+            "text": "Successfully wrote to anteater.svg"
+          }
+        ],
+        "isError": false,
+        "durationMs": 2,
+        "timestamp": 1794969004977
+      }
+    },
+    {
+      "type": "message",
+      "id": "0d88e936",
+      "parentId": "fd79a903",
+      "timestamp": "2026-11-18T02:30:20.923Z",
+      "message": {
+        "role": "assistant",
+        "content": [
+          {
+            "type": "text",
+            "text": "[Open the animated SVG — The Balancing Act](/Users/andie/.local/share/anteater/runs/gpt62-codex-20261118/astra/runs/low/attempt-01/work/anteater.svg)\n\nA party-hatted anteater juggles three tumbling bottles while its bushy tail sways above a spinning unicycle wheel. The animation loops automatically in a browser.",
+            "textSignature": "{\"v\":1,\"id\":\"msg_04ab2b2a6730faba016afd0dbb0d5c87d2b71c7559a288b21e\",\"phase\":\"final_answer\"}"
+          }
+        ],
+        "api": "openai-responses",
+        "provider": "magpie",
+        "model": "codex/gpt-6.2-astra",
+        "usage": {
+          "input": 8827,
+          "output": 88,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 8915,
+          "cost": {
+            "input": 0.070616,
+            "output": 0.00352,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0.074136,
+            "totalFromProvider": false
+          }
+        },
+        "stopReason": "stop",
+        "timestamp": 1794969004979,
+        "responseId": "resp_04ab2b2a6730faba016afd0db0f6fc87d28649df76da22b12a",
+        "rawStopReason": "completed",
+        "durationMs": 15944,
+        "thinkingLevel": "low"
+      }
+    }
+  ],
+  "leafId": "0d88e936",
+  "systemPrompt": "You are a coding assistant running inside pi, a coding agent harness. Help users inspect files, run commands, and modify code.\n\n<tools>\n- read: Read file contents\n- write: Create or overwrite files\n- edit: Make precise file edits with exact text replacement, including multiple disjoint edits in one call\n\nAdditional tools may be available.\n</tools>\n\n<rules>\n- Use read to examine files instead of cat or sed.\n- Use write only for new files or complete rewrites.\n- Use edit for targeted changes. Batch changes to one file in a single call.\n- Each edits[].oldText must exactly and uniquely match the original file. Keep matches short and non-overlapping; merge nearby changes without including large unchanged regions.\n- Be concise in your responses\n- Show file paths clearly when working with files\n</rules>\n\n<docs>\nPi documentation (read only when the user asks about the harness itself, its SDK, extensions, themes, skills, or TUI):\n- Main documentation: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/README.md\n- Additional docs: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/docs\n- Examples: /Users/andie/.pi/agent/install/releases/1.5.2/node_modules/@earendil-works/pi-coding-agent/examples (extensions, custom tools, SDK)\n- When reading pi docs or examples, resolve docs/... under Additional docs and examples/... under Examples, not the current working directory\n- When asked about: extensions (docs/extensions.md, examples/extensions/), themes (docs/themes.md), skills (docs/skills.md), prompt templates (docs/prompt-templates.md), TUI components (docs/tui.md), keybindings (docs/keybindings.md), SDK integrations (docs/sdk.md), custom providers (docs/custom-provider.md), adding models (docs/models.md), packages (docs/packages.md), environment variables (docs/environment-variables.md), MCP servers (docs/mcp.md), codemode scripts and non-LLM models such as classifiers and image models (docs/codemode.md)\n- Before implementing harness changes, read the relevant docs and examples in full, following related cross-references.\n</docs>\n\n<cwd>\n/Users/andie/.local/share/anteater/runs/gpt62-codex-20261118/astra/runs/low/attempt-01/work\n</cwd>",
+  "tools": [
+    {
+      "name": "read",
+      "description": "Read the contents of a file. Supports text files and images (jpg, png, gif, webp, bmp). Images are sent as attachments. For text files, output is truncated to 2000 lines or 50KB (whichever is hit first). Use offset/limit for large files. When you need the full file, continue with offset until complete.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to read (relative or absolute)"
+          },
+          "offset": {
+            "type": "number",
+            "description": "Line number to start reading from (1-indexed)"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of lines to read"
+          }
+        }
+      }
+    },
+    {
+      "name": "write",
+      "description": "Write content to a file. Creates the file if it doesn't exist, overwrites if it does. Automatically creates parent directories.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "content"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to write (relative or absolute)"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to write to the file"
+          }
+        }
+      }
+    },
+    {
+      "name": "edit",
+      "description": "Edit a single file using exact text replacement. Every edits[].oldText must match a unique, non-overlapping region of the original file. If two changes affect the same block or nearby lines, merge them into one edit instead of emitting overlapping edits. Do not include large unchanged regions just to connect distant changes.",
+      "parameters": {
+        "type": "object",
+        "required": [
+          "path",
+          "edits"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Path to the file to edit (relative or absolute)"
+          },
+          "edits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "oldText",
+                "newText"
+              ],
+              "properties": {
+                "oldText": {
+                  "type": "string",
+                  "description": "Exact text for one targeted replacement. It must be unique in the original file and must not overlap with any other edits[].oldText in the same call."
+                },
+                "newText": {
+                  "type": "string",
+                  "description": "Replacement text for this targeted edit."
+                }
+              }
+            },
+            "description": "One or more targeted replacements. Each edit is matched against the original file, not incrementally. Do not include overlapping or nested edits. If two changes touch the same block or nearby lines, merge them into one edit instead."
+          }
+        }
+      }
+    }
+  ]
+}
