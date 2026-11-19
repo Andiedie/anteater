@@ -68,7 +68,7 @@ def check():
         pricing.report([run], snapshot)
     assert snapshot == frozen
     actual = json.loads((Path(__file__).resolve().parents[1] / 'content/pricing.json').read_text())
-    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-17'
+    assert actual['schema_version'] == 2 and actual['as_of'] == '2026-11-19'
     kimi = actual['models'].get('kimi-k3.1-pro')
     assert kimi is not None, 'Kimi K3.1 Pro needs an official price profile'
     assert kimi['source_url'] == 'https://platform.kimi.ai/docs/pricing/chat'
@@ -239,7 +239,7 @@ def check():
             assert 'output_budget_per_request' not in recorded
             quoted = pricing.display_price(recorded, actual)
             assert quoted['basis'] == 'official' and quoted['amount_usd'] == expected, (model, level, quoted)
-            assert quoted['checked_at'] == '2026-11-17' and not quoted['conditions']
+            assert quoted['checked_at'] == actual['as_of'] and not quoted['conditions']
             assert not quoted.get('assumption_label')
             candidate = deepcopy(recorded)
             candidate['metrics'].update(cost_usd=999, recorded_cost_usd=999)

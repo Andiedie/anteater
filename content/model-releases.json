@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-11-17",
+  "as_of": "2026-11-19",
   "models": [
     {
       "vendor": "Alibaba",
@@ -484,6 +484,17 @@
       "notes": {
         "en": "The OpenAI API changelog lists the first public release of this exact model on November 17, 2026, using the publisher’s calendar date.",
         "zh": "OpenAI API 更新日志将该型号的首次公开发布列于 2026 年 11 月 17 日，沿用原厂日期。"
+      }
+    },
+    {
+      "vendor": "Google",
+      "name": "Gemini 4 Neon",
+      "release_date": "2026-11-18",
+      "source_url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/",
+      "date_basis": "official_release",
+      "notes": {
+        "en": "Google announced Gemini 4 Neon and made the Gemini API model generally available on November 18, 2026.",
+        "zh": "Google 于 2026 年 11 月 18 日发布 Gemini 4 Neon，并在 Gemini API 正式开放。"
       }
     }
   ]

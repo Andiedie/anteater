@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-17",
+  "as_of": "2026-11-19",
   "currency": "USD",
   "models": {
     "gpt-5.6-luna": {
@@ -1245,6 +1245,31 @@
         "en": "Standard global rates, prompts ≤272K. The cache-write rate applies to 30-minute retention. Output includes reasoning.",
         "zh": "全球标准费率，单次输入不超过 272K。缓存写入采用 30 分钟费率。输出包含思考 token。"
       }
+    },
+    "gemini-4-neon": {
+      "vendor": "Google",
+      "source_kind": "official",
+      "source": "Google",
+      "source_url": "https://aistudio.google.com/docs/pricing#gemini-4-neon",
+      "aliases": [
+        "google/gemini-4-neon",
+        "openrouter/google/gemini-4-neon",
+        "google/gemini-4-neon-20261118"
+      ],
+      "rates_per_million": {
+        "input": 3.0,
+        "output": 15.0,
+        "cacheRead": 0.15,
+        "cacheWrite": null,
+        "reasoning": null
+      },
+      "input_threshold": null,
+      "cache_write_ttl_seconds": null,
+      "rate_note": {
+        "en": "Standard paid-tier Gemini API token rates. Output includes thinking. Cached input is implicit; explicit caching is unsupported. Search, tool and storage charges are excluded.",
+        "zh": "Gemini API Standard 付费层 token 费率。输出含思考。缓存读取为隐式缓存，显式缓存不受支持。估价不含搜索、工具和存储费用。"
+      },
+      "conditions": []
     }
   },
   "runs": {

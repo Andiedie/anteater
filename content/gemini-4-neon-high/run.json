@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "slug": "gemini-4-neon-high",
+  "name": "Gemini 4 Neon",
+  "vendor": "Google",
+  "date": "2026-11-19T01:28:15.721Z",
+  "model_ids": [
+    "openrouter/google/gemini-4-neon"
+  ],
+  "providers": [
+    "magpie"
+  ],
+  "reasoning": [
+    "high"
+  ],
+  "available_tools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "follow_up_count": 0,
+  "metrics": {
+    "duration_seconds": 471.161,
+    "request_seconds": 470.965,
+    "average_tps": 114.48,
+    "tool_calls": 3,
+    "tool_breakdown": {
+      "edit": 1,
+      "read": 1,
+      "write": 1
+    },
+    "assistant_turns": 4,
+    "errors": 0,
+    "tool_errors": 0,
+    "tokens": {
+      "input": 88451,
+      "output": 53918,
+      "cacheRead": 39844,
+      "cacheWrite": 0,
+      "reasoning": 19475,
+      "totalTokens": 182213
+    },
+    "recorded_cost_usd": 1.0800996,
+    "cost_usd": 1.0800996
+  },
+  "source": {
+    "kind": "local",
+    "share_url": "./sessions/gemini-4-neon-high.html",
+    "snapshot_url": "./sessions/gemini-4-neon-high.json",
+    "session_sha256": "6253879fd24f480037acd91e16b8a2a95dee24c1a6fb1121d210f82eb835c044",
+    "export_sha256": "e421d66910b79b0a3118629760c623c9efcbd4f6d90e347396ecc0f5f10b6ba4",
+    "session_id": "01a1f16b-2e60-7242-a101-f0a7927a4ee1",
+    "imported_at": "2026-11-19T01:36:42.838617+00:00",
+    "artwork_sha256": "99b69ecc16d6af5da9ba085f066edf849f2938a1fb3163cf29020c7b9bec5930"
+  },
+  "response_model_ids": [
+    "google/gemini-4-neon-20261118"
+  ]
+}
